@@ -1,22 +1,48 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "type-check": "tsc --noEmit --incremental --preserveWatchOutput --pretty",
+    "dev": "concurrently -n NEXT,TS -c magenta,cyan \"next dev\" \"yarn type-check --watch\"",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext ts --ext tsx --ext js"
   },
   "dependencies": {
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "@radix-ui/react-icons": "^1.1.1",
+    "clsx": "^1.2.1",
+    "date-fns": "^2.29.2",
+    "gray-matter": "^4.0.3",
+    "mdx-prism": "^0.3.4",
+    "next-mdx-remote": "^4.1.0",
+    "tailwind-merge": "^1.8.0"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.8",
     "@types/node": "18.11.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.12",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.2.1",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
+    "concurrently": "^7.6.0",
+    "eslint": "^8.23.1",
+    "eslint-config-next": "^13.0.7",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "prettier": "^2.7.1",
+    "rehype": "^12.0.1",
+    "rehype-autolink-headings": "6.1.1",
+    "rehype-code-titles": "1.1.0",
+    "rehype-prism-plus": "^1.5.0",
+    "rehype-slug": "5.0.1",
+    "remark-gfm": "^3.0.1"
   }
 }
