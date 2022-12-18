@@ -18,7 +18,7 @@ export default function Home(props: HomeProps) {
 
   return (
     <Layout>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4 md:flex-row">
         <div className="flex flex-col w-full gap-4">
           <Header />
           <Work />
@@ -34,7 +34,14 @@ export default function Home(props: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = getAllPosts(["date", "description", "slug", "title", "tags"]);
+  const posts = getAllPosts([
+    "date",
+    "description",
+    "slug",
+    "title",
+    "tags",
+    "duration",
+  ]);
 
   return {
     props: { posts },

@@ -8,6 +8,7 @@ import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import path from "path";
+import readingTime from "reading-time";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeCodeTitles from "rehype-code-titles";
 import rehypePrism from "rehype-prism-plus";
@@ -57,6 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const source = fs.readFileSync(postFilePath);
 
   const { content, data } = matter(source);
+  const stats = readingTime(content);
 
   const mdxSource = await serialize(content, {
     // Optionally pass remark/rehype plugins
@@ -86,6 +88,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       frontMatter: {
         ...data,
         slug: params?.slug,
+        duration: stats.text,
       },
     },
   };

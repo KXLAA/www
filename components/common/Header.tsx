@@ -1,11 +1,23 @@
 export function Header() {
   return (
     <header className="relative flex justify-between w-full border-shimmer rounded-4xl bg-shark-900 p-7">
-      <div>
-        <p className="font-semibold text-8xl text-silver-50">KOLA</p>
-        <p className="text-[28px] font-extralight text-silver-400">
-          FRONTEND ENGINEER
+      <div className="flex flex-col gap-4 ">
+        <p className="pb-2 text-3xl font-bold border-b text-silver-50 border-shark-600">
+          KOLADE AFODE.
         </p>
+
+        <div className="flex flex-col gap-2 text-lg font-extralight text-silver-400 ">
+          <p>
+            Painting beautiful interfaces. Enjoys lifting weights, evening
+            walks, databases, Linux, Vim, and other random computer things.
+          </p>
+          <p>{`Feel free to
+          check out my gear, or the music I've been listening to.`}</p>
+          <p>
+            Building tools and polished user interactions. Following passion,
+            living what I love.
+          </p>
+        </div>
       </div>
     </header>
   );

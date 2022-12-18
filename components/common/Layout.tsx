@@ -1,3 +1,4 @@
+import { Footer } from "@/components/common/Footer";
 import { Head } from "@/components/common/Head";
 import { cx } from "@/lib/cx";
 import type { MetaProps } from "@/types/layout";
@@ -17,7 +18,7 @@ export function Layout(props: LayoutProps) {
       <Head customMeta={customMeta} />
       <main
         className={cx(
-          "flex min-h-screen w-full flex-col items-center gap-4 p-10 text-silver-50",
+          "flex min-h-screen w-full flex-col items-center gap-4 p-4  md:p-10 text-silver-50",
           light ? "bg-[#0c0c0c]" : "bg-black"
         )}
       >
@@ -29,6 +30,7 @@ export function Layout(props: LayoutProps) {
           )}
         >
           {children}
+          {/* <Footer /> */}
         </div>
       </main>
     </>

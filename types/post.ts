@@ -12,7 +12,6 @@ export type PostType = {
   tags: string[];
   author: AuthorType;
   duration?: string;
-  length?: string;
   ogImage: {
     url: string;
   };

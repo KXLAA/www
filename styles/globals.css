@@ -145,7 +145,7 @@ pre {
 }
 
 .rehype-code-title {
-  @apply px-5 py-3 font-mono text-sm font-bold text-gray-800 bg-gray-200 border border-b-0 border-gray-200 rounded-t-lg dark:text-gray-200 dark:border-gray-700 dark:bg-gray-800;
+  @apply px-5 py-3 font-mono text-sm font-bold text-gray-800 bg-silver-200 border border-b-0 border-gray-200 rounded-t-lg dark:text-gray-200 dark:border-gray-700 dark:bg-gray-800;
 }
 
 .rehype-code-title + pre {
@@ -206,4 +206,29 @@ pre {
 .full-bleed {
   width: 100%;
   grid-column: 1 / -1;
+}
+
+.dotted {
+  background-image: radial-gradient(#141414 1px, transparent 0);
+  background-position: 50% center;
+  background-size: 20px 20px;
+}
+
+.wrapper {
+  height: 100%;
+  background-color: #434343;
+  background-image: linear-gradient(#434343, #282828);
+}
+
+.wrapper-grid {
+  background-image: linear-gradient(
+      rgba(255, 255, 250, 0.1) 0.1em,
+      transparent 0.1em
+    ),
+    linear-gradient(90deg, rgba(255, 255, 250, 0.1) 0.1em, transparent 0.1em);
+  background-size: 4em 4em;
+}
+
+.grids-bg {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzMiAzMicgd2lkdGg9JzMyJyBoZWlnaHQ9JzMyJyBmaWxsPSdub25lJyBzdHJva2U9J3JnYigyNTUgMjU1IDI1NS8gMC4wMTUpJz48cGF0aCBkPSdNMCAuNUgzMS41VjMyJy8+PC9zdmc+);
 }
