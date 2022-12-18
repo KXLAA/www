@@ -24,7 +24,7 @@ export function Layout(props: LayoutProps) {
         <div
           className={cx(
             "flex w-full flex-col gap-4",
-            small ? "max-w-4xl" : "max-w-6x",
+            small ? "max-w-4xl" : "max-w-6xl",
             className
           )}
         >
