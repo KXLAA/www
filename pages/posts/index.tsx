@@ -1,9 +1,7 @@
-/* eslint-disable react/no-unescaped-entities */
-
-import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import type { GetStaticProps } from "next";
 import Link from "next/link";
 
+import { BreadCrumb } from "@/components/common/BreadCrumb";
 import { Layout } from "@/components/common/Layout";
 import { Section } from "@/components/common/Section";
 import { getAllPosts } from "@/lib/api";
@@ -24,15 +22,21 @@ export default function PostsPage(props: PostsPageProps) {
   };
 
   return (
-    <Layout customMeta={customMeta}>
-      <div className="flex gap-10">
-        <Link
-          className="flex items-center self-start justify-center gap-1 px-4 py-2 font-bold transition-colors duration-200 ease-in-out border gradient-bg rounded-xl border-shark-800 hover:border-shark-600"
-          href="/"
-        >
-          <ChevronLeftIcon className="w-6 h-6 stroke-2 shrink-0" />
-          BACK
-        </Link>
+    <Layout customMeta={customMeta} small>
+      <div className="flex flex-col items-center gap-4">
+        <BreadCrumb
+          items={[
+            {
+              label: "Home",
+              href: "/",
+            },
+            {
+              label: "Writing",
+              active: true,
+            },
+          ]}
+        />
+
         <Section
           heading="WRITING"
           description="I write about things I learn and things I do."
@@ -85,7 +89,7 @@ function PostByYear(props: PostProps) {
   );
 }
 
-function groupPostsByYear(posts: PostType[]) {
+function groupPostsByYear(posts: PostType[]): Record<string, PostType[]> {
   const postsByYear = posts.reduce((acc, post) => {
     const year = new Date(post.date).getFullYear();
     if (!acc[year]) {
