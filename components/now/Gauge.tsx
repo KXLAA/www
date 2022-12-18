@@ -10,6 +10,7 @@ type GaugeProps = {
   colorRange?: [string, string];
 };
 
+//https://wattenberger.com/blog/gauge
 export function Gauge(props: GaugeProps) {
   const { gradient, bg, fill } = useGauge(props);
   const { label, unit } = props;
