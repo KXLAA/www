@@ -41,11 +41,11 @@ const PostPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
   };
 
   return (
-    <Layout customMeta={customMeta} className="gap-0">
+    <Layout customMeta={customMeta} className="gap-0" light>
       <PostHeader {...frontMatter} />
 
       <article className="m-auto">
-        <div className="prose">
+        <div className="text-lg prose">
           <MDXRemote {...source} components={components} />
         </div>
       </article>
