@@ -80,6 +80,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     scope: data,
   });
 
+  // console.log(getHeadings(content));
+
   return {
     props: {
       source: mdxSource,
