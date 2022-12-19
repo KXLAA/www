@@ -40,7 +40,7 @@ export function PostHeader(props: PostHeaderProps) {
           ]}
         />
       ) : (
-        <div className="relative flex flex-col self-center w-full h-full max-w-[700px] gap-2 border-shimmer rounded-2xl bg-shark-900 p-4 ">
+        <div className="relative flex flex-col self-center w-full h-full max-w-3xl gap-2 p-4 border-shimmer rounded-2xl bg-shark-900 ">
           <Link
             className="flex items-center gap-1 text-sm text-silver-800"
             href="/"
