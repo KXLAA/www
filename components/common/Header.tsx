@@ -13,10 +13,6 @@ export function Header() {
           </p>
           <p>{`Feel free to
           check out my gear, or the music I've been listening to.`}</p>
-          <p>
-            Building tools and polished user interactions. Following passion,
-            living what I love.
-          </p>
         </div>
       </div>
     </header>
