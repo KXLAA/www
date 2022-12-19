@@ -41,6 +41,7 @@ export const getStaticProps: GetStaticProps = async () => {
     "title",
     "tags",
     "duration",
+    "headings",
   ]);
 
   return {

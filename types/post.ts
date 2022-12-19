@@ -3,9 +3,17 @@ export type AuthorType = {
   picture: string;
 };
 
+export type PostHeading = {
+  content?: string;
+  link?: string;
+  level?: number;
+};
+
 export type PostType = {
   slug: string;
   title: string;
+  headings?: PostHeading[];
+  number?: number;
   description?: string;
   date: string;
   thumbnail?: string;

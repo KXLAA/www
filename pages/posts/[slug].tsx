@@ -17,7 +17,7 @@ import remarkGfm from "remark-gfm";
 
 import { Layout } from "@/components/common/Layout";
 import { PostHeader } from "@/components/posts/PostHeader";
-import { postFilePaths, POSTS_PATH } from "@/lib/api";
+import { getHeadings, postFilePaths, POSTS_PATH } from "@/lib/api";
 import type { MetaProps } from "@/types/layout";
 import type { PostType } from "@/types/post";
 
@@ -57,7 +57,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const source = fs.readFileSync(postFilePath);
 
   const { content, data } = matter(source);
-  const stats = readingTime(content);
 
   const mdxSource = await serialize(content, {
     // Optionally pass remark/rehype plugins
@@ -87,7 +86,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       frontMatter: {
         ...data,
         slug: params?.slug,
-        duration: stats.text,
+        duration: readingTime(content).text,
+        headings: getHeadings(content),
       },
     },
   };
