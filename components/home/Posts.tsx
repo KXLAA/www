@@ -41,7 +41,7 @@ function Post(props: PostType) {
   const { title, description, date, slug, tags } = props;
   return (
     <Link
-      className="flex  w-full flex-col justify-between gap-4 rounded-2xl border border-shark-600 bg-shark-800 p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]"
+      className="flex  w-full flex-col justify-between gap-4 rounded-2xl shiny-border bg-shark-800 p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]"
       href={`/posts/${slug}`}
     >
       <div className="pb-2 border-b border-shark-600">

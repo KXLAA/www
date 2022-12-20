@@ -29,7 +29,7 @@ export function BreadCrumb(props: BreadCrumbProps) {
         filled && "gradient-bg",
         floating && "mix-blend-lighten	backdrop-blur	bg-shark-900 shiny-border",
         plain
-          ? "border-none !bg-transparent px-0"
+          ? "border-none !bg-transparent p-0"
           : "border-shimmer gradient-bg",
         className
       )}
