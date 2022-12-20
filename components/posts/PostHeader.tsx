@@ -35,7 +35,7 @@ export function PostHeader(props: PostHeaderProps) {
           ]}
         />
       ) : (
-        <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 rounded-2xl shiny-border bg-shark-800 h-60 fancy-g">
+        <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 rounded-2xl shiny-border bg-shark-800 h-52 fancy-g">
           <BreadCrumb
             plain
             items={[
@@ -54,7 +54,7 @@ export function PostHeader(props: PostHeaderProps) {
               },
             ]}
           />
-          <h1 className="flex flex-col gap-2 m-0 text-5xl font-light border-shark-600">
+          <h1 className="flex flex-col gap-2 m-0 text-4xl font-light border-shark-600">
             {title}
           </h1>
 
