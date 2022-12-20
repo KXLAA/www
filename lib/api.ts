@@ -63,8 +63,10 @@ export function getHeadings(source: string): PostHeading[] {
     headings?.map((h, i) => {
       const content = h.match(/#+\s(.*?)\n/)?.[1];
       const type = headings?.[i].match(/#+/)?.[0];
-      const link = "#" + content?.replace(/ /g, "-").toLowerCase();
+      const slug = content?.replace(/ /g, "-").toLowerCase();
+      const link = "#" + slug;
       return {
+        id: slug || "",
         content: content || "",
         link: link || "",
         level: type?.length || 0,

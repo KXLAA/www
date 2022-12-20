@@ -1,4 +1,4 @@
-import { Footer } from "@/components/common/Footer";
+// import { Footer } from "@/components/common/Footer";
 import { Head } from "@/components/common/Head";
 import { cx } from "@/lib/cx";
 import type { MetaProps } from "@/types/layout";

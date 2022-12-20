@@ -4,6 +4,7 @@ export type AuthorType = {
 };
 
 export type PostHeading = {
+  id?: string;
   content?: string;
   link?: string;
   level?: number;

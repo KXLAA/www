@@ -16,7 +16,7 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
 import { Layout } from "@/components/common/Layout";
-import { PostHeader } from "@/components/posts/PostHeader";
+import { PostLayout } from "@/components/posts/PostLayout";
 import { getHeadings, postFilePaths, POSTS_PATH } from "@/lib/api";
 import type { MetaProps } from "@/types/layout";
 import type { PostType } from "@/types/post";
@@ -42,12 +42,9 @@ const PostPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
 
   return (
     <Layout customMeta={customMeta} className="gap-0" light>
-      <PostHeader {...frontMatter} />
-      <article className="m-auto">
-        <div className="max-w-[65ch] text-lg prose">
-          <MDXRemote {...source} components={components} />
-        </div>
-      </article>
+      <PostLayout {...frontMatter}>
+        <MDXRemote {...source} components={components} />
+      </PostLayout>
     </Layout>
   );
 };
