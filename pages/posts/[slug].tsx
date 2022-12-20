@@ -21,7 +21,7 @@ import { getHeadings, postFilePaths, POSTS_PATH } from "@/lib/api";
 import type { MetaProps } from "@/types/layout";
 import type { PostType } from "@/types/post";
 
-const components = {
+const MDXComponents = {
   Head,
   Image,
   Link,
@@ -43,7 +43,7 @@ const PostPage = ({ source, frontMatter }: PostPageProps): JSX.Element => {
   return (
     <Layout customMeta={customMeta} className="gap-0" light>
       <PostLayout {...frontMatter}>
-        <MDXRemote {...source} components={components} />
+        <MDXRemote {...source} components={MDXComponents} />
       </PostLayout>
     </Layout>
   );

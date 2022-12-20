@@ -1,6 +1,3 @@
-import { ChevronLeftIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-
 import { BreadCrumb } from "@/components/common/BreadCrumb";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
