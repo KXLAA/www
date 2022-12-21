@@ -15,25 +15,27 @@ export function PostHeader(props: PostHeaderProps) {
   return (
     <div className={cx("flex flex-col items-center gap-4 w-full", className)}>
       {isHidden ? (
-        <BreadCrumb
-          fixed
-          floating
-          items={[
-            {
-              label: "Home",
-              href: "/",
-            },
-            {
-              label: "Writing",
-              href: "/posts",
-            },
-            {
-              label: title,
-              href: "/posts",
-              active: true,
-            },
-          ]}
-        />
+        <>
+          {/* <BreadCrumb
+            fixed
+            floating
+            items={[
+              {
+                label: "Home",
+                href: "/",
+              },
+              {
+                label: "Writing",
+                href: "/posts",
+              },
+              {
+                label: title,
+                href: "/posts",
+                active: true,
+              },
+            ]}
+          /> */}
+        </>
       ) : (
         <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 rounded-2xl shiny-border bg-shark-800 h-52 fancy-g">
           <BreadCrumb

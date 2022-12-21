@@ -57,4 +57,60 @@ function Example() {
 }
 ```
 
+- First, we need a way to target the specific element we want to drag and keep track of it as we drag. We can do this by passing the setNodeRef function returned by useDraggable to the ref of the DOM element we want to drag:
+
+  ```jsx
+  const { setNodeRef } = useDraggable({
+    id: "draggable-1",
+  });
+
+  return <div ref={setNodeRef}>Draggable</div>;
+  ```
+
+- Next, we need to keep track of the position of the draggable element as we drag it. We can do this by passing the attributes returned by useDraggable to the draggable element:
+
+  ```jsx
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: "draggable-1",
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        transform: transform
+          ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+          : undefined,
+      }}
+      {...attributes}
+      {...listeners}
+    >
+      Draggable
+    </div>
+  );
+  ```
+
+- Finally, we need to make sure that the draggable element is rendered in the correct position as we drag it. We can do this by passing the transform returned by useDraggable to the draggable element's style:
+
+  ```jsx
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: "draggable-1",
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        transform: transform
+          ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+          : undefined,
+      }}
+      {...attributes}
+      {...listeners}
+    >
+      Draggable
+    </div>
+  );
+  ```
+
 Go back [Home](/).

@@ -1,6 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import type { GetStaticPaths, GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,10 +18,18 @@ import { mdxOptions } from "@/lib/mdx-config";
 import type { MetaProps } from "@/types/layout";
 import type { PostType } from "@/types/post";
 
+const DraggableAndDroppable = dynamic(
+  () =>
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/DraggableAndDroppable"
+    )
+);
+
 const MDXComponents = {
   Head,
   Image,
   Link,
+  DraggableAndDroppable,
 };
 
 type PostPageProps = {
