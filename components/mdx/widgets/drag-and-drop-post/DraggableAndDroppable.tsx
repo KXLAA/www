@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 
 import { Refresh } from "@/components/common/Refresh";
+import { Show } from "@/components/common/Show";
 import { cx } from "@/lib/cx";
 //Generate Uniq Id
 function uuid() {
@@ -85,7 +86,7 @@ function Droppable({ children }: DroppableProps) {
 }
 
 export default function DraggableAndDroppable() {
-  const notesData = [
+  const draggable = [
     {
       id: uuid(),
       content: "DRAGGABLE",
@@ -96,11 +97,11 @@ export default function DraggableAndDroppable() {
     },
   ];
 
-  const [notes, setNotes] = React.useState(notesData);
+  const [draggables, setDraggables] = React.useState([...draggable]);
 
   function addNewNote() {
-    setNotes([
-      ...notes,
+    setDraggables([
+      ...draggables,
       {
         id: uuid(),
         content: "DRAGGABLE",
@@ -112,22 +113,21 @@ export default function DraggableAndDroppable() {
   }
 
   function resetNotes() {
-    setNotes(notesData);
-
+    setDraggables([...draggable]);
     // setNotes(notes.slice(0, -1));
   }
 
   function handleDragEnd(ev: DragEndEvent) {
     // What to do here??
     // It's not a sortable, it's a free drag and drop
-    const note = notes.find((x) => x.id === ev.active.id)!;
-    note.position.x += ev.delta.x;
-    note.position.y += ev.delta.y;
-    const _notes = notes.map((x) => {
-      if (x.id === note.id) return note;
+    const draggable = draggables.find((x) => x.id === ev.active.id)!;
+    draggable.position.x += ev.delta.x;
+    draggable.position.y += ev.delta.y;
+    const _draggables = draggables.map((x) => {
+      if (x.id === draggable.id) return draggable;
       return x;
     });
-    setNotes(_notes);
+    setDraggables(_draggables);
   }
 
   return (
@@ -135,24 +135,24 @@ export default function DraggableAndDroppable() {
       <DndContext onDragEnd={handleDragEnd}>
         <Droppable>
           <AnimatePresence>
-            {notes.map((note) => (
+            {draggables.map((d) => (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ type: "spring" }}
-                key={note.id}
+                key={d.id}
                 className="z-20"
               >
                 <Draggable
                   styles={{
                     position: "absolute",
-                    left: `${note.position.x}px`,
-                    top: `${note.position.y}px`,
+                    left: `${d.position.x}px`,
+                    top: `${d.position.y}px`,
                   }}
-                  key={note.id}
-                  id={note.id}
-                  content={note.content}
+                  key={d.id}
+                  id={d.id}
+                  content={d.content}
                 />
               </motion.div>
             ))}
@@ -161,12 +161,22 @@ export default function DraggableAndDroppable() {
       </DndContext>
 
       <div className="flex justify-center gap-4 pt-6">
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shiny-border hover:bg-shark-800"
-        >
-          <Refresh onClick={resetNotes} />
-        </motion.button>
+        <Show when={draggables.length > 1}>
+          {/* slide in button animation */}
+
+          <motion.button
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ type: "spring" }}
+            whileTap={{ scale: 0.95 }}
+            className="z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shiny-border hover:bg-shark-800"
+            onClick={resetNotes}
+          >
+            <Refresh onClick={resetNotes} />
+          </motion.button>
+        </Show>
+
         <motion.button
           whileTap={{ scale: 0.95 }}
           className="z-10 px-4 py-2 text-xs font-bold transition-colors rounded-md bg-shark-900 shiny-border text-silver-600 hover:bg-shark-800"
