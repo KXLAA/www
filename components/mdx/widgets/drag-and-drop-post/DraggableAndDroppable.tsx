@@ -161,21 +161,18 @@ export default function DraggableAndDroppable() {
       </DndContext>
 
       <div className="flex justify-center gap-4 pt-6">
-        <Show when={draggables.length > 1}>
-          {/* slide in button animation */}
-
-          <motion.button
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 100 }}
-            transition={{ type: "spring" }}
-            whileTap={{ scale: 0.95 }}
-            className="z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shiny-border hover:bg-shark-800"
-            onClick={resetNotes}
-          >
-            <Refresh onClick={resetNotes} />
-          </motion.button>
-        </Show>
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          disabled={draggables.length <= 1}
+          className={cx(
+            "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shiny-border hover:bg-shark-800",
+            draggables.length <= 1 &&
+              "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
+          )}
+          onClick={resetNotes}
+        >
+          <Refresh onClick={resetNotes} />
+        </motion.button>
 
         <motion.button
           whileTap={{ scale: 0.95 }}
