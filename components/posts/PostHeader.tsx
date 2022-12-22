@@ -65,7 +65,7 @@ export function PostHeader(props: PostHeaderProps) {
             {title}
           </h1>
 
-          <div className="flex gap-2">
+          <div className="z-10 flex gap-2">
             <div className="flex items-center justify-center gap-1 p-1 px-4 text-xs rounded-md bg-shark-500 text-silver-50 underline-offset-1 w-fit">
               Last Updated July 26, 2022
             </div>

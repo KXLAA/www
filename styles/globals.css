@@ -226,6 +226,10 @@ pre {
   box-shadow: inset 0 0 0 1px hsl(0deg 0% 100% / 10%);
 }
 
+.shiny-border-sm {
+  box-shadow: inset 0 0 0 2px hsl(0deg 0% 100% / 10%);
+}
+
 .shiny-border-md {
   box-shadow: inset 0 0 0 4px hsl(0deg 0% 100% / 10%);
 }

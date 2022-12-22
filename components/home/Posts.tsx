@@ -1,8 +1,8 @@
-import { format, parseISO } from "date-fns";
 import Link from "next/link";
 
 import { Section } from "@/components/common/Section";
 import { Tag } from "@/components/common/Tag";
+import { formatDate } from "@/lib/date";
 import type { PostType } from "@/types/post";
 
 type PostsProps = {
@@ -38,20 +38,22 @@ export function Posts(props: PostsProps) {
 }
 
 function Post(props: PostType) {
-  const { title, description, date, slug, tags } = props;
+  const { title, description, slug, tags } = props;
+  const date = formatDate(props.date, "MMMM dd, yyyy");
+
   return (
     <Link
-      className="flex  w-full flex-col justify-between gap-4 rounded-2xl shiny-border bg-shark-800 p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]"
+      className="flex  w-full flex-col justify-between gap-3 rounded-2xl shiny-border-sm bg-shark-800 p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]  fancy-g"
       href={`/posts/${slug}`}
     >
-      <div className="pb-2 border-b border-shark-600">
-        <h3 className="text-xl font-medium">{title}</h3>
-        <p className="m-0 text-sm font-light text-silver">{description}</p>
+      <div className="">
+        <h3 className="mb-1 text-xl font-light">{title}</h3>
+        <p className="m-0 text-sm font-extralight text-silver">{description}</p>
       </div>
       <div className="flex justify-between">
-        <p className="text-xs font-light text-silver">
-          {format(parseISO(date), "MM/dd/yyyy")}
-        </p>
+        <span className="m-0 text-[10px] font-light rounded-md text-silver-700 underline-offset-1 w-fit">
+          {date}
+        </span>
         <div className="flex gap-1">
           {tags?.map((tag) => (
             <Tag key={tag}>{tag}</Tag>
