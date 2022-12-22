@@ -1,11 +1,25 @@
 import type { DragEndEvent } from "@dnd-kit/core";
-import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useDraggable,
+  useDroppable,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  restrictToParentElement,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 
 import { Refresh } from "@/components/common/Refresh";
 import { Show } from "@/components/common/Show";
 import { cx } from "@/lib/cx";
+
 //Generate Uniq Id
 function uuid() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
@@ -97,6 +111,11 @@ export default function DraggableAndDroppable() {
     },
   ];
 
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor, {});
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
   const [draggables, setDraggables] = React.useState([...draggable]);
 
   function addNewNote() {
@@ -132,7 +151,7 @@ export default function DraggableAndDroppable() {
 
   return (
     <div className="relative w-full p-10 rounded-lg shadow-lg shiny-border polka">
-      <DndContext onDragEnd={handleDragEnd}>
+      <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
         <Droppable>
           <AnimatePresence>
             {draggables.map((d) => (

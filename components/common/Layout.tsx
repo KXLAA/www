@@ -19,7 +19,7 @@ export function Layout(props: LayoutProps) {
       <main
         className={cx(
           "flex min-h-screen w-full flex-col items-center gap-4 p-4  md:p-10 text-silver-50 ",
-          light ? "bg-[#0c0c0c]" : "bg-black"
+          light ? "bg-[#0c0c0c] md:pt-0" : "bg-black"
         )}
       >
         <div
