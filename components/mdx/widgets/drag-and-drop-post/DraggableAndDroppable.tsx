@@ -9,38 +9,19 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import {
-  restrictToParentElement,
-  restrictToWindowEdges,
-} from "@dnd-kit/modifiers";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 
 import { Refresh } from "@/components/common/Refresh";
-import { Show } from "@/components/common/Show";
 import { cx } from "@/lib/cx";
-
-//Generate Uniq Id
-function uuid() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0,
-      v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
-function randomPosition() {
-  return {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-  };
-}
+import { uuid } from "@/lib/uuid";
 
 type DraggableProps = {
   id: string;
   content: React.ReactNode;
   styles?: React.CSSProperties;
 };
+
 function Draggable({ id, content, styles }: DraggableProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -58,7 +39,7 @@ function Draggable({ id, content, styles }: DraggableProps) {
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       className={cx(
-        "flex items-center bg-shark-500 justify-center w-32 h-14 p-4 text-sm font-bold rounded-lg text-silver-00 shiny-border-md transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
+        "flex items-center bg-shark-500 justify-center  h-14 w-fit p-4 text-sm font-bold rounded-lg text-silver-00 shiny-border-md transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
         isDragging && "bg-shark-500 text-silver-700"
       )}
       {...listeners}
@@ -111,29 +92,29 @@ export default function DraggableAndDroppable() {
     },
   ];
 
-  const mouseSensor = useSensor(MouseSensor);
-  const touchSensor = useSensor(TouchSensor);
-  const keyboardSensor = useSensor(KeyboardSensor, {});
-  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+  const sensors = useSensors(
+    useSensor(KeyboardSensor),
+    useSensor(TouchSensor),
+    useSensor(MouseSensor)
+  );
 
   const [draggables, setDraggables] = React.useState([...draggable]);
 
-  function addNewNote() {
+  function addDraggable() {
     setDraggables([
       ...draggables,
       {
         id: uuid(),
-        content: "DRAGGABLE",
+        content: `DRAGGABLE`,
         position: {
-          ...randomPosition(),
+          ...generateRandomAxis(),
         },
       },
     ]);
   }
 
-  function resetNotes() {
+  function resetDraggables() {
     setDraggables([...draggable]);
-    // setNotes(notes.slice(0, -1));
   }
 
   function handleDragEnd(ev: DragEndEvent) {
@@ -146,6 +127,7 @@ export default function DraggableAndDroppable() {
       if (x.id === draggable.id) return draggable;
       return x;
     });
+
     setDraggables(_draggables);
   }
 
@@ -188,19 +170,25 @@ export default function DraggableAndDroppable() {
             draggables.length <= 1 &&
               "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
           )}
-          onClick={resetNotes}
         >
-          <Refresh onClick={resetNotes} />
+          <Refresh onClick={resetDraggables} />
         </motion.button>
 
         <motion.button
           whileTap={{ scale: 0.95 }}
           className="z-10 px-4 py-2 text-xs font-bold transition-colors rounded-md bg-shark-900 shiny-border text-silver-600 hover:bg-shark-800"
-          onClick={addNewNote}
+          onClick={addDraggable}
         >
-          ADD DRAGGBALE
+          ADD DRAGGABLE
         </motion.button>
       </div>
     </div>
   );
+}
+
+function generateRandomAxis() {
+  return {
+    x: Math.floor(Math.random() * 300),
+    y: Math.floor(Math.random() * 300),
+  };
 }
