@@ -39,7 +39,7 @@ function Draggable({ id, content, styles }: DraggableProps) {
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       className={cx(
-        "flex items-center bg-shark-500 justify-center  h-14 w-fit p-4 text-sm font-bold rounded-lg text-silver-00 shiny-border-md transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
+        "flex items-center bg-shark-500 justify-center  h-14 w-fit p-4 text-sm font-bold rounded-lg text-silver-00 shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
         isDragging && "bg-shark-500 text-silver-700"
       )}
       {...listeners}
@@ -63,7 +63,7 @@ function Droppable({ children }: DroppableProps) {
     <div
       ref={setNodeRef}
       className={cx(
-        "w-full  rounded-xl mix-blend-lighten backdrop-blur bg-shark-900 shiny-border-md transition-colors h-64",
+        "w-full rounded-xl mix-blend-lighten backdrop-blur bg-shark-900 shadow-border-shiny-2 transition-colors h-64",
         isOver && "bg-shark-700"
       )}
     >
@@ -132,7 +132,7 @@ export default function DraggableAndDroppable() {
   }
 
   return (
-    <div className="relative w-full p-10 rounded-lg shadow-lg shiny-border polka">
+    <div className="relative w-full p-10 rounded-lg dotted-bg shadow-border-shiny-2 drop-shadow-sm">
       <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
         <Droppable>
           <AnimatePresence>
@@ -166,7 +166,7 @@ export default function DraggableAndDroppable() {
           whileTap={{ scale: 0.95 }}
           disabled={draggables.length <= 1}
           className={cx(
-            "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shiny-border hover:bg-shark-800",
+            "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800",
             draggables.length <= 1 &&
               "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
           )}
@@ -176,7 +176,7 @@ export default function DraggableAndDroppable() {
 
         <motion.button
           whileTap={{ scale: 0.95 }}
-          className="z-10 px-4 py-2 text-xs font-bold transition-colors rounded-md bg-shark-900 shiny-border text-silver-600 hover:bg-shark-800"
+          className="z-10 px-4 py-2 text-xs font-bold transition-colors rounded-md bg-shark-900 shadow-border-shiny text-silver-600 hover:bg-shark-800"
           onClick={addDraggable}
         >
           ADD DRAGGABLE

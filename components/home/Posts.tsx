@@ -43,7 +43,7 @@ function Post(props: PostType) {
 
   return (
     <Link
-      className="flex  w-full flex-col justify-between gap-3 rounded-2xl shiny-border-sm bg-shark-800 p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]  fancy-g"
+      className="flex  w-full flex-col justify-between gap-3 rounded-2xl shadow-border-shiny-2 bg-shark-800 p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]  grid-bg-faded"
       href={`/posts/${slug}`}
     >
       <div className="">

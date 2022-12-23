@@ -37,7 +37,7 @@ export function PostHeader(props: PostHeaderProps) {
           /> */}
         </>
       ) : (
-        <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 pt-24 pl-0 rounded-2xl bg-shark-800 h-52 fancy-g fade-out">
+        <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 pt-24 pl-0 rounded-2xl bg-shark-800 h-52 grid-bg-faded fade-out">
           <div className="flex items-center justify-center gap-1 text-[10px] font-light rounded-md text-silver-700 underline-offset-1 w-fit">
             <span className="m-0">{date}</span>
             <span className="font-normal text-silver-900">/</span>

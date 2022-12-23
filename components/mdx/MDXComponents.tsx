@@ -9,7 +9,7 @@ export function H2({ children }: any) {
 
 export function Code({ children }: any) {
   return (
-    <code className="px-1 py-0.5 rounded-md bg-shark-900 text-silver-600 font-normal shiny-border">
+    <code className="px-1 py-0.5 rounded-md bg-shark-900 text-silver-600 font-normal shadow-border-shiny">
       {children}
     </code>
   );

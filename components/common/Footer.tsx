@@ -4,7 +4,7 @@ import { Logo } from "@/components/common/Logo";
 
 export function Footer() {
   return (
-    <footer className="relative flex items-center justify-between w-full shiny-border-sm rounded-4xl bg-shark-900 p-7">
+    <footer className="relative flex items-center justify-between w-full shadow-border-shiny-2 rounded-4xl bg-shark-900 p-7">
       <Logo className="h-14 w-14 text-silver" />
 
       <div className="flex gap-4">

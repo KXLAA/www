@@ -2,29 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  --black: #000000;
-  --ash-black: #222;
-  --white: #fafafa;
-  --sky: #00ccff;
-  --green: #22dddd;
-  --blue: #1300ff;
-  --dusk: #6600ff;
-  --purple: #9900ff;
-  --pink: #ff0066;
-  --red: #fe0222;
-  --orange: #fd7702;
-  --yellow: #ffbb00;
-
-  --background: var(--white);
-  --accent: var(--black);
-}
-
-/* Post styles */
-
 .prose .anchor {
   @apply absolute invisible no-underline;
-
   margin-left: -1em;
   padding-right: 0.5em;
   width: 80%;
@@ -54,11 +33,11 @@ body {
 }
 
 .prose a {
-  @apply transition-all;
+  @apply text-silver-100 hover:text-silver-800 transition-all;
 }
 
 .prose .anchor:after {
-  @apply text-gray-300 dark:text-gray-700;
+  @apply text-silver-700;
   content: "#";
 }
 
@@ -66,14 +45,12 @@ body {
   @apply visible;
 }
 
-.prose pre {
+/* .prose pre {
   @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
-}
+} */
 
 .prose code {
-  box-shadow: inset 0 0 0 1px hsl(0deg 0% 100% / 10%);
-  color: inherit;
-  @apply px-1 py-0.5 rounded-md bg-shark-700  font-normal;
+  @apply px-1 py-0.5 rounded-md bg-shark-700 font-normal shadow-border-shiny text-inherit;
 }
 
 .prose code::before,
@@ -82,7 +59,7 @@ body {
 }
 
 .prose pre code {
-  @apply text-gray-800 dark:text-gray-200 p-0 bg-transparent shadow-none;
+  @apply text-silver-600 p-0 bg-transparent shadow-none;
   border: initial;
 }
 
@@ -155,8 +132,7 @@ body {
 
 code[class*="language-"],
 pre[class*="language-"] {
-  @apply shiny-border p-10 rounded-lg shadow-lg;
-  background: #141417;
+  @apply p-10 rounded-xl border-0 bg-shark-800 shadow-border-shiny;
 }
 
 pre::-webkit-scrollbar {
@@ -169,7 +145,7 @@ pre {
 }
 
 .rehype-code-title {
-  @apply px-5 py-3 font-mono text-sm font-bold text-gray-800 bg-silver-200 border border-b-0 border-gray-200 rounded-t-lg dark:text-gray-200 dark:border-gray-700 dark:bg-gray-800;
+  @apply px-4 py-3 font-mono text-sm font-bold  bg-shark-700 rounded-t-xl border border-b-0 border-[#29292A];
 }
 
 .rehype-code-title + pre {
@@ -206,36 +182,7 @@ pre {
   height: 100%;
 }
 
-.border-shimmer::before {
-  content: "";
-  pointer-events: none;
-  user-select: none;
-  position: absolute;
-  inset: 0px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.07)
-  );
-  -webkit-mask: linear-gradient(black, black) content-box content-box,
-    linear-gradient(black, black);
-  -webkit-mask-composite: xor;
-}
-
-.shiny-border {
-  box-shadow: inset 0 0 0 1px hsl(0deg 0% 100% / 10%);
-}
-
-.shiny-border-sm {
-  box-shadow: inset 0 0 0 2px hsl(0deg 0% 100% / 10%);
-}
-
-.shiny-border-md {
-  box-shadow: inset 0 0 0 4px hsl(0deg 0% 100% / 10%);
-}
-
-.polka {
+.dotted-bg {
   background-image: radial-gradient(rgb(31, 30, 29) 10%, transparent 10%),
     radial-gradient(rgb(31, 30, 29) 10%, transparent 10%);
   background-position: 0px 0px, 8px 8px;
@@ -243,31 +190,15 @@ pre {
   background-color: rgb(16, 16, 16);
 }
 
-.wrapper-grid {
-  background-image: linear-gradient(
-      rgba(255, 255, 250, 0.1) 0.1em,
-      transparent 0.1em
-    ),
-    linear-gradient(90deg, rgba(255, 255, 250, 0.1) 0.1em, transparent 0.1em);
-  background-size: 4em 4em;
-}
-
-.grids-bg {
+.grid-bg {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
   /* -webkit-mask-image: linear-gradient(0deg, transparent, #000);
   mask-image: linear-gradient(0deg, transparent, #000); */
 }
 
-.fancy-g {
+.grid-bg-faded {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjA0IiBoZWlnaHQ9Ijc3MiIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDEyMDQgNzcyIj48cGF0aCBmaWxsPSIjMEMwQzBDIiBkPSJNMCAwaDEyMDR2NzcySDB6Ii8+PG1hc2sgaWQ9ImIiIHdpZHRoPSI4MTIiIGhlaWdodD0iNjM5IiB4PSIxOTYiIHk9IjY2IiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIiBzdHlsZT0ibWFzay10eXBlOmFscGhhIj48cGF0aCBmaWxsPSJ1cmwoI2EpIiBkPSJNMTk2IDY2aDgxMnY2MzlIMTk2eiIvPjwvbWFzaz48ZyBzdHJva2U9IiNmZmYiIG1hc2s9InVybCgjYikiPjxwYXRoIGQ9Ik0yODUuNSAxNDguNWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5eiIvPjxwYXRoIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjIiIGQ9Ik02ODAuNSAxNDguNWg3OXY3OWgtNzl6Ii8+PHBhdGggZD0iTTc1OS41IDE0OC41aDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bS01NTMgNzloNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXoiLz48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4yIiBkPSJNNTIyLjUgMzA2LjVoNzl2NzloLTc5eiIvPjxwYXRoIGQ9Ik02MDEuNSAzMDYuNWg3OXY3OWgtNzl6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMiIgZD0iTTY4MC41IDMwNi41aDc5djc5aC03OXoiLz48cGF0aCBkPSJNNzU5LjUgMzA2LjVoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em0tNTUzIDc5aDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMiIgZD0iTTQ0My41IDQ2NC41aDc5djc5aC03OXoiLz48cGF0aCBkPSJNNTIyLjUgNDY0LjVoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5eiIvPjwvZz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImEiIGN4PSIwIiBjeT0iMCIgcj0iMSIgZ3JhZGllbnRUcmFuc2Zvcm09Im1hdHJpeCgwIDMxOS41IC00MDYgMCA2MDIgMzg1LjUpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI0Q5RDlEOSIgc3RvcC1vcGFjaXR5PSIuMiIvPjxzdG9wIG9mZnNldD0iLjc0MyIgc3RvcC1jb2xvcj0iI0Q5RDlEOSIgc3RvcC1vcGFjaXR5PSIwIi8+PC9yYWRpYWxHcmFkaWVudD48L2RlZnM+PC9zdmc+");
   background-size: 100%;
   background-position: 50% 50%;
   background-repeat: no-repeat;
-}
-
-.progress-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  transform-origin: 0%;
 }

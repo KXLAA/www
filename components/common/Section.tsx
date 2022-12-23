@@ -14,7 +14,7 @@ export function Section(props: SectionProps) {
   return (
     <div
       className={cx(
-        "shiny-border-sm relative flex h-full w-full flex-col gap-6 self-start rounded-4xl bg-shark-900 p-7",
+        "shadow-border-shiny-2 relative flex h-full w-full flex-col gap-6 self-start rounded-4xl bg-shark-900 p-7",
         className
       )}
     >

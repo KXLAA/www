@@ -41,7 +41,7 @@ To make a component draggable, we can use the `useDraggable` hook. This hook tak
 
 Here's an example of how all these elements come together:
 
-```tsx
+```tsx:Draggable.tsx
 function Draggable(props: DraggableProps) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,

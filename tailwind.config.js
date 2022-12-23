@@ -69,48 +69,54 @@ module.exports = {
           },
         },
         dark: {
-          css: {
-            color: theme("colors.gray.300"),
-            a: {
-              color: theme("colors.blue.400"),
-              "&:hover": {
-                color: theme("colors.blue.600"),
-              },
-              code: { color: theme("colors.blue.400") },
-            },
-            blockquote: {
-              borderLeftColor: theme("colors.gray.700"),
-              color: theme("colors.gray.300"),
-            },
-            "h2,h3,h4": {
-              color: theme("colors.gray.100"),
-              "scroll-margin-top": spacing[32],
-            },
-            hr: { borderColor: theme("colors.gray.700") },
-            ol: {
-              li: {
-                "&:before": { color: theme("colors.gray.500") },
-              },
-            },
-            ul: {
-              li: {
-                "&:before": { backgroundColor: theme("colors.gray.500") },
-              },
-            },
-            strong: { color: theme("colors.gray.300") },
-            thead: {
-              color: theme("colors.gray.100"),
-            },
-            tbody: {
-              tr: {
-                borderBottomColor: theme("colors.gray.700"),
-              },
-            },
-          },
+          // css: {
+          //   color: theme("colors.gray.300"),
+          //   a: {
+          //     color: theme("colors.blue.400"),
+          //     "&:hover": {
+          //       color: theme("colors.blue.600"),
+          //     },
+          //     code: { color: theme("colors.blue.400") },
+          //   },
+          //   blockquote: {
+          //     borderLeftColor: theme("colors.gray.700"),
+          //     color: theme("colors.gray.300"),
+          //   },
+          //   "h2,h3,h4": {
+          //     color: theme("colors.gray.100"),
+          //     "scroll-margin-top": spacing[32],
+          //   },
+          //   hr: { borderColor: theme("colors.gray.700") },
+          //   ol: {
+          //     li: {
+          //       "&:before": { color: theme("colors.gray.500") },
+          //     },
+          //   },
+          //   ul: {
+          //     li: {
+          //       "&:before": { backgroundColor: theme("colors.gray.500") },
+          //     },
+          //   },
+          //   strong: { color: theme("colors.gray.300") },
+          //   thead: {
+          //     color: theme("colors.gray.100"),
+          //   },
+          //   tbody: {
+          //     tr: {
+          //       borderBottomColor: theme("colors.gray.700"),
+          //     },
+          //   },
+          // },
         },
       }),
       borderRadius: {
         "4xl": "28px",
+      },
+      boxShadow: {
+        "border-shiny": "inset 0 0 0 1px hsl(0deg 0% 100% / 10%)",
+        "border-shiny-2": "inset 0 0 0 2px hsl(0deg 0% 100% / 10%)",
+        "border-shiny-4": "inset 0 0 0 4px hsl(0deg 0% 100% / 10%)",
+        "border-shiny-8": "inset 0 0 0 8px hsl(0deg 0% 100% / 10%)",
       },
     },
   },
