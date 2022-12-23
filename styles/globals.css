@@ -155,7 +155,8 @@ body {
 
 code[class*="language-"],
 pre[class*="language-"] {
-  @apply text-gray-800 dark:text-gray-50;
+  @apply shiny-border p-10 rounded-lg shadow-lg;
+  background: #141417;
 }
 
 pre::-webkit-scrollbar {

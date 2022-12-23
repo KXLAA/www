@@ -1,6 +1,6 @@
 export function Header() {
   return (
-    <header className="relative flex justify-between w-full border-shimmer rounded-4xl bg-shark-900 p-7">
+    <header className="relative flex justify-between w-full shiny-border-sm rounded-4xl bg-shark-900 p-7">
       <div className="flex flex-col gap-4 ">
         <p className="pb-2 text-xl border-b font-extralight text-silver-50 border-shark-600">
           KOLADE AFODE

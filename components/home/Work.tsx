@@ -36,7 +36,7 @@ type CardProps = {
 function Project(props: CardProps) {
   const { title, description, poster, url } = props;
   return (
-    <div className="flex h-[350px] w-full flex-col items-center justify-between gap-4 rounded-4xl shiny-border bg-shark-800 p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]">
+    <div className="fade-out flex h-[350px] w-full flex-col items-center justify-between gap-4 rounded-4xl shiny-border-sm bg-shark-800 p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]">
       <a
         className="flex justify-between w-full gap-4"
         href={url}
