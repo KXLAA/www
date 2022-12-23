@@ -4,13 +4,14 @@ import Image from "next/image";
 import { Section } from "@/components/common/Section";
 
 export function Work() {
+  const projectLength = data.length;
   return (
     <Section
       heading="WORK"
       description="I build some cool web stuff"
       addon={
-        <div className="flex items-center justify-center w-10 h-10 font-bold rounded-full aspect-square bg-shark-700">
-          3
+        <div className="flex items-center justify-center w-8 h-8 rounded-full aspect-square bg-shark-800 shadow-border-shiny text-silver">
+          {projectLength}
         </div>
       }
     >
@@ -48,8 +49,8 @@ function Project(props: CardProps) {
           <p className="text-sm text-silver-700">{description}</p>
         </div>
 
-        <div className="self-start p-2 transition-colors duration-200">
-          <ArrowTopRightIcon className="w-10 h-10" />
+        <div className="self-start p-2 transition-colors duration-200 rounded-full shadow-border-shiny-2 text-silver-700">
+          <ArrowTopRightIcon className="w-7 h-7" />
         </div>
       </a>
 

@@ -4,7 +4,7 @@ import { Logo } from "@/components/common/Logo";
 
 export function Footer() {
   return (
-    <footer className="relative flex items-center justify-between w-full shadow-border-shiny-2 rounded-4xl bg-shark-900 p-7">
+    <footer className="relative flex items-center justify-between w-full shadow-border-shiny rounded-4xl bg-shark-900 p-7">
       <Logo className="h-14 w-14 text-silver" />
 
       <div className="flex gap-4">
@@ -32,7 +32,9 @@ function FooterLink(props: FooterLinkProps) {
       className="flex items-center justify-center gap-2 p-3 text-lg transition duration-300 ease-in-out border ga rounded-xl border-shark-700 bg-shark-800 text-silver-50 hover:border-shark-600 hover:bg-shark-700"
     >
       {children}
-      <ArrowTopRightIcon className="w-6 h-6" />
+      <div className="self-start p-1 transition-colors duration-200 rounded-full shadow-border-shiny text-silver-700">
+        <ArrowTopRightIcon className="w-5 h-5" />
+      </div>{" "}
     </a>
   );
 }

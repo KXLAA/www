@@ -20,7 +20,7 @@
 }
 
 .prose h2 {
-  @apply text-2xl font-bold mt-8 mb-4 text-silver-300;
+  @apply text-2xl font-bold mt-8 mb-4 text-silver-300  border-silver-900 border-b;
 }
 
 .prose h3 {
@@ -201,4 +201,12 @@ pre {
   background-size: 100%;
   background-position: 50% 50%;
   background-repeat: no-repeat;
+}
+
+.card {
+}
+
+.card:hover {
+  background: rgba(180, 185, 188, 0.1);
+  border: 1px solid rgba(131, 134, 135, 0.15);
 }

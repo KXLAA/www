@@ -25,7 +25,7 @@ export function PostSideBar(props: PostSideBarProps) {
   return (
     <div className="pl-12 md:w-1/3 mt-[1.5em] md:sticky md:top-7 self-start w-full">
       <aside className="w-full">
-        <nav className="relative flex flex-col items-start rounded-md shadow-border-shiny">
+        <nav className="relative flex flex-col items-start rounded-md shadow-border-shiny-2">
           <Disclosure
             state={disclosure}
             className="w-full p-4 text-2xl font-semibold text-left text-silver-800"

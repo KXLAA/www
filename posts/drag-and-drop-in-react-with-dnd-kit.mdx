@@ -31,7 +31,7 @@ DndKit embraces this approach and provides two essential hooks for our applicati
 - The `useDraggable` hook, which makes a component draggable;
 - The `useDroppable` hook, which makes a component droppable.
 
-## Making a component draggable
+### Draggables
 
 To make a component draggable, we can use the `useDraggable` hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:
 
@@ -63,3 +63,34 @@ function Draggable(props: DraggableProps) {
 ```
 
 You can play around by toggling the the diffrent props in the demo below:
+
+### Droppables
+
+To make a component droppable, we can use the `useDroppable` hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:
+
+1. `setNodeRef` - a ref we attach to the HTML element we want to turn into a droppable element.
+2. `listeners` and `attributes` - objects we spread on the element we want to listen for dragging.
+3. `isOver` - a boolean that tells us if the draggable element is currently over the droppable element.
+
+Here's an example of how all these elements come together:
+
+```tsx:Droppable.tsx
+function Droppable(props: DroppableProps) {
+  const { attributes, listeners, setNodeRef, isOver } = useDroppable({
+    id: props.id,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        backgroundColor: isOver ? "lightblue" : "white",
+      }}
+      {...listeners}
+      {...attributes}
+    >
+      Droppable
+    </div>
+  );
+}
+```

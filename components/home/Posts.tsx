@@ -17,7 +17,7 @@ export function Posts(props: PostsProps) {
       heading="WRITING"
       description="I write about things I learn and things I do."
       addon={
-        <div className="flex items-center justify-center w-10 h-10 font-bold rounded-full aspect-square bg-shark-700">
+        <div className="flex items-center justify-center w-8 h-8 rounded-full aspect-square bg-shark-800 shadow-border-shiny text-silver">
           {articleCount}
         </div>
       }
