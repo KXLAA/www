@@ -6,8 +6,9 @@ import { Layout } from "@/components/common/Layout";
 import { Now } from "@/components/home/Now";
 import { Posts } from "@/components/home/Posts";
 import { Work } from "@/components/home/Work";
-import { getAllPosts } from "@/lib/api";
-import type { PostType } from "@/types/post";
+
+import type { Post as PostType } from ".contentlayer/generated";
+import { allPosts } from ".contentlayer/generated";
 
 type HomeProps = {
   posts: PostType[];
@@ -34,15 +35,7 @@ export default function Home(props: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = getAllPosts([
-    "date",
-    "description",
-    "slug",
-    "title",
-    "tags",
-    "duration",
-    "headings",
-  ]);
+  const posts = allPosts;
 
   return {
     props: { posts },

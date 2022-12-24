@@ -5,8 +5,8 @@ import {
 } from "ariakit/disclosure";
 import { motion, useScroll, useSpring } from "framer-motion";
 
+import type { PostHeading } from "@/lib/api";
 import { cx } from "@/lib/cx";
-import type { PostHeading } from "@/types/post";
 
 type PostSideBarProps = {
   tableOfContent?: PostHeading[];

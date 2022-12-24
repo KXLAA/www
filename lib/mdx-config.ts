@@ -15,6 +15,7 @@ export const mdxOptions: MDXConfig = {
     rehypeSlug,
     rehypeCodeTitles,
     rehypePrism,
+
     [
       rehypeAutolinkHeadings,
       {

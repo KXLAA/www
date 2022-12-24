@@ -4,10 +4,11 @@ import Link from "next/link";
 import { BreadCrumb } from "@/components/common/BreadCrumb";
 import { Layout } from "@/components/common/Layout";
 import { Section } from "@/components/common/Section";
-import { getAllPosts } from "@/lib/api";
 import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/types/layout";
-import type { PostType } from "@/types/post";
+
+import type { Post as PostType } from ".contentlayer/generated";
+import { allPosts } from ".contentlayer/generated";
 
 type PostsPageProps = {
   posts: PostType[];
@@ -77,8 +78,7 @@ function PostByYear(props: PostProps) {
               </div>
               <div className="flex flex-col gap-2 text-silver">
                 <div className="text-sm font-extralight">
-                  {" "}
-                  {formatDate(post.date, "MM/dd")}
+                  {formatDate(post.publishedAt, "MM/dd")}
                 </div>
               </div>
             </Link>
@@ -91,7 +91,7 @@ function PostByYear(props: PostProps) {
 
 function groupPostsByYear(posts: PostType[]): Record<string, PostType[]> {
   const postsByYear = posts.reduce((acc, post) => {
-    const year = new Date(post.date).getFullYear();
+    const year = new Date(post.publishedAt).getFullYear();
     if (!acc[year]) {
       acc[year] = [];
     }
@@ -102,8 +102,7 @@ function groupPostsByYear(posts: PostType[]): Record<string, PostType[]> {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = getAllPosts(["date", "description", "slug", "title", "tags"]);
-
+  const posts = allPosts;
   return {
     props: { posts },
   };

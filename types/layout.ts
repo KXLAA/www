@@ -1,11 +1,10 @@
-import type { PostType } from "./post";
+import type { Post as PostType } from ".contentlayer/generated";
 
 export interface MetaProps
-  extends Partial<
-    Pick<PostType, "date" | "description" | "thumbnail" | "title">
-  > {
+  extends Partial<Pick<PostType, "description" | "thumbnail" | "title">> {
   /**
    * For the meta tag `og:type`
    */
   type?: string;
+  date?: string;
 }

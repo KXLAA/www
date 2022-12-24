@@ -2,8 +2,6 @@ import fs from "fs";
 import matter from "gray-matter";
 import path, { join } from "path";
 
-import type { PostHeading } from "@/types/post";
-
 // POSTS_PATH is useful when you want to get the path to a specific file
 export const POSTS_PATH = path.join(process.cwd(), "posts");
 
@@ -53,6 +51,13 @@ export function getAllPosts(fields: string[] = []): PostItems[] {
     .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
   return posts;
 }
+
+export type PostHeading = {
+  id?: string;
+  content?: string;
+  link?: string;
+  level?: number;
+};
 
 export function getHeadings(source: string): PostHeading[] {
   //get all heading levels from markdown source, including #, ##, ###, etc.

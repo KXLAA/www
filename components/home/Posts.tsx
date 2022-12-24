@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Section } from "@/components/common/Section";
 import { Tag } from "@/components/common/Tag";
 import { formatDate } from "@/lib/date";
-import type { PostType } from "@/types/post";
+
+import type { Post as PostType } from ".contentlayer/generated";
 
 type PostsProps = {
   posts?: PostType[];
@@ -39,7 +40,7 @@ export function Posts(props: PostsProps) {
 
 function Post(props: PostType) {
   const { title, description, slug, tags } = props;
-  const date = formatDate(props.date, "MMMM dd, yyyy");
+  const date = formatDate(props.publishedAt, "MMMM dd, yyyy");
 
   return (
     <Link

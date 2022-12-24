@@ -4,7 +4,8 @@ import { BreadCrumb } from "@/components/common/BreadCrumb";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
 import { useHideOnScroll } from "@/lib/hooks/use-hide-on-scroll";
-import type { PostType } from "@/types/post";
+
+import type { Post as PostType } from ".contentlayer/generated";
 
 export type PostHeaderProps = PostType & {
   className?: string;
@@ -12,8 +13,8 @@ export type PostHeaderProps = PostType & {
 
 export function PostHeader(props: PostHeaderProps) {
   const isHidden = useHideOnScroll();
-  const { title, duration, className } = props;
-  const date = formatDate(props.date, "MMMM dd, yyyy");
+  const { title, readingTime, className } = props;
+  const date = formatDate(props.publishedAt, "MMMM dd, yyyy");
   return (
     <div className={cx("flex flex-col items-center gap-4 w-full", className)}>
       {isHidden && (
@@ -45,7 +46,7 @@ export function PostHeader(props: PostHeaderProps) {
           <div className="flex items-center justify-center gap-1 text-[10px] font-light rounded-md text-silver-700 underline-offset-1 w-fit">
             <span className="m-0">{date}</span>
             <span className="font-normal text-silver-900">/</span>
-            <span>{duration} </span>
+            <span>{readingTime.text} </span>
           </div>
           <BreadCrumb
             plain
