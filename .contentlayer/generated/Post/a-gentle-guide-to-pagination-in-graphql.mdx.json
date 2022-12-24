@@ -1,6 +1,5 @@
 {
   "title": "A gentle guide to pagination in GraphQL",
-  "publishedAt": "2021-12-18",
   "description": "Pagination is a common requirement in web applications. In this post, we will learn how to implement pagination in GraphQL.",
   "tags": [
     "React",
@@ -23,6 +22,8 @@
     "flattenedPath": "a-gentle-guide-to-pagination-in-graphql"
   },
   "type": "Post",
+  "publishedAt": "2022-12-24T08:00:29.543Z",
+  "lastUpdatedAt": "2022-12-24T08:00:29.543Z",
   "readingTime": {
     "text": "4 min read",
     "minutes": 3.73,

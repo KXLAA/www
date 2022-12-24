@@ -1,7 +1,6 @@
 [
   {
     "title": "A gentle guide to pagination in GraphQL",
-    "publishedAt": "2021-12-18",
     "description": "Pagination is a common requirement in web applications. In this post, we will learn how to implement pagination in GraphQL.",
     "tags": [
       "React",
@@ -24,6 +23,8 @@
       "flattenedPath": "a-gentle-guide-to-pagination-in-graphql"
     },
     "type": "Post",
+    "publishedAt": "2022-12-24T08:00:29.543Z",
+    "lastUpdatedAt": "2022-12-24T08:00:29.543Z",
     "readingTime": {
       "text": "4 min read",
       "minutes": 3.73,
@@ -60,7 +61,6 @@
   },
   {
     "title": "Building component libraries in React with Tailwind & Radix UI",
-    "publishedAt": "2021-12-18",
     "description": "How we built the Super Component Library",
     "tags": [
       "React",
@@ -83,6 +83,8 @@
       "flattenedPath": "building-component-libraries-in-react-with-tailwindcss-and-radix-ui"
     },
     "type": "Post",
+    "publishedAt": "2022-12-24T11:14:35.768Z",
+    "lastUpdatedAt": "2022-12-24T11:14:35.768Z",
     "readingTime": {
       "text": "2 min read",
       "minutes": 1.825,
@@ -107,7 +109,6 @@
   },
   {
     "title": "Drag & drop in React with Dnd Kit",
-    "publishedAt": "2022-12-18",
     "description": "A simple guide to get started with Dnd Kit in React.",
     "tags": [
       "React",
@@ -130,6 +131,8 @@
       "flattenedPath": "drag-and-drop-in-react-with-dnd-kit"
     },
     "type": "Post",
+    "publishedAt": "2022-12-24T09:35:56.177Z",
+    "lastUpdatedAt": "2022-12-24T09:35:56.177Z",
     "readingTime": {
       "text": "3 min read",
       "minutes": 2.17,
@@ -160,7 +163,6 @@
   },
   {
     "title": "Learn Typescript generics by reimplementing Lodash utilities",
-    "publishedAt": "2021-12-18",
     "description": "Come to grips with Typescript Generics once and for all",
     "tags": [
       "React",
@@ -183,6 +185,8 @@
       "flattenedPath": "learn-typescript-generics-by-reimplementing-lodash-utilities"
     },
     "type": "Post",
+    "publishedAt": "2022-12-24T08:04:58.152Z",
+    "lastUpdatedAt": "2022-12-24T08:04:58.152Z",
     "readingTime": {
       "text": "1 min read",
       "minutes": 0.335,
@@ -194,7 +198,6 @@
   },
   {
     "title": "Managing Forms & Inputs in your Next Js Application",
-    "publishedAt": "2022-07-16T05:35:07.322Z",
     "description": "How do we tame the beast that is form management in React?",
     "tags": [
       "React",
@@ -217,6 +220,8 @@
       "flattenedPath": "managing-forms-and-inputs-in-your-nextjs-app"
     },
     "type": "Post",
+    "publishedAt": "2022-12-24T08:05:39.322Z",
+    "lastUpdatedAt": "2022-12-24T08:05:39.322Z",
     "readingTime": {
       "text": "1 min read",
       "minutes": 0.335,
@@ -228,7 +233,6 @@
   },
   {
     "title": "Taming URL paths in Next JS with React Hooks",
-    "publishedAt": "2021-10-16T05:35:07.322Z",
     "description": "How do we tame the beast that is form management in React?",
     "tags": [
       "React",
@@ -251,6 +255,8 @@
       "flattenedPath": "taming-url-paths-in-nextjs-with-react-hooks"
     },
     "type": "Post",
+    "publishedAt": "2022-12-24T08:06:20.655Z",
+    "lastUpdatedAt": "2022-12-24T08:06:20.655Z",
     "readingTime": {
       "text": "1 min read",
       "minutes": 0.335,

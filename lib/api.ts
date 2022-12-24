@@ -1,3 +1,8 @@
+import * as fs from "node:fs/promises";
+import path from "node:path";
+
+import type { DocumentGen } from "contentlayer/core";
+
 export type PostHeading = {
   id?: string;
   content?: string;
@@ -24,4 +29,13 @@ export function getHeadings(source: string): PostHeading[] {
       };
     }) || []
   );
+}
+
+export const contentDirPath = "content";
+
+export async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
+  const stats = await fs.stat(
+    path.join(contentDirPath, doc._raw.sourceFilePath)
+  );
+  return stats.mtime;
 }

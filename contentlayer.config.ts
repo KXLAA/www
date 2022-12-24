@@ -5,7 +5,7 @@ import {
 } from "contentlayer/source-files";
 import readingTime from "reading-time";
 
-import { getHeadings } from "./lib/api";
+import { contentDirPath, getHeadings, getLastEditedDate } from "./lib/api";
 import { mdxOptions } from "./lib/mdx-config";
 
 const ReadingTime = defineNestedType(() => ({
@@ -35,7 +35,7 @@ export const Post = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
-    publishedAt: { type: "string", required: true },
+    // publishedAt: { type: "string", required: true },
     description: { type: "string", required: true },
     tags: {
       type: "list",
@@ -46,6 +46,14 @@ export const Post = defineDocumentType(() => ({
     postId: { type: "string" },
   },
   computedFields: {
+    publishedAt: {
+      type: "string",
+      resolve: (doc) => getLastEditedDate(doc),
+    },
+    lastUpdatedAt: {
+      type: "string",
+      resolve: (doc) => getLastEditedDate(doc),
+    },
     readingTime: {
       type: "json",
       resolve: (doc) => readingTime(doc.body.raw),
@@ -63,7 +71,7 @@ export const Post = defineDocumentType(() => ({
 }));
 
 export default makeSource({
-  contentDirPath: "content",
+  contentDirPath: contentDirPath,
   documentTypes: [Post],
   mdx: {
     ...mdxOptions,

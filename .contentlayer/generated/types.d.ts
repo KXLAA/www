@@ -14,7 +14,6 @@ export type Post = {
   _raw: Local.RawDocumentData
   type: 'Post'
   title: string
-  publishedAt: string
   description: string
   tags?: string[] | undefined
   ogImage?: string | undefined
@@ -22,6 +21,8 @@ export type Post = {
   postId?: string | undefined
   /** MDX file body */
   body: MDX
+  publishedAt: string
+  lastUpdatedAt: string
   readingTime: json
   headings: nested
   slug: string

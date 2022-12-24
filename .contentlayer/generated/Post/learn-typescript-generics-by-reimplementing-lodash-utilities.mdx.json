@@ -1,6 +1,5 @@
 {
   "title": "Learn Typescript generics by reimplementing Lodash utilities",
-  "publishedAt": "2021-12-18",
   "description": "Come to grips with Typescript Generics once and for all",
   "tags": [
     "React",
@@ -23,6 +22,8 @@
     "flattenedPath": "learn-typescript-generics-by-reimplementing-lodash-utilities"
   },
   "type": "Post",
+  "publishedAt": "2022-12-24T08:04:58.152Z",
+  "lastUpdatedAt": "2022-12-24T08:04:58.152Z",
   "readingTime": {
     "text": "1 min read",
     "minutes": 0.335,

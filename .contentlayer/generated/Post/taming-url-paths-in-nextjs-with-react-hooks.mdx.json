@@ -1,6 +1,5 @@
 {
   "title": "Taming URL paths in Next JS with React Hooks",
-  "publishedAt": "2021-10-16T05:35:07.322Z",
   "description": "How do we tame the beast that is form management in React?",
   "tags": [
     "React",
@@ -23,6 +22,8 @@
     "flattenedPath": "taming-url-paths-in-nextjs-with-react-hooks"
   },
   "type": "Post",
+  "publishedAt": "2022-12-24T08:06:20.655Z",
+  "lastUpdatedAt": "2022-12-24T08:06:20.655Z",
   "readingTime": {
     "text": "1 min read",
     "minutes": 0.335,

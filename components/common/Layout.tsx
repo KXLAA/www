@@ -1,7 +1,8 @@
 // import { Footer } from "@/components/common/Footer";
-import { Head } from "@/components/common/Head";
+import { NextSeo } from "next-seo";
+
 import { cx } from "@/lib/cx";
-import type { MetaProps } from "@/types/layout";
+import type { MetaProps } from "@/lib/seo";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -15,7 +16,7 @@ export function Layout(props: LayoutProps) {
   const { children, customMeta, small, light, className } = props;
   return (
     <>
-      <Head customMeta={customMeta} />
+      {customMeta && <NextSeo {...customMeta} />}
       <main
         className={cx(
           "flex min-h-screen w-full flex-col items-center gap-4 p-4  md:p-10 text-silver-50 ",

@@ -1,6 +1,5 @@
 {
   "title": "Building component libraries in React with Tailwind & Radix UI",
-  "publishedAt": "2021-12-18",
   "description": "How we built the Super Component Library",
   "tags": [
     "React",
@@ -23,6 +22,8 @@
     "flattenedPath": "building-component-libraries-in-react-with-tailwindcss-and-radix-ui"
   },
   "type": "Post",
+  "publishedAt": "2022-12-24T11:14:35.768Z",
+  "lastUpdatedAt": "2022-12-24T11:14:35.768Z",
   "readingTime": {
     "text": "2 min read",
     "minutes": 1.825,

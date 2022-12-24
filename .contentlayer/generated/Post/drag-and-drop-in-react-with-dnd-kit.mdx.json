@@ -1,6 +1,5 @@
 {
   "title": "Drag & drop in React with Dnd Kit",
-  "publishedAt": "2022-12-18",
   "description": "A simple guide to get started with Dnd Kit in React.",
   "tags": [
     "React",
@@ -23,6 +22,8 @@
     "flattenedPath": "drag-and-drop-in-react-with-dnd-kit"
   },
   "type": "Post",
+  "publishedAt": "2022-12-24T09:35:56.177Z",
+  "lastUpdatedAt": "2022-12-24T09:35:56.177Z",
   "readingTime": {
     "text": "3 min read",
     "minutes": 2.17,
