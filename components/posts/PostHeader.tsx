@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 
 import { BreadCrumb } from "@/components/common/BreadCrumb";
+import { Show } from "@/components/common/Show";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
 import { useHideOnScroll } from "@/lib/hooks/use-hide-on-scroll";
@@ -43,7 +44,7 @@ export function PostHeader(props: PostHeaderProps) {
       </AnimatePresence>
 
       {!isHidden && (
-        <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 pt-24 pl-0 rounded-2xl bg-shark-800 h-52 grid-bg-faded fade-out">
+        <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 pt-24 pb-8 pl-0 rounded-2xl bg-shark-800 h-52 grid-bg-faded fade-out">
           <div className="flex items-center justify-center gap-1 text-[10px] font-light rounded-md text-silver-700 underline-offset-1 w-fit">
             <span className="m-0">{date}</span>
             <span className="font-normal text-silver-900">/</span>
