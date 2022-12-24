@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BreadCrumb } from "@/components/common/BreadCrumb";
 import { Layout } from "@/components/common/Layout";
 import { Section } from "@/components/common/Section";
+import { Tag } from "@/components/common/Tag";
 import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/types/layout";
 
@@ -62,22 +63,30 @@ function PostByYear(props: PostProps) {
   const { year, posts } = props;
 
   return (
-    <div className="flex flex-col w-full gap-2 p-4 transition-colors border gradient-bg-flip rounded-2xl border-shark-800">
+    <div className="flex flex-col w-full gap-2 p-6 transition-colors rounded-2xl shadow-border-shiny">
       <div className="w-full text-3xl font-black">{year}</div>
-      <div className="overflow-hidden border rounded-t-xl rounded-b-xl border-shark-700 bg-shark-900">
+      <div className="flex flex-col gap-2 overflow-hidden">
         {posts.map((post) => (
           <div
             key={post.slug}
-            className="p-4 transition-colors duration-200 ease-in-out border-b border-shark-700 bg-shark-800 last:border-0 hover:bg-shark-700"
+            className="p-5 transition-colors duration-200 ease-in-out rounded-xl bg-shark-800 hover:bg-shark-700 shadow-border-shiny fade-out "
           >
             <Link className="flex justify-between" href={`/posts/${post.slug}`}>
               <div className="flex flex-col gap-2">
-                <div className="text-lg font-light text-silver">
+                <div className="text-2xl font-normal text-silver-400">
                   {post.title}
+                </div>
+                <div className="text-base font-light text-silver">
+                  {post.description}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {post?.tags?.map((tag) => (
+                    <Tag key={tag}>{tag}</Tag>
+                  ))}
                 </div>
               </div>
               <div className="flex flex-col gap-2 text-silver">
-                <div className="text-sm font-extralight">
+                <div className="text-sm font-medium">
                   {formatDate(post.publishedAt, "MM/dd")}
                 </div>
               </div>
