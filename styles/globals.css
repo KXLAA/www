@@ -7,7 +7,6 @@
   margin-left: -1em;
   padding-right: 0.5em;
   width: 80%;
-  max-width: 700px;
   cursor: pointer;
 }
 
@@ -20,7 +19,7 @@
 }
 
 .prose h2 {
-  @apply text-2xl font-bold mt-8 mb-4 text-silver-300  border-silver-900 border-b;
+  @apply text-2xl font-bold mt-8 mb-4 text-silver-300;
 }
 
 .prose h3 {
@@ -180,6 +179,7 @@ pre {
   -webkit-mask-image: linear-gradient(to top, black 50%, transparent 100%);
   mask-image: linear-gradient(to top, black 50%, transparent 100%);
   height: 100%;
+  z-index: 1;
 }
 
 .dotted-bg {

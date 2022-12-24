@@ -25,9 +25,9 @@ export function BreadCrumb(props: BreadCrumbProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ ease: "easeInOut", duration: 0.2 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
+      exit={{ opacity: 0 }}
       className={cx(
         "relative flex items-center  w-fit gap-2 px-4 py-2 text-[11px] font-medium rounded-md   text-silver-600 transition-all",
         fixed && "fixed top-7 z-10",
