@@ -1,0 +1,93 @@
+---
+title: "Drag & drop in React with Dnd Kit"
+publishedAt: "2022-12-18"
+description: "A simple guide to get started with Dnd Kit in React."
+tags: ["React", "Typescript", "Tutorial"]
+ogImage: "/assets/blog/dynamic-routing/cover.jpg"
+thumbnail: "/assets/blog/dynamic-routing/cover.jpg"
+postId: "drag-and-drop-in-react-with-dnd-kit"
+---
+
+DnD Kit is an awesome library I recently discovered while working on the new dashboard for [Super](https://super.so/). It makes the complex task of creating performant Drag-and-Drop UI interactions easier, with some interesting patterns and concepts. I spent some time creating a lot of cool interactions with the library and wanted to share some of the things I learned.
+
+Lets get started
+
+## Core Concepts
+
+In most drag-and-drop UI interactions, there are typically two components:
+
+- **Draggable components**, which are elements on a page that can be picked up, dragged, and dropped in designated areas;
+- **Droppable components**, which are elements that act as _'designated areas'_ for draggable elements to be dropped.
+
+You can see these components in action by playing around in the demo below:
+
+<DraggableAndDroppable />
+
+DndKit embraces this approach and provides two essential hooks for our applications:
+
+- The `useDraggable` hook, which makes a component draggable;
+- The `useDroppable` hook, which makes a component droppable.
+
+### Draggables
+
+To make a component draggable, we can use the `useDraggable` hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:
+
+1. `setNodeRef` - a ref we attach to the HTML element we want to turn into a draggable element.
+2. `listeners` and `attributes` - objects we spread on the element we want to listen for dragging.
+3. `transform` - a `CSS.Transform` object to position the draggable component as its being dragged.
+
+Here's an example of how all these elements come together:
+
+```tsx:Draggable.tsx
+function Draggable(props: DraggableProps) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: props.id,
+  });
+
+  return (
+    <button
+      ref={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+      }}
+      {...listeners}
+      {...attributes}
+    >
+      Draggable
+    </button>
+  );
+}
+```
+
+You can play around by toggling the the diffrent props in the demo below:
+
+### Droppables
+
+To make a component droppable, we can use the `useDroppable` hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:
+
+1. `setNodeRef` - a ref we attach to the HTML element we want to turn into a droppable element.
+2. `listeners` and `attributes` - objects we spread on the element we want to listen for dragging.
+3. `isOver` - a boolean that tells us if the draggable element is currently over the droppable element.
+
+Here's an example of how all these elements come together:
+
+```tsx:Droppable.tsx
+function Droppable(props: DroppableProps) {
+  const { attributes, listeners, setNodeRef, isOver } = useDroppable({
+    id: props.id,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        backgroundColor: isOver ? "lightblue" : "white",
+      }}
+      {...listeners}
+      {...attributes}
+    >
+      Droppable
+    </div>
+  );
+}
+```

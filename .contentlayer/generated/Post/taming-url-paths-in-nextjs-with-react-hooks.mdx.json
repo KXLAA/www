@@ -1,0 +1,35 @@
+{
+  "title": "Taming URL paths in Next JS with React Hooks",
+  "description": "How do we tame the beast that is form management in React?",
+  "tags": [
+    "React",
+    "Typescript",
+    "Tutorial"
+  ],
+  "ogImage": "/assets/blog/dynamic-routing/cover.jpg",
+  "thumbnail": "/assets/blog/dynamic-routing/cover.jpg",
+  "postId": "taming-url-paths-in-next-js-with-react-hooks",
+  "body": {
+    "raw": "\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n",
+    "code": "var Component=(()=>{var m=Object.create;var i=Object.defineProperty;var g=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var d=Object.getPrototypeOf,u=Object.prototype.hasOwnProperty;var b=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),f=(t,e)=>{for(var n in e)i(t,n,{get:e[n],enumerable:!0})},s=(t,e,n,r)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let a of p(e))!u.call(t,a)&&a!==n&&i(t,a,{get:()=>e[a],enumerable:!(r=g(e,a))||r.enumerable});return t};var x=(t,e,n)=>(n=t!=null?m(d(t)):{},s(e||!t||!t.__esModule?i(n,\"default\",{value:t,enumerable:!0}):n,t)),w=t=>s(i({},\"__esModule\",{value:!0}),t);var h=b((_,c)=>{c.exports=_jsx_runtime});var v={};f(v,{default:()=>D,frontmatter:()=>y});var o=x(h()),y={title:\"Taming URL paths in Next JS with React Hooks\",publishedAt:\"2021-10-16T05:35:07.322Z\",description:\"How do we tame the beast that is form management in React?\",tags:[\"React\",\"Typescript\",\"Tutorial\"],ogImage:\"/assets/blog/dynamic-routing/cover.jpg\",thumbnail:\"/assets/blog/dynamic-routing/cover.jpg\",postId:\"taming-url-paths-in-next-js-with-react-hooks\"};function l(t){let e=Object.assign({p:\"p\"},t.components);return(0,o.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"})}function j(t={}){let{wrapper:e}=t.components||{};return e?(0,o.jsx)(e,Object.assign({},t,{children:(0,o.jsx)(l,t)})):l(t)}var D=j;return w(v);})();\n;return Component;"
+  },
+  "_id": "taming-url-paths-in-nextjs-with-react-hooks.mdx",
+  "_raw": {
+    "sourceFilePath": "taming-url-paths-in-nextjs-with-react-hooks.mdx",
+    "sourceFileName": "taming-url-paths-in-nextjs-with-react-hooks.mdx",
+    "sourceFileDir": ".",
+    "contentType": "mdx",
+    "flattenedPath": "taming-url-paths-in-nextjs-with-react-hooks"
+  },
+  "type": "Post",
+  "publishedAt": "2022-12-24T08:06:20.655Z",
+  "lastUpdatedAt": "2022-12-24T08:06:20.655Z",
+  "readingTime": {
+    "text": "1 min read",
+    "minutes": 0.335,
+    "time": 20100,
+    "words": 67
+  },
+  "headings": [],
+  "slug": "taming-url-paths-in-nextjs-with-react-hooks"
+}
