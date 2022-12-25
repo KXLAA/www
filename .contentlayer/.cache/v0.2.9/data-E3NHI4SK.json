@@ -1,0 +1,295 @@
+{
+  "cacheItemsMap": {
+    "blogs/a-gentle-guide-to-pagination-in-graphql.mdx": {
+      "document": {
+        "title": "A gentle guide to pagination in GraphQL",
+        "publishedAt": "2021-12-18",
+        "description": "Pagination is a common requirement in web applications. In this post, we will learn how to implement pagination in GraphQL.",
+        "tags": [
+          "React",
+          "Typescript",
+          "Tutorial"
+        ],
+        "ogImage": "/assets/blog/dynamic-routing/cover.jpg",
+        "thumbnail": "/assets/blog/dynamic-routing/cover.jpg",
+        "postId": "dynamic-routing",
+        "body": {
+          "raw": "\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n\n## Main Heading 01\n\nFor the purposes of the DnD kit, we can place drag-and-drop interaction into two broad categories:\n\n- **Default** - In this category, we have distinct components which are either draggable or droppable's into which draggable components can be dragged and dropped over.\n- **Sortables** - In this category components are both draggable and dropable, and they rearrange or sort as a single component is dragged.\n\nIt is important to note that these categories are not mutually exclusive. We can build drag-and-drop interactions which combine elements of both categories, this is usually the case in more advanced drag-and-drop interfaces.\n\n//https://www.pdftron.com/blog/graphql/implementing-graphql-pagination/\n\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n\n### SubHeading 01\n\nFor the purposes of the DnD kit, we can place drag-and-drop interaction into two broad categories:\n\n- **Default** - In this category, we have distinct components which are either draggable or droppable's into which draggable components can be dragged and dropped over.\n- **Sortables** - In this category components are both draggable and dropable, and they rearrange or sort as a single component is dragged.\n\nIt is important to note that these categories are not mutually exclusive. We can build drag-and-drop interactions which combine elements of both categories, this is usually the case in more advanced drag-and-drop interfaces.\n\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n\n## Main Heading 02\n\nFor the purposes of the DnD kit, we can place drag-and-drop interaction into two broad categories:\n\n- **Default** - In this category, we have distinct components which are either draggable or droppable's into which draggable components can be dragged and dropped over.\n- **Sortables** - In this category components are both draggable and dropable, and they rearrange or sort as a single component is dragged.\n\nIt is important to note that these categories are not mutually exclusive. We can build drag-and-drop interactions which combine elements of both categories, this is usually the case in more advanced drag-and-drop interfaces.\n\n//https://www.pdftron.com/blog/graphql/implementing-graphql-pagination/\n\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n\n### SubHeading 02\n\nFor the purposes of the DnD kit, we can place drag-and-drop interaction into two broad categories:\n\n- **Default** - In this category, we have distinct components which are either draggable or droppable's into which draggable components can be dragged and dropped over.\n- **Sortables** - In this category components are both draggable and dropable, and they rearrange or sort as a single component is dragged.\n\nIt is important to note that these categories are not mutually exclusive. We can build drag-and-drop interactions which combine elements of both categories, this is usually the case in more advanced drag-and-drop interfaces.\n\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n\nGo back [Home](/).\n",
+          "code": "var Component=(()=>{var c=Object.create;var r=Object.defineProperty;var g=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var m=Object.getPrototypeOf,b=Object.prototype.hasOwnProperty;var u=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),w=(t,e)=>{for(var a in e)r(t,a,{get:e[a],enumerable:!0})},d=(t,e,a,o)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let i of p(e))!b.call(t,i)&&i!==a&&r(t,i,{get:()=>e[i],enumerable:!(o=g(e,i))||o.enumerable});return t};var y=(t,e,a)=>(a=t!=null?c(m(t)):{},d(e||!t||!t.__esModule?r(a,\"default\",{value:t,enumerable:!0}):a,t)),f=t=>d(r({},\"__esModule\",{value:!0}),t);var s=u((F,l)=>{l.exports=_jsx_runtime});var x={};w(x,{default:()=>I,frontmatter:()=>D});var n=y(s()),D={title:\"A gentle guide to pagination in GraphQL\",publishedAt:\"2021-12-18\",description:\"Pagination is a common requirement in web applications. In this post, we will learn how to implement pagination in GraphQL.\",tags:[\"React\",\"Typescript\",\"Tutorial\"],ogImage:\"/assets/blog/dynamic-routing/cover.jpg\",thumbnail:\"/assets/blog/dynamic-routing/cover.jpg\",postId:\"dynamic-routing\"};function h(t){let e=Object.assign({p:\"p\",h2:\"h2\",ul:\"ul\",li:\"li\",strong:\"strong\",h3:\"h3\",a:\"a\"},t.components);return(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"}),`\n`,(0,n.jsx)(e.h2,{children:\"Main Heading 01\"}),`\n`,(0,n.jsx)(e.p,{children:\"For the purposes of the DnD kit, we can place drag-and-drop interaction into two broad categories:\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Default\"}),\" - In this category, we have distinct components which are either draggable or droppable's into which draggable components can be dragged and dropped over.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Sortables\"}),\" - In this category components are both draggable and dropable, and they rearrange or sort as a single component is dragged.\"]}),`\n`]}),`\n`,(0,n.jsx)(e.p,{children:\"It is important to note that these categories are not mutually exclusive. We can build drag-and-drop interactions which combine elements of both categories, this is usually the case in more advanced drag-and-drop interfaces.\"}),`\n`,(0,n.jsx)(e.p,{children:\"//https://www.pdftron.com/blog/graphql/implementing-graphql-pagination/\"}),`\n`,(0,n.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"}),`\n`,(0,n.jsx)(e.h3,{children:\"SubHeading 01\"}),`\n`,(0,n.jsx)(e.p,{children:\"For the purposes of the DnD kit, we can place drag-and-drop interaction into two broad categories:\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Default\"}),\" - In this category, we have distinct components which are either draggable or droppable's into which draggable components can be dragged and dropped over.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Sortables\"}),\" - In this category components are both draggable and dropable, and they rearrange or sort as a single component is dragged.\"]}),`\n`]}),`\n`,(0,n.jsx)(e.p,{children:\"It is important to note that these categories are not mutually exclusive. We can build drag-and-drop interactions which combine elements of both categories, this is usually the case in more advanced drag-and-drop interfaces.\"}),`\n`,(0,n.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"}),`\n`,(0,n.jsx)(e.h2,{children:\"Main Heading 02\"}),`\n`,(0,n.jsx)(e.p,{children:\"For the purposes of the DnD kit, we can place drag-and-drop interaction into two broad categories:\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Default\"}),\" - In this category, we have distinct components which are either draggable or droppable's into which draggable components can be dragged and dropped over.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Sortables\"}),\" - In this category components are both draggable and dropable, and they rearrange or sort as a single component is dragged.\"]}),`\n`]}),`\n`,(0,n.jsx)(e.p,{children:\"It is important to note that these categories are not mutually exclusive. We can build drag-and-drop interactions which combine elements of both categories, this is usually the case in more advanced drag-and-drop interfaces.\"}),`\n`,(0,n.jsx)(e.p,{children:\"//https://www.pdftron.com/blog/graphql/implementing-graphql-pagination/\"}),`\n`,(0,n.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"}),`\n`,(0,n.jsx)(e.h3,{children:\"SubHeading 02\"}),`\n`,(0,n.jsx)(e.p,{children:\"For the purposes of the DnD kit, we can place drag-and-drop interaction into two broad categories:\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Default\"}),\" - In this category, we have distinct components which are either draggable or droppable's into which draggable components can be dragged and dropped over.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Sortables\"}),\" - In this category components are both draggable and dropable, and they rearrange or sort as a single component is dragged.\"]}),`\n`]}),`\n`,(0,n.jsx)(e.p,{children:\"It is important to note that these categories are not mutually exclusive. We can build drag-and-drop interactions which combine elements of both categories, this is usually the case in more advanced drag-and-drop interfaces.\"}),`\n`,(0,n.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"}),`\n`,(0,n.jsxs)(e.p,{children:[\"Go back \",(0,n.jsx)(e.a,{href:\"/\",children:\"Home\"}),\".\"]})]})}function v(t={}){let{wrapper:e}=t.components||{};return e?(0,n.jsx)(e,Object.assign({},t,{children:(0,n.jsx)(h,t)})):h(t)}var I=v;return f(x);})();\n;return Component;"
+        },
+        "_id": "blogs/a-gentle-guide-to-pagination-in-graphql.mdx",
+        "_raw": {
+          "sourceFilePath": "blogs/a-gentle-guide-to-pagination-in-graphql.mdx",
+          "sourceFileName": "a-gentle-guide-to-pagination-in-graphql.mdx",
+          "sourceFileDir": "blogs",
+          "contentType": "mdx",
+          "flattenedPath": "blogs/a-gentle-guide-to-pagination-in-graphql"
+        },
+        "type": "Blog",
+        "readingTime": {
+          "text": "4 min read",
+          "minutes": 3.73,
+          "time": 223800,
+          "words": 746
+        },
+        "headings": [
+          {
+            "id": "main-heading-01",
+            "content": "Main Heading 01",
+            "link": "#main-heading-01",
+            "level": 2
+          },
+          {
+            "id": "subheading-01",
+            "content": "SubHeading 01",
+            "link": "#subheading-01",
+            "level": 3
+          },
+          {
+            "id": "main-heading-02",
+            "content": "Main Heading 02",
+            "link": "#main-heading-02",
+            "level": 2
+          },
+          {
+            "id": "subheading-02",
+            "content": "SubHeading 02",
+            "link": "#subheading-02",
+            "level": 3
+          }
+        ],
+        "slug": "a-gentle-guide-to-pagination-in-graphql"
+      },
+      "documentHash": "1671868829543",
+      "hasWarnings": false,
+      "documentTypeName": "Blog"
+    },
+    "blogs/building-component-libraries-in-react-with-tailwindcss-and-radix-ui.mdx": {
+      "document": {
+        "title": "Building component libraries in React with Tailwind & Radix UI",
+        "publishedAt": "2021-12-18",
+        "description": "How we built the Super Component Library",
+        "tags": [
+          "React",
+          "Typescript",
+          "Tutorial"
+        ],
+        "ogImage": "/assets/blog/dynamic-routing/cover.jpg",
+        "thumbnail": "/assets/blog/dynamic-routing/cover.jpg",
+        "postId": "comp-library",
+        "body": {
+          "raw": "\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n\n<Image\n  alt={`Bridge`}\n  src={`/images/bridge.jpg`}\n  width={1440}\n  height={960}\n  priority\n/>\n\n## Heading H2\n\nThis is an example blog post with React components. This page is using the `Image` component from Next.js.\n\n```jsx:example-post.mdx\n<Image\n  alt={`Bridge`}\n  src={`/images/bridge.jpg`}\n  width={1440}\n  height={960}\n  priority\n/>\n```\n\n### Code Blocks\n\nThis starter also comes with fancy code blocks with code titles.\n\n```jsx:example.jsx\nimport React, { useState } from 'react';\n\nfunction Example() {\n  // Declare a new state variable, which we'll call \"count\"\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>You clicked {count} times</p>\n      <button onClick={() => setCount(count + 1)}>\n        Click me\n      </button>\n    </div>\n  );\n}\n```\n\n- First, we need a way to target the specific element we want to drag and keep track of it as we drag. We can do this by passing the setNodeRef function returned by useDraggable to the ref of the DOM element we want to drag:\n\n  ```jsx\n  const { setNodeRef } = useDraggable({\n    id: \"draggable-1\",\n  });\n\n  return <div ref={setNodeRef}>Draggable</div>;\n  ```\n\n- Next, we need to keep track of the position of the draggable element as we drag it. We can do this by passing the attributes returned by useDraggable to the draggable element:\n\n  ```jsx\n  const { attributes, listeners, setNodeRef, transform } = useDraggable({\n    id: \"draggable-1\",\n  });\n\n  return (\n    <div\n      ref={setNodeRef}\n      style={{\n        transform: transform\n          ? `translate3d(${transform.x}px, ${transform.y}px, 0)`\n          : undefined,\n      }}\n      {...attributes}\n      {...listeners}\n    >\n      Draggable\n    </div>\n  );\n  ```\n\n- Finally, we need to make sure that the draggable element is rendered in the correct position as we drag it. We can do this by passing the transform returned by useDraggable to the draggable element's style:\n\n  ```jsx\n  const { attributes, listeners, setNodeRef, transform } = useDraggable({\n    id: \"draggable-1\",\n  });\n\n  return (\n    <div\n      ref={setNodeRef}\n      style={{\n        transform: transform\n          ? `translate3d(${transform.x}px, ${transform.y}px, 0)`\n          : undefined,\n      }}\n      {...attributes}\n      {...listeners}\n    >\n      Draggable\n    </div>\n  );\n  ```\n\nGo back [Home](/).\n",
+          "code": "var Component=(()=>{var g=Object.create;var i=Object.defineProperty;var h=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var m=Object.getPrototypeOf,u=Object.prototype.hasOwnProperty;var b=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),f=(t,e)=>{for(var r in e)i(t,r,{get:e[r],enumerable:!0})},o=(t,e,r,s)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let a of p(e))!u.call(t,a)&&a!==r&&i(t,a,{get:()=>e[a],enumerable:!(s=h(e,a))||s.enumerable});return t};var x=(t,e,r)=>(r=t!=null?g(m(t)):{},o(e||!t||!t.__esModule?i(r,\"default\",{value:t,enumerable:!0}):r,t)),w=t=>o(i({},\"__esModule\",{value:!0}),t);var d=b((R,l)=>{l.exports=_jsx_runtime});var N={};f(N,{default:()=>D,frontmatter:()=>y});var n=x(d()),y={title:\"Building component libraries in React with Tailwind & Radix UI\",publishedAt:\"2021-12-18\",description:\"How we built the Super Component Library\",tags:[\"React\",\"Typescript\",\"Tutorial\"],ogImage:\"/assets/blog/dynamic-routing/cover.jpg\",thumbnail:\"/assets/blog/dynamic-routing/cover.jpg\",postId:\"comp-library\"};function c(t){let e=Object.assign({p:\"p\",h2:\"h2\",code:\"code\",pre:\"pre\",h3:\"h3\",ul:\"ul\",li:\"li\",a:\"a\"},t.components),{Image:r}=e;return r||v(\"Image\",!0),(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"}),`\n`,(0,n.jsx)(r,{alt:\"Bridge\",src:\"/images/bridge.jpg\",width:1440,height:960,priority:!0}),`\n`,(0,n.jsx)(e.h2,{children:\"Heading H2\"}),`\n`,(0,n.jsxs)(e.p,{children:[\"This is an example blog post with React components. This page is using the \",(0,n.jsx)(e.code,{children:\"Image\"}),\" component from Next.js.\"]}),`\n`,(0,n.jsx)(e.pre,{children:(0,n.jsx)(e.code,{className:\"language-jsx:example-post.mdx\",children:`<Image\n  alt={\\`Bridge\\`}\n  src={\\`/images/bridge.jpg\\`}\n  width={1440}\n  height={960}\n  priority\n/>\n`})}),`\n`,(0,n.jsx)(e.h3,{children:\"Code Blocks\"}),`\n`,(0,n.jsx)(e.p,{children:\"This starter also comes with fancy code blocks with code titles.\"}),`\n`,(0,n.jsx)(e.pre,{children:(0,n.jsx)(e.code,{className:\"language-jsx:example.jsx\",children:`import React, { useState } from 'react';\n\nfunction Example() {\n  // Declare a new state variable, which we'll call \"count\"\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>You clicked {count} times</p>\n      <button onClick={() => setCount(count + 1)}>\n        Click me\n      </button>\n    </div>\n  );\n}\n`})}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsxs)(e.li,{children:[`\n`,(0,n.jsx)(e.p,{children:\"First, we need a way to target the specific element we want to drag and keep track of it as we drag. We can do this by passing the setNodeRef function returned by useDraggable to the ref of the DOM element we want to drag:\"}),`\n`,(0,n.jsx)(e.pre,{children:(0,n.jsx)(e.code,{className:\"language-jsx\",children:`const { setNodeRef } = useDraggable({\n  id: \"draggable-1\",\n});\n\nreturn <div ref={setNodeRef}>Draggable</div>;\n`})}),`\n`]}),`\n`,(0,n.jsxs)(e.li,{children:[`\n`,(0,n.jsx)(e.p,{children:\"Next, we need to keep track of the position of the draggable element as we drag it. We can do this by passing the attributes returned by useDraggable to the draggable element:\"}),`\n`,(0,n.jsx)(e.pre,{children:(0,n.jsx)(e.code,{className:\"language-jsx\",children:`const { attributes, listeners, setNodeRef, transform } = useDraggable({\n  id: \"draggable-1\",\n});\n\nreturn (\n  <div\n    ref={setNodeRef}\n    style={{\n      transform: transform\n        ? \\`translate3d(\\${transform.x}px, \\${transform.y}px, 0)\\`\n        : undefined,\n    }}\n    {...attributes}\n    {...listeners}\n  >\n    Draggable\n  </div>\n);\n`})}),`\n`]}),`\n`,(0,n.jsxs)(e.li,{children:[`\n`,(0,n.jsx)(e.p,{children:\"Finally, we need to make sure that the draggable element is rendered in the correct position as we drag it. We can do this by passing the transform returned by useDraggable to the draggable element's style:\"}),`\n`,(0,n.jsx)(e.pre,{children:(0,n.jsx)(e.code,{className:\"language-jsx\",children:`const { attributes, listeners, setNodeRef, transform } = useDraggable({\n  id: \"draggable-1\",\n});\n\nreturn (\n  <div\n    ref={setNodeRef}\n    style={{\n      transform: transform\n        ? \\`translate3d(\\${transform.x}px, \\${transform.y}px, 0)\\`\n        : undefined,\n    }}\n    {...attributes}\n    {...listeners}\n  >\n    Draggable\n  </div>\n);\n`})}),`\n`]}),`\n`]}),`\n`,(0,n.jsxs)(e.p,{children:[\"Go back \",(0,n.jsx)(e.a,{href:\"/\",children:\"Home\"}),\".\"]})]})}function j(t={}){let{wrapper:e}=t.components||{};return e?(0,n.jsx)(e,Object.assign({},t,{children:(0,n.jsx)(c,t)})):c(t)}var D=j;function v(t,e){throw new Error(\"Expected \"+(e?\"component\":\"object\")+\" `\"+t+\"` to be defined: you likely forgot to import, pass, or provide it.\")}return w(N);})();\n;return Component;"
+        },
+        "_id": "blogs/building-component-libraries-in-react-with-tailwindcss-and-radix-ui.mdx",
+        "_raw": {
+          "sourceFilePath": "blogs/building-component-libraries-in-react-with-tailwindcss-and-radix-ui.mdx",
+          "sourceFileName": "building-component-libraries-in-react-with-tailwindcss-and-radix-ui.mdx",
+          "sourceFileDir": "blogs",
+          "contentType": "mdx",
+          "flattenedPath": "blogs/building-component-libraries-in-react-with-tailwindcss-and-radix-ui"
+        },
+        "type": "Blog",
+        "readingTime": {
+          "text": "2 min read",
+          "minutes": 1.825,
+          "time": 109500,
+          "words": 365
+        },
+        "headings": [
+          {
+            "id": "heading-h2",
+            "content": "Heading H2",
+            "link": "#heading-h2",
+            "level": 2
+          },
+          {
+            "id": "code-blocks",
+            "content": "Code Blocks",
+            "link": "#code-blocks",
+            "level": 3
+          }
+        ],
+        "slug": "building-component-libraries-in-react-with-tailwindcss-and-radix-ui"
+      },
+      "documentHash": "1671868916455",
+      "hasWarnings": false,
+      "documentTypeName": "Blog"
+    },
+    "blogs/drag-and-drop-in-react-with-dnd-kit.mdx": {
+      "document": {
+        "title": "Drag & drop in React with Dnd Kit",
+        "publishedAt": "2022-12-18",
+        "description": "A simple guide to get started with Dnd Kit in React.",
+        "tags": [
+          "React",
+          "Typescript",
+          "Tutorial"
+        ],
+        "ogImage": "/assets/blog/dynamic-routing/cover.jpg",
+        "thumbnail": "/assets/blog/dynamic-routing/cover.jpg",
+        "postId": "drag-and-drop-in-react-with-dnd-kit",
+        "body": {
+          "raw": "\nDnD Kit is an awesome library I recently discovered while working on the new dashboard for [Super](https://super.so/). It makes the complex task of creating performant Drag-and-Drop UI interactions easier, with some interesting patterns and concepts. I spent some time creating a lot of cool interactions with the library and wanted to share some of the things I learned.\n\nLets get started\n\n## Core Concepts\n\nIn most drag-and-drop UI interactions, there are typically two components:\n\n- **Draggable components**, which are elements on a page that can be picked up, dragged, and dropped in designated areas;\n- **Droppable components**, which are elements that act as _'designated areas'_ for draggable elements to be dropped.\n\nYou can see these components in action by playing around in the demo below:\n\n<DraggableAndDroppable />\n\nDndKit embraces this approach and provides two essential hooks for our applications:\n\n- The `useDraggable` hook, which makes a component draggable;\n- The `useDroppable` hook, which makes a component droppable.\n\n### Draggables\n\nTo make a component draggable, we can use the `useDraggable` hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:\n\n1. `setNodeRef` - a ref we attach to the HTML element we want to turn into a draggable element.\n2. `listeners` and `attributes` - objects we spread on the element we want to listen for dragging.\n3. `transform` - a `CSS.Transform` object to position the draggable component as its being dragged.\n\nHere's an example of how all these elements come together:\n\n```tsx:Draggable.tsx\nfunction Draggable(props: DraggableProps) {\n  const { attributes, listeners, setNodeRef, transform } = useDraggable({\n    id: props.id,\n  });\n\n  return (\n    <button\n      ref={setNodeRef}\n      style={{\n        transform: CSS.Transform.toString(transform),\n      }}\n      {...listeners}\n      {...attributes}\n    >\n      Draggable\n    </button>\n  );\n}\n```\n\nYou can play around by toggling the the diffrent props in the demo below:\n\n### Droppables\n\nTo make a component droppable, we can use the `useDroppable` hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:\n\n1. `setNodeRef` - a ref we attach to the HTML element we want to turn into a droppable element.\n2. `listeners` and `attributes` - objects we spread on the element we want to listen for dragging.\n3. `isOver` - a boolean that tells us if the draggable element is currently over the droppable element.\n\nHere's an example of how all these elements come together:\n\n```tsx:Droppable.tsx\nfunction Droppable(props: DroppableProps) {\n  const { attributes, listeners, setNodeRef, isOver } = useDroppable({\n    id: props.id,\n  });\n\n  return (\n    <div\n      ref={setNodeRef}\n      style={{\n        backgroundColor: isOver ? \"lightblue\" : \"white\",\n      }}\n      {...listeners}\n      {...attributes}\n    >\n      Droppable\n    </div>\n  );\n}\n```\n",
+          "code": "var Component=(()=>{var h=Object.create;var a=Object.defineProperty;var p=Object.getOwnPropertyDescriptor;var g=Object.getOwnPropertyNames;var m=Object.getPrototypeOf,b=Object.prototype.hasOwnProperty;var u=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),f=(t,e)=>{for(var r in e)a(t,r,{get:e[r],enumerable:!0})},s=(t,e,r,i)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let o of g(e))!b.call(t,o)&&o!==r&&a(t,o,{get:()=>e[o],enumerable:!(i=p(e,o))||i.enumerable});return t};var w=(t,e,r)=>(r=t!=null?h(m(t)):{},s(e||!t||!t.__esModule?a(r,\"default\",{value:t,enumerable:!0}):r,t)),D=t=>s(a({},\"__esModule\",{value:!0}),t);var d=u((R,l)=>{l.exports=_jsx_runtime});var T={};f(T,{default:()=>y,frontmatter:()=>k});var n=w(d()),k={title:\"Drag & drop in React with Dnd Kit\",publishedAt:\"2022-12-18\",description:\"A simple guide to get started with Dnd Kit in React.\",tags:[\"React\",\"Typescript\",\"Tutorial\"],ogImage:\"/assets/blog/dynamic-routing/cover.jpg\",thumbnail:\"/assets/blog/dynamic-routing/cover.jpg\",postId:\"drag-and-drop-in-react-with-dnd-kit\"};function c(t){let e=Object.assign({p:\"p\",a:\"a\",h2:\"h2\",ul:\"ul\",li:\"li\",strong:\"strong\",em:\"em\",code:\"code\",h3:\"h3\",ol:\"ol\",pre:\"pre\"},t.components),{DraggableAndDroppable:r}=e;return r||j(\"DraggableAndDroppable\",!0),(0,n.jsxs)(n.Fragment,{children:[(0,n.jsxs)(e.p,{children:[\"DnD Kit is an awesome library I recently discovered while working on the new dashboard for \",(0,n.jsx)(e.a,{href:\"https://super.so/\",children:\"Super\"}),\". It makes the complex task of creating performant Drag-and-Drop UI interactions easier, with some interesting patterns and concepts. I spent some time creating a lot of cool interactions with the library and wanted to share some of the things I learned.\"]}),`\n`,(0,n.jsx)(e.p,{children:\"Lets get started\"}),`\n`,(0,n.jsx)(e.h2,{children:\"Core Concepts\"}),`\n`,(0,n.jsx)(e.p,{children:\"In most drag-and-drop UI interactions, there are typically two components:\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Draggable components\"}),\", which are elements on a page that can be picked up, dragged, and dropped in designated areas;\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.strong,{children:\"Droppable components\"}),\", which are elements that act as \",(0,n.jsx)(e.em,{children:\"'designated areas'\"}),\" for draggable elements to be dropped.\"]}),`\n`]}),`\n`,(0,n.jsx)(e.p,{children:\"You can see these components in action by playing around in the demo below:\"}),`\n`,(0,n.jsx)(r,{}),`\n`,(0,n.jsx)(e.p,{children:\"DndKit embraces this approach and provides two essential hooks for our applications:\"}),`\n`,(0,n.jsxs)(e.ul,{children:[`\n`,(0,n.jsxs)(e.li,{children:[\"The \",(0,n.jsx)(e.code,{children:\"useDraggable\"}),\" hook, which makes a component draggable;\"]}),`\n`,(0,n.jsxs)(e.li,{children:[\"The \",(0,n.jsx)(e.code,{children:\"useDroppable\"}),\" hook, which makes a component droppable.\"]}),`\n`]}),`\n`,(0,n.jsx)(e.h3,{children:\"Draggables\"}),`\n`,(0,n.jsxs)(e.p,{children:[\"To make a component draggable, we can use the \",(0,n.jsx)(e.code,{children:\"useDraggable\"}),\" hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:\"]}),`\n`,(0,n.jsxs)(e.ol,{children:[`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.code,{children:\"setNodeRef\"}),\" - a ref we attach to the HTML element we want to turn into a draggable element.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.code,{children:\"listeners\"}),\" and \",(0,n.jsx)(e.code,{children:\"attributes\"}),\" - objects we spread on the element we want to listen for dragging.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.code,{children:\"transform\"}),\" - a \",(0,n.jsx)(e.code,{children:\"CSS.Transform\"}),\" object to position the draggable component as its being dragged.\"]}),`\n`]}),`\n`,(0,n.jsx)(e.p,{children:\"Here's an example of how all these elements come together:\"}),`\n`,(0,n.jsx)(e.pre,{children:(0,n.jsx)(e.code,{className:\"language-tsx:Draggable.tsx\",children:`function Draggable(props: DraggableProps) {\n  const { attributes, listeners, setNodeRef, transform } = useDraggable({\n    id: props.id,\n  });\n\n  return (\n    <button\n      ref={setNodeRef}\n      style={{\n        transform: CSS.Transform.toString(transform),\n      }}\n      {...listeners}\n      {...attributes}\n    >\n      Draggable\n    </button>\n  );\n}\n`})}),`\n`,(0,n.jsx)(e.p,{children:\"You can play around by toggling the the diffrent props in the demo below:\"}),`\n`,(0,n.jsx)(e.h3,{children:\"Droppables\"}),`\n`,(0,n.jsxs)(e.p,{children:[\"To make a component droppable, we can use the \",(0,n.jsx)(e.code,{children:\"useDroppable\"}),\" hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:\"]}),`\n`,(0,n.jsxs)(e.ol,{children:[`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.code,{children:\"setNodeRef\"}),\" - a ref we attach to the HTML element we want to turn into a droppable element.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.code,{children:\"listeners\"}),\" and \",(0,n.jsx)(e.code,{children:\"attributes\"}),\" - objects we spread on the element we want to listen for dragging.\"]}),`\n`,(0,n.jsxs)(e.li,{children:[(0,n.jsx)(e.code,{children:\"isOver\"}),\" - a boolean that tells us if the draggable element is currently over the droppable element.\"]}),`\n`]}),`\n`,(0,n.jsx)(e.p,{children:\"Here's an example of how all these elements come together:\"}),`\n`,(0,n.jsx)(e.pre,{children:(0,n.jsx)(e.code,{className:\"language-tsx:Droppable.tsx\",children:`function Droppable(props: DroppableProps) {\n  const { attributes, listeners, setNodeRef, isOver } = useDroppable({\n    id: props.id,\n  });\n\n  return (\n    <div\n      ref={setNodeRef}\n      style={{\n        backgroundColor: isOver ? \"lightblue\" : \"white\",\n      }}\n      {...listeners}\n      {...attributes}\n    >\n      Droppable\n    </div>\n  );\n}\n`})})]})}function x(t={}){let{wrapper:e}=t.components||{};return e?(0,n.jsx)(e,Object.assign({},t,{children:(0,n.jsx)(c,t)})):c(t)}var y=x;function j(t,e){throw new Error(\"Expected \"+(e?\"component\":\"object\")+\" `\"+t+\"` to be defined: you likely forgot to import, pass, or provide it.\")}return D(T);})();\n;return Component;"
+        },
+        "_id": "blogs/drag-and-drop-in-react-with-dnd-kit.mdx",
+        "_raw": {
+          "sourceFilePath": "blogs/drag-and-drop-in-react-with-dnd-kit.mdx",
+          "sourceFileName": "drag-and-drop-in-react-with-dnd-kit.mdx",
+          "sourceFileDir": "blogs",
+          "contentType": "mdx",
+          "flattenedPath": "blogs/drag-and-drop-in-react-with-dnd-kit"
+        },
+        "type": "Blog",
+        "readingTime": {
+          "text": "3 min read",
+          "minutes": 2.17,
+          "time": 130200,
+          "words": 434
+        },
+        "headings": [
+          {
+            "id": "core-concepts",
+            "content": "Core Concepts",
+            "link": "#core-concepts",
+            "level": 2
+          },
+          {
+            "id": "draggables",
+            "content": "Draggables",
+            "link": "#draggables",
+            "level": 3
+          },
+          {
+            "id": "droppables",
+            "content": "Droppables",
+            "link": "#droppables",
+            "level": 3
+          }
+        ],
+        "slug": "drag-and-drop-in-react-with-dnd-kit"
+      },
+      "documentHash": "1671868988302",
+      "hasWarnings": false,
+      "documentTypeName": "Blog"
+    },
+    "blogs/learn-typescript-generics-by-reimplementing-lodash-utilities.mdx": {
+      "document": {
+        "title": "Learn Typescript generics by reimplementing Lodash utilities",
+        "publishedAt": "2021-12-18",
+        "description": "Come to grips with Typescript Generics once and for all",
+        "tags": [
+          "React",
+          "Typescript",
+          "Tutorial"
+        ],
+        "ogImage": "/assets/blog/dynamic-routing/cover.jpg",
+        "thumbnail": "/assets/blog/dynamic-routing/cover.jpg",
+        "postId": "learn-typescript-generics-by-reimplementing-lodash-utilities",
+        "body": {
+          "raw": "\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n",
+          "code": "var Component=(()=>{var g=Object.create;var r=Object.defineProperty;var d=Object.getOwnPropertyDescriptor;var m=Object.getOwnPropertyNames;var h=Object.getPrototypeOf,u=Object.prototype.hasOwnProperty;var b=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports),y=(e,t)=>{for(var i in t)r(e,i,{get:t[i],enumerable:!0})},s=(e,t,i,o)=>{if(t&&typeof t==\"object\"||typeof t==\"function\")for(let n of m(t))!u.call(e,n)&&n!==i&&r(e,n,{get:()=>t[n],enumerable:!(o=d(t,n))||o.enumerable});return e};var f=(e,t,i)=>(i=e!=null?g(h(e)):{},s(t||!e||!e.__esModule?r(i,\"default\",{value:e,enumerable:!0}):i,e)),x=e=>s(r({},\"__esModule\",{value:!0}),e);var l=b((_,c)=>{c.exports=_jsx_runtime});var v={};y(v,{default:()=>w,frontmatter:()=>D});var a=f(l()),D={title:\"Learn Typescript generics by reimplementing Lodash utilities\",publishedAt:\"2021-12-18\",description:\"Come to grips with Typescript Generics once and for all\",tags:[\"React\",\"Typescript\",\"Tutorial\"],ogImage:\"/assets/blog/dynamic-routing/cover.jpg\",thumbnail:\"/assets/blog/dynamic-routing/cover.jpg\",postId:\"learn-typescript-generics-by-reimplementing-lodash-utilities\"};function p(e){let t=Object.assign({p:\"p\"},e.components);return(0,a.jsx)(t.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"})}function j(e={}){let{wrapper:t}=e.components||{};return t?(0,a.jsx)(t,Object.assign({},e,{children:(0,a.jsx)(p,e)})):p(e)}var w=j;return x(v);})();\n;return Component;"
+        },
+        "_id": "blogs/learn-typescript-generics-by-reimplementing-lodash-utilities.mdx",
+        "_raw": {
+          "sourceFilePath": "blogs/learn-typescript-generics-by-reimplementing-lodash-utilities.mdx",
+          "sourceFileName": "learn-typescript-generics-by-reimplementing-lodash-utilities.mdx",
+          "sourceFileDir": "blogs",
+          "contentType": "mdx",
+          "flattenedPath": "blogs/learn-typescript-generics-by-reimplementing-lodash-utilities"
+        },
+        "type": "Blog",
+        "readingTime": {
+          "text": "1 min read",
+          "minutes": 0.335,
+          "time": 20100,
+          "words": 67
+        },
+        "headings": [],
+        "slug": "learn-typescript-generics-by-reimplementing-lodash-utilities"
+      },
+      "documentHash": "1671869098152",
+      "hasWarnings": false,
+      "documentTypeName": "Blog"
+    },
+    "blogs/managing-forms-and-inputs-in-your-nextjs-app.mdx": {
+      "document": {
+        "title": "Managing Forms & Inputs in your Next Js Application",
+        "publishedAt": "2022-07-16T05:35:07.322Z",
+        "description": "How do we tame the beast that is form management in React?",
+        "tags": [
+          "React",
+          "Typescript",
+          "Tutorial"
+        ],
+        "ogImage": "/assets/blog/dynamic-routing/cover.jpg",
+        "thumbnail": "/assets/blog/dynamic-routing/cover.jpg",
+        "postId": "forms",
+        "body": {
+          "raw": "\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n",
+          "code": "var Component=(()=>{var p=Object.create;var i=Object.defineProperty;var g=Object.getOwnPropertyDescriptor;var d=Object.getOwnPropertyNames;var h=Object.getPrototypeOf,u=Object.prototype.hasOwnProperty;var b=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),f=(t,e)=>{for(var n in e)i(t,n,{get:e[n],enumerable:!0})},s=(t,e,n,r)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let a of d(e))!u.call(t,a)&&a!==n&&i(t,a,{get:()=>e[a],enumerable:!(r=g(e,a))||r.enumerable});return t};var y=(t,e,n)=>(n=t!=null?p(h(t)):{},s(e||!t||!t.__esModule?i(n,\"default\",{value:t,enumerable:!0}):n,t)),x=t=>s(i({},\"__esModule\",{value:!0}),t);var l=b((_,c)=>{c.exports=_jsx_runtime});var I={};f(I,{default:()=>j,frontmatter:()=>w});var o=y(l()),w={title:\"Managing Forms & Inputs in your Next Js Application\",publishedAt:\"2022-07-16T05:35:07.322Z\",description:\"How do we tame the beast that is form management in React?\",tags:[\"React\",\"Typescript\",\"Tutorial\"],ogImage:\"/assets/blog/dynamic-routing/cover.jpg\",thumbnail:\"/assets/blog/dynamic-routing/cover.jpg\",postId:\"forms\"};function m(t){let e=Object.assign({p:\"p\"},t.components);return(0,o.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"})}function D(t={}){let{wrapper:e}=t.components||{};return e?(0,o.jsx)(e,Object.assign({},t,{children:(0,o.jsx)(m,t)})):m(t)}var j=D;return x(I);})();\n;return Component;"
+        },
+        "_id": "blogs/managing-forms-and-inputs-in-your-nextjs-app.mdx",
+        "_raw": {
+          "sourceFilePath": "blogs/managing-forms-and-inputs-in-your-nextjs-app.mdx",
+          "sourceFileName": "managing-forms-and-inputs-in-your-nextjs-app.mdx",
+          "sourceFileDir": "blogs",
+          "contentType": "mdx",
+          "flattenedPath": "blogs/managing-forms-and-inputs-in-your-nextjs-app"
+        },
+        "type": "Blog",
+        "readingTime": {
+          "text": "1 min read",
+          "minutes": 0.335,
+          "time": 20100,
+          "words": 67
+        },
+        "headings": [],
+        "slug": "managing-forms-and-inputs-in-your-nextjs-app"
+      },
+      "documentHash": "1671869139322",
+      "hasWarnings": false,
+      "documentTypeName": "Blog"
+    },
+    "blogs/taming-url-paths-in-nextjs-with-react-hooks.mdx": {
+      "document": {
+        "title": "Taming URL paths in Next JS with React Hooks",
+        "publishedAt": "2021-10-16T05:35:07.322Z",
+        "description": "How do we tame the beast that is form management in React?",
+        "tags": [
+          "React",
+          "Typescript",
+          "Tutorial"
+        ],
+        "ogImage": "/assets/blog/dynamic-routing/cover.jpg",
+        "thumbnail": "/assets/blog/dynamic-routing/cover.jpg",
+        "postId": "taming-url-paths-in-next-js-with-react-hooks",
+        "body": {
+          "raw": "\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n",
+          "code": "var Component=(()=>{var m=Object.create;var i=Object.defineProperty;var g=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var d=Object.getPrototypeOf,u=Object.prototype.hasOwnProperty;var b=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),f=(t,e)=>{for(var n in e)i(t,n,{get:e[n],enumerable:!0})},s=(t,e,n,r)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let a of p(e))!u.call(t,a)&&a!==n&&i(t,a,{get:()=>e[a],enumerable:!(r=g(e,a))||r.enumerable});return t};var x=(t,e,n)=>(n=t!=null?m(d(t)):{},s(e||!t||!t.__esModule?i(n,\"default\",{value:t,enumerable:!0}):n,t)),w=t=>s(i({},\"__esModule\",{value:!0}),t);var h=b((_,c)=>{c.exports=_jsx_runtime});var v={};f(v,{default:()=>D,frontmatter:()=>y});var o=x(h()),y={title:\"Taming URL paths in Next JS with React Hooks\",publishedAt:\"2021-10-16T05:35:07.322Z\",description:\"How do we tame the beast that is form management in React?\",tags:[\"React\",\"Typescript\",\"Tutorial\"],ogImage:\"/assets/blog/dynamic-routing/cover.jpg\",thumbnail:\"/assets/blog/dynamic-routing/cover.jpg\",postId:\"taming-url-paths-in-next-js-with-react-hooks\"};function l(t){let e=Object.assign({p:\"p\"},t.components);return(0,o.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"})}function j(t={}){let{wrapper:e}=t.components||{};return e?(0,o.jsx)(e,Object.assign({},t,{children:(0,o.jsx)(l,t)})):l(t)}var D=j;return w(v);})();\n;return Component;"
+        },
+        "_id": "blogs/taming-url-paths-in-nextjs-with-react-hooks.mdx",
+        "_raw": {
+          "sourceFilePath": "blogs/taming-url-paths-in-nextjs-with-react-hooks.mdx",
+          "sourceFileName": "taming-url-paths-in-nextjs-with-react-hooks.mdx",
+          "sourceFileDir": "blogs",
+          "contentType": "mdx",
+          "flattenedPath": "blogs/taming-url-paths-in-nextjs-with-react-hooks"
+        },
+        "type": "Blog",
+        "readingTime": {
+          "text": "1 min read",
+          "minutes": 0.335,
+          "time": 20100,
+          "words": 67
+        },
+        "headings": [],
+        "slug": "taming-url-paths-in-nextjs-with-react-hooks"
+      },
+      "documentHash": "1671869180655",
+      "hasWarnings": false,
+      "documentTypeName": "Blog"
+    }
+  }
+}

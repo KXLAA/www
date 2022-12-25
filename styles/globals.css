@@ -1,3 +1,212 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.prose .anchor {
+  @apply absolute invisible no-underline;
+  margin-left: -1em;
+  padding-right: 0.5em;
+  width: 80%;
+  cursor: pointer;
+}
+
+.anchor:hover {
+  @apply visible;
+}
+
+.prose {
+  @apply text-silver-600;
+}
+
+.prose h2 {
+  @apply text-2xl font-bold mt-8 mb-4 text-silver-300;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold mt-8 mb-4 text-silver-300;
+}
+
+.prose strong {
+  /* Don't apply styles to next/image */
+  @apply font-semibold text-silver-300;
+}
+
+.prose a {
+  @apply text-silver-100 hover:text-silver-800 transition-all;
+}
+
+.prose .anchor:after {
+  @apply text-silver-700;
+  content: "#";
+}
+
+.prose *:hover > .anchor {
+  @apply visible;
+}
+
+/* .prose pre {
+  @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
+} */
+
+.prose code {
+  @apply px-1 py-0.5 rounded-md bg-shark-700 font-normal shadow-border-shiny text-inherit;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+.prose pre code {
+  @apply text-silver-600 p-0 bg-transparent shadow-none;
+  border: initial;
+}
+
+.prose img {
+  /* Don't apply styles to next/image */
+  @apply m-0;
+}
+
+.prose > :first-child {
+  /* Override removing top margin, causing layout shift */
+  margin-top: 1.25em !important;
+  margin-bottom: 1.25em !important;
+}
+
+/* Prism Styles */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+.token.punctuation {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  @apply text-green-500;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  @apply text-purple-500;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  @apply text-yellow-500;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  @apply text-blue-500;
+}
+
+.token.function,
+.token.class-name {
+  @apply text-pink-500;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  @apply text-yellow-500;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  @apply p-10 rounded-xl border-0 bg-shark-800 shadow-border-shiny;
+}
+
+pre::-webkit-scrollbar {
+  display: none;
+}
+
+pre {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.rehype-code-title {
+  @apply px-4 py-3 font-mono text-sm font-bold  bg-shark-700 rounded-t-xl border border-b-0 border-[#29292A];
+}
+
+.rehype-code-title + pre {
+  @apply mt-0 rounded-t-none;
+}
+
+.highlight-line {
+  @apply block px-4 -mx-4 bg-gray-100 border-l-4 border-blue-500 dark:bg-gray-800;
+}
+
+.gradient-bg {
+  background: linear-gradient(
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+}
+
+.gradient-bg-flip {
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.fade-out {
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  height: 100%;
+}
+
+.fade-out-top {
+  -webkit-mask-image: linear-gradient(to top, black 50%, transparent 100%);
+  mask-image: linear-gradient(to top, black 50%, transparent 100%);
+  height: 100%;
+  z-index: 1;
+}
+
+.dotted-bg {
+  background-image: radial-gradient(rgb(31, 30, 29) 10%, transparent 10%),
+    radial-gradient(rgb(31, 30, 29) 10%, transparent 10%);
+  background-position: 0px 0px, 8px 8px;
+  background-size: 20px 20px;
+  background-color: rgb(16, 16, 16);
+}
+
+.grid-bg {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  /* -webkit-mask-image: linear-gradient(0deg, transparent, #000);
+  mask-image: linear-gradient(0deg, transparent, #000); */
+}
+
+.grid-bg-faded {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjA0IiBoZWlnaHQ9Ijc3MiIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDEyMDQgNzcyIj48cGF0aCBmaWxsPSIjMEMwQzBDIiBkPSJNMCAwaDEyMDR2NzcySDB6Ii8+PG1hc2sgaWQ9ImIiIHdpZHRoPSI4MTIiIGhlaWdodD0iNjM5IiB4PSIxOTYiIHk9IjY2IiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIiBzdHlsZT0ibWFzay10eXBlOmFscGhhIj48cGF0aCBmaWxsPSJ1cmwoI2EpIiBkPSJNMTk2IDY2aDgxMnY2MzlIMTk2eiIvPjwvbWFzaz48ZyBzdHJva2U9IiNmZmYiIG1hc2s9InVybCgjYikiPjxwYXRoIGQ9Ik0yODUuNSAxNDguNWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5eiIvPjxwYXRoIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjIiIGQ9Ik02ODAuNSAxNDguNWg3OXY3OWgtNzl6Ii8+PHBhdGggZD0iTTc1OS41IDE0OC41aDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bS01NTMgNzloNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXoiLz48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4yIiBkPSJNNTIyLjUgMzA2LjVoNzl2NzloLTc5eiIvPjxwYXRoIGQ9Ik02MDEuNSAzMDYuNWg3OXY3OWgtNzl6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMiIgZD0iTTY4MC41IDMwNi41aDc5djc5aC03OXoiLz48cGF0aCBkPSJNNzU5LjUgMzA2LjVoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em0tNTUzIDc5aDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMiIgZD0iTTQ0My41IDQ2NC41aDc5djc5aC03OXoiLz48cGF0aCBkPSJNNTIyLjUgNDY0LjVoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5eiIvPjwvZz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImEiIGN4PSIwIiBjeT0iMCIgcj0iMSIgZ3JhZGllbnRUcmFuc2Zvcm09Im1hdHJpeCgwIDMxOS41IC00MDYgMCA2MDIgMzg1LjUpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI0Q5RDlEOSIgc3RvcC1vcGFjaXR5PSIuMiIvPjxzdG9wIG9mZnNldD0iLjc0MyIgc3RvcC1jb2xvcj0iI0Q5RDlEOSIgc3RvcC1vcGFjaXR5PSIwIi8+PC9yYWRpYWxHcmFkaWVudD48L2RlZnM+PC9zdmc+");
+  background-size: 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.card {
+}
+
+.card:hover {
+  background: rgba(180, 185, 188, 0.1);
+  border: 1px solid rgba(131, 134, 135, 0.15);
+}

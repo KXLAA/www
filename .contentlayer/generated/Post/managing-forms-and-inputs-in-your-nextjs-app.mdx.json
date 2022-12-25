@@ -1,0 +1,35 @@
+{
+  "title": "Managing Forms & Inputs in your Next Js Application",
+  "description": "How do we tame the beast that is form management in React?",
+  "tags": [
+    "React",
+    "Typescript",
+    "Tutorial"
+  ],
+  "ogImage": "/assets/blog/dynamic-routing/cover.jpg",
+  "thumbnail": "/assets/blog/dynamic-routing/cover.jpg",
+  "postId": "forms",
+  "body": {
+    "raw": "\nDnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\n",
+    "code": "var Component=(()=>{var p=Object.create;var i=Object.defineProperty;var g=Object.getOwnPropertyDescriptor;var d=Object.getOwnPropertyNames;var h=Object.getPrototypeOf,u=Object.prototype.hasOwnProperty;var b=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),f=(t,e)=>{for(var n in e)i(t,n,{get:e[n],enumerable:!0})},s=(t,e,n,r)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let a of d(e))!u.call(t,a)&&a!==n&&i(t,a,{get:()=>e[a],enumerable:!(r=g(e,a))||r.enumerable});return t};var y=(t,e,n)=>(n=t!=null?p(h(t)):{},s(e||!t||!t.__esModule?i(n,\"default\",{value:t,enumerable:!0}):n,t)),x=t=>s(i({},\"__esModule\",{value:!0}),t);var l=b((_,c)=>{c.exports=_jsx_runtime});var I={};f(I,{default:()=>j,frontmatter:()=>w});var o=y(l()),w={title:\"Managing Forms & Inputs in your Next Js Application\",publishedAt:\"2022-07-16T05:35:07.322Z\",description:\"How do we tame the beast that is form management in React?\",tags:[\"React\",\"Typescript\",\"Tutorial\"],ogImage:\"/assets/blog/dynamic-routing/cover.jpg\",thumbnail:\"/assets/blog/dynamic-routing/cover.jpg\",postId:\"forms\"};function m(t){let e=Object.assign({p:\"p\"},t.components);return(0,o.jsx)(e.p,{children:\"DnD Kit is a lightweight, highly configurable and accessible library that makes creating drag-and-drop interactions with react easy. In this post, I explain the core concepts behind DnD Kit and implement a variety of examples that demonstrate the core features of the library. In the end, we will put everything we have learned together and build a form builder application similar to Google Form using DnD Kit.\"})}function D(t={}){let{wrapper:e}=t.components||{};return e?(0,o.jsx)(e,Object.assign({},t,{children:(0,o.jsx)(m,t)})):m(t)}var j=D;return x(I);})();\n;return Component;"
+  },
+  "_id": "managing-forms-and-inputs-in-your-nextjs-app.mdx",
+  "_raw": {
+    "sourceFilePath": "managing-forms-and-inputs-in-your-nextjs-app.mdx",
+    "sourceFileName": "managing-forms-and-inputs-in-your-nextjs-app.mdx",
+    "sourceFileDir": ".",
+    "contentType": "mdx",
+    "flattenedPath": "managing-forms-and-inputs-in-your-nextjs-app"
+  },
+  "type": "Post",
+  "publishedAt": "2022-12-24T08:05:39.322Z",
+  "lastUpdatedAt": "2022-12-24T08:05:39.322Z",
+  "readingTime": {
+    "text": "1 min read",
+    "minutes": 0.335,
+    "time": 20100,
+    "words": 67
+  },
+  "headings": [],
+  "slug": "managing-forms-and-inputs-in-your-nextjs-app"
+}
