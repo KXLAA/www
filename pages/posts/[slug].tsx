@@ -41,9 +41,15 @@ export default function Post(props: PostProps) {
     description: post.description,
     canonical: url,
     openGraph: {
-      url,
       title,
       description: post.description,
+      url,
+      type: "article",
+      article: {
+        publishedTime: post.publishedAt,
+        authors: ["https://kxlaa.com"],
+        tags: post?.tags?.map((c: string) => c),
+      },
       images: [],
     },
   };
