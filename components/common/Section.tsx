@@ -14,14 +14,16 @@ export function Section(props: SectionProps) {
   return (
     <div
       className={cx(
-        "shadow-border-shiny-2 relative flex h-full w-full flex-col gap-6 self-start rounded-4xl bg-shark-900 p-7",
+        "shadow-border-shiny relative flex h-full w-full flex-col gap-6 self-start rounded-4xl p-7",
         className
       )}
     >
-      <div className="flex justify-between pb-2 border-b border-shark-600">
+      <div className="flex justify-between">
         <div>
-          <p className="text-sm font-black">{heading}</p>
-          <p className="text-xl font-extralight">{description}</p>
+          <p className="text-base font-black">{heading}</p>
+          <p className="text-lg font-extralight text-silver-400">
+            {description}
+          </p>
         </div>
         <Show when={!!addon}>{addon}</Show>
       </div>

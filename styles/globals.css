@@ -203,10 +203,14 @@ pre {
   background-repeat: no-repeat;
 }
 
-.card {
+/* .bg-test {
+  background: linear-gradient(120deg, hsl(227 47.2% 21%), hsl(298 34.4% 15.3%));
+} */
+
+.gradient-bg-flipp {
+  background: linear-gradient(rgb(17, 17, 17) 0%, rgb(12, 12, 12) 100%);
 }
 
-.card:hover {
-  background: rgba(180, 185, 188, 0.1);
-  border: 1px solid rgba(131, 134, 135, 0.15);
+.main-gradient {
+  background: linear-gradient(rgb(17, 17, 17) 0%, rgb(12, 12, 12) 100%);
 }
