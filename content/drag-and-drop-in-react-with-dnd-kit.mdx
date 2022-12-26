@@ -16,25 +16,44 @@ Lets get started
 
 In most drag-and-drop UI interactions, there are typically two components:
 
-- **Draggable components**, which are elements on a page that can be picked up, dragged, and dropped in designated areas;
-- **Droppable components**, which are elements that act as _'designated areas'_ for draggable elements to be dropped.
+- **Draggable components** which are elements on a page that we can pick up, drag and drop in specified areas; and
+- **Droppable components**, , which are elements that act as the 'specified areas' that draggable elements can be dropped over.
 
 You can see these components in action by playing around in the demo below:
 
 <DraggableAndDroppable />
 
-DndKit embraces this approach and provides two essential hooks for our applications:
+DndKit embraces this concept and provides two essential hooks for our applications: the `useDraggable` hook, which makes a component draggable, and the `useDroppable` hook, which makes a component droppable. To manage the interactions between these components, DndKit also provides us with a`<DndContext>`component. This component makes use of the React Context API to share data between draggable and droppable components. Therefore, we must ensure that our draggable and droppable components are nested within the` <DndContext>`.
 
-- The `useDraggable` hook, which makes a component draggable;
-- The `useDroppable` hook, which makes a component droppable.
+```tsx:App.tsx
+import React from 'react';
+import { DndContext } from '@dnd-kit/core';
+import { Draggable } from './Draggable';
+import { Droppable } from './Droppable';
+
+function App() {
+  return (
+    <DndContext>
+      <Draggable />
+      <Droppable />
+    </DndContext>
+  );
+}
+```
 
 ### Draggables
 
-To make a component draggable, we can use the `useDraggable` hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:
+To make a component draggable, we will use the useDraggable hook, exported from the @dnd-kit/core package. Install it via npm or yarn:
 
-1. `setNodeRef` - a ref we attach to the HTML element we want to turn into a draggable element.
-2. `listeners` and `attributes` - objects we spread on the element we want to listen for dragging.
-3. `transform` - a `CSS.Transform` object to position the draggable component as its being dragged.
+```
+npm install @dnd-kit/core
+```
+
+This hook takes a unique id as an argument and returns an object with several properties. The properties we are interested in right now are:
+
+1. `setNodeRef` - a ref we attach to the HTML element we want to make draggable.
+2. `listeners` and `attributes` - objects we spread on the HTML element to listen for drag events.
+3. `transform` - an object with the x- and y-coordinates of a draggable element in 2D. We'll use this to update the `translate` property, allowing us to move the draggable component on the screen.
 
 Here's an example of how all these elements come together:
 
@@ -59,21 +78,22 @@ function Draggable(props: DraggableProps) {
 }
 ```
 
-You can play around by toggling the the diffrent props in the demo below:
+Now that we have a draggable component, we need to decide what to do with it. One thing we can do is update its position as we drag it. This would allow us to move the component across the screen, like in canvas-based applications such as Figma and Excalidraw. To do this, we'll store the component's data, including its x- and y-positions, in state. We'll also leverage the onDragEnd event emitted by the `<DndContext />`. This function fires after a draggable item is dropped, and the event object passed to it contains data about the component. We can use this data to update the component's position in state.
+
+Another thing we can do with a draggable component is drag it into a specified areas we define called droppable components, lets build that below:
 
 ### Droppables
 
-To make a component droppable, we can use the `useDroppable` hook. This hook takes a unique id as an argument and returns an object with several properties. The most important ones are:
+We will use the useDroppable hook, exported from the @dnd-kit/core package, to make our component droppable. This hook takes a unique id as an argument and returns an object with several properties. We are interested in the following:
 
-1. `setNodeRef` - a ref we attach to the HTML element we want to turn into a droppable element.
-2. `listeners` and `attributes` - objects we spread on the element we want to listen for dragging.
-3. `isOver` - a boolean that tells us if the draggable element is currently over the droppable element.
+1. `setNodeRef` - a ref we attach to the HTML element we want to make droppable.
+2. `isOver` - a Boolean that is `true` if a droppable component is over the droppable component.
 
 Here's an example of how all these elements come together:
 
 ```tsx:Droppable.tsx
 function Droppable(props: DroppableProps) {
-  const { attributes, listeners, setNodeRef, isOver } = useDroppable({
+  const { setNodeRef, isOver } = useDroppable({
     id: props.id,
   });
 
@@ -83,11 +103,11 @@ function Droppable(props: DroppableProps) {
       style={{
         backgroundColor: isOver ? "lightblue" : "white",
       }}
-      {...listeners}
-      {...attributes}
     >
       Droppable
     </div>
   );
 }
 ```
+
+To combine our draggable and droppable components, we need an array of IDs of our droppable containers and a piece of state to track which droppable component our draggable component is over. We'll use the `onDragEnd` function to check if a draggable component is over a particular droppable component. If it is, we'll update the state and add the draggable component as a child of the droppable container in the UI:

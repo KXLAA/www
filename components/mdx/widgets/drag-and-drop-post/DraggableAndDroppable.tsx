@@ -123,9 +123,9 @@ export default function DraggableAndDroppable() {
     const draggable = draggables.find((x) => x.id === ev.active.id)!;
     draggable.position.x += ev.delta.x;
     draggable.position.y += ev.delta.y;
-    const _draggables = draggables.map((x) => {
-      if (x.id === draggable.id) return draggable;
-      return x;
+    const _draggables = draggables.map((d) => {
+      if (d.id === draggable.id) return draggable;
+      return d;
     });
 
     setDraggables(_draggables);
