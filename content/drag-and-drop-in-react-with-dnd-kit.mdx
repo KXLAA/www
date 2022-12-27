@@ -25,17 +25,17 @@ You can see these components in action by playing around in the demo below:
 
 DndKit embraces this concept, providing two essential hooks for applications: useDraggable and useDroppable. The former makes a component draggable, while the latter makes it droppable. These hooks are exported from the `@dnd-kit/core` package; install it by running the following command:
 
-```
+```bash
 npm install @dnd-kit/core
 ```
 
 To manage interactions between draggable and droppable components, `@dnd-kit/core` also exports a `<DndContext>` component. This component uses the React Context API to share data between draggable and droppable components, so we need to wrap them with it:
 
-```tsx:App.tsx
-import React from 'react';
-import { DndContext } from '@dnd-kit/core';
-import { Draggable } from './Draggable';
-import { Droppable } from './Droppable';
+```tsx showLineNumbers {2}
+import React from "react";
+import { DndContext } from "@dnd-kit/core";
+import { Draggable } from "./Draggable";
+import { Droppable } from "./Droppable";
 
 function App() {
   return (
@@ -61,7 +61,7 @@ The `useDraggable` hook is used to make components draggable. It takes an input 
 
 Here's an example of how all these elements come together:
 
-```tsx:Draggable.tsx
+```tsx showLineNumbers
 function Draggable(props: DraggableProps) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
@@ -94,7 +94,7 @@ The `useDroppable` hook is used to make components Droppable. Similar to `useDra
 
 Here is how of how all these elements come together:
 
-```tsx:Droppable.tsx
+```tsx showLineNumbers
 function Droppable(props: DroppableProps) {
   const { setNodeRef, isOver } = useDroppable({
     id: props.id,
