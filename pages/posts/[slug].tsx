@@ -1,8 +1,6 @@
+import { components } from "components/mdx/components/MDXComponents";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { Layout } from "@/components/common/Layout";
@@ -20,18 +18,8 @@ const DraggableAndDroppable = dynamic(
 );
 
 const MDXComponents = {
-  Head,
-  Image,
-  Link,
   DraggableAndDroppable,
-  pre: (props: any) => (
-    <pre className="rounded-lg bg-shark-900 shadow-border-shiny" {...props} />
-  ),
-  // code: (props: any) => (
-  //   <code className="px-1 py-0.5 rounded-md bg-shark-700 font-normal shadow-border-shiny text-inherit">
-  //     {props.children}
-  //   </code>
-  // ),
+  ...components,
 };
 
 type PostProps = {

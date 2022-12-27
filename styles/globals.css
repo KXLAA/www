@@ -42,7 +42,7 @@
 }
 
 code {
-  @apply px-1 py-0.5 rounded-md bg-shark-900 font-normal shadow-border-shiny !text-silver-600;
+  @apply px-1 py-0.5 rounded-md bg-shark-800 font-normal shadow-border-shiny !text-silver-600;
 }
 
 .prose img {
