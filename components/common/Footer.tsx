@@ -29,7 +29,7 @@ function FooterLink(props: FooterLinkProps) {
   return (
     <a
       href={link}
-      className="flex items-center justify-center gap-2 p-3 text-lg transition duration-300 ease-in-out border ga rounded-xl border-shark-700 bg-shark-800 text-silver-50 hover:border-shark-600 hover:bg-shark-700"
+      className="flex items-center justify-center gap-2 p-3 text-lg transition duration-300 ease-in-out rounded-xl text-silver-50 hover:border-shark-600 hover:bg-shark-700 shadow-border-shiny"
     >
       {children}
       <div className="self-start p-1 transition-colors duration-200 rounded-full shadow-border-shiny text-silver-700">
