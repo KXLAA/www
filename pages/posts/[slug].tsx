@@ -31,15 +31,19 @@ function getBaseUrl() {
   return process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_VERCEL_URL;
 }
 
+//https://kxlaa-m87l9gc6a-kxlaa.vercel.appkxlaa-m87l9gc6a-kxlaa.vercel.app/api/og?title=Drag%20%26%20drop%20in%20React%20with%20Dnd%20Kit%20%7C%20Kolade%20Afode&date=December%2027%202022
+
 export default function Post(props: PostProps) {
   const { post } = props;
   const Component = useMDXComponent(post.body.code);
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
   const title = `${post.title} | Kolade Afode`;
-  const ogImageUrl = `${getBaseUrl()}/api/og?title=${encodeURIComponent(
-    title
-  )}&date=${encodeURIComponent(formatDate(post.publishedAt, "MMMM dd yyyy"))}`;
+  const ogImageUrl = `${
+    process.env.NEXT_PUBLIC_SITE_URL
+  }/api/og?title=${encodeURIComponent(title)}&date=${encodeURIComponent(
+    formatDate(post.publishedAt, "MMMM dd yyyy")
+  )}`;
 
   console.log(ogImageUrl);
 
