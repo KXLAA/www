@@ -39,8 +39,8 @@ function Draggable({ id, content, styles }: DraggableProps) {
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       className={cx(
-        "flex items-center bg-shark-500 justify-center  h-14 w-fit p-4 text-sm font-bold rounded-lg text-silver-00 shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
-        isDragging && "bg-shark-500 text-silver-700"
+        "flex items-center bg-shark-900 justify-center  h-14 w-fit p-4 text-sm font-bold rounded-lg text-silver-00 shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
+        isDragging && "bg-shark-800 text-silver-900"
       )}
       {...listeners}
       {...attributes}
@@ -63,7 +63,7 @@ function Droppable({ children }: DroppableProps) {
     <div
       ref={setNodeRef}
       className={cx(
-        "w-full rounded-xl mix-blend-lighten backdrop-blur bg-shark-900 shadow-border-shiny-2 transition-colors h-64",
+        "w-full rounded-lg bg-shark-900 shadow-border-shiny transition-colors h-64",
         isOver && "bg-shark-700"
       )}
     >
@@ -132,9 +132,9 @@ export default function DraggableAndDroppable() {
   }
 
   return (
-    <div className="relative w-full p-10 rounded-lg dotted-bg shadow-border-shiny-2 drop-shadow-sm">
+    <div className="relative flex flex-col justify-end w-full h-64 p-10 rounded-xl grid-bg shadow-border-shiny">
       <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
-        <Droppable>
+        <>
           <AnimatePresence>
             {draggables.map((d) => (
               <motion.div
@@ -158,7 +158,7 @@ export default function DraggableAndDroppable() {
               </motion.div>
             ))}
           </AnimatePresence>
-        </Droppable>
+        </>
       </DndContext>
 
       <div className="flex justify-center gap-4 pt-6">

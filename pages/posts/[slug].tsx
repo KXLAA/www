@@ -5,6 +5,7 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { Layout } from "@/components/common/Layout";
 import { PostLayout } from "@/components/posts/PostLayout";
+import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/lib/seo";
 
 import type { Post as PostType } from ".contentlayer/generated";
@@ -26,12 +27,22 @@ type PostProps = {
   post: PostType;
 };
 
+function getBaseUrl() {
+  return process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_VERCEL_URL;
+}
+
 export default function Post(props: PostProps) {
   const { post } = props;
   const Component = useMDXComponent(post.body.code);
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
   const title = `${post.title} | Kolade Afode`;
+  const ogImageUrl = `${getBaseUrl()}/api/og?title=${encodeURIComponent(
+    title
+  )}&date=${encodeURIComponent(formatDate(post.publishedAt, "MMMM dd yyyy"))}`;
+
+  console.log(ogImageUrl);
+
   const meta: MetaProps = {
     title: `${title} | Kolade Afode`,
     description: post.description,
@@ -46,7 +57,14 @@ export default function Post(props: PostProps) {
         authors: ["https://kxlaa.com"],
         tags: post?.tags?.map((c: string) => c),
       },
-      images: [],
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 600,
+          alt: title,
+        },
+      ],
     },
   };
   return (

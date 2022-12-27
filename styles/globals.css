@@ -78,11 +78,11 @@ code {
 }
 
 .dotted-bg {
-  background-image: radial-gradient(rgb(31, 30, 29) 10%, transparent 10%),
-    radial-gradient(rgb(31, 30, 29) 10%, transparent 10%);
-  background-position: 0px 0px, 8px 8px;
-  background-size: 20px 20px;
-  background-color: rgb(16, 16, 16);
+  background-image: radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%),
+    radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%);
+  background-position: 0px 0px, 12px 12px;
+  background-size: 24px 24px;
+  background-color: rgb(18, 18, 18);
 }
 
 .grid-bg {
