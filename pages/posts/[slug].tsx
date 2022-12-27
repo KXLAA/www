@@ -24,6 +24,14 @@ const MDXComponents = {
   Image,
   Link,
   DraggableAndDroppable,
+  pre: (props: any) => (
+    <pre className="bg-shark-700 shadow-border-shiny" {...props} />
+  ),
+  code: (props: any) => (
+    <code className="px-1 py-0.5 rounded-md bg-shark-700 font-normal shadow-border-shiny text-inherit">
+      {props.children}
+    </code>
+  ),
 };
 
 type PostProps = {

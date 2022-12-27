@@ -48,10 +48,6 @@
   @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
 } */
 
-.prose code {
-  @apply px-1 py-0.5 rounded-md bg-shark-700 font-normal shadow-border-shiny text-inherit;
-}
-
 .prose code::before,
 .prose code::after {
   content: none;
