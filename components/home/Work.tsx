@@ -1,76 +1,54 @@
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import Image from "next/image";
+// import { ArrowTopRightIcon } from "@radix-ui/react-icons";
+// import Image from "next/image";
 
-import { Section } from "@/components/common/Section";
+// import { Section } from "@/components/common/Section";
 
 export function Work() {
-  const projectLength = data.length;
+  // const projectLength = data.length;
   return (
-    <Section
-      heading="WORK"
-      description="I build some cool web stuff"
-      addon={
-        <div className="flex items-center justify-center w-8 h-8 rounded-full aspect-square bg-shark-800 shadow-border-shiny text-silver">
-          {projectLength}
+    <div className="max-w-[540px] flex flex-col gap-4 w-full mt-10">
+      <div className="flex justify-between">
+        <div>
+          <h2 className="text-lg font-medium">WORK</h2>
+          <p className="font-extralight">I build some cool web stuff</p>
         </div>
-      }
-    >
-      <div className="grid grid-cols-1 gap-6">
-        {data.map((project) => (
-          <Project key={project.title} {...project} />
-        ))}
       </div>
-    </Section>
-  );
-}
 
-type CardProps = {
-  title: string;
-  description: string;
-  children?: React.ReactNode;
-  poster?: string;
-  url?: string;
-  videoWebm?: string;
-  videoMp4?: string;
-};
-
-function Project(props: CardProps) {
-  const { title, description, poster, url } = props;
-  return (
-    <div className="fade-out flex h-[350px] w-full flex-col items-center justify-between gap-4 rounded-4xl shadow-border-shiny p-6 transition-colors duration-200 ease-in-out hover:bg-[#141414]">
-      <a
-        className="flex justify-between w-full gap-4"
-        href={url}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <div className="flex flex-col gap-1">
-          <p className="text-3xl">{title}</p>
-          <p className="font-light text-silver-700">{description}</p>
-        </div>
-
-        <div className="self-start p-2 transition-colors duration-200 rounded-full shadow-border-shiny text-silver-700">
-          <ArrowTopRightIcon className="w-7 h-7" />
-        </div>
-      </a>
-
-      <div className="flex items-center justify-between w-full gap-4 p-6 overflow-hidden transition-colors shadow-md h-60 rounded-4xl bg-shark-900">
-        <Image
-          src={poster || ""}
-          alt={title}
-          width={1400}
-          height={400}
-          style={{
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-        />
+      <div className="grid grid-cols-2 gap-2 gird">
+        {data.map((d) => (
+          <a
+            className="flex flex-col items-center justify-center w-full gap-2 p-4 rounded-lg bg-[#1E1E1E] hover:shadow-border-shiny transition-all h-44"
+            key={d.url}
+            href={d.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="flex justify-center w-full gap-4 font-black">
+              <div className="flex flex-col gap-1">
+                <p className="text-xl">{d.title}</p>
+              </div>
+            </div>
+            {/* 
+          <div className="flex items-center justify-between w-full gap-4 p-0 overflow-hidden transition-colors shadow-md h-60 bg-shark-900">
+            <Image
+              src={d.poster || ""}
+              alt={d.title}
+              width={1400}
+              height={400}
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+            />
+          </div> */}
+          </a>
+        ))}
       </div>
     </div>
   );
 }
 
-export const data = [
+const data = [
   {
     title: `Nartefacts`,
     url: `https://www.nartefacts.com/`,
@@ -90,13 +68,13 @@ export const data = [
     videoWebm: `https://ucarecdn.com/a6098d11-0da7-4680-9315-c65a0a2fe495/devportfolios.webm`,
     tech: [`GraphCMS`, `GraphQL`, `Typescript`, `Next.js`, `Styled-Components`],
   },
-  {
-    title: ` Front-End Cardio`,
-    url: `https://frontendcardio.vercel.app/`,
-    description: `A collection of some of the best  challenge & tutorial projects i completed.`,
-    poster: `https://ucarecdn.com/a85db1c9-4652-485e-b507-41997a7106e9/frontendcardio.webp`,
-    videoMp4: `https://ucarecdn.com/5ca69719-8a2b-40ae-9f62-3feacea8f4a5/frontendcardio.mp4`,
-    videoWebm: `https://ucarecdn.com/c3475aa3-7ba4-4e60-9768-73cda55e9d6d/frontendcardio.webm`,
-    tech: [`GraphCMS`, `GraphQL`, `Typescript`, `Next.js`, `Styled-Components`],
-  },
+  // {
+  //   title: ` Front-End Cardio`,
+  //   url: `https://frontendcardio.vercel.app/`,
+  //   description: `A collection of some of the best  challenge & tutorial projects i completed.`,
+  //   poster: `https://ucarecdn.com/a85db1c9-4652-485e-b507-41997a7106e9/frontendcardio.webp`,
+  //   videoMp4: `https://ucarecdn.com/5ca69719-8a2b-40ae-9f62-3feacea8f4a5/frontendcardio.mp4`,
+  //   videoWebm: `https://ucarecdn.com/c3475aa3-7ba4-4e60-9768-73cda55e9d6d/frontendcardio.webm`,
+  //   tech: [`GraphCMS`, `GraphQL`, `Typescript`, `Next.js`, `Styled-Components`],
+  // },
 ];

@@ -18,8 +18,6 @@
     "clsx": "^1.2.1",
     "contentlayer": "^0.2.9",
     "copy-to-clipboard": "^3.3.3",
-    "d3-scale": "^4.0.2",
-    "d3-shape": "^3.1.0",
     "date-fns": "^2.29.2",
     "framer-motion": "^7.10.2",
     "mdx-prism": "^0.3.4",
@@ -36,8 +34,6 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.8",
-    "@types/d3-scale": "^4.0.2",
-    "@types/d3-shape": "^3.1.0",
     "@types/node": "18.11.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",

@@ -1,66 +1,56 @@
+import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
-import { Section } from "@/components/common/Section";
+// import { Section } from "@/components/common/Section";
 import { Tag } from "@/components/common/Tag";
-import { formatDate } from "@/lib/date";
 
+// import { formatDate } from "@/lib/date";
 import type { Post as PostType } from ".contentlayer/generated";
 
 type PostsProps = {
-  posts?: PostType[];
+  posts: PostType[];
 };
 
 export function Posts(props: PostsProps) {
   const { posts } = props;
-  const articleCount = posts?.length;
+  // const articleCount = posts?.length;
   return (
-    <Section
-      heading="WRITING"
-      description="I write about things I learn and things I do."
-      addon={
-        <div className="flex items-center justify-center w-8 h-8 rounded-full aspect-square bg-shark-800 shadow-border-shiny text-silver">
-          {articleCount}
+    <div className="max-w-[540px] flex flex-col gap-4 w-full mt-10">
+      <div className="flex justify-between">
+        <div>
+          <h2 className="text-lg font-medium">Writing</h2>
+          <p className="font-extralight">
+            I write about things I learn and things I do.
+          </p>
         </div>
-      }
-    >
-      <div className="relative flex flex-col w-full gap-6 fade-out">
-        {posts?.map((post) => (
-          <Post key={post.slug} {...post} />
+
+        <div className="self-start p-1 transition-colors duration-200 rounded-full shadow-border-shiny text-silver-700">
+          <ArrowTopRightIcon className="w-5 h-5" />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {posts.map((post) => (
+          <Link
+            className="flex flex-col gap-4 p-4 rounded-lg bg-[#1E1E1E] hover:shadow-border-shiny transition-all"
+            key={post.slug}
+            href={`/posts/${post.slug}`}
+          >
+            <div>
+              <h3 className="text-xl font-medium">{post.title}</h3>
+              <p className="text-base font-extralight text-silver-600">
+                {post.description}
+              </p>
+            </div>
+
+            <div className="flex gap-2">
+              {post.tags?.map((tag) => (
+                <Tag key={tag}>{tag}</Tag>
+              ))}
+            </div>
+          </Link>
         ))}
       </div>
-      <Link
-        className="flex items-center self-center text-sm font-light text-center transition-all duration-200 ease-in-out border-b border-shark-50 text-silver-800 hover:border-silver-400 hover:text-silver-400"
-        href="/posts"
-      >
-        See all
-      </Link>
-    </Section>
-  );
-}
-
-function Post(props: PostType) {
-  const { title, description, slug, tags } = props;
-  const date = formatDate(props.publishedAt, "MMMM dd, yyyy");
-
-  return (
-    <Link
-      className="flex  w-full flex-col justify-between gap-3 rounded-2xl shadow-border-shiny p-5 transition-colors duration-200 ease-in-out hover:bg-[#141414]"
-      href={`/posts/${slug}`}
-    >
-      <div className="">
-        <h3 className="mb-1 text-xl font-light">{title}</h3>
-        <p className="m-0 text-sm font-extralight text-silver">{description}</p>
-      </div>
-      <div className="flex justify-between">
-        <span className="m-0 text-[10px] font-light rounded-md text-silver-700 underline-offset-1 w-fit">
-          {date}
-        </span>
-        <div className="flex gap-1">
-          {tags?.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
-        </div>
-      </div>
-    </Link>
+    </div>
   );
 }

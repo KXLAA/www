@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 
 import { BreadCrumb } from "@/components/common/BreadCrumb";
+import { Tag } from "@/components/common/Tag";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
 import { useHideOnScroll } from "@/lib/hooks/use-hide-on-scroll";
@@ -14,7 +15,9 @@ export type PostHeaderProps = PostType & {
 export function PostHeader(props: PostHeaderProps) {
   const isHidden = useHideOnScroll();
   const { title, readingTime, className } = props;
-  const date = formatDate(props.publishedAt, "MMMM dd, yyyy");
+  const date = props?.publishedAt
+    ? formatDate(props?.publishedAt, "MMMM dd, yyyy")
+    : null;
   return (
     <div className={cx("flex flex-col items-center gap-4 w-full", className)}>
       <AnimatePresence>
@@ -70,9 +73,11 @@ export function PostHeader(props: PostHeaderProps) {
           <h1 className="m-0 text-4xl font-medium">{title}</h1>
 
           <div className="z-10 flex gap-2">
-            <div className="flex items-center justify-center gap-1 p-1 px-4 text-xs rounded-md bg-shark-500 text-silver-50 underline-offset-1 w-fit shadow-border-shiny">
-              Last Updated July 26, 2022
-            </div>
+            {props.publishedAt !== props.lastUpdatedAt && (
+              <Tag>
+                Updated {formatDate(props.lastUpdatedAt, "MMMM dd, yyyy")}
+              </Tag>
+            )}
           </div>
         </div>
       )}
