@@ -15,7 +15,7 @@ export function Posts(props: PostsProps) {
   const { posts } = props;
   // const articleCount = posts?.length;
   return (
-    <div className="max-w-[540px] flex flex-col gap-4 w-full mt-10">
+    <div className="max-w-[540px] flex flex-col gap-4 w-full bg-shark-700 p-6 rounded-xl shadow-border-shiny">
       <div className="flex justify-between">
         <div>
           <h2 className="text-lg font-medium">Writing</h2>
@@ -32,7 +32,7 @@ export function Posts(props: PostsProps) {
       <div className="flex flex-col gap-2">
         {posts.map((post) => (
           <Link
-            className="flex flex-col gap-4 p-4 rounded-lg bg-[#1E1E1E] hover:shadow-border-shiny transition-all"
+            className="flex flex-col gap-4 p-4 transition-all rounded-xl bg-shark-600 hover:shadow-border-shiny"
             key={post.slug}
             href={`/posts/${post.slug}`}
           >

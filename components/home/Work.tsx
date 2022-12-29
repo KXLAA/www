@@ -6,7 +6,10 @@
 export function Work() {
   // const projectLength = data.length;
   return (
-    <div className="max-w-[540px] flex flex-col gap-4 w-full mt-10">
+    <div
+      className="max-w-[540px] flex flex-col gap-4 w-full bg-shark-700 p-6 rounded-xl shadow-border-shiny"
+      id="work"
+    >
       <div className="flex justify-between">
         <div>
           <h2 className="text-lg font-medium">WORK</h2>
@@ -17,7 +20,7 @@ export function Work() {
       <div className="grid grid-cols-2 gap-2 gird">
         {data.map((d) => (
           <a
-            className="flex flex-col items-center justify-center w-full gap-2 p-4 rounded-lg bg-[#1E1E1E] hover:shadow-border-shiny transition-all h-44"
+            className="flex flex-col items-center justify-center w-full gap-2 p-4 transition-all rounded-xl bg-shark-500 hover:shadow-border-shiny h-44"
             key={d.url}
             href={d.url}
             target="_blank"

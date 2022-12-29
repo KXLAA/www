@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import { Footer } from "@/components/common/Footer";
-
 export function About() {
   return (
-    <div className="max-w-[540px] flex flex-col gap-4 mt-24">
+    <div
+      className="max-w-[540px] flex flex-col gap-4 bg-shark-700 p-6 rounded-xl shadow-border-shiny"
+      id="about"
+    >
       <h1 className="text-4xl font-medium">
         Hello, I'm <span className="text-blue-500">Kolade</span>
       </h1>
@@ -23,8 +24,6 @@ export function About() {
         </a>
         .
       </p>
-
-      <Footer />
     </div>
   );
 }

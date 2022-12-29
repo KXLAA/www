@@ -19,8 +19,8 @@ export function Layout(props: LayoutProps) {
       {customMeta && <NextSeo {...customMeta} />}
       <main
         className={cx(
-          "flex min-h-screen w-full flex-col items-center gap-4 p-4  md:p-10 text-silver-50",
-          light ? "bg-[#1A1A1A] md:pt-0" : "bg-[#1A1A1A]"
+          "flex min-h-screen w-full flex-col items-center gap-4 p-4  md:p-10 text-silver-50 bg-shark-800",
+          light && "md:pt-0"
         )}
       >
         <div
