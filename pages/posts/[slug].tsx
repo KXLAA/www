@@ -34,7 +34,7 @@ export default function Post(props: PostProps) {
   const url = `https://kxlaa.com${path}`;
   const title = `${post.title} | Kolade Afode`;
   const ogImageUrl = `/api/og?title=${encodeURIComponent(
-    title
+    post.title
   )}&date=${encodeURIComponent(formatDate(post.publishedAt, "MMMM dd yyyy"))}`;
 
   console.log(ogImageUrl);

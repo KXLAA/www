@@ -20,12 +20,12 @@ export function Layout(props: LayoutProps) {
       <main
         className={cx(
           "flex min-h-screen w-full flex-col items-center gap-4 p-4  md:p-10 text-silver-50",
-          light ? "bg-[#0c0c0c] md:pt-0" : "main-gradient"
+          light ? "bg-[#1A1A1A] md:pt-0" : "bg-[#1A1A1A]"
         )}
       >
         <div
           className={cx(
-            "flex w-full flex-col gap-4",
+            "flex w-full flex-col gap-4 justify-center items-center",
             small ? "max-w-5xl" : "max-w-6xl",
             className
           )}
