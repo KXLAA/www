@@ -24,7 +24,7 @@ export default function Home(props: HomeProps) {
 
   return (
     <Layout>
-      <div className="flex gap-4 mt-24">
+      <div className="flex gap-4 pb-8 mt-24">
         <div className="max-w-[540px] flex flex-col gap-4">
           <h1 className="text-4xl font-medium">
             Hello, I'm <span className="text-blue-500">Kolade</span>

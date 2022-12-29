@@ -16,7 +16,7 @@
 }
 
 .prose {
-  @apply text-silver-600;
+  @apply !text-[#E8E8E8] font-light;
 }
 
 .prose h2 {
@@ -42,7 +42,7 @@
 }
 
 code {
-  @apply px-1 py-0.5 rounded-md bg-shark-800 font-normal shadow-border-shiny !text-silver-600;
+  @apply px-1 py-0.5 rounded-md bg-[#2C2C2C] !font-normal  !text-[#EBEBEB];
 }
 
 .prose img {

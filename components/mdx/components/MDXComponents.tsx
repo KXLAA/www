@@ -71,7 +71,7 @@ function Pre(props: any) {
             setCode(code);
           }
         }}
-        className="py-4 m-0 rounded-lg bg-shark-700"
+        className="py-4 m-0 rounded-lg bg-[#2C2C2C]"
         {...props}
       />
 
