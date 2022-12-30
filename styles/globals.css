@@ -109,3 +109,28 @@ code {
 .main-gradient {
   background: linear-gradient(rgb(17, 17, 17) 0%, rgb(12, 12, 12) 100%);
 }
+
+.live-area {
+  min-block-size: 200px;
+  /* max-block-size: var(--max-height); */
+  padding: 1rem 2.5rem;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  block-size: 100%;
+  position: relative;
+  /* z-index: 1; */
+  border: 1px dashed #1f1f22;
+}
+
+.live-area::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at center, #202328 60%, #101114);
+  mask-image: radial-gradient(black 0.9px, transparent 0.9px);
+  mask-size: 18px 18px;
+}

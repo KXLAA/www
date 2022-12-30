@@ -31,7 +31,8 @@ type DraggableProps = {
   name?: string;
 };
 
-function Draggable({ id, styles, name }: DraggableProps) {
+function Draggable(props: DraggableProps) {
+  const { id, styles, name } = props;
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id,
@@ -71,7 +72,6 @@ const draggable = [
 ];
 
 export default function DraggableAndDroppable() {
-  // const timerRef = React.useRef<any>(null);
   const [status, setStatus] = React.useState<React.ReactNode | undefined>(
     undefined
   );
@@ -83,19 +83,19 @@ export default function DraggableAndDroppable() {
   );
 
   const [draggables, setDraggables] = React.useState([...draggable]);
-  const addStatus = (message: React.ReactNode, time?: number) => {
-    const timer = time || 10000;
-    console.log("timer", timer);
-    setStatus(message);
-  };
 
-  // React.useEffect(() => {
-  //   return () => clearTimeout(timerRef.current);
-  // }, []);
+  React.useEffect(() => {
+    if (status) {
+      const timer = setTimeout(() => {
+        setStatus(undefined);
+      }, 7000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   return (
     <div className="relative flex flex-col justify-end w-full p-4 rounded-xl bg-shark-800">
-      <div className="relative flex flex-col justify-end w-full h-60 p-10 rounded-xl grid-bg border border-[#1F1F22] bg-shark-700">
+      <div className="relative flex flex-col justify-end w-full h-60 p-10 rounded-xl live-area bg-shark-900  border border-[#1F1F22]">
         <DndContext
           onDragEnd={handleDragEnd}
           onDragStart={handelDragStart}
@@ -178,7 +178,7 @@ export default function DraggableAndDroppable() {
     };
 
     setDraggables([...draggables, newDraggable]);
-    addStatus(
+    setStatus(
       <span className="text-silver-700">
         <span className="font-bold text-green-500">ADD</span> new draggable:{" "}
         <span className="font-bold text-silver-600">{newDraggable.name}</span>
@@ -193,7 +193,7 @@ export default function DraggableAndDroppable() {
 
   function handelDragStart(ev: DragStartEvent) {
     const draggable = draggables.find((x) => x.id === ev.active.id)!;
-    addStatus(
+    setStatus(
       <span className="text-silver-700">
         <span className="font-bold text-yellow-500">DRAGGING</span> draggable:{" "}
         <span className="font-bold text-silver-600">{draggable.name}</span>
@@ -206,7 +206,7 @@ export default function DraggableAndDroppable() {
     draggable.position.x += ev.delta.x;
     draggable.position.y += ev.delta.y;
 
-    addStatus(
+    setStatus(
       <span className="text-silver-700">
         <span className="font-bold text-orange-500">DRAGGED</span> draggable:{" "}
         <span className="font-bold text-silver-600">{draggable.name}</span> to{" "}

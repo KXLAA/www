@@ -38,16 +38,6 @@ type Item = {
   name: string;
 };
 
-function generateItems(count: number): Item[] {
-  return Array.from({ length: count }, () => {
-    return {
-      id: uuid(),
-      parent: "root",
-      name: uniqueNamesGenerator(uniqueNamesConfig).slice(0, 2),
-    };
-  });
-}
-
 const draggables = generateItems(5);
 
 export default function DndContextEvents() {
@@ -69,9 +59,19 @@ export default function DndContextEvents() {
     useSensor(MouseSensor)
   );
 
+  React.useEffect(() => {
+    if (event) {
+      const timer = setTimeout(() => {
+        setEvent(undefined);
+      }, 7000);
+      return () => clearTimeout(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event?.message, event?.color]);
+
   return (
     <div className="relative flex flex-col justify-end w-full p-4 rounded-xl bg-shark-800">
-      <div className="relative flex flex-col justify-center items-center gap-20 w-full p-4 rounded-xl  border border-[#1F1F22] bg-shark-700 grid-bg">
+      <div className="relative flex flex-col justify-center items-center gap-20 w-full p-4 rounded-xl  border border-[#1F1F22] live-area bg-shark-900">
         <DndContext
           onDragEnd={handleDragEnd}
           onDragStart={handelDragStart}
@@ -204,7 +204,8 @@ type DroppableProps = {
   className?: string;
 };
 
-function Droppable({ children, id, className }: DroppableProps) {
+function Droppable(props: DroppableProps) {
+  const { children, id, className } = props;
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
@@ -213,7 +214,7 @@ function Droppable({ children, id, className }: DroppableProps) {
     <div
       ref={setNodeRef}
       className={cx(
-        "h-16 flex gap-4 rounded-xl bg-shark-800 shadow-border-shiny p-2 w-80",
+        "h-16 flex gap-4 rounded-xl bg-shark-800 shadow-border-shiny p-2 w-80 z-10",
         isOver && "bg-shark-700",
         className
       )}
@@ -229,7 +230,8 @@ type DraggableProps = {
   name?: string;
 };
 
-function Draggable({ id, styles, name }: DraggableProps) {
+function Draggable(props: DraggableProps) {
+  const { id, styles, name } = props;
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id,
@@ -255,4 +257,14 @@ function Draggable({ id, styles, name }: DraggableProps) {
       <span className="text-base !font-black"> {name}</span>
     </div>
   );
+}
+
+function generateItems(count: number): Item[] {
+  return Array.from({ length: count }, () => {
+    return {
+      id: uuid(),
+      parent: "root",
+      name: uniqueNamesGenerator(uniqueNamesConfig).slice(0, 2),
+    };
+  });
 }
