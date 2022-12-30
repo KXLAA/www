@@ -25,8 +25,8 @@ You can see these components in action by playing around in the demo below:
 
 DndKit embraces this concept, providing two essential hooks for applications: useDraggable and useDroppable. The former makes a component draggable, while the latter makes it droppable. These hooks are exported from the `@dnd-kit/core` package; install it by running the following command:
 
-```bash
-npm install @dnd-kit/core
+```shell
+yarn add @dnd-kit/core
 ```
 
 To manage interactions between draggable and droppable components, `@dnd-kit/core` also exports a `<DndContext>` component. This component uses the React Context API to share data between draggable and droppable components, so we need to wrap them with it:

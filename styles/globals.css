@@ -37,8 +37,12 @@
 }
 
 .prose .anchor:after {
-  @apply text-silver-700;
+  @apply text-silver;
   content: "#";
+}
+
+.prose *:hover > .anchor {
+  @apply visible;
 }
 
 code {
