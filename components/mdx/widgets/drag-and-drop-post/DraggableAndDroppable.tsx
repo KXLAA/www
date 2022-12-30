@@ -8,6 +8,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 import { MoveIcon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
@@ -39,7 +40,7 @@ function Draggable({ id, styles, name }: DraggableProps) {
 
   const style = transform
     ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        transform: CSS.Translate.toString(transform),
       }
     : {};
 
@@ -55,7 +56,7 @@ function Draggable({ id, styles, name }: DraggableProps) {
       {...attributes}
     >
       <MoveIcon className="w-5 h-5" strokeWidth={2} />
-      <span className="text-xs"> {name}</span>
+      <span className="text-base"> {name}</span>
     </div>
   );
 }
@@ -72,7 +73,7 @@ const draggable = [
 ];
 
 export default function DraggableAndDroppable() {
-  const timerRef = React.useRef<any>(null);
+  // const timerRef = React.useRef<any>(null);
   const [status, setStatus] = React.useState<React.ReactNode | undefined>(
     undefined
   );
@@ -86,15 +87,13 @@ export default function DraggableAndDroppable() {
   const [draggables, setDraggables] = React.useState([...draggable]);
   const addStatus = (message: React.ReactNode, time?: number) => {
     const timer = time || 10000;
+    console.log("timer", timer);
     setStatus(message);
-    timerRef.current = setTimeout(() => {
-      setStatus(undefined);
-    }, timer);
   };
 
-  React.useEffect(() => {
-    return () => clearTimeout(timerRef.current);
-  }, []);
+  // React.useEffect(() => {
+  //   return () => clearTimeout(timerRef.current);
+  // }, []);
 
   return (
     <div className="relative flex flex-col justify-end w-full p-4 rounded-xl bg-shark-800">
@@ -150,13 +149,14 @@ export default function DraggableAndDroppable() {
         <motion.button
           whileTap={{ scale: 0.95 }}
           disabled={draggables.length <= 1}
+          onClick={resetDraggables}
           className={cx(
             "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800",
             draggables.length <= 1 &&
               "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
           )}
         >
-          <Refresh onClick={resetDraggables} />
+          <Refresh />
         </motion.button>
 
         <motion.button

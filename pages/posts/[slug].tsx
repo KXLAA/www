@@ -18,8 +18,14 @@ const DraggableAndDroppable = dynamic(
     )
 );
 
+const DndContextEvents = dynamic(
+  () =>
+    import("../../components/mdx/widgets/drag-and-drop-post/DndContextEvents")
+);
+
 const MDXComponents = {
   DraggableAndDroppable,
+  DndContextEvents,
   ...components,
 };
 
