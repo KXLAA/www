@@ -38,7 +38,7 @@ type Item = {
   name: string;
 };
 
-function generateItems(count: number) {
+function generateItems(count: number): Item[] {
   return Array.from({ length: count }, () => {
     return {
       id: uuid(),
@@ -69,62 +69,9 @@ export default function DndContextEvents() {
     useSensor(MouseSensor)
   );
 
-  function handelDragStart(ev: DragStartEvent) {
-    const { active } = ev;
-
-    if (active) {
-      setEvent({
-        message: "Drag start",
-        color: "bg-blue-500",
-      });
-      setActiveItem(items.find((i) => i.id === active.id));
-    }
-  }
-
-  function handleDragOver(ev: DragOverEvent) {
-    const { over } = ev;
-
-    if (over && over.id !== activeItem?.parent) {
-      setEvent({
-        message: "Drag over",
-        color: "bg-yellow-500",
-      });
-    }
-  }
-
-  function handleDragCancel() {
-    setEvent({
-      message: "Drag cancel",
-      color: "bg-red-500",
-    });
-    setActiveItem(undefined);
-  }
-
-  function handleDragEnd(ev: DragEndEvent) {
-    const { over } = ev;
-    const activeId = ev.active.id;
-
-    if (over) {
-      setItems((prev) => {
-        return prev.map((i) =>
-          i.id === activeId ? { ...i, parent: over.id } : i
-        );
-      });
-    }
-
-    setEvent({
-      message: "Drag end",
-      color: "bg-green-500",
-    });
-    setActiveItem(undefined);
-  }
-
-  function resetDraggables() {
-    setItems(draggables);
-  }
   return (
     <div className="relative flex flex-col justify-end w-full p-4 rounded-xl bg-shark-800">
-      <div className="relative flex flex-col justify-center items-center gap-20 w-full p-4 rounded-xl  border border-[#1F1F22] bg-shark-700">
+      <div className="relative flex flex-col justify-center items-center gap-20 w-full p-4 rounded-xl  border border-[#1F1F22] bg-shark-700 grid-bg">
         <DndContext
           onDragEnd={handleDragEnd}
           onDragStart={handelDragStart}
@@ -163,7 +110,6 @@ export default function DndContextEvents() {
       <AnimatePresence>
         {event && (
           <motion.div
-            //fade in and slide up
             key="status"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -171,7 +117,10 @@ export default function DndContextEvents() {
             transition={{ type: "spring" }}
             className="absolute bottom-8 left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t-2 border-[#1F1F22]"
           >
-            {event.message}
+            <p className="text-base font-semibold">
+              <span className={cx(event.color)}>{event.message}</span>{" "}
+              {activeItem && ` : ${activeItem?.name}`}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -179,11 +128,11 @@ export default function DndContextEvents() {
       <div className="flex justify-center gap-4 pt-6">
         <motion.button
           whileTap={{ scale: 0.95 }}
-          disabled={draggables.length <= 1}
+          disabled={!event}
           onClick={resetDraggables}
           className={cx(
             "z-10 flex items-center justify-center w-8 h-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800",
-            draggables.length <= 1 &&
+            !event &&
               "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
           )}
         >
@@ -192,6 +141,61 @@ export default function DndContextEvents() {
       </div>
     </div>
   );
+
+  function handelDragStart(ev: DragStartEvent) {
+    const { active } = ev;
+
+    if (active) {
+      setEvent({
+        message: "Drag start",
+        color: "text-green-500",
+      });
+      setActiveItem(items.find((i) => i.id === active.id));
+    }
+  }
+
+  function handleDragOver(ev: DragOverEvent) {
+    const { over } = ev;
+
+    if (over && over.id !== activeItem?.parent) {
+      setEvent({
+        message: "Drag over",
+        color: "text-yellow-500",
+      });
+    }
+  }
+
+  function handleDragCancel() {
+    setEvent({
+      message: "Drag cancel",
+      color: "text-red-500",
+    });
+    setActiveItem(undefined);
+  }
+
+  function handleDragEnd(ev: DragEndEvent) {
+    const { over } = ev;
+    const activeId = ev.active.id;
+
+    if (over) {
+      setItems((prev) => {
+        return prev.map((i) =>
+          i.id === activeId ? { ...i, parent: over.id } : i
+        );
+      });
+    }
+
+    setEvent({
+      message: "Drag end",
+      color: "text-orange-500",
+    });
+    setActiveItem(undefined);
+  }
+
+  function resetDraggables() {
+    setItems(draggables);
+    setEvent(undefined);
+  }
 }
 
 type DroppableProps = {
@@ -243,7 +247,7 @@ function Draggable({ id, styles, name }: DraggableProps) {
       style={{ ...style, ...styles }}
       className={cx(
         "flex items-center bg-shark-800 justify-center gap-1 w-12 h-12 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg aspect-square",
-        isDragging && "bg-shark-700 text-silver-900"
+        isDragging && "opacity-20"
       )}
       {...listeners}
       {...attributes}

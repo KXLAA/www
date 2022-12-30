@@ -1,10 +1,7 @@
 import Link from "next/link";
 
-// import { Section } from "@/components/common/Section";
 import { Tag } from "@/components/common/Tag";
-
-// import { formatDate } from "@/lib/date";
-import type { Post as PostType } from ".contentlayer/generated";
+import type { Post as PostType } from "@/contentlayer/generated";
 
 type PostsProps = {
   posts: PostType[];
@@ -12,7 +9,6 @@ type PostsProps = {
 
 export function Posts(props: PostsProps) {
   const { posts } = props;
-  // const articleCount = posts?.length;
   return (
     <div className="max-w-[540px] flex flex-col gap-4 w-full bg-shark-700 p-6 rounded-xl shadow-border-shiny">
       <div className="flex justify-between">

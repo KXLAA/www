@@ -31,8 +31,7 @@ yarn add @dnd-kit/core
 
 To manage interactions between draggable and droppable components, `@dnd-kit/core` also exports a `<DndContext>` component. This component uses the React Context API to share data between draggable and droppable components, so we need to wrap them with it:
 
-```tsx {2}
-import React from "react";
+```tsx {1, 7, 10}
 import { DndContext } from "@dnd-kit/core";
 import { Draggable } from "./Draggable";
 import { Droppable } from "./Droppable";

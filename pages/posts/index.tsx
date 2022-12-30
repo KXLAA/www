@@ -5,10 +5,9 @@ import React from "react";
 
 import { BreadCrumb } from "@/components/common/BreadCrumb";
 import { Layout } from "@/components/common/Layout";
+import type { Post as PostType } from "@/contentlayer/generated";
+import { allPosts } from "@/contentlayer/generated";
 import type { MetaProps } from "@/types/layout";
-
-import type { Post as PostType } from ".contentlayer/generated";
-import { allPosts } from ".contentlayer/generated";
 
 type PostsPageProps = {
   posts: PostType[];
@@ -53,7 +52,7 @@ export default function PostsPage(props: PostsPageProps) {
                 <div className="flex flex-col gap-2 overflow-hidden">
                   {posts.map((post) => (
                     <Link
-                      className="flex gap-2 py-2 transition-colors border-b border-shark-400 hover:text-silver-700"
+                      className="flex gap-2 py-2 transition-colors border-b border-shark-400 hover:text-silver-700 last:border-none"
                       key={post.slug}
                       href={`/posts/${post.slug}`}
                     >

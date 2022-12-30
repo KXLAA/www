@@ -5,11 +5,11 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { Layout } from "@/components/common/Layout";
 import { PostLayout } from "@/components/posts/PostLayout";
+import { allPosts } from "@/contentlayer/generated";
 import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/lib/seo";
 
 import type { Post as PostType } from ".contentlayer/generated";
-import { allPosts } from ".contentlayer/generated";
 
 const DraggableAndDroppable = dynamic(
   () =>
@@ -42,8 +42,6 @@ export default function Post(props: PostProps) {
   const ogImageUrl = `/api/og?title=${encodeURIComponent(
     post.title
   )}&date=${encodeURIComponent(formatDate(post.publishedAt, "MMMM dd yyyy"))}`;
-
-  console.log(ogImageUrl);
 
   const meta: MetaProps = {
     title: `${title} | Kolade Afode`,
