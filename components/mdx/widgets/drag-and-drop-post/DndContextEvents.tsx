@@ -242,13 +242,13 @@ function Draggable({ id, styles, name }: DraggableProps) {
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       className={cx(
-        "flex items-center bg-shark-800 justify-center gap-1 w-12 h-12 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg aspect-square font-black",
+        "flex items-center bg-shark-800 justify-center gap-1 w-12 h-12 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg aspect-square",
         isDragging && "bg-shark-700 text-silver-900"
       )}
       {...listeners}
       {...attributes}
     >
-      <span className="text-base"> {name}</span>
+      <span className="text-base !font-black"> {name}</span>
     </div>
   );
 }

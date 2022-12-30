@@ -9,7 +9,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { MoveIcon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import type { Config } from "unique-names-generator";
@@ -23,7 +22,7 @@ const uniqueNamesConfig: Config = {
   dictionaries: [colors, animals],
   separator: " ",
   length: 1,
-  style: "capital",
+  style: "upperCase",
 };
 
 type DraggableProps = {
@@ -49,14 +48,13 @@ function Draggable({ id, styles, name }: DraggableProps) {
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       className={cx(
-        "flex items-center bg-shark-800 justify-center gap-1 w-fit p-3 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
-        isDragging && "bg-shark-700 text-silver-900"
+        "flex items-center bg-shark-800 justify-center gap-1 w-12 h-12 aspect-square p-3 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
+        isDragging && "bg-shark-700 text-silver-900 font-black"
       )}
       {...listeners}
       {...attributes}
     >
-      <MoveIcon className="w-5 h-5" strokeWidth={2} />
-      <span className="text-base"> {name}</span>
+      <span className="text-base font-black"> {name}</span>
     </div>
   );
 }
@@ -64,7 +62,7 @@ function Draggable({ id, styles, name }: DraggableProps) {
 const draggable = [
   {
     id: uuid(),
-    name: "Olive",
+    name: "OL",
     position: {
       x: 24,
       y: 24,
@@ -173,7 +171,7 @@ export default function DraggableAndDroppable() {
   function addDraggable() {
     const newDraggable = {
       id: uuid(),
-      name: uniqueNamesGenerator(uniqueNamesConfig),
+      name: uniqueNamesGenerator(uniqueNamesConfig).slice(0, 2),
       position: {
         ...generateRandomAxis(),
       },
