@@ -22,7 +22,7 @@ DnD Kit is a lightweight, highly configurable and accessible library that makes 
 
 This is an example blog post with React components. This page is using the `Image` component from Next.js.
 
-```jsx:example-post.mdx
+```tsx
 <Image
   alt={`Bridge`}
   src={`/images/bridge.jpg`}
@@ -36,8 +36,8 @@ This is an example blog post with React components. This page is using the `Imag
 
 This starter also comes with fancy code blocks with code titles.
 
-```jsx:example.jsx
-import React, { useState } from 'react';
+```tsx
+import React, { useState } from "react";
 
 function Example() {
   // Declare a new state variable, which we'll call "count"
@@ -46,9 +46,7 @@ function Example() {
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
   );
 }
@@ -56,7 +54,7 @@ function Example() {
 
 - First, we need a way to target the specific element we want to drag and keep track of it as we drag. We can do this by passing the setNodeRef function returned by useDraggable to the ref of the DOM element we want to drag:
 
-  ```jsx
+  ```tsx
   const { setNodeRef } = useDraggable({
     id: "draggable-1",
   });
@@ -66,7 +64,7 @@ function Example() {
 
 - Next, we need to keep track of the position of the draggable element as we drag it. We can do this by passing the attributes returned by useDraggable to the draggable element:
 
-  ```jsx
+  ```tsx
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: "draggable-1",
   });
@@ -89,7 +87,7 @@ function Example() {
 
 - Finally, we need to make sure that the draggable element is rendered in the correct position as we drag it. We can do this by passing the transform returned by useDraggable to the draggable element's style:
 
-  ```jsx
+  ```tsx
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: "draggable-1",
   });

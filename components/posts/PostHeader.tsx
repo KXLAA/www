@@ -19,7 +19,9 @@ export function PostHeader(props: PostHeaderProps) {
     ? formatDate(props?.publishedAt, "MMMM dd, yyyy")
     : null;
   return (
-    <div className={cx("flex flex-col items-center gap-4 w-full", className)}>
+    <div
+      className={cx("flex flex-col items-center gap-4 w-full mt-10", className)}
+    >
       <AnimatePresence>
         {isHidden && (
           <BreadCrumb
@@ -46,7 +48,7 @@ export function PostHeader(props: PostHeaderProps) {
       </AnimatePresence>
 
       {!isHidden && (
-        <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 pt-24 pb-8 pl-0 h-52">
+        <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 pb-6 pl-0 h-52">
           <div className="flex items-center justify-center gap-1 text-[10px] font-light rounded-md text-silver-700 underline-offset-1 w-fit">
             <span className="m-0">{date}</span>
             <span className="font-normal text-silver-900">/</span>
@@ -70,7 +72,7 @@ export function PostHeader(props: PostHeaderProps) {
               },
             ]}
           />
-          <h1 className="m-0 text-4xl font-medium">{title}</h1>
+          <h1 className="m-0 text-4xl font-bold max-w-[668px]">{title}</h1>
 
           <div className="z-10 flex gap-2">
             {props.publishedAt !== props.lastUpdatedAt && (

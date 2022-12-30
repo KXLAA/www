@@ -27,7 +27,7 @@ export default function PostsPage(props: PostsPageProps) {
   };
 
   return (
-    <Layout customMeta={customMeta} small>
+    <Layout customMeta={customMeta}>
       <div className="flex flex-col items-center gap-4">
         <BreadCrumb
           items={[

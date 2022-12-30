@@ -16,15 +16,15 @@
 }
 
 .prose {
-  @apply !text-[#E8E8E8] font-light;
+  @apply !text-silver;
 }
 
 .prose h2 {
-  @apply text-2xl font-bold mt-8 mb-4 text-silver-300;
+  @apply text-2xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose h3 {
-  @apply text-xl font-semibold mt-8 mb-4 text-silver-300;
+  @apply text-xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose strong {
