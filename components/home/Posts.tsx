@@ -10,7 +10,7 @@ type PostsProps = {
 export function Posts(props: PostsProps) {
   const { posts } = props;
   return (
-    <div className="max-w-[540px] flex flex-col gap-4 w-full bg-shark-700 p-6 rounded-xl shadow-border-shiny">
+    <section className="max-w-[540px] flex flex-col gap-4 w-full bg-shark-700 p-6 rounded-xl shadow-border-shiny">
       <div className="flex justify-between">
         <div>
           <h2 className="text-lg font-medium">Writing</h2>
@@ -49,6 +49,6 @@ export function Posts(props: PostsProps) {
           </Link>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,4 +1,3 @@
-// import { Footer } from "@/components/common/Footer";
 import { NextSeo } from "next-seo";
 
 import { cx } from "@/lib/cx";
@@ -29,7 +28,6 @@ export function Layout(props: LayoutProps) {
           )}
         >
           {children}
-          {/* <Footer /> */}
         </div>
       </main>
     </>

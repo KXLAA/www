@@ -7,7 +7,7 @@ import { BreadCrumb } from "@/components/common/BreadCrumb";
 import { Layout } from "@/components/common/Layout";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
-import type { MetaProps } from "@/types/layout";
+import type { MetaProps } from "@/lib/seo";
 
 type PostsPageProps = {
   posts: PostType[];
@@ -19,14 +19,21 @@ export default function PostsPage(props: PostsPageProps) {
     [props.posts]
   );
 
-  const customMeta: MetaProps = {
-    title: `Kolade Afode - Writing`,
-    description: "I write about things I learn and things I do.",
-    thumbnail: ``,
+  const meta: MetaProps = {
+    title: `Posts | Kolade Afode`,
+    description: "Posts by Kolade Afode",
+    canonical: `https://kxlaa.com/posts`,
+    openGraph: {
+      title: `Posts | Kolade Afode`,
+      description: "Posts by Kolade Afode",
+      url: `https://kxlaa.com/posts`,
+      type: "website",
+      images: [],
+    },
   };
 
   return (
-    <Layout customMeta={customMeta}>
+    <Layout customMeta={meta}>
       <div className="flex flex-col items-center gap-4">
         <BreadCrumb
           items={[

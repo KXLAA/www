@@ -1,7 +1,5 @@
 import type { DefaultSeoProps, NextSeoProps } from "next-seo";
 
-// import { createOgImage } from "@/lib/createOgImage";
-
 export type MetaProps = NextSeoProps;
 
 const title = `Kolade Afode`;

@@ -4,11 +4,9 @@ import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
 import { About } from "@/components/home/About";
 import { Posts } from "@/components/home/Posts";
-import { SidePanel } from "@/components/home/SidePanel";
 import { Work } from "@/components/home/Work";
-
-import type { Post as PostType } from ".contentlayer/generated";
-import { allPosts } from ".contentlayer/generated";
+import type { Post as PostType } from "@/contentlayer/generated";
+import { allPosts } from "@/contentlayer/generated";
 
 type HomeProps = {
   posts: PostType[];
@@ -19,8 +17,6 @@ export default function Home(props: HomeProps) {
 
   return (
     <Layout className="relative flex-row items-start gap-6 my-24">
-      <SidePanel />
-
       <div className="flex flex-col gap-10">
         <About />
         <Posts posts={posts} />

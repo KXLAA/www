@@ -6,7 +6,7 @@
 export function Work() {
   // const projectLength = data.length;
   return (
-    <div
+    <section
       className="max-w-[540px] flex flex-col gap-4 w-full bg-shark-700 p-6 rounded-xl shadow-border-shiny"
       id="work"
     >
@@ -47,7 +47,7 @@ export function Work() {
           </a>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 

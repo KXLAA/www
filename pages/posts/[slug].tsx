@@ -5,11 +5,10 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { Layout } from "@/components/common/Layout";
 import { PostLayout } from "@/components/posts/PostLayout";
+import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
 import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/lib/seo";
-
-import type { Post as PostType } from ".contentlayer/generated";
 
 const DraggableAndDroppable = dynamic(
   () =>
