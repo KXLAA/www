@@ -1,28 +1,37 @@
-import type { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import {
   DndContext,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
   useDraggable,
-  useDroppable,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { MoveIcon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
+import type { Config } from "unique-names-generator";
+import { animals, colors, uniqueNamesGenerator } from "unique-names-generator";
 
 import { Refresh } from "@/components/common/Refresh";
 import { cx } from "@/lib/cx";
 import { uuid } from "@/lib/uuid";
 
-type DraggableProps = {
-  id: string;
-  content: React.ReactNode;
-  styles?: React.CSSProperties;
+const uniqueNamesConfig: Config = {
+  dictionaries: [colors, animals],
+  separator: " ",
+  length: 1,
+  style: "capital",
 };
 
-function Draggable({ id, content, styles }: DraggableProps) {
+type DraggableProps = {
+  id: string;
+  styles?: React.CSSProperties;
+  name?: string;
+};
+
+function Draggable({ id, styles, name }: DraggableProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id,
@@ -35,62 +44,38 @@ function Draggable({ id, content, styles }: DraggableProps) {
     : {};
 
   return (
-    <span
+    <div
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       className={cx(
-        "flex items-center bg-shark-900 justify-center  h-14 w-fit p-4 text-sm font-bold rounded-lg text-silver-00 shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
-        isDragging && "bg-shark-800 text-silver-900"
+        "flex items-center bg-shark-800 justify-center gap-1 w-fit p-3 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
+        isDragging && "bg-shark-700 text-silver-900"
       )}
       {...listeners}
       {...attributes}
     >
-      {content}
-    </span>
-  );
-}
-
-type DroppableProps = {
-  children: React.ReactNode;
-};
-
-function Droppable({ children }: DroppableProps) {
-  const { isOver, setNodeRef } = useDroppable({
-    id: "droppable",
-  });
-
-  return (
-    <div
-      ref={setNodeRef}
-      className={cx(
-        "w-full rounded-lg bg-shark-900 shadow-border-shiny transition-colors h-64",
-        isOver && "bg-shark-700"
-      )}
-    >
-      {children}
-      <p
-        className={cx(
-          "transition-colors absolute m-0 text-4xl font-bold transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-shark-600 -z-10",
-          isOver && "text-silver-400"
-        )}
-      >
-        DROPPABLE
-      </p>
+      <MoveIcon className="w-5 h-5" strokeWidth={2} />
+      <span className="text-xs"> {name}</span>
     </div>
   );
 }
 
-export default function DraggableAndDroppable() {
-  const draggable = [
-    {
-      id: uuid(),
-      content: "DRAGGABLE",
-      position: {
-        x: 24,
-        y: 24,
-      },
+const draggable = [
+  {
+    id: uuid(),
+    name: "Olive",
+    position: {
+      x: 24,
+      y: 24,
     },
-  ];
+  },
+];
+
+export default function DraggableAndDroppable() {
+  const timerRef = React.useRef<any>(null);
+  const [status, setStatus] = React.useState<React.ReactNode | undefined>(
+    undefined
+  );
 
   const sensors = useSensors(
     useSensor(KeyboardSensor),
@@ -99,42 +84,26 @@ export default function DraggableAndDroppable() {
   );
 
   const [draggables, setDraggables] = React.useState([...draggable]);
+  const addStatus = (message: React.ReactNode, time?: number) => {
+    const timer = time || 10000;
+    setStatus(message);
+    timerRef.current = setTimeout(() => {
+      setStatus(undefined);
+    }, timer);
+  };
 
-  function addDraggable() {
-    setDraggables([
-      ...draggables,
-      {
-        id: uuid(),
-        content: `DRAGGABLE`,
-        position: {
-          ...generateRandomAxis(),
-        },
-      },
-    ]);
-  }
-
-  function resetDraggables() {
-    setDraggables([...draggable]);
-  }
-
-  function handleDragEnd(ev: DragEndEvent) {
-    // What to do here??
-    // It's not a sortable, it's a free drag and drop
-    const draggable = draggables.find((x) => x.id === ev.active.id)!;
-    draggable.position.x += ev.delta.x;
-    draggable.position.y += ev.delta.y;
-    const _draggables = draggables.map((d) => {
-      if (d.id === draggable.id) return draggable;
-      return d;
-    });
-
-    setDraggables(_draggables);
-  }
+  React.useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   return (
-    <div className="relative flex flex-col justify-end w-full h-64 p-10 rounded-xl grid-bg shadow-border-shiny">
-      <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
-        <>
+    <div className="relative flex flex-col justify-end w-full p-4 rounded-xl bg-shark-800">
+      <div className="relative flex flex-col justify-end w-full h-60 p-10 rounded-xl grid-bg border border-[#1F1F22] bg-shark-700">
+        <DndContext
+          onDragEnd={handleDragEnd}
+          onDragStart={handelDragStart}
+          sensors={sensors}
+        >
           <AnimatePresence>
             {draggables.map((d) => (
               <motion.div
@@ -153,13 +122,29 @@ export default function DraggableAndDroppable() {
                   }}
                   key={d.id}
                   id={d.id}
-                  content={d.content}
+                  name={d.name}
                 />
               </motion.div>
             ))}
           </AnimatePresence>
-        </>
-      </DndContext>
+        </DndContext>
+      </div>
+
+      <AnimatePresence>
+        {status && (
+          <motion.div
+            //fade in and slide up
+            key="status"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ type: "spring" }}
+            className="absolute bottom-16 left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t-2 border-[#1F1F22]"
+          >
+            {status}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="flex justify-center gap-4 pt-6">
         <motion.button
@@ -184,6 +169,65 @@ export default function DraggableAndDroppable() {
       </div>
     </div>
   );
+
+  function addDraggable() {
+    const newDraggable = {
+      id: uuid(),
+      name: uniqueNamesGenerator(uniqueNamesConfig),
+      position: {
+        ...generateRandomAxis(),
+      },
+    };
+
+    setDraggables([...draggables, newDraggable]);
+    addStatus(
+      <span className="text-silver-700">
+        <span className="font-bold text-green-500">ADD</span> new draggable:{" "}
+        <span className="font-bold text-silver-600">{newDraggable.name}</span>
+      </span>
+    );
+  }
+
+  function resetDraggables() {
+    setDraggables([...draggable]);
+    setStatus(undefined);
+  }
+
+  function handelDragStart(ev: DragStartEvent) {
+    const draggable = draggables.find((x) => x.id === ev.active.id)!;
+    addStatus(
+      <span className="text-silver-700">
+        <span className="font-bold text-yellow-500">DRAGGING</span> draggable:{" "}
+        <span className="font-bold text-silver-600">{draggable.name}</span>
+      </span>
+    );
+  }
+
+  function handleDragEnd(ev: DragEndEvent) {
+    const draggable = draggables.find((x) => x.id === ev.active.id)!;
+    draggable.position.x += ev.delta.x;
+    draggable.position.y += ev.delta.y;
+
+    addStatus(
+      <span className="text-silver-700">
+        <span className="font-bold text-orange-500">DRAGGED</span> draggable:{" "}
+        <span className="font-bold text-silver-600">{draggable.name}</span> to{" "}
+        <span className="font-bold text-orange-300">
+          x: {draggable.position.x}
+        </span>{" "}
+        and{" "}
+        <span className="font-bold text-orange-300">
+          y: {draggable.position.y}
+        </span>
+      </span>
+    );
+
+    const _draggables = draggables.map((d) =>
+      d.id === draggable.id ? draggable : d
+    );
+
+    setDraggables(_draggables);
+  }
 }
 
 function generateRandomAxis() {
