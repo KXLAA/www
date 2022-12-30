@@ -136,7 +136,7 @@ export default function DraggableAndDroppable() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ type: "spring" }}
-            className="absolute bottom-16 left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t-2 border-[#1F1F22]"
+            className="absolute bottom-16 left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t-2 border-[#1F1F22] border-dotted"
           >
             {status}
           </motion.div>
