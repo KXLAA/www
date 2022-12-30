@@ -1,4 +1,3 @@
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 // import { Section } from "@/components/common/Section";
@@ -24,9 +23,12 @@ export function Posts(props: PostsProps) {
           </p>
         </div>
 
-        <div className="self-start p-1 transition-colors duration-200 rounded-full shadow-border-shiny text-silver-700">
-          <ArrowTopRightIcon className="w-5 h-5" />
-        </div>
+        <Link
+          className="self-start px-2 py-0.5 text-xs transition-colors duration-200 rounded-full shadow-border-shiny  font-medium text-silver hover:bg-shark-500"
+          href="posts"
+        >
+          view all
+        </Link>
       </div>
 
       <div className="flex flex-col gap-2">
