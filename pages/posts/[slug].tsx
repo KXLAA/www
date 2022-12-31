@@ -10,27 +10,35 @@ import { allPosts } from "@/contentlayer/generated";
 import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/lib/seo";
 
-const DraggableAndDroppable = dynamic(
-  () =>
-    import(
-      "../../components/mdx/widgets/drag-and-drop-post/DraggableAndDroppable"
-    )
+const FreeDnd = dynamic(
+  () => import("../../components/mdx/widgets/drag-and-drop-post/FreeDnd")
 );
-
-const DndContextEvents = dynamic(
-  () =>
-    import("../../components/mdx/widgets/drag-and-drop-post/DndContextEvents")
+const DroppableDnd = dynamic(
+  () => import("../../components/mdx/widgets/drag-and-drop-post/DroppableDnd")
 );
-
 const FreeDnDSandPack = dynamic(
   () =>
     import("../../components/mdx/widgets/drag-and-drop-post/FreeDnDSandPack")
 );
+const SingleContainerSortable = dynamic(
+  () =>
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/SingleContainerSortable"
+    )
+);
+const MultiContainerSortable = dynamic(
+  () =>
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/MultiContainerSortable"
+    )
+);
 
 const MDXComponents = {
-  DraggableAndDroppable,
-  DndContextEvents,
   FreeDnDSandPack,
+  FreeDnd,
+  DroppableDnd,
+  SingleContainerSortable,
+  MultiContainerSortable,
   ...components,
 };
 

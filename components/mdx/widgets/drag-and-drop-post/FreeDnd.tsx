@@ -15,6 +15,7 @@ import type { Config } from "unique-names-generator";
 import { animals, colors, uniqueNamesGenerator } from "unique-names-generator";
 
 import { Refresh } from "@/components/common/Refresh";
+import { LiveArea, useStatus } from "@/components/mdx/widgets/common/LiveArea";
 import { cx } from "@/lib/cx";
 import { uuid } from "@/lib/uuid";
 
@@ -71,11 +72,14 @@ const draggable = [
   },
 ];
 
-export default function DraggableAndDroppable() {
-  const [status, setStatus] = React.useState<React.ReactNode | undefined>(
-    undefined
-  );
+type FreeDndProps = {
+  hideFooter?: boolean;
+  hideStatus?: boolean;
+};
 
+export default function FreeDnd(props: FreeDndProps) {
+  const { hideFooter, hideStatus } = props;
+  const [status, setStatus] = useStatus();
   const sensors = useSensors(
     useSensor(KeyboardSensor),
     useSensor(TouchSensor),
@@ -84,88 +88,66 @@ export default function DraggableAndDroppable() {
 
   const [draggables, setDraggables] = React.useState([...draggable]);
 
-  React.useEffect(() => {
-    if (status) {
-      const timer = setTimeout(() => {
-        setStatus(undefined);
-      }, 7000);
-      return () => clearTimeout(timer);
-    }
-  }, [status]);
-
   return (
-    <div className="relative flex flex-col justify-end w-full p-4 rounded-xl bg-shark-800">
-      <div className="relative flex flex-col justify-end w-full h-60 p-10 rounded-xl live-area bg-shark-900  border border-[#1F1F22]">
-        <DndContext
-          onDragEnd={handleDragEnd}
-          onDragStart={handelDragStart}
-          sensors={sensors}
-        >
-          <AnimatePresence>
-            {draggables.map((d) => (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ type: "spring" }}
+    <LiveArea
+      status={hideStatus ? undefined : status}
+      footer={
+        hideFooter ? null : (
+          <div className="flex justify-center gap-4 p-2">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              disabled={draggables.length <= 1}
+              onClick={resetDraggables}
+              className={cx(
+                "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800",
+                draggables.length <= 1 &&
+                  "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
+              )}
+            >
+              <Refresh />
+            </motion.button>
+
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              className="z-10 px-4 py-2 text-xs font-bold transition-colors rounded-md bg-shark-900 shadow-border-shiny text-silver-600 hover:bg-shark-800"
+              onClick={addDraggable}
+            >
+              ADD
+            </motion.button>
+          </div>
+        )
+      }
+    >
+      <DndContext
+        onDragEnd={handleDragEnd}
+        onDragStart={handelDragStart}
+        sensors={sensors}
+      >
+        <AnimatePresence>
+          {draggables.map((d) => (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ type: "spring" }}
+              key={d.id}
+              className="z-20"
+            >
+              <Draggable
+                styles={{
+                  position: "absolute",
+                  left: `${d.position.x}px`,
+                  top: `${d.position.y}px`,
+                }}
                 key={d.id}
-                className="z-20"
-              >
-                <Draggable
-                  styles={{
-                    position: "absolute",
-                    left: `${d.position.x}px`,
-                    top: `${d.position.y}px`,
-                  }}
-                  key={d.id}
-                  id={d.id}
-                  name={d.name}
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </DndContext>
-      </div>
-
-      <AnimatePresence>
-        {status && (
-          <motion.div
-            //fade in and slide up
-            key="status"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ type: "spring" }}
-            className="absolute bottom-16 left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t-2 border-[#1F1F22] border-dotted"
-          >
-            {status}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="flex justify-center gap-4 pt-6">
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          disabled={draggables.length <= 1}
-          onClick={resetDraggables}
-          className={cx(
-            "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800",
-            draggables.length <= 1 &&
-              "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
-          )}
-        >
-          <Refresh />
-        </motion.button>
-
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="z-10 px-4 py-2 text-xs font-bold transition-colors rounded-md bg-shark-900 shadow-border-shiny text-silver-600 hover:bg-shark-800"
-          onClick={addDraggable}
-        >
-          ADD DRAGGABLE
-        </motion.button>
-      </div>
-    </div>
+                id={d.id}
+                name={d.name}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </DndContext>
+    </LiveArea>
   );
 
   function addDraggable() {
@@ -179,7 +161,7 @@ export default function DraggableAndDroppable() {
 
     setDraggables([...draggables, newDraggable]);
     setStatus(
-      <span className="text-silver-700">
+      <span className="mb-8 text-silver-700">
         <span className="font-bold text-green-500">ADD</span> new draggable:{" "}
         <span className="font-bold text-silver-600">{newDraggable.name}</span>
       </span>
@@ -194,7 +176,7 @@ export default function DraggableAndDroppable() {
   function handelDragStart(ev: DragStartEvent) {
     const draggable = draggables.find((x) => x.id === ev.active.id)!;
     setStatus(
-      <span className="text-silver-700">
+      <span className="mb-8 text-silver-700">
         <span className="font-bold text-yellow-500">DRAGGING</span> draggable:{" "}
         <span className="font-bold text-silver-600">{draggable.name}</span>
       </span>
@@ -207,7 +189,7 @@ export default function DraggableAndDroppable() {
     draggable.position.y += ev.delta.y;
 
     setStatus(
-      <span className="text-silver-700">
+      <span className="mb-8 text-silver-700">
         <span className="font-bold text-orange-500">DRAGGED</span> draggable:{" "}
         <span className="font-bold text-silver-600">{draggable.name}</span> to{" "}
         <span className="font-bold text-orange-300">
@@ -226,11 +208,11 @@ export default function DraggableAndDroppable() {
 
     setDraggables(_draggables);
   }
-}
 
-function generateRandomAxis() {
-  return {
-    x: Math.floor(Math.random() * 300),
-    y: Math.floor(Math.random() * 300),
-  };
+  function generateRandomAxis() {
+    return {
+      x: Math.floor(Math.random() * 300),
+      y: Math.floor(Math.random() * 300),
+    };
+  }
 }

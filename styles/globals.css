@@ -121,7 +121,7 @@ code {
 .live-area {
   min-block-size: 200px;
   /* max-block-size: var(--max-height); */
-  padding: 1rem 2.5rem;
+  /* padding: 1rem 2.5rem; */
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   block-size: 100%;

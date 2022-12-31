@@ -16,11 +16,11 @@ Let's get started!
 
 From a high-level, most drag-and-drop UI interactions involve three main components: a draggable element, a droppable area, and a component or function that manages the interaction between them. The draggable element can be dragged, and the drop area is where it can be dropped. To gain a better understanding of how these components typically work, you can try out the demo below:
 
-<DraggableAndDroppable />
+<FreeDnd />
 
 In the demo above, the droppable area covers the entire page, enabling us to drop draggable elements anywhere. This is similar to canvas-based applications like Figma and Exalidraw. Alternatively, we can have an example with fixed, designated drop areas, like this:
 
-<DraggableAndDroppable />
+<DroppableDnd />
 
 DndKit embraces this mental model, exposing three core primitives:
 
@@ -120,7 +120,7 @@ We can respond to these events with handler functions, using the event data to u
 
 You can see when the DndContext emits the different events by playing with the demo below:
 
-<DndContextEvents />
+<DroppableDnd />
 
 ## Examples
 
@@ -135,7 +135,7 @@ Now that we've discussed the core concepts of the Dndkit, let's go through examp
 
 This interaction is similar to the demo at the start of this post. Here is a simplified example for reference:
 
-<DraggableAndDroppable />
+<FreeDnd hideFooter />
 
 If you just want to see completed code for this without an explanation, click [here](#free-dnd-sandpack). Otherwise, let's go through the code step-by-step.
 
@@ -289,7 +289,7 @@ You see How these comes together by playing with the interactive code example be
 
 This interaction is similar to the demo at the start of this post. Here is a simplified example for reference:
 
-<DraggableAndDroppable />
+<DroppableDnd hideStatus />
 
 If you just want to see completed code for this without an explanation, click [here](#classic-dnd-sandpack). Otherwise, let's go through the code step-by-step.
 
@@ -297,7 +297,7 @@ If you just want to see completed code for this without an explanation, click [h
 
 This interaction is similar to the demo at the start of this post. Here is a simplified example for reference:
 
-<DraggableAndDroppable />
+<SingleContainerSortable />
 
 If you just want to see completed code for this without an explanation, click [here](#classic-dnd-sandpack). Otherwise, let's go through the code step-by-step.
 
@@ -305,7 +305,7 @@ If you just want to see completed code for this without an explanation, click [h
 
 This interaction is similar to the demo at the start of this post. Here is a simplified example for reference:
 
-<DraggableAndDroppable />
+<MultiContainerSortable />
 
 If you just want to see completed code for this without an explanation, click [here](#classic-dnd-sandpack). Otherwise, let's go through the code step-by-step.
 
