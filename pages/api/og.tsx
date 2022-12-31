@@ -15,16 +15,14 @@ export default function (req: NextRequest) {
 
     // 2: Check if title or description are in the params
     const hasTitle = searchParams.has("title");
-    const hasDescription = searchParams.has("description");
+    const hasDate = searchParams.has("date");
 
     // 3: If so, take the passed value. If not, assign a default
     const title = hasTitle
       ? searchParams.get("title")?.slice(0, 100)
       : "Some title";
 
-    const description = hasDescription
-      ? searchParams.get("description")?.slice(0, 100)
-      : "Some description";
+    const date = hasDate ? searchParams.get("date")?.slice(0, 100) : "July 30";
 
     return new ImageResponse(
       (
@@ -37,26 +35,22 @@ export default function (req: NextRequest) {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#111112",
+            backgroundColor: "#0D0D0D",
           }}
         >
-          <div tw="bg-[#111112] flex">
-            <div tw="flex flex-col  w-full py-12 px-4 p-8 items-end">
-              <h2 tw="flex flex-col text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 text-left">
-                <span tw="text-[#202022]">Article #01</span>
-                <span tw="text-[#C0C0C0] underline font-black">
-                  Drag & drop in React with Dnd Kit .
-                </span>
-              </h2>
-            </div>
-
-            <div tw="flex flex-col  w-full py-12 px-4 p-8 items-end">
-              <h2 tw="flex flex-col text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 text-left">
-                <span tw="text-[#202022]">Article #01</span>
-                <span tw="text-[#C0C0C0] underline font-black">
-                  Drag & drop in React with Dnd Kit .
-                </span>
-              </h2>
+          <div tw="flex flex-col items-center w-full">
+            <div
+              tw="h-1/2 w-full"
+              style={{
+                backgroundImage: generateGradient(),
+              }}
+            />
+            <div tw="flex flex-col p-8 w-full h-full justify-between">
+              <div tw="flex flex-col justify-center items-start w-full p-8 self-end rounded-xl border border-[#383838]">
+                <div tw="flex text-white">Check Out This Article</div>
+                <div tw="flex text-4xl font-bold text-white">{title}</div>
+                <div tw="flex font-bold text-white">Kxlaa.com | {date}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -71,4 +65,27 @@ export default function (req: NextRequest) {
       status: 500,
     });
   }
+}
+
+const hexString = "0123456789abcdef";
+
+function randomColor() {
+  let hexCode = "#";
+  for (let i = 0; i < 6; i++) {
+    hexCode += hexString[Math.floor(Math.random() * hexString.length)];
+  }
+  return hexCode;
+}
+
+function generateGradient() {
+  //generate random hex
+  // const randomColor = "#000000".replace(/0/g, () => {
+  //   return (~~(Math.random() * 16)).toString(16);
+  // });
+
+  const colorOne = randomColor();
+  const colorTwo = randomColor();
+  const angle = Math.floor(Math.random() * 360);
+
+  return `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
 }

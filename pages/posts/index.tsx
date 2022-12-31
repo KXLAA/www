@@ -1,30 +1,39 @@
+import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import type { GetStaticProps } from "next";
 import Link from "next/link";
+import React from "react";
 
 import { BreadCrumb } from "@/components/common/BreadCrumb";
 import { Layout } from "@/components/common/Layout";
-import { Section } from "@/components/common/Section";
-import { Tag } from "@/components/common/Tag";
-import { formatDate } from "@/lib/date";
-import type { MetaProps } from "@/types/layout";
-
-import type { Post as PostType } from ".contentlayer/generated";
-import { allPosts } from ".contentlayer/generated";
+import type { Post as PostType } from "@/contentlayer/generated";
+import { allPosts } from "@/contentlayer/generated";
+import type { MetaProps } from "@/lib/seo";
 
 type PostsPageProps = {
   posts: PostType[];
 };
 
 export default function PostsPage(props: PostsPageProps) {
-  const posts = groupPostsByYear(props.posts);
-  const customMeta: MetaProps = {
-    title: `Kolade Afode - Writing`,
-    description: "I write about things I learn and things I do.",
-    thumbnail: ``,
+  const posts = React.useMemo(
+    () => groupPostsByYear(props.posts),
+    [props.posts]
+  );
+
+  const meta: MetaProps = {
+    title: `Posts | Kolade Afode`,
+    description: "Posts by Kolade Afode",
+    canonical: `https://kxlaa.com/posts`,
+    openGraph: {
+      title: `Posts | Kolade Afode`,
+      description: "Posts by Kolade Afode",
+      url: `https://kxlaa.com/posts`,
+      type: "website",
+      images: [],
+    },
   };
 
   return (
-    <Layout customMeta={customMeta} small>
+    <Layout customMeta={meta}>
       <div className="flex flex-col items-center gap-4">
         <BreadCrumb
           items={[
@@ -39,62 +48,34 @@ export default function PostsPage(props: PostsPageProps) {
           ]}
         />
 
-        <Section
-          heading="WRITING"
-          description="I write about things I learn and things I do."
-        >
-          <div className="flex flex-col w-full gap-6">
+        <div className="max-w-[600px] flex flex-col gap-4 w-full bg-shark-700 rounded-xl shadow-border-shiny">
+          <div className="">
             {Object.entries(posts).map(([year, posts]) => (
-              <PostByYear key={year} year={year} posts={posts} />
-            ))}
-          </div>
-        </Section>
-      </div>
-    </Layout>
-  );
-}
-
-type PostProps = {
-  year: string;
-  posts: PostType[];
-};
-
-function PostByYear(props: PostProps) {
-  const { year, posts } = props;
-
-  return (
-    <div className="flex flex-col w-full gap-2 p-6 transition-colors rounded-2xl shadow-border-shiny">
-      <div className="w-full text-3xl font-black">{year}</div>
-      <div className="flex flex-col gap-2 overflow-hidden">
-        {posts.map((post) => (
-          <div
-            key={post.slug}
-            className="p-5 transition-colors duration-200 ease-in-out rounded-xl bg-shark-800 hover:bg-shark-700 shadow-border-shiny fade-out "
-          >
-            <Link className="flex justify-between" href={`/posts/${post.slug}`}>
-              <div className="flex flex-col gap-2">
-                <div className="text-2xl font-normal text-silver-400">
-                  {post.title}
-                </div>
-                <div className="text-base font-light text-silver">
-                  {post.description}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {post?.tags?.map((tag) => (
-                    <Tag key={tag}>{tag}</Tag>
+              <div
+                className="flex flex-col w-full gap-2 p-6 transition-colors rounded-2xl"
+                key={year}
+              >
+                <div className="w-full text-3xl font-black">{year}</div>
+                <div className="flex flex-col gap-2 overflow-hidden">
+                  {posts.map((post) => (
+                    <Link
+                      className="flex gap-2 py-2 transition-colors border-b border-shark-400 hover:text-silver-700 last:border-none"
+                      key={post.slug}
+                      href={`/posts/${post.slug}`}
+                    >
+                      <div className="self-start p-1 transition-colors duration-200 rounded-full shadow-border-shiny text-silver-700">
+                        <ArrowTopRightIcon className="w-3 h-3" />
+                      </div>
+                      {post.title}
+                    </Link>
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col gap-2 text-silver">
-                <div className="text-sm font-medium">
-                  {formatDate(post.publishedAt, "MM/dd")}
-                </div>
-              </div>
-            </Link>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

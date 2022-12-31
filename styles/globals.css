@@ -1,5 +1,6 @@
 @tailwind base;
 @tailwind components;
+@import "./syntax-highlighting.css";
 @tailwind utilities;
 
 .prose .anchor {
@@ -15,15 +16,23 @@
 }
 
 .prose {
-  @apply text-silver-600;
+  @apply !text-silver font-light;
+}
+
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply text-silver-400 font-bold;
 }
 
 .prose h2 {
-  @apply text-2xl font-bold mt-8 mb-4 text-silver-300;
+  @apply text-2xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose h3 {
-  @apply text-xl font-semibold mt-8 mb-4 text-silver-300;
+  @apply text-xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose strong {
@@ -36,7 +45,7 @@
 }
 
 .prose .anchor:after {
-  @apply text-silver-700;
+  @apply text-silver;
   content: "#";
 }
 
@@ -44,115 +53,13 @@
   @apply visible;
 }
 
-/* .prose pre {
-  @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
-} */
-
-.prose code {
-  @apply px-1 py-0.5 rounded-md bg-shark-700 font-normal shadow-border-shiny text-inherit;
-}
-
-.prose code::before,
-.prose code::after {
-  content: none;
-}
-
-.prose pre code {
-  @apply text-silver-600 p-0 bg-transparent shadow-none;
-  border: initial;
+code {
+  @apply px-1 py-0.5 rounded-md bg-shark-900 shadow-border-shiny !font-normal  !text-[#EBEBEB];
 }
 
 .prose img {
   /* Don't apply styles to next/image */
   @apply m-0;
-}
-
-.prose > :first-child {
-  /* Override removing top margin, causing layout shift */
-  margin-top: 1.25em !important;
-  margin-bottom: 1.25em !important;
-}
-
-/* Prism Styles */
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  @apply text-gray-700 dark:text-gray-300;
-}
-
-.token.punctuation {
-  @apply text-gray-700 dark:text-gray-300;
-}
-
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.constant,
-.token.symbol,
-.token.deleted {
-  @apply text-green-500;
-}
-
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted {
-  @apply text-purple-500;
-}
-
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-  @apply text-yellow-500;
-}
-
-.token.atrule,
-.token.attr-value,
-.token.keyword {
-  @apply text-blue-500;
-}
-
-.token.function,
-.token.class-name {
-  @apply text-pink-500;
-}
-
-.token.regex,
-.token.important,
-.token.variable {
-  @apply text-yellow-500;
-}
-
-code[class*="language-"],
-pre[class*="language-"] {
-  @apply p-10 rounded-xl border-0 bg-shark-800 shadow-border-shiny;
-}
-
-pre::-webkit-scrollbar {
-  display: none;
-}
-
-pre {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-.rehype-code-title {
-  @apply px-4 py-3 font-mono text-sm font-bold  bg-shark-700 rounded-t-xl border border-b-0 border-[#29292A];
-}
-
-.rehype-code-title + pre {
-  @apply mt-0 rounded-t-none;
-}
-
-.highlight-line {
-  @apply block px-4 -mx-4 bg-gray-100 border-l-4 border-blue-500 dark:bg-gray-800;
 }
 
 .gradient-bg {
@@ -183,11 +90,11 @@ pre {
 }
 
 .dotted-bg {
-  background-image: radial-gradient(rgb(31, 30, 29) 10%, transparent 10%),
-    radial-gradient(rgb(31, 30, 29) 10%, transparent 10%);
-  background-position: 0px 0px, 8px 8px;
-  background-size: 20px 20px;
-  background-color: rgb(16, 16, 16);
+  background-image: radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%),
+    radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%);
+  background-position: 0px 0px, 12px 12px;
+  background-size: 24px 24px;
+  background-color: rgb(18, 18, 18);
 }
 
 .grid-bg {
@@ -203,10 +110,35 @@ pre {
   background-repeat: no-repeat;
 }
 
-.card {
+.gradient-bg-flipp {
+  background: linear-gradient(rgb(17, 17, 17) 0%, rgb(12, 12, 12) 100%);
 }
 
-.card:hover {
-  background: rgba(180, 185, 188, 0.1);
-  border: 1px solid rgba(131, 134, 135, 0.15);
+.main-gradient {
+  background: linear-gradient(rgb(17, 17, 17) 0%, rgb(12, 12, 12) 100%);
+}
+
+.live-area {
+  min-block-size: 200px;
+  /* max-block-size: var(--max-height); */
+  /* padding: 1rem 2.5rem; */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  block-size: 100%;
+  position: relative;
+  /* z-index: 1; */
+  border: 1px dashed #1f1f22;
+}
+
+.live-area::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at center, #202328 60%, #101114);
+  mask-image: radial-gradient(black 0.9px, transparent 0.9px);
+  mask-size: 18px 18px;
 }

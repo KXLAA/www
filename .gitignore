@@ -34,3 +34,12 @@ tsconfig.tsbuildinfo
 
 # vercel
 .vercel
+
+# contetlayer
+.contentlayer
+
+# rss
+public/rss.xml
+
+# site map
+public/sitemap.xml

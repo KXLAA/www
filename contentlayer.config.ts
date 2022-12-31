@@ -44,6 +44,7 @@ export const Post = defineDocumentType(() => ({
     ogImage: { type: "string" },
     thumbnail: { type: "string" },
     postId: { type: "string" },
+    // publishedAt: { type: "string" },
   },
   computedFields: {
     publishedAt: {
