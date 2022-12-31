@@ -5,20 +5,22 @@ const code = `export default function App() {
   }`;
 export default function FreeDnDSandPack() {
   return (
-    <Sandpack
-      template="react-ts"
-      theme="dark"
-      options={{
-        showLineNumbers: true,
-        showTabs: true,
-        // showNavigator: true,
-        // readOnly: true,
-      }}
-      files={{
-        "/App.tsx": code,
-        "/Draggable.tsx": code,
-        "/Droppable.tsx": code,
-      }}
-    />
+    <div id="free-dnd-sandpack">
+      <Sandpack
+        template="react-ts"
+        theme="dark"
+        options={{
+          showLineNumbers: true,
+          showTabs: true,
+          // showNavigator: true,
+          // readOnly: true,
+        }}
+        files={{
+          "/App.tsx": code,
+          "/Draggable.tsx": code,
+          "/Droppable.tsx": code,
+        }}
+      />
+    </div>
   );
 }

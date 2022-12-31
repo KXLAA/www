@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type {
   DragEndEvent,
   DragOverEvent,
@@ -41,7 +42,7 @@ type Item = {
 const draggables = generateItems(5);
 
 export default function DndContextEvents() {
-  const [items, setItems] = React.useState<Item[]>(draggables);
+  const [items, setItems] = React.useState<Item[]>([]);
   const [activeItem, setActiveItem] = React.useState<Item | undefined>(
     undefined
   );
@@ -59,6 +60,9 @@ export default function DndContextEvents() {
     useSensor(MouseSensor)
   );
 
+  //Fix SSR issues
+  React.useEffect(() => setItems(draggables), []);
+
   React.useEffect(() => {
     if (event) {
       const timer = setTimeout(() => {
@@ -66,7 +70,6 @@ export default function DndContextEvents() {
       }, 7000);
       return () => clearTimeout(timer);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event?.message, event?.color]);
 
   return (

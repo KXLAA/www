@@ -127,7 +127,7 @@ You can see when the DndContext emits the different events by playing with the d
 Now that we've discussed the core concepts of the Dndkit, let's go through examples of how to use them to create beautiful drag-and-drop interactions. We'll cover four common use cases found on the web:
 
 - **Free Drag-and-Drop**: Drag-and-drop elements across the entire screen, similar to canvas-based applications such as Figma and Excalidraw.
-- **Classic Drag-and-Drop**: Drag and drop items into one or more designated areas.
+- **Droppable Containers**: Drag and drop items into one or more designated areas.
 - **Single Container Sortables**: Rearrange the order of list items within a single container by dragging them.
 - **Multi-Container Sortables**: Drag items between multiple Sortable containers
 
@@ -137,10 +137,176 @@ This interaction is similar to the demo at the start of this post. Here is a sim
 
 <DraggableAndDroppable />
 
-To build this we need to store the x- and y-positions of the draggable component in state. We'll levarge the `onDragEnd` event emitted by the `<DndContext />`. This event contains the position of the draggable element at the end of the drag event. In our handler function, we can then update our local state to reflect the updated position:
+If you just want to see completed code for this without an explanation, click [here](#free-dnd-sandpack). Otherwise, let's go through the code step-by-step.
+
+In this interaction, we have multiple draggable components. To build this, we need to create a Draggable Component with the useDraggable hook. This component takes a unique id, and a styles object as props:
+
+```tsx
+import { useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
+
+//First create a draggable component
+type DraggableProps = {
+  id: string;
+  styles?: React.CSSProperties;
+  children?: React.ReactNode;
+};
+
+function Draggable(props: DraggableProps) {
+  const { id, styles, children } = props;
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id,
+    });
+
+  const transformStyles = transform
+    ? {
+        transform: CSS.Translate.toString(transform),
+      }
+    : {};
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{ ...transformStyles, ...styles }}
+      {...listeners}
+      {...attributes}
+    >
+      {children}
+    </div>
+  );
+}
+```
+
+Next we need to set up our DndContext and the state of our Draggable components. We'll be storing the data about our draggable components as an array of objects in state. Each object should include a unique ID and the initial x and y position coordinates of the element:
+
+```tsx
+//Set up DndContext and the state of our draggable elements
+import { DndContext } from "@dnd-kit/core";
+import { Draggable } from "./Draggable";
+
+export function App() {
+  //initial draggble state
+  const [draggables, setDraggables] = React.useState([
+    {
+      id: 1,
+      name: "OL",
+      position: {
+        x: 24,
+        y: 24,
+      },
+    },
+  ]);
+
+  return (
+    <div>
+      <DndContext>
+        {draggables.map((d) => (
+          <Draggable
+            //We pass the current position of the draggbale here ass CSS styles
+            styles={{
+              position: "absolute",
+              left: `${d.position.x}px`,
+              top: `${d.position.y}px`,
+            }}
+            key={d.id}
+            id={d.id}
+            name={d.name}
+          />
+        ))}
+      </DndContext>
+    </div>
+  );
+}
+```
+
+To allow our components to be moved around the page, we need to update their positions when a drag event ends. We'll use the `onDragEnd` event emitted by the `<DndContext />` to do this. This event contains the x- and y-positions of the active draggable element when it is dropped. In our handler function, we can use this information to update the position of our element in state:
+
+```tsx
+//Set up DndContext and the state of our draggable elements
+import { DndContext } from "@dnd-kit/core";
+import { Draggable } from "./Draggable";
+
+//Create a handler function to respond to an ondragend event & update the position of the draggable element
+export function App() {
+  const [draggables, setDraggables] = React.useState([
+    {
+      id: 1,
+      name: "OL",
+      position: {
+        x: 24,
+        y: 24,
+      },
+    },
+  ]);
+
+  function handleDragEnd(ev: DragEndEvent) {
+    const activeId = ev.active.id;
+
+    //if there is no active draggable return
+    if (!activeId) {
+      return;
+    }
+
+    //find active draggable in state and update its position
+    const draggable = draggables.find((x) => x.id === ev.active.id);
+    draggable.position.x += ev.delta.x;
+    draggable.position.y += ev.delta.y;
+    const _draggables = draggables.map((d) =>
+      d.id === draggable.id ? draggable : d
+    );
+
+    setDraggables(_draggables);
+  }
+
+  return (
+    <div>
+      <DndContext>
+        {draggables.map((d) => (
+          <Draggable
+            //We pass the current position of the draggbale here ass CSS styles
+            styles={{
+              position: "absolute",
+              left: `${d.position.x}px`,
+              top: `${d.position.y}px`,
+            }}
+            key={d.id}
+            id={d.id}
+            name={d.name}
+          />
+        ))}
+      </DndContext>
+    </div>
+  );
+}
+```
+
+You see How these comes together by playing with the interactive code example below:
 
 <FreeDnDSandPack />
 
-We can easily extend this example to remember the position of the draggable item after a page refresh, we can simply store the state in local storage and update it as it changes:
+### Droppable Containers
 
-<FreeDnDSandPack />
+This interaction is similar to the demo at the start of this post. Here is a simplified example for reference:
+
+<DraggableAndDroppable />
+
+If you just want to see completed code for this without an explanation, click [here](#classic-dnd-sandpack). Otherwise, let's go through the code step-by-step.
+
+### Single Container Sortables
+
+This interaction is similar to the demo at the start of this post. Here is a simplified example for reference:
+
+<DraggableAndDroppable />
+
+If you just want to see completed code for this without an explanation, click [here](#classic-dnd-sandpack). Otherwise, let's go through the code step-by-step.
+
+### Multi-Container Sortables
+
+This interaction is similar to the demo at the start of this post. Here is a simplified example for reference:
+
+<DraggableAndDroppable />
+
+If you just want to see completed code for this without an explanation, click [here](#classic-dnd-sandpack). Otherwise, let's go through the code step-by-step.
+
+## Closing Thoughts
