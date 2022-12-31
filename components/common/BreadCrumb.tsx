@@ -31,12 +31,11 @@ export function BreadCrumb(props: BreadCrumbProps) {
       className={cx(
         "relative flex items-center  w-fit gap-2 px-4 py-2 text-[11px] font-medium rounded-md   text-silver-600 transition-all",
         fixed && "fixed top-7 z-10",
-        filled && "gradient-bg",
-        floating &&
-          "mix-blend-lighten	backdrop-blur	bg-shark-900 shadow-border-shiny",
+        filled && "bg-shark-800",
+        floating && "mix-blend-lighten	backdrop-blur shadow-border-shiny  z-50",
         plain
           ? "border-none !bg-transparent p-0"
-          : "shadow-border-shiny gradient-bg",
+          : "shadow-border-shiny bg-shark-800",
         className
       )}
     >

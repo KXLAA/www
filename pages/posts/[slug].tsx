@@ -1,29 +1,45 @@
+import { components } from "components/mdx/components/MDXComponents";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { Layout } from "@/components/common/Layout";
 import { PostLayout } from "@/components/posts/PostLayout";
+import type { Post as PostType } from "@/contentlayer/generated";
+import { allPosts } from "@/contentlayer/generated";
+import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/lib/seo";
 
-import type { Post as PostType } from ".contentlayer/generated";
-import { allPosts } from ".contentlayer/generated";
-
-const DraggableAndDroppable = dynamic(
+const FreeDnd = dynamic(
+  () => import("../../components/mdx/widgets/drag-and-drop-post/FreeDnd")
+);
+const DroppableDnd = dynamic(
+  () => import("../../components/mdx/widgets/drag-and-drop-post/DroppableDnd")
+);
+const FreeDnDSandPack = dynamic(
+  () =>
+    import("../../components/mdx/widgets/drag-and-drop-post/FreeDnDSandPack")
+);
+const SingleContainerSortable = dynamic(
   () =>
     import(
-      "../../components/mdx/widgets/drag-and-drop-post/DraggableAndDroppable"
+      "../../components/mdx/widgets/drag-and-drop-post/SingleContainerSortable"
+    )
+);
+const MultiContainerSortable = dynamic(
+  () =>
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/MultiContainerSortable"
     )
 );
 
 const MDXComponents = {
-  Head,
-  Image,
-  Link,
-  DraggableAndDroppable,
+  FreeDnDSandPack,
+  FreeDnd,
+  DroppableDnd,
+  SingleContainerSortable,
+  MultiContainerSortable,
+  ...components,
 };
 
 type PostProps = {
@@ -36,20 +52,37 @@ export default function Post(props: PostProps) {
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
   const title = `${post.title} | Kolade Afode`;
+  const ogImageUrl = `/api/og?title=${encodeURIComponent(
+    post.title
+  )}&date=${encodeURIComponent(formatDate(post.publishedAt, "MMMM dd yyyy"))}`;
+
   const meta: MetaProps = {
     title: `${title} | Kolade Afode`,
     description: post.description,
     canonical: url,
     openGraph: {
-      url,
       title,
       description: post.description,
-      images: [],
+      url,
+      type: "article",
+      article: {
+        publishedTime: post.publishedAt,
+        authors: ["https://kxlaa.com"],
+        tags: post?.tags?.map((c: string) => c),
+      },
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 600,
+          alt: title,
+        },
+      ],
     },
   };
   return (
     <>
-      <Layout customMeta={meta} className="gap-0" light small>
+      <Layout customMeta={meta} className="gap-0" light>
         <PostLayout {...post}>
           <Component components={MDXComponents} />
         </PostLayout>

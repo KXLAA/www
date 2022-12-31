@@ -11,7 +11,7 @@ const arrow = {
 };
 
 type RefreshProps = {
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export function Refresh(props: RefreshProps) {
