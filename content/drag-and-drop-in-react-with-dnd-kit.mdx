@@ -132,3 +132,15 @@ Now that we've discussed the core concepts of the Dndkit, let's go through examp
 - **Multi-Container Sortables**: Drag items between multiple Sortable containers
 
 ### Free Drag-and-Drop
+
+This interaction is similar to the demo at the start of this post. Here is a simplified example for reference:
+
+<DraggableAndDroppable />
+
+To build this we need to store the x- and y-positions of the draggable component in state. We'll levarge the `onDragEnd` event emitted by the `<DndContext />`. This event contains the position of the draggable element at the end of the drag event. In our handler function, we can then update our local state to reflect the updated position:
+
+<FreeDnDSandPack />
+
+We can easily extend this example to remember the position of the draggable item after a page refresh, we can simply store the state in local storage and update it as it changes:
+
+<FreeDnDSandPack />
