@@ -16,7 +16,7 @@
 }
 
 .prose {
-  @apply !text-silver font-light;
+  @apply !text-silver font-light text-lg;
 }
 
 .prose h2,
@@ -54,7 +54,12 @@
 }
 
 code {
-  @apply px-1 py-0.5 rounded-md bg-shark-900 shadow-border-shiny !font-normal  !text-[#EBEBEB];
+  @apply px-1 py-0.5 rounded-md bg-shark-300 shadow-border-shiny !font-normal  !text-[#EBEBEB];
+}
+
+code::before,
+code::after {
+  content: "" !important;
 }
 
 .prose img {
