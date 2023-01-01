@@ -16,7 +16,7 @@
 }
 
 .prose {
-  @apply !text-silver font-light text-lg;
+  @apply !text-silver font-light text-xl;
 }
 
 .prose h2,
@@ -25,6 +25,10 @@
 .prose h5,
 .prose h6 {
   @apply text-silver-400 font-bold;
+}
+
+.prose h1 {
+  @apply !text-5xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose h2 {
@@ -154,4 +158,10 @@ code::after {
   background-image: radial-gradient(circle at center, #202328 60%, #101114);
   mask-image: radial-gradient(black 0.9px, transparent 0.9px);
   mask-size: 18px 18px;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
 }
