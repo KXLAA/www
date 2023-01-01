@@ -153,26 +153,26 @@ To visualise when the `<DndContext>` emits different events, play around with th
 
 #### Sensors
 
-The `<DndContext>` uses sensors to detect drag-and-drop interactions. Sensors are responsible for detecting when a draggable item is being dragged, and when it is dropped. The `<DndContext>` comes with a few sensors out of the box, but you can also create your own. The most common sensors are:
-
-- `MouseSensor` - Detects mouse events to determine when a draggable item is being dragged.
-- `TouchSensor` - Detects touch events to determine when a draggable item is being dragged.
-- `KeyboardSensor` - Detects keyboard events to determine when a draggable item is being dragged.
-
-To use a sensor, we need to pass it to the `<DndContext>` as an array of sensors:
+There are many ways to initiate a drag event, such as using a mouse, touchpad, keyboard, or a touchscreen on a mobile device. To detect these potential input sources, sensors come into play. Sensors provide `<DndContext>` with a way to detect the different stages of a drag event. By default, @dnd-kit/core ships with four sensors: MouseSensor, TouchSensor, KeyboardSensor, and PointerSensor. These sensors are generally enough for most use cases. If you need something more specific, you can build a custom sensor. To see how to set up sensors, follow the example below:
 
 ```tsx
-import { DndContext, MouseSensor, TouchSensor } from "@dnd-kit/core";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 
 function App() {
-  return (
-    <DndContext
-      sensors={[MouseSensor, TouchSensor]}
-      collisionDetection={closestCenter}
-    >
-      {/* Render draggable and droppable components */}
-    </DndContext>
+  const sensors = useSensors(
+    useSensor(MouseSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor)
   );
+
+  return <DndContext sensors={sensors}>{/* ... */}</DndContext>;
 }
 ```
 

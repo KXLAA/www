@@ -52,9 +52,10 @@ export default function Post(props: PostProps) {
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
   const title = `${post.title} | Kolade Afode`;
+  const date = post?.publishedAt || new Date().toDateString();
   const ogImageUrl = `/api/og?title=${encodeURIComponent(
     post.title
-  )}&date=${encodeURIComponent(formatDate(post.publishedAt, "MMMM dd yyyy"))}`;
+  )}&date=${encodeURIComponent(formatDate(date, "MMMM dd yyyy"))}`;
 
   const meta: MetaProps = {
     title: `${title} | Kolade Afode`,
