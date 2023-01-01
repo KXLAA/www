@@ -62,6 +62,14 @@ code::after {
   content: "" !important;
 }
 
+.prose aside p {
+  @apply m-0 !important;
+}
+
+.prose aside a {
+  @apply text-inherit !important;
+}
+
 .prose img {
   /* Don't apply styles to next/image */
   @apply m-0;

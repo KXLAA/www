@@ -14,7 +14,14 @@ If you're already familiar with DnD Kit, or just want to see code examples, jump
 
 Let's begin!
 
-> This article assumes you have a basic understanding of React and Typescript. If you're new to React, I recommend reading [this](https://reactjs.org/docs/getting-started.html) and [this](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup/). If you're new to Typescript, I recommend reading [this](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html).
+<Callout intent="info" heading="Intended Audience">
+  This article assumes you have a basic understanding of React and Typescript.
+  If you're new to React, I recommend reading
+  [this](https://reactjs.org/docs/getting-started.html) and
+  [this](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup/). If
+  you're new to Typescript, I recommend reading
+  [this](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html).
+</Callout>
 
 ## Core Concepts
 
@@ -32,7 +39,11 @@ DndKit is built around this approach, offering three core primitives:
 - The `useDroppable` hook, which sets up DOM elements as droppable areas that draggable elements can be dropped over; and
 - The `<DndContext />` component, which manages the interaction between draggable and droppable components via React Context API.
 
-> The React Context API is a way to share data between components without having to pass props down manually at every level. You can read more about it [here](https://reactjs.org/docs/context.html).
+<Callout intent="info" heading="The React Context API">
+  The React Context API is a way to share data between components without having
+  to pass props down manually at every level. You can read more about it
+  [here](https://reactjs.org/docs/context.html).
+</Callout>
 
 These primitives are exported from the `@dnd-kit/core` package; you can install it by running:
 
@@ -50,6 +61,11 @@ Creating a draggable component is easy with the useDraggable hook. It takes an i
 2. `listeners` - An object we spread on the HTML element that we want to use as triggers to start dragging. We can use this to create drag handles for our draggable elements.
 3. `attributes` - An object with sensible defaults for accessibility that can be spread on the activator HTML element, along with the `listeners` object.
 4. `transform` - An object with the x- and y-coordinates of a draggable element in 2D, which is updated as it is being dragged. We'll use this to update the CSS `translate` property, allowing us to move the draggable component on the screen.
+
+<Callout intent="info" heading="Callback Refs">
+  Callback refs are a way to access DOM nodes in React. You can read more about
+  them [here](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs).
+</Callout>
 
 Here is an example of how all these elements work together to create a draggable component:
 
@@ -79,8 +95,6 @@ function Draggable() {
   );
 }
 ```
-
-> Callback refs are a way to access DOM nodes in React. You can read more about them [here](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs).
 
 ### Droppables
 
