@@ -16,10 +16,19 @@ export function Callout(props: CalloutProps) {
   const { intent, children, heading } = props;
   const icon =
     intent === "danger" ? (
-      <ExclamationTriangleIcon className="w-5 h-5" />
+      <div className="rounded-full bg-[#3C181A] p-1 border-2 border-[#481A1D]">
+        <ExclamationTriangleIcon className="w-4 h-4 shrink-0" />
+      </div>
     ) : (
-      <QuestionMarkCircledIcon className="w-5 h-5" />
+      <div
+        className={cx(
+          "rounded-full bg-[#192140] p-1 border-2 border-[#1C274F]"
+        )}
+      >
+        <QuestionMarkCircledIcon className="w-4 h-4 shrink-0" />
+      </div>
     );
+
   return (
     <aside
       className={cx(
