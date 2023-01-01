@@ -29,24 +29,26 @@ export function Posts(props: PostsProps) {
 
       <div className="flex flex-col gap-2">
         {posts.map((post) => (
-          <Link
-            className="flex flex-col gap-4 p-4 transition-all rounded-xl bg-shark-600 hover:shadow-border-shiny"
-            key={post.slug}
-            href={`/posts/${post.slug}`}
-          >
-            <div>
-              <h3 className="text-xl font-medium">{post.title}</h3>
-              <p className="text-base font-extralight text-silver-600">
-                {post.description}
-              </p>
-            </div>
+          <article key={post._id}>
+            <Link
+              className="flex flex-col gap-4 p-4 transition-all rounded-xl bg-shark-600 hover:shadow-border-shiny"
+              key={post.slug}
+              href={`/posts/${post.slug}`}
+            >
+              <div>
+                <h3 className="text-xl font-medium">{post.title}</h3>
+                <p className="text-base font-extralight text-silver-600">
+                  {post.description}
+                </p>
+              </div>
 
-            <div className="flex gap-2">
-              {post.tags?.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
-              ))}
-            </div>
-          </Link>
+              <div className="flex gap-2">
+                {post.tags?.map((tag) => (
+                  <Tag key={tag}>{tag}</Tag>
+                ))}
+              </div>
+            </Link>
+          </article>
         ))}
       </div>
     </section>

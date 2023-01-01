@@ -1,12 +1,13 @@
 import "@/styles/globals.css";
 
-import { Inter } from "@next/font/google";
+import { Anybody, Inter } from "@next/font/google";
 import type { AppProps } from "next/app";
 import { DefaultSeo } from "next-seo";
 
 import { seo } from "@/lib/seo";
 
 const inter = Inter({ subsets: ["latin"] });
+const anybody = Anybody({ subsets: ["latin"] });
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

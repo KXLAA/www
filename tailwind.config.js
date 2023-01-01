@@ -52,14 +52,6 @@ module.exports = {
         DEFAULT: {
           "h1,h2,h3,h4,h5,h6": { color: "#EEEEEE" },
         },
-        code: {
-          "&::before": {
-            content: `"" !important`,
-          },
-          "&::after": {
-            content: `"" !important`,
-          },
-        },
       },
       borderRadius: {
         "4xl": "28px",
