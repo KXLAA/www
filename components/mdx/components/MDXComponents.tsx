@@ -4,6 +4,8 @@ import Image from "next/image";
 import NextLink from "next/link";
 import React from "react";
 
+import { Callout } from "@/components/common/Callout";
+
 // function H2({ children }: any) {
 //   const id = children[1].toLowerCase().replace(/ /g, "-");
 //   return <h2 id={id}>{children}</h2>;
@@ -80,4 +82,4 @@ function Pre(props: any) {
   );
 }
 
-export const components = { a: A, pre: Pre, Image };
+export const components = { a: A, pre: Pre, Image, Callout };
