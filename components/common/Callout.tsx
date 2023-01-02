@@ -1,5 +1,4 @@
 import {
-  //   InfoCircledIcon,
   ChevronDownIcon,
   ExclamationTriangleIcon,
   QuestionMarkCircledIcon,
@@ -68,7 +67,9 @@ export function Callout(props: CalloutProps) {
             <ChevronDownIcon
               className={cx(
                 "w-4 h-4",
-                disclosure.open ? "transform rotate-180" : ""
+                disclosure.open
+                  ? "rotate-180 duration-300"
+                  : "rotate-0 duration-300"
               )}
             />
           </div>

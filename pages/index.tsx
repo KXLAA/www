@@ -21,7 +21,7 @@ export default function Home(props: HomeProps) {
         >
           kxlaa
         </Link>
-        <nav className="flex gap-4">
+        <nav className="flex gap-[1em]">
           <Link href="/about">Twitter</Link>
           <Link href="/work">Linkedin</Link>
           <Link href="/posts">Email</Link>

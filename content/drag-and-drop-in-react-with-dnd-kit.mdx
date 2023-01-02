@@ -153,7 +153,11 @@ To visualise when the `<DndContext>` emits different events, play around with th
 
 #### Sensors
 
-There are many ways to initiate a drag event, such as using a mouse, touchpad, keyboard, or a touchscreen on a mobile device. To detect these potential input sources, sensors come into play. Sensors provide `<DndContext>` with a way to detect the different stages of a drag event. By default, @dnd-kit/core ships with four sensors: MouseSensor, TouchSensor, KeyboardSensor, and PointerSensor. These sensors are generally enough for most use cases. If you need something more specific, you can build a custom sensor. To see how to set up sensors, follow the example below:
+With the many devices that can access the web, there are various input types that could trigger a drag event. These include a mouse, touchpad, keyboard, stylus pen, or a touchscreen. To detect these potential input types, Dndkit exposes the concept of sensors.
+
+Sensors provide `DndContext` with a way to detect the different stages of a drag event triggered by specific input types. By default, `@dnd-kit/core` ships with four sensors: `MouseSensor`, `TouchSensor`, `KeyboardSensor`, and `PointerSensor`. These sensors are generally enough for most use cases. However, if they are not sufficient, you can build a custom sensor. For more information on this, check [here](https://docs.dndkit.com/api-documentation/sensors#custom-sensors).
+
+By default, `DndContext` uses the Pointer and Keyboard sensors. To use other sensors, such as the Mouse and Touch sensors, initialize them separately using the `useSensor` hook:
 
 ```tsx
 import {
@@ -335,7 +339,7 @@ export function App() {
 }
 ```
 
-You see How these comes together by playing with the interactive code example below:
+You see How these comes together by playing with the interactive code example below. Aditional styles added with CSS:
 
 <FreeDnDSandPack />
 

@@ -11,6 +11,10 @@
   cursor: pointer;
 }
 
+body {
+  /* font-size: calc(1rem + 0.8vw) !important; */
+}
+
 .anchor:hover {
   @apply visible;
 }
@@ -58,7 +62,7 @@
 }
 
 code {
-  @apply px-1 py-0.5 rounded-md bg-shark-300 shadow-border-shiny !font-normal  !text-[#EBEBEB];
+  @apply px-1 py-0.5 rounded-md bg-shark-900 shadow-border-shiny !font-normal  !text-blue-500;
 }
 
 code::before,
