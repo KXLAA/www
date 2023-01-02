@@ -1,9 +1,11 @@
+import { ChevronRightIcon } from "@radix-ui/react-icons";
 import type { GetStaticProps } from "next";
 import Link from "next/link";
 
 import { Layout } from "@/components/common/Layout";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
+import { getHomePosts } from "@/lib/api";
 
 type HomeProps = {
   posts: PostType[];
@@ -33,6 +35,16 @@ export default function Home(props: HomeProps) {
               {post.title}
             </Link>
           ))}
+          <Link
+            href="/posts"
+            className="mt-6 text-xl text-blue-500 transition-colors hover:text-blue-700"
+          >
+            See all posts
+            <ChevronRightIcon
+              className="inline-block w-5 h-5 ml-2 -mr-1"
+              aria-hidden="true"
+            />
+          </Link>
         </div>
 
         <div className="flex flex-col gap-4">
@@ -61,6 +73,8 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   return {
-    props: { posts },
+    props: {
+      posts: getHomePosts(posts),
+    },
   };
 };
