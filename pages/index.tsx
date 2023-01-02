@@ -1,6 +1,7 @@
 import type { GetStaticProps } from "next";
 import Link from "next/link";
 
+import { Layout } from "@/components/common/Layout";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
 
@@ -12,22 +13,8 @@ export default function Home(props: HomeProps) {
   const posts = props.posts;
 
   return (
-    <div className="bg-shark-700 main-layout text-silver">
-      <header className="flex justify-between p-10">
-        <Link
-          aria-current="page"
-          className="!text-blue-500 font-medium"
-          href="/"
-        >
-          kxlaa
-        </Link>
-        <nav className="flex gap-[1em]">
-          <Link href="/about">Twitter</Link>
-          <Link href="/work">Linkedin</Link>
-          <Link href="/posts">Email</Link>
-        </nav>
-      </header>
-      <main className="flex flex-col gap-24 px-10 py-16">
+    <Layout>
+      <div className="flex flex-col max-w-6xl gap-24 px-10 py-16">
         <div className="flex flex-col gap-0.5">
           <h1 className="font-bold text-7xl">Kolade Afode</h1>
           <h2 className="text-3xl !text-blue-500 font-medium">
@@ -63,8 +50,8 @@ export default function Home(props: HomeProps) {
             DevPortfolios
           </a>
         </div>
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }
 

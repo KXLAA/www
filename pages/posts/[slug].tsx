@@ -83,7 +83,7 @@ export default function Post(props: PostProps) {
   };
   return (
     <>
-      <Layout customMeta={meta} className="gap-0" light>
+      <Layout customMeta={meta} hideHeader>
         <PostLayout {...post}>
           <Component components={MDXComponents} />
         </PostLayout>
