@@ -20,30 +20,21 @@ const FreeDnDSandPack = dynamic(
   () =>
     import("../../components/mdx/widgets/drag-and-drop-post/FreeDnDSandPack")
 );
-const SingleContainerSortable = dynamic(
-  () =>
-    import(
-      "../../components/mdx/widgets/drag-and-drop-post/SingleContainerSortable"
-    )
-);
-const MultiContainerSortable = dynamic(
-  () =>
-    import(
-      "../../components/mdx/widgets/drag-and-drop-post/MultiContainerSortable"
-    )
-);
 
 const DroppableDndMulti = dynamic(
   () =>
     import("../../components/mdx/widgets/drag-and-drop-post/DroppableDndMulti")
 );
 
+const SortableDnd = dynamic(
+  () => import("../../components/mdx/widgets/drag-and-drop-post/SortableDnd")
+);
+
 const MDXComponents = {
   FreeDnDSandPack,
   FreeDnd,
   DroppableDnd,
-  SingleContainerSortable,
-  MultiContainerSortable,
+  SortableDnd,
   DroppableDndMulti,
   ...components,
 };

@@ -34,25 +34,27 @@ export default function PostsPage(props: PostsPageProps) {
   return (
     <Layout customMeta={meta}>
       <div className="flex flex-col gap-24 px-10 py-16">
-        {Object.entries(posts).map(([year, posts]) => (
-          <div
-            className="flex flex-col w-full gap-4 transition-colors rounded-2xl"
-            key={year}
-          >
-            <div className="w-full text-5xl font-bold">{year}</div>
-            <div className="flex flex-col gap-4">
-              {posts.map((post) => (
-                <Link
-                  className="text-[36px] font-light hover:underline underline-offset-4 decoration-blue-500"
-                  key={post.slug}
-                  href={`/posts/${post.slug}`}
-                >
-                  {post.title}
-                </Link>
-              ))}
+        {Object.entries(posts)
+          .reverse()
+          .map(([year, posts]) => (
+            <div
+              className="flex flex-col w-full gap-4 transition-colors rounded-2xl"
+              key={year}
+            >
+              <div className="w-full text-5xl font-bold">{year}</div>
+              <div className="flex flex-col gap-4">
+                {posts.map((post) => (
+                  <Link
+                    className="text-[36px] font-light hover:underline underline-offset-4 decoration-blue-500"
+                    key={post.slug}
+                    href={`/posts/${post.slug}`}
+                  >
+                    {post.title}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </Layout>
   );
@@ -72,9 +74,9 @@ function groupPostsByYear(posts: PostType[]): Record<string, PostType[]> {
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = allPosts.sort(
-    (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    (a, b) => Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
   );
+
   return {
     props: { posts: getMinimalPostDetails(posts) },
   };
