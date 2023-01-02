@@ -3,6 +3,8 @@ import path from "node:path";
 
 import type { DocumentGen } from "contentlayer/core";
 
+import type { Post as PostType } from "@/contentlayer/generated";
+
 export type PostHeading = {
   id?: string;
   content?: string;
@@ -38,4 +40,11 @@ export async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
     path.join(contentDirPath, doc._raw.sourceFilePath)
   );
   return stats.mtime;
+}
+
+export function getHomePosts(posts: PostType[]) {
+  return posts.map((p) => ({
+    title: p.title,
+    slug: p.slug,
+  }));
 }

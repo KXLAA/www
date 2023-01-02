@@ -33,12 +33,18 @@ const MultiContainerSortable = dynamic(
     )
 );
 
+const DroppableDndMulti = dynamic(
+  () =>
+    import("../../components/mdx/widgets/drag-and-drop-post/DroppableDndMulti")
+);
+
 const MDXComponents = {
   FreeDnDSandPack,
   FreeDnd,
   DroppableDnd,
   SingleContainerSortable,
   MultiContainerSortable,
+  DroppableDndMulti,
   ...components,
 };
 
@@ -52,9 +58,10 @@ export default function Post(props: PostProps) {
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
   const title = `${post.title} | Kolade Afode`;
+  const date = post?.publishedAt || new Date().toDateString();
   const ogImageUrl = `/api/og?title=${encodeURIComponent(
     post.title
-  )}&date=${encodeURIComponent(formatDate(post.publishedAt, "MMMM dd yyyy"))}`;
+  )}&date=${encodeURIComponent(formatDate(date, "MMMM dd yyyy"))}`;
 
   const meta: MetaProps = {
     title: `${title} | Kolade Afode`,
@@ -82,7 +89,7 @@ export default function Post(props: PostProps) {
   };
   return (
     <>
-      <Layout customMeta={meta} className="gap-0" light>
+      <Layout customMeta={meta} hideHeader>
         <PostLayout {...post}>
           <Component components={MDXComponents} />
         </PostLayout>
