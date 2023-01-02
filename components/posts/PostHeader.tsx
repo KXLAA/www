@@ -49,12 +49,7 @@ export function PostHeader(props: PostHeaderProps) {
 
       {!isHidden && (
         <div className="relative flex flex-col self-center justify-end w-full gap-3 p-10 pb-6 pl-0 h-52">
-          <div className="flex items-center justify-center gap-1 text-[10px] font-light rounded-md text-silver-700 underline-offset-1 w-fit">
-            <span className="m-0">{date}</span>
-            <span className="font-normal text-silver-900">/</span>
-            <span>{readingTime.text} </span>
-          </div>
-          <BreadCrumb
+          {/* <BreadCrumb
             plain
             items={[
               {
@@ -71,8 +66,14 @@ export function PostHeader(props: PostHeaderProps) {
                 active: true,
               },
             ]}
-          />
+          /> */}
           <h1 className="m-0 text-4xl font-bold max-w-[668px]">{title}</h1>
+
+          <div className="flex items-center justify-center gap-1 text-sm font-normal rounded-md text-silver-700 underline-offset-1 w-fit">
+            <span className="m-0">{date}</span>
+            <span>/</span>
+            <span>{readingTime.text} </span>
+          </div>
 
           <div className="z-10 flex gap-2">
             {props.publishedAt !== props.lastUpdatedAt && (
