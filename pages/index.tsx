@@ -1,27 +1,67 @@
+import { ChevronRightIcon } from "@radix-ui/react-icons";
 import type { GetStaticProps } from "next";
+import Link from "next/link";
 
-import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
-import { About } from "@/components/home/About";
-import { Posts } from "@/components/home/Posts";
-import { Work } from "@/components/home/Work";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
+import { getHomePosts } from "@/lib/api";
 
 type HomeProps = {
   posts: PostType[];
 };
 
 export default function Home(props: HomeProps) {
-  const posts = props.posts.slice(0, 4);
+  const posts = props.posts;
 
   return (
-    <Layout className="relative flex-row items-start gap-6 my-24">
-      <div className="flex flex-col gap-10">
-        <About />
-        <Posts posts={posts} />
-        <Work />
-        <Footer />
+    <Layout>
+      <div className="flex flex-col max-w-6xl gap-24 px-10 py-16">
+        <div className="flex flex-col gap-0.5">
+          <h1 className="font-bold text-7xl">Kolade Afode</h1>
+          <h2 className="text-3xl !text-blue-500 font-medium">
+            Engineer / Designer
+          </h2>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <h3 className="text-3xl font-bold">Recent Posts</h3>
+          {posts.map((post) => (
+            <Link
+              href={`/posts/${post.slug}`}
+              key={post.slug}
+              className="text-[40px] font-light hover:underline underline-offset-4 decoration-blue-500"
+            >
+              {post.title}
+            </Link>
+          ))}
+          <Link
+            href="/posts"
+            className="mt-6 text-xl text-blue-500 transition-colors hover:text-blue-700"
+          >
+            See all posts
+            <ChevronRightIcon
+              className="inline-block w-5 h-5 ml-2 -mr-1"
+              aria-hidden="true"
+            />
+          </Link>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <h3 className="text-3xl font-bold">Projects</h3>
+          <a
+            href={`https://www.nartefacts.com/`}
+            className="text-[40px] font-light hover:underline"
+          >
+            Nartefacts
+          </a>
+          <a
+            href={`https://www.devportfolios.dev/`}
+            className="text-[40px] font-light hover:underline"
+          >
+            DevPortfolios
+          </a>
+        </div>
       </div>
     </Layout>
   );
@@ -33,6 +73,8 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   return {
-    props: { posts },
+    props: {
+      posts: getHomePosts(posts),
+    },
   };
 };

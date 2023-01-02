@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { NextSeo } from "next-seo";
 
+import { Show } from "@/components/common/Show";
 import { cx } from "@/lib/cx";
 import type { MetaProps } from "@/lib/seo";
 
@@ -8,28 +10,38 @@ type LayoutProps = {
   light?: boolean;
   customMeta?: MetaProps;
   className?: string;
+  hideHeader?: boolean;
 };
 
 export function Layout(props: LayoutProps) {
-  const { children, customMeta, light, className } = props;
+  const { children, customMeta, hideHeader } = props;
   return (
     <>
       {customMeta && <NextSeo {...customMeta} />}
-      <main
+      <div
         className={cx(
-          "flex min-h-screen w-full flex-col items-center gap-4 p-4  md:p-10 text-silver-50 bg-shark-800",
-          light && "md:pt-0 bg-shark-700"
+          "flex min-h-screen w-full flex-col bg-shark-700 text-silver"
         )}
       >
-        <div
-          className={cx(
-            "flex w-full flex-col gap-4 justify-center max-w-5xl",
-            className
-          )}
-        >
-          {children}
-        </div>
-      </main>
+        <Show when={!hideHeader}>
+          <header className="flex justify-between p-10">
+            <Link
+              aria-current="page"
+              className="!text-blue-500 font-medium"
+              href="/"
+            >
+              kxlaa
+            </Link>
+            <nav className="flex gap-[1em]">
+              <Link href="/about">Twitter</Link>
+              <Link href="/work">Linkedin</Link>
+              <Link href="/posts">Email</Link>
+            </nav>
+          </header>
+        </Show>
+
+        <main>{children}</main>
+      </div>
     </>
   );
 }

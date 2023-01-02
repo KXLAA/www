@@ -5,6 +5,7 @@ import NextLink from "next/link";
 import React from "react";
 
 import { Callout } from "@/components/common/Callout";
+import { Dropdown } from "@/components/common/Dropdown";
 
 // function H2({ children }: any) {
 //   const id = children[1].toLowerCase().replace(/ /g, "-");
@@ -82,4 +83,4 @@ function Pre(props: any) {
   );
 }
 
-export const components = { a: A, pre: Pre, Image, Callout };
+export const components = { a: A, pre: Pre, Image, Callout, Dropdown };
