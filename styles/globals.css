@@ -32,15 +32,15 @@ body {
 }
 
 .prose h1 {
-  @apply !text-5xl font-bold mt-8 mb-4 text-silver-400;
+  @apply !text-7xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose h2 {
-  @apply text-2xl font-bold mt-8 mb-4 text-silver-400;
+  @apply text-3xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose h3 {
-  @apply text-xl font-bold mt-8 mb-4 text-silver-400;
+  @apply text-2xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose strong {
@@ -62,7 +62,7 @@ body {
 }
 
 code {
-  @apply px-1 py-0.5 rounded-md bg-shark-900 shadow-border-shiny !font-normal  !text-blue-500;
+  @apply px-1 py-1 rounded-md bg-shark-400 shadow-border-shiny !font-normal !text-silver-50;
 }
 
 code::before,

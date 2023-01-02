@@ -12,7 +12,7 @@ import {
 import { cx } from "@/lib/cx";
 
 type CalloutProps = {
-  intent: "info" | "danger";
+  intent: "info" | "danger" | "default";
   children: React.ReactNode;
   heading?: string;
   dropdown?: boolean;
@@ -27,7 +27,7 @@ export function Callout(props: CalloutProps) {
       <div className="rounded-full bg-[#3C181A] p-1 border-2 border-[#481A1D]">
         <ExclamationTriangleIcon className="w-4 h-4 shrink-0" />
       </div>
-    ) : (
+    ) : intent === "info" ? (
       <div
         className={cx(
           "rounded-full bg-[#192140] p-1 border-2 border-[#1C274F]"
@@ -35,16 +35,18 @@ export function Callout(props: CalloutProps) {
       >
         <QuestionMarkCircledIcon className="w-4 h-4 shrink-0" />
       </div>
-    );
+    ) : null;
 
   return dropdown ? (
     <aside
       className={cx(
-        "p-3 w-full rounded-xl ",
+        "p-3 w-full rounded-xl my-6",
         intent === "danger" &&
           "bg-[#291415] border-2 border-[#481A1D] text-[#FF6369]",
         intent === "info" &&
-          "bg-[#15192D] border-2 border-[#1C274F] !text-[#849DFF]"
+          "bg-[#15192D] border-2 border-[#1C274F] !text-[#849DFF]",
+        intent === "default" &&
+          "bg-shark-600 border-shark-500 border-2 text-silver-600"
       )}
     >
       <div className="flex flex-col gap-2">
@@ -52,7 +54,7 @@ export function Callout(props: CalloutProps) {
           state={disclosure}
           className="flex items-center justify-between w-full"
         >
-          <div className="flex items-center gap-2 text-xl font-bold">
+          <div className="flex items-center gap-2 text-xl font-semibold">
             {icon}
             <p className="m-0">{heading}</p>
           </div>
@@ -61,7 +63,8 @@ export function Callout(props: CalloutProps) {
             className={cx(
               "rounded-full bg-[#192140] p-1 border-2 border-[#1C274F]",
               intent === "danger" &&
-                "bg-[#3C181A] p-1 border-2 border-[#481A1D]"
+                "bg-[#3C181A] p-1 border-2 border-[#481A1D]",
+              intent === "default" && "bg-shark-400 p-1 border-shark-300"
             )}
           >
             <ChevronDownIcon
@@ -74,8 +77,9 @@ export function Callout(props: CalloutProps) {
             />
           </div>
         </Disclosure>
-
-        <DisclosureContent state={disclosure}>{children}</DisclosureContent>
+        <DisclosureContent state={disclosure}>
+          <div className="flex flex-col gap-6 text-lg"> {children}</div>
+        </DisclosureContent>
       </div>
     </aside>
   ) : (
@@ -93,7 +97,7 @@ export function Callout(props: CalloutProps) {
           {icon}
           <p className="m-0">{heading}</p>
         </div>
-        <div>{children}</div>
+        <div className="flex flex-col gap-2 text-lg"> {children}</div>
       </div>
     </aside>
   );

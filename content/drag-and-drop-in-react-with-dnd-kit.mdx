@@ -10,40 +10,37 @@ postId: "drag-and-drop-in-react-with-dnd-kit"
 
 DnD Kit is an awesome library I recently discovered while working on the new dashboard at [Super](https://super.so/). It simplifies the complex task of creating performant Drag-and-Drop UI interactions, with some interesting patterns and concepts. I spent some time creating a lot of cool interactions with the library and wanted to share some of the things I learned.
 
-If you're already familiar with DnD Kit, or just want to see code examples, jump straight to them [here](#examples). Otherwise, keep reading to learn more about the library and how to get started.
+If you're already familiar with DnD Kit, or just want to take a look at the code examples, you can jump straight to them [here](#examples). Otherwise, keep reading to learn more about the library and how to get started.
 
 Let's begin!
 
-<Callout intent="info" heading="Intended Audience" dropdown>
+<Callout intent="info" heading="Intended Audience">
   This article assumes you have a basic understanding of React and Typescript.
-  If you're new to React, I recommend reading
-  [this](https://reactjs.org/docs/getting-started.html) and
-  [this](https://react-typescript-cheatsheet.netlify.app/docs/basic/setup/). If
-  you're new to Typescript, I recommend reading
-  [this](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html).
 </Callout>
 
 ## Core Concepts
 
-From a high-level, most drag-and-drop UI interactions involve three main elements: a draggable component, a droppable area, and a system that manages the interaction between them. The draggable element can be dragged, and the drop area is where it can be dropped. To gain a better understanding of how these components work, you can try out the demo below:
+From a high-level, most drag-and-drop UI interactions involve three elements:
+
+- A **draggable component** that can be dragged
+- A **droppable area** that draggable components can be dropped over
+- A **system** that manages the interaction between the draggable components and the droppable areas
+
+To see these elements in action, you can play with the demo below:
 
 <FreeDnd />
 
-In the demo above, the droppable area covers the entire page, allowing us to drop draggable elements anywhere. This is similar to canvas-based applications like Figma and Excalidraw. But we can also have fixed, designated drop areas, like this:
+In the demo above, the droppable area spans the entire viewport, enabling us to drag and drop our draggable components anywhere. This is similar to canvas-based applications like Figma and Excalidraw.
+
+We can also have fixed, designated droppable areas for our draggable components, like this:
 
 <DroppableDnd />
 
-DndKit is built around this approach, offering three core primitives:
+DndKit is designed around this approach, providing three core primitives:
 
-- The `useDraggable` hook, which turns DOM elements into draggable sources that can be picked up, dragged, and dropped over droppable areas.
-- The `useDroppable` hook, which sets up DOM elements as droppable areas that draggable elements can be dropped over; and
-- The `<DndContext />` component, which manages the interaction between draggable and droppable components via React Context API.
-
-<Callout intent="info" heading="The React Context API">
-  The React Context API is a way to share data between components without having
-  to pass props down manually at every level. You can read more about it
-  [here](https://reactjs.org/docs/context.html).
-</Callout>
+- The `useDraggable` hook, which turns HTML elements into draggable sources that can be picked up, dragged, and dropped over droppable areas.
+- The `useDroppable` hook, which sets up HTML elements as droppable areas that draggable elements can be dropped over; and
+- The `DndContext`, which manages the interaction between draggable and droppable components via React Context API.
 
 These primitives are exported from the `@dnd-kit/core` package; you can install it by running:
 
@@ -51,20 +48,37 @@ These primitives are exported from the `@dnd-kit/core` package; you can install 
 yarn add @dnd-kit/core
 ```
 
-Let's go over each of them in detail.
+In more advanced drag-and-drop UI interactions, we also have sortable components. These are usually used in lists, where each list item is both a draggable component and a droppable area. When you drag a list item, it automatically sorts with other list items:
+
+<SortableDnd />
+
+To handle this use case, DnD-Kit exposes a set of presets from the `@dnd-kit/sortable` package:
+
+- The `useSortable` hook, which turns HTML elements into sortable components. The `useSortable` hook is basically a combination of the `useDraggable` and `useDroppable` hooks; and
+- The `SortableContext` which manages the interaction between sortable components.
+
+You can install the presets by running:
+
+```shell
+yarn add @dnd-kit/sortable
+```
+
+Lets talk about these primitives and presets in more detail.
 
 ### Draggable
 
-Creating a draggable component is easy with the useDraggable hook. It takes an input object as an argument, which must include a unique id. It returns an object with several properties. We are currently interested in four of these properties:
+Dndkit enables us to create draggable components using the `useDraggable` hook. This hook takes an input object with a required, unique `id` as an argument and returns an object with several properties. We are currently interested in four of these properties:
 
-1. `setNodeRef` - A callback `ref` we attach to the HTML element we want to make draggable. This is an essential part of how we provide dndkit with the element that needs to be dragged.
-2. `listeners` - An object we spread on the HTML element that we want to use as triggers to start dragging. We can use this to create drag handles for our draggable elements.
-3. `attributes` - An object with sensible defaults for accessibility that can be spread on the activator HTML element, along with the `listeners` object.
-4. `transform` - An object with the x- and y-coordinates of a draggable element in 2D, which is updated as it is being dragged. We'll use this to update the CSS `translate` property, allowing us to move the draggable component on the screen.
+1. `setNodeRef` - A callback ref we attach to the HTML element we want to make draggable. This is essential for providing dndkit with the element that needs to be dragged.
+2. `listeners` - An object we spread on the HTML element that we use as a trigger or activator to start a drag event. We can use this to create drag handles for our draggable elements.
+3. `attributes` - An object with sensible defaults for accessibility. We spread this object on the activator HTML element, along with the `listeners` object.
+4. `transform` - An object with the x- and y-coordinates of a draggable element in 2D. This is updated during a drag event and we use it to update the CSS `translate` property, allowing us to move the draggable component on the screen.
 
 <Callout intent="info" heading="Callback Refs">
-  Callback refs are a way to access DOM nodes in React. You can read more about
-  them [here](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs).
+  Callback refs are functions that receive a reference to a rendered HTML
+  element as an argument. It's a way to access HTML elements directly in React.
+  Learn more about them
+  [here](https://julesblom.com/writing/ref-callback-use-cases).
 </Callout>
 
 Here is an example of how all these elements work together to create a draggable component:
@@ -98,10 +112,12 @@ function Draggable() {
 
 ### Droppables
 
-The `useDroppable` hook sets up HTML elements as droppable areas. It takes an input object with a required unique id as an argument and returns an object with several properties. We are currently interested in two of these properties:
+The `useDroppable` hook sets up HTML elements as droppable areas. It takes an input object with a required, unique `id` as an argument and returns an object with several properties. We are currently interested in two of these properties:
 
-1. `setNodeRef` - a callback `ref` we attach to the HTML element we want to make droppable. This is how we tell DndKit that an element is a drop area.
-2. `isOver` - a Boolean that indicates whether a draggable component is over the droppable area. We can use this to conditionally style droppable areas.
+1. `setNodeRef` - a callback ref we attach to the HTML element we want to make droppable. This is how DndKit knows an element is a drop area.
+2. `isOver` - a Boolean that indicates whether a draggable component is over a droppable area. We can use this to style droppable areas conditionally.
+
+Here is how all these elements come together:
 
 ```tsx
 import { useDroppable, isOver } from "@dnd-kit/core";
@@ -117,7 +133,7 @@ function Droppable() {
 
 ### DndContext
 
-The `<DndContext>` component manages the interactions between our draggable and droppable components. To make sure they work properly, we must wrap them within the `<DndContext>` component:
+The `DndContext` manages the interactions between our draggable and droppable components. To make sure they work properly, we must wrap them within the `DndContext`:
 
 ```tsx
 import { DndContext } from "@dnd-kit/core";
@@ -134,20 +150,20 @@ function App() {
 }
 ```
 
-The `<DndContext>` provides many props to configure the behaviour of our draggable and droppable components. For a full API reference, please refer to the documentation. The most important props at this point are the `events` and `sensors` props.
+The `<DndContext>` provides many props to configure the behaviour of our draggable and droppable components. For a full API reference, please refer to the [documentation](https://docs.dndkit.com/api-documentation/context-provider). The most important props at this point are the events-realted and sensors props.
 
 #### Events
 
-The `<DndContext>` emits various events during different stages of drag-and-drop interaction. We can use this information to configure the behaviour of draggable and droppable components. The main events are:
+The DndContext emits various events throughout the drag-and-drop interaction. We can use the information from these events to configure the behavior of draggable and droppable components. The main events emitted are:
 
 - `onDragStart`, which fires when a draggable is dragged and contains an object with information about the active draggable element.
 - `onDragOver`, which fires when a draggable item is dragged over a droppable area. It contains an object with information about the droppable area and the draggable element.
 - `onDragEnd`, which fires after a draggable item is dropped. It includes information on the active draggable `id` and whether the draggable item was dropped over a droppable area.
 - `onDragCancel`, which fires if a drag operation is cancelled, e.g. if the user presses `escape` while dragging a draggable item.
 
-We can handle these events with functions, using the event data to update the state of our draggable and droppable components in the UI. This gives us great flexibility.
+We can use handler functions to respond to these events, using the event data to update the state of our draggable and droppable components in the UI.
 
-To visualise when the `<DndContext>` emits different events, play around with the demo below:
+To see when the `DndContext` emits different events, try out the demo below:
 
 <DroppableDnd />
 
@@ -180,6 +196,8 @@ function App() {
 }
 ```
 
+### Sortables
+
 ## Examples
 
 Now that we've discussed the core concepts of dndkit, let's explore examples of how to use them to create various drag-and-drop interactions. We'll cover four common types:
@@ -195,7 +213,7 @@ A user interface allows users to pick up and drag an element across the entire v
 
 <FreeDnDSandPack />
 
-<Dropdown heading='Code Breakdown'>
+<Callout intent='default' dropdown heading='Code Breakdown'>
 In this interaction, we have multiple draggable components. To build this, we need to create a Draggable Component with the useDraggable hook. This component takes a unique id, and a styles object as props:
 
 ```tsx
@@ -338,7 +356,7 @@ export function App() {
 }
 ```
 
-</Dropdown>
+</Callout>
 
 ### Droppable Containers
 
@@ -346,7 +364,7 @@ A user interface allows users to pick up and drag an element into designated dro
 
 <FreeDnDSandPack />
 
-<Dropdown heading='Code Breakdown'>
+<Callout intent='default' dropdown heading='Code Breakdown'>
 To build this, we'll need to create both draggable and droppable components. The draggable component is similar to the one we made in the free DnD example above. To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique ID as props:
 
 ```tsx
@@ -411,7 +429,7 @@ Here is the code:
 
 ```
 
-</Dropdown>
+</Callout>
 
 ### Single Container Sortables
 
@@ -419,7 +437,7 @@ A container containing a list of items that can be rearranged by dragging them.
 
 <FreeDnDSandPack />
 
-<Dropdown heading='Code Breakdown'>
+<Callout dropdown intent='default' heading='Code Breakdown'>
 To build this, we'll need to create both draggable and droppable components. The draggable component is similar to the one we made in the free DnD example above. To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique ID as props:
 
 ```tsx
@@ -484,7 +502,7 @@ Here is the code:
 
 ```
 
-</Dropdown>
+</Callout>
 
 ### Multi-Container Sortables
 
@@ -492,7 +510,7 @@ A list that can be sorted and items that can be dropped into multiple containers
 
 <FreeDnDSandPack />
 
-<Dropdown heading='Code Breakdown'>
+<Callout intent='default' dropdown heading='Code Breakdown'>
 To build this, we'll need to create both draggable and droppable components. The draggable component is similar to the one we made in the free DnD example above. To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique ID as props:
 
 ```tsx
@@ -557,6 +575,6 @@ Here is the code:
 
 ```
 
-</Dropdown>
+</Callout>
 
 ## Closing Thoughts
