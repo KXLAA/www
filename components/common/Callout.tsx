@@ -12,7 +12,7 @@ import {
 import { cx } from "@/lib/cx";
 
 type CalloutProps = {
-  intent: "info" | "danger";
+  intent: "info" | "danger" | "default";
   children: React.ReactNode;
   heading?: string;
   dropdown?: boolean;

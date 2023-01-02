@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Layout } from "@/components/common/Layout";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
-import { getHomePosts } from "@/lib/api";
+import { getMinimalPostDetails } from "@/lib/api";
 
 type HomeProps = {
   posts: PostType[];
@@ -16,7 +16,7 @@ export default function Home(props: HomeProps) {
 
   return (
     <Layout>
-      <div className="flex flex-col max-w-6xl gap-24 px-10 py-16">
+      <div className="flex flex-col gap-24 px-10 py-16">
         <div className="flex flex-col gap-0.5">
           <h1 className="font-bold text-7xl">Kolade Afode</h1>
           <h2 className="text-3xl !text-blue-500 font-medium">
@@ -30,7 +30,7 @@ export default function Home(props: HomeProps) {
             <Link
               href={`/posts/${post.slug}`}
               key={post.slug}
-              className="text-[40px] font-light hover:underline underline-offset-4 decoration-blue-500"
+              className="text-[36px] font-light hover:underline underline-offset-4 decoration-blue-500"
             >
               {post.title}
             </Link>
@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      posts: getHomePosts(posts),
+      posts: getMinimalPostDetails(posts),
     },
   };
 };
