@@ -33,12 +33,18 @@ const MultiContainerSortable = dynamic(
     )
 );
 
+const DroppableDndMulti = dynamic(
+  () =>
+    import("../../components/mdx/widgets/drag-and-drop-post/DroppableDndMulti")
+);
+
 const MDXComponents = {
   FreeDnDSandPack,
   FreeDnd,
   DroppableDnd,
   SingleContainerSortable,
   MultiContainerSortable,
+  DroppableDndMulti,
   ...components,
 };
 
