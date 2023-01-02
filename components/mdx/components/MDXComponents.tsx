@@ -5,20 +5,7 @@ import NextLink from "next/link";
 import React from "react";
 
 import { Callout } from "@/components/common/Callout";
-import { Dropdown } from "@/components/common/Dropdown";
 
-// function H2({ children }: any) {
-//   const id = children[1].toLowerCase().replace(/ /g, "-");
-//   return <h2 id={id}>{children}</h2>;
-// }
-
-// function Code({ children }: any) {
-//   return (
-//     <code className="px-1 py-0.5 rounded-md bg-shark-900 text-silver-600 font-normal shadow-border-shiny">
-//       {children}
-//     </code>
-//   );
-// }
 function A({ href, ...props }: any) {
   if (href.startsWith("http")) {
     return (
@@ -83,4 +70,4 @@ function Pre(props: any) {
   );
 }
 
-export const components = { a: A, pre: Pre, Image, Callout, Dropdown };
+export const components = { a: A, pre: Pre, Image, Callout };

@@ -42,9 +42,10 @@ export async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
   return stats.mtime;
 }
 
-export function getHomePosts(posts: PostType[]) {
+export function getMinimalPostDetails(posts: PostType[]) {
   return posts.map((p) => ({
     title: p.title,
     slug: p.slug,
+    publishedAt: p.publishedAt,
   }));
 }
