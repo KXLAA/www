@@ -3,6 +3,7 @@ import type { GetStaticProps } from "next";
 import Link from "next/link";
 
 import { Layout } from "@/components/common/Layout";
+import { Show } from "@/components/common/Show";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
 import { getMinimalPostDetails } from "@/lib/api";
@@ -35,16 +36,19 @@ export default function Home(props: HomeProps) {
               {post.title}
             </Link>
           ))}
-          <Link
-            href="/posts"
-            className="mt-6 text-xl text-blue-500 transition-colors hover:text-blue-700"
-          >
-            See all posts
-            <ChevronRightIcon
-              className="inline-block w-5 h-5 ml-2 -mr-1"
-              aria-hidden="true"
-            />
-          </Link>
+
+          <Show when={posts.length > 6}>
+            <Link
+              href="/posts"
+              className="mt-6 text-xl text-blue-500 transition-colors hover:text-blue-700"
+            >
+              See all posts
+              <ChevronRightIcon
+                className="inline-block w-5 h-5 ml-2 -mr-1"
+                aria-hidden="true"
+              />
+            </Link>
+          </Show>
         </div>
 
         <div className="flex flex-col gap-4">
