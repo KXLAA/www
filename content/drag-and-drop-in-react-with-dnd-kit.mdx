@@ -8,7 +8,7 @@ thumbnail: "/assets/blog/dynamic-routing/cover.jpg"
 postId: "drag-and-drop-in-react-with-dnd-kit"
 ---
 
-DnD Kit is an awesome library I recently discovered while working on the new dashboard at [Super](https://super.so/). It simplifies the complex task of creating performant Drag-and-Drop UI interactions, with some interesting patterns and concepts. I spent some time creating a lot of cool interactions with the library and wanted to share some of the things I learned.
+DnD Kit is an awesome library I recently discovered while working on the new dashboard at [Super](https://super.so/). It simplifies the complex task of creating Drag-and-Drop UI interactions, with some interesting patterns and concepts. I spent some time creating a lot of cool interactions with the library and wanted to share some of the things I learned.
 
 If you're already familiar with DnD Kit, or just want to take a look at the code examples, you can jump straight to them [here](#examples). Otherwise, keep reading to learn more about the library and how to get started.
 
@@ -30,9 +30,7 @@ To see these elements in action, you can play with the demo below:
 
 <FreeDnd />
 
-In the demo above, the droppable area spans the entire viewport, enabling us to drag and drop our draggable components anywhere. This is similar to canvas-based applications like Figma and Excalidraw.
-
-We can also have fixed, designated droppable areas for our draggable components, like this:
+In the demo above, the droppable area spans the entire viewport, enabling us to drag and drop our draggable components anywhere. This is similar to canvas-based applications like Figma and Excalidraw. But we can also have fixed, designated droppable areas for our draggable components, like this:
 
 <DroppableDnd />
 
@@ -76,7 +74,7 @@ Dndkit enables us to create draggable components using the `useDraggable` hook. 
 
 <Callout intent="info" heading="Callback Refs">
   Callback refs are functions that receive a reference to a rendered HTML
-  element as an argument. It's a way to access HTML elements directly in React.
+  element as an argument. It is a way to access HTML elements directly in React.
   Learn more about them
   [here](https://julesblom.com/writing/ref-callback-use-cases).
 </Callout>
@@ -93,14 +91,14 @@ function Draggable() {
     id: "unique-id",
   });
 
-  const transformStyle = {
+  const style = {
     transform: CSS.Transform.toString(transform),
   };
 
   return (
     <button
       ref={setNodeRef}
-      style={{ ...transformStyle }}
+      style={{ ...style }}
       {...listeners}
       {...attributes}
     >
@@ -127,7 +125,17 @@ function Droppable() {
     id: "unique-id",
   });
 
-  return <div ref={setNodeRef}>{/* Render whatever you like within */}</div>;
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        // Change the bg color when a draggable component is over the droppable area
+        backgroundColor: isOver ? "red" : "blue",
+      }}
+    >
+      {/* Render whatever you like within */}
+    </div>
+  );
 }
 ```
 
