@@ -155,9 +155,9 @@ const draggable = [
   `,
 };
 
-const FreeDnDSandPack = () => (
+const DroppableDndSandPack = () => (
   <Sandpack
-    id="free-dnd-sandpack"
+    id="droppable-dnd-sandpack"
     files={files}
     customSetup={{
       dependencies: {
@@ -168,4 +168,4 @@ const FreeDnDSandPack = () => (
   />
 );
 
-export default FreeDnDSandPack;
+export default DroppableDndSandPack;

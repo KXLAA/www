@@ -53,7 +53,7 @@ body {
 }
 
 .prose .anchor:after {
-  @apply text-silver;
+  @apply text-silver-900 text-2xl;
   content: "#";
 }
 
