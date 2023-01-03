@@ -3,29 +3,34 @@ import Sandpack from "@/components/mdx/widgets/common/Sandpack";
 const files = {
   "/App.tsx": `
 import React from 'react';
-import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
-import {
-  DndContext,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  useDraggable,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
+import type {
+    DragEndEvent,
+    DragOverEvent,
+    DragStartEvent,
+    UniqueIdentifier,
+  } from "@dnd-kit/core";
+  import {
+    DndContext,
+    DragOverlay,
+    KeyboardSensor,
+    MouseSensor,
+    TouchSensor,
+    useDraggable,
+    useDroppable,
+    useSensor,
+    useSensors,
+  } from "@dnd-kit/core";
 import './styles.css';
 import {Draggable} from './Draggable';
+import {Droppable} from './Droppable';
 
-const draggable = [
-  {
-      id: "DG",
-      name: "D",
-      position: {
-        x: 24,
-        y: 24,
-      },
-  },
-];
+
+type Item = {
+    id: UniqueIdentifier;
+    parent: UniqueIdentifier;
+    name: string;
+  };
+  
 
   function App() {
     const sensors = useSensors(
@@ -33,96 +38,158 @@ const draggable = [
       useSensor(TouchSensor),
       useSensor(MouseSensor)
     );
-    const [draggables, setDraggables] = React.useState([...draggable]);
+    const [items, setItems] = React.useState({
+        ROOT: [
+            {
+                id: "DG",
+                name: "D",
+            },
+            {
+                id: "GH",
+                name: "G",
+            },
+
+        ],
+        DG: [
+            {
+                id: "IJ",
+                name: "I",
+            },
+        ],
+        GH: [
+            {
+                id: "KL",
+                name: "K",
+            },
+        ],
+    });
+
+    const [activeItem, setActiveItem] = React.useState<Item | undefined>(
+        undefined
+      );    
     
     return (
       <div style={{width: '100%', minHeight: '100vh'}} className='dotted-bg'>
       <DndContext
-        onDragEnd={handleDragEnd}
         sensors={sensors}
+        onDragOver={handleDragOver}
+        onDragMove={handelDragStart}
       >
-      {draggables.map((d) => (
-          <Draggable
-            key={d.id}
-            id={d.id}
-            name={d.name}
-            styles={{
-              position: "absolute",
-              left: \`\${d.position.x}px\`,
-              top: \`\${d.position.y}px\`,
-            }}
-          />
-        ))}
+        <div className="flex gap-2">
+          {Object.entries(items).map(
+            ([key, value]) =>
+              key !== "ROOT" && (
+                <Droppable key={key} id={key}>
+                  {value.map((item) => (
+                    <Draggable key={item.id} id={item.id} name={item.name} />
+                  ))}
+                </Droppable>
+              )
+          )}
+        </div>
+
+        {Object.entries(items).map(
+          ([key, value]) =>
+            key === "ROOT" && (
+              <Droppable key={key} id={key} root>
+                {value.map((item) => (
+                  <Draggable key={item.id} id={item.id} name={item.name} />
+                ))}
+              </Droppable>
+            )
+        )}
       </DndContext>
       </div>
     );
 
-    function handleDragEnd(ev: DragEndEvent) {
-      const draggable = draggables.find((x) => x.id === ev.active.id)!;
-      draggable.position.x += ev.delta.x;
-      draggable.position.y += ev.delta.y;
-
-      const _draggables = draggables.map((d) =>
-        d.id === draggable.id ? draggable : d
-      );
-  
-      setDraggables(_draggables);
-    }
+    function handelDragStart(ev: DragStartEvent) {
+        const { active } = ev;
+        const activeId = active.id;
+        const activeContainer = findContainer(activeId);
+        if (activeContainer) {
+          const activeItem = items[activeContainer].find(
+            (item) => item.id === activeId
+          ) as Item;
+          setActiveItem(activeItem);
+        }
+      }
+    
+      function handleDragOver(ev: DragOverEvent) {
+        const { active, over } = ev;
+        const activeId = active.id;
+        const overId = over?.id;
+        const activeContainer = findContainer(activeId);
+        const overContainer = findContainer(overId!);
+    
+        if (
+          !activeContainer ||
+          !overContainer ||
+          activeContainer === overContainer
+        ) {
+          return;
+        }
+    
+        setItems((items) => {
+          const activeItems = items[activeContainer];
+          const overItems = items[overContainer];
+          const activeItem = activeItems.find((item) => item.id === activeId);
+    
+          const result = {
+            ...items,
+            [activeContainer]: activeItems.filter((item) => item.id !== activeId),
+            [overContainer]: [...overItems, activeItem],
+          } as Items;
+    
+          return result;
+        });
+      }
+    
+      function findContainer(id: UniqueIdentifier) {
+        if (id in items) {
+          return id;
+        }
+        return Object.keys(items).find((key) => {
+          return items[key].some((item) => item.id === id);
+        });
+      }
   }
   export default App;
     `,
-  "/styles.css": {
-    code: `
-  body{
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto', sans-serif;
-      background-image: radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%),
-      radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%);
-      background-position: 0px 0px, 16px 16px;
-      background-size: 16px 16px;
-      background-color: rgb(18, 18, 18);
-  }
+  "Droppable.tsx": `
+  import React from "react";
+  import { useDroppable } from "@dnd-kit/core";
+  import { CSS } from "@dnd-kit/utilities";
+
+  type DroppableProps = {
+    id: UniqueIdentifier;
+    children?: React.ReactNode;
+    className?: string;
+    root?: boolean;
+  };
   
-    h1 {
-      color: tomato;
-    }
-
-    .draggable {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #111112;
-      gap:4px;
-      width: 64px;
-      height: 64px;
-      aspect-ratio: 1 / 1;
-      padding: 0.75rem;
-      border-radius: 0.375rem/* 6px */;
-      color: #C0C0C0;
-      box-shadow: inset 0 0 0 1px hsl(0deg 0% 100% / 10%);
-      cursor: grab;
-      z-index: 10;
-      filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
-      font-size: 40px;
-      font-weight: 900;
-    }
-
-    .draggable:active {
-      cursor: grabbing;
-      background-color: #18181A;
-      color: #888888;
-    }
-    `,
-    hidden: true,
-  },
+  export function Droppable(props: DroppableProps) {
+    const { children, id, className, root } = props;
+    const { isOver, setNodeRef } = useDroppable({
+      id: id,
+    });
+  
+    return (
+      <div
+        ref={setNodeRef}
+        className='droppable'
+      >
+        {children}
+      </div>
+    );
+  }
+  `,
   "Draggable.tsx": `
   import React from "react";
   import { useDraggable } from "@dnd-kit/core";
   import { CSS } from "@dnd-kit/utilities";
 
   type DraggableProps = {
-    id: string;
+    id: UniqueIdentifier;
     styles?: React.CSSProperties;
     name?: string;
   };
@@ -144,15 +211,84 @@ const draggable = [
       <div
         ref={setNodeRef}
         style={{ ...style, ...styles }}
-        className="draggable"
+        className='draggable'
         {...listeners}
         {...attributes}
       >
-        <span className="text-base font-black"> {name}</span>
+        <span className="text-base !font-black"> {name}</span>
       </div>
     );
   }
   `,
+  "/styles.css": {
+    code: `
+  body{
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-image: radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%),
+      radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%);
+      background-position: 0px 0px, 16px 16px;
+      background-size: 16px 16px;
+      background-color: rgb(18, 18, 18);
+  }
+  
+    h1 {
+      color: tomato;
+    }
+
+    .droppable {
+        display: flex;
+        gap: 1rem/* 16px */;
+        border-radius: 0.75rem/* 12px */;
+        background-color: #111112;
+        box-shadow: inset 0 0 0 1px hsl(0deg 0% 100% / 10%);
+        padding: 0.5rem/* 8px */;
+        z-index: 10;
+        width: 8rem/* 128px */;
+        height: 8rem/* 128px */;
+        flex-wrap: wrap;
+        gap: 0.5rem/* 8px */;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .droppable.over {
+        background-color: #18181A;
+    }
+
+    .droppable-root {
+        width: 264px;
+    }
+
+    .draggable {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #111112;
+      gap:4px;
+      width: 3rem/* 48px */;
+      height: 3rem/* 48px */;
+      aspect-ratio: 1 / 1;
+      padding: 0.75rem;
+      border-radius: 0.375rem/* 6px */;
+      color: #C0C0C0;
+      box-shadow: inset 0 0 0 1px hsl(0deg 0% 100% / 10%);
+      cursor: grab;
+      z-index: 10;
+      filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+      font-size: 40px;
+      font-weight: 900;
+    }
+
+    .draggable:active {
+      cursor: grabbing;
+      background-color: #18181A;
+      color: #888888;
+    }
+    `,
+    hidden: true,
+  },
 };
 
 const DroppableDndSandPack = () => (
