@@ -9,9 +9,9 @@ type MDXConfig =
   | undefined;
 
 export const rehypePrettyCodeOptions: Partial<Options> = {
-  // use a prepackaged theme
-  theme: "one-dark-pro",
-  // or import a custom theme
+  // use a prepackaged theme, see all themes here:
+  // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+  theme: "github-dark-dimmed",
   onVisitHighlightedLine(node) {
     node.properties.className.push("line--highlighted");
   },
