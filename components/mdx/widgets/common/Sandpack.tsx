@@ -65,7 +65,6 @@ export default function Sandpack(props: SandpackProps) {
               showTabs
               showLineNumbers
               showInlineErrors
-              wrapContent
               closableTabs
               style={{
                 height: "300px",
