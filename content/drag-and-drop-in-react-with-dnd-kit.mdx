@@ -109,7 +109,7 @@ function Draggable() {
 ```
 
 <Callout intent="info" heading="What are Drag Handles ?" dropdown>
-What are drag handles? Drag handles are HTML elements that trigger a drag event. In our draggable component, we set the draggable source (i.e., the div that we attached the setNodeRef callback to) to act as the drag handle.
+Drag handles are HTML elements that trigger a drag event. In our draggable component, we set the draggable source (i.e., the div that we attached the setNodeRef callback to) to act as the drag handle.
 
 However, we can make a different HTML element the drag handle. We can do this easily by attaching the listeners and attribute properties returned by the useDraggable hook to a different HTML element:
 
@@ -509,7 +509,7 @@ Here is the code:
 
 A container containing a list of items that can be rearranged by dragging them.
 
-<FreeDnDSandPack />
+<SortableDndSandPack />
 
 <Callout dropdown intent='default' heading='Code Breakdown'>
 To build this, we'll need to create both draggable and droppable components. The draggable component is similar to the one we made in the free DnD example above. To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique ID as props:
