@@ -13,7 +13,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import React from "react";
 
-import { AnimateHeight } from "@/components/animation/AnimateHeight";
+// import { AnimateHeight } from "@/components/animation/AnimateHeight";
 
 type SandpackProps = {
   id: string;
@@ -23,18 +23,8 @@ type SandpackProps = {
 };
 
 export default function Sandpack(props: SandpackProps) {
-  //hydration issues with framer-motion
   const [open, setOpen] = React.useState(false);
   const { id, files, customSetup, providerProps } = props;
-
-  const variants = {
-    open: {
-      opacity: 1,
-      height: "auto",
-      x: 0,
-    },
-    collapsed: { opacity: 0, height: 0, x: 0 },
-  };
 
   return (
     <div id={id}>
@@ -70,7 +60,7 @@ export default function Sandpack(props: SandpackProps) {
               <OpenInCodeSandboxButton />
             </div>
           </span>
-          <AnimateHeight variants={variants} isVisible={open}>
+          {open && (
             <SandpackCodeEditor
               showTabs
               showLineNumbers
@@ -84,7 +74,22 @@ export default function Sandpack(props: SandpackProps) {
                 background: "none",
               }}
             />
-          </AnimateHeight>
+          )}
+          {/* <AnimateHeight isVisible={open}>
+            <SandpackCodeEditor
+              showTabs
+              showLineNumbers
+              showInlineErrors
+              wrapContent
+              closableTabs
+              style={{
+                height: "300px",
+                width: "100%",
+                overflow: "hidden",
+                background: "none",
+              }}
+            />
+          </AnimateHeight> */}
         </SandpackLayout>
       </SandpackProvider>
     </div>

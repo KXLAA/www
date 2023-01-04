@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
-
-import { useMeasure } from "@/lib/hooks/use-measure";
+import useMeasure from "react-use-measure";
 
 type Variant = {
   opacity: number;
@@ -14,18 +13,33 @@ type AnimateHeightProps = {
   ease?: string;
   duration?: number;
   className?: string;
-  variants: {
+  variants?: {
     open: Variant;
     collapsed: Variant;
   };
   children: React.ReactNode;
 };
 
-export function AnimateHeight(props: AnimateHeightProps) {
-  const { isVisible, ease, duration, className, variants, children } = props;
+const defaultVariants = {
+  open: {
+    opacity: 1,
+    height: "auto",
+    x: 0,
+  },
+  collapsed: { opacity: 0, height: 0, x: 0 },
+};
 
-  const ref = React.useRef(null);
-  const bounds = useMeasure(ref);
+export function AnimateHeight(props: AnimateHeightProps) {
+  const {
+    isVisible,
+    ease = "easeInOut",
+    duration = 0.5,
+    className,
+    variants = defaultVariants,
+    children,
+  } = props;
+
+  const [ref, bounds] = useMeasure();
 
   return (
     <motion.div

@@ -15,6 +15,7 @@ type Bounds = {
 export function useMeasure<T>(ref: T) {
   const [element, attachRef] = useCallbackRef<HTMLDivElement>();
   const [bounds, setBounds] = React.useState<Bounds>({} as Bounds);
+  console.log("rendering useMeasure");
 
   React.useEffect(() => {
     function onResize([entry]: ResizeObserverEntry[]) {
