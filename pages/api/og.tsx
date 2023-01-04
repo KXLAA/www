@@ -11,7 +11,7 @@ export const config = {
 export default function (req: NextRequest) {
   try {
     // 1: get the searchParams from the request URL
-    const { searchParams } = new URL(req.url);
+    const { searchParams } = req.nextUrl;
 
     // 2: Check if title or description are in the params
     const hasTitle = searchParams.has("title");
@@ -28,25 +28,18 @@ export default function (req: NextRequest) {
       (
         // Modified based on https://tailwindui.com/components/marketing/sections/cta-sections
         <div
+          tw="w-full h-full flex flex-col text-center items-center justify-between py-11"
           style={{
-            height: "100%",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#0D0D0D",
+            backgroundImage:
+              "radial-gradient(circle at 25% 25%, #191d21 0%, #605e6755 15%)",
+            backgroundSize: "50px 50px",
+            maskImage: "radial-gradient(black 0.9px, transparent 0.9px)",
+            maskSize: "18px 18px",
           }}
         >
           <div tw="flex flex-col items-center w-full">
-            <div
-              tw="h-1/2 w-full"
-              style={{
-                backgroundImage: generateGradient(),
-              }}
-            />
             <div tw="flex flex-col p-8 w-full h-full justify-between">
-              <div tw="flex flex-col justify-center items-start w-full p-8 self-end rounded-xl border border-[#383838]">
+              <div tw="flex flex-col justify-center items-start w-full p-8 self-end rounded-xl">
                 <div tw="flex text-white">Check Out This Article</div>
                 <div tw="flex text-4xl font-bold text-white">{title}</div>
                 <div tw="flex font-bold text-white">Kxlaa.com | {date}</div>
@@ -65,27 +58,4 @@ export default function (req: NextRequest) {
       status: 500,
     });
   }
-}
-
-const hexString = "0123456789abcdef";
-
-function randomColor() {
-  let hexCode = "#";
-  for (let i = 0; i < 6; i++) {
-    hexCode += hexString[Math.floor(Math.random() * hexString.length)];
-  }
-  return hexCode;
-}
-
-function generateGradient() {
-  //generate random hex
-  // const randomColor = "#000000".replace(/0/g, () => {
-  //   return (~~(Math.random() * 16)).toString(16);
-  // });
-
-  const colorOne = randomColor();
-  const colorTwo = randomColor();
-  const angle = Math.floor(Math.random() * 360);
-
-  return `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
 }
