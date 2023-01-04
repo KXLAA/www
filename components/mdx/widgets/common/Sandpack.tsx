@@ -22,6 +22,9 @@ type SandpackProps = {
   providerProps?: SandpackProviderProps;
 };
 
+// TODO: Animate height of code editor on toggle
+// TODO: Persist code editor state in local storage
+
 export default function Sandpack(props: SandpackProps) {
   const [open, setOpen] = React.useState(false);
   const { id, files, customSetup, providerProps } = props;
