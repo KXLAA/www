@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import type {
-  DragEndEvent,
   DragOverEvent,
   DragStartEvent,
   UniqueIdentifier,
@@ -19,40 +17,34 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { motion } from "framer-motion";
 import React from "react";
-import type { Config } from "unique-names-generator";
-import { animals, colors, uniqueNamesGenerator } from "unique-names-generator";
 
 import { Refresh } from "@/components/common/Refresh";
-import { LiveArea, useStatus } from "@/components/mdx/widgets/common/LiveArea";
+import { LiveArea } from "@/components/mdx/widgets/common/LiveArea";
+import { Status, useStatus } from "@/components/mdx/widgets/common/Status";
 import { cx } from "@/lib/cx";
 import { uuid } from "@/lib/uuid";
-
-const uniqueNamesConfig: Config = {
-  dictionaries: [colors, animals],
-  separator: " ",
-  length: 1,
-  style: "upperCase",
-};
 
 type Item = {
   id: UniqueIdentifier;
   name: string;
 };
 
-type FreeDndProps = {
-  hideFooter?: boolean;
-  hideStatus?: boolean;
-  itemCount?: number;
-};
+// type FreeDndProps = {
+//   hideFooter?: boolean;
+//   hideStatus?: boolean;
+//   itemCount?: number;
+// };
 
-export default function DroppableDnd(props: FreeDndProps) {
-  const { hideFooter, hideStatus, itemCount = 4 } = props;
-  const [items, setItems] = React.useState<Items>({});
+export default function DroppableDnd() {
+  const [disabled, setDisabled] = React.useState(true);
+  const [items, setItems] = React.useState<Items>({
+    A: createData(2, (index) => `A${index + 1}`),
+    B: createData(2, (index) => `B${index + 1}`),
+  });
+  const [status, setStatus] = useStatus();
   const [activeItem, setActiveItem] = React.useState<Item | undefined>(
     undefined
   );
-
-  console.log(items);
 
   const sensors = useSensors(
     useSensor(KeyboardSensor),
@@ -60,58 +52,51 @@ export default function DroppableDnd(props: FreeDndProps) {
     useSensor(MouseSensor)
   );
 
-  //Fix SSR issues
-  React.useEffect(
-    () =>
-      setItems({
-        A: createData(0),
-        B: createData(0),
-        ROOT: createData(itemCount),
-      }),
-    []
-  );
-
   return (
-    <LiveArea className="items-center justify-center gap-10">
+    <LiveArea
+      className="items-center justify-center gap-10"
+      status={status}
+      footer={
+        <div className="flex justify-center gap-4 p-2">
+          <motion.button
+            onClick={onReset}
+            whileTap={{ scale: 0.95 }}
+            className={cx(
+              "z-10 flex items-center justify-center w-8 h-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800",
+              disabled &&
+                "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
+            )}
+          >
+            <Refresh />
+          </motion.button>
+        </div>
+      }
+    >
       <DndContext
         sensors={sensors}
         onDragOver={handleDragOver}
         onDragMove={handelDragStart}
       >
         <div className="flex gap-2">
-          {Object.entries(items).map(
-            ([key, value]) =>
-              key !== "ROOT" && (
-                <Droppable key={key} id={key}>
-                  {value.map((item) => (
-                    <Draggable key={item.id} id={item.id} name={item.name} />
-                  ))}
-                </Droppable>
-              )
-          )}
+          {Object.entries(items).map(([key, value]) => (
+            <Droppable key={key} id={key}>
+              {value.map((item) => (
+                <Draggable key={item.id} id={item.id} name={item.name} />
+              ))}
+            </Droppable>
+          ))}
         </div>
-
-        {Object.entries(items).map(
-          ([key, value]) =>
-            key === "ROOT" && (
-              <Droppable key={key} id={key} root>
-                {value.map((item) => (
-                  <Draggable key={item.id} id={item.id} name={item.name} />
-                ))}
-              </Droppable>
-            )
-        )}
-        {/* <DragOverlay>
+        <DragOverlay>
           {activeItem && (
             <div
               className={cx(
-                "flex items-center bg-shark-800 justify-center gap-1 w-12 h-12 rounded-md text-silver shadow-border-shiny transition-colors cursor-grabbing z-10 drop-shadow-lg aspect-square font-black opacity-50"
+                "flex items-center justify-center gap-1 w-12 h-12 rounded-md shadow-border-shiny transition-colors cursor-grabbing z-10  aspect-square bg-shark-700 text-silver-900 font-black"
               )}
             >
-              <span className="text-base"> {activeItem.name}</span>
+              <span className="text-base !font-black"> {activeItem.name}</span>
             </div>
           )}
-        </DragOverlay> */}
+        </DragOverlay>
       </DndContext>
     </LiveArea>
   );
@@ -156,6 +141,17 @@ export default function DroppableDnd(props: FreeDndProps) {
 
       return result;
     });
+
+    setStatus(
+      <Status variant="orange" className="mb-6">
+        <span className="font-bold">DRAGGED</span>{" "}
+        <span className="font-bold">{activeItem?.name}</span> from container:{" "}
+        <span className="font-bold">{activeContainer}</span> to container:{" "}
+        <span className="font-bold">{overContainer}</span>
+      </Status>
+    );
+
+    setDisabled(false);
   }
 
   function findContainer(id: UniqueIdentifier) {
@@ -165,6 +161,15 @@ export default function DroppableDnd(props: FreeDndProps) {
     return Object.keys(items).find((key) => {
       return items[key].some((item) => item.id === id);
     });
+  }
+
+  function onReset() {
+    setItems({
+      A: createData(2, (index) => `A${index + 1}`),
+      B: createData(2, (index) => `B${index + 1}`),
+    });
+    setDisabled(true);
+    setStatus(undefined);
   }
 }
 
@@ -180,20 +185,28 @@ function Droppable(props: DroppableProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
+  const container = id === "ROOT" ? "ROOT CONTAINER" : `CONTAINER ${id}`;
 
   return (
     <div
       ref={setNodeRef}
-      className={cx(
-        "h-16 flex gap-4 rounded-xl bg-shark-800 shadow-border-shiny p-2 z-10",
-        isOver && "bg-shark-700",
-        root
-          ? "w-[264px]"
-          : "w-32 h-32 flex-wrap gap-2 items-center justify-center",
-        className
-      )}
+      className="z-10 flex flex-col items-center overflow-hidden border border-shark-700"
     >
-      {children}
+      <span className="w-full p-1.5 text-xs font-bold text-center text-silver-900 bg-shark-900">
+        {container}
+      </span>
+      <div
+        className={cx(
+          "h-16 flex gap-4 bg-shark-800 p-2 items-center justify-center",
+          isOver && "bg-shark-700",
+          root
+            ? "w-[264px] bg-none"
+            : "w-32 h-32 flex-wrap gap-2 items-center justify-center",
+          className
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }
@@ -223,7 +236,7 @@ function Draggable(props: DraggableProps) {
       style={{ ...style, ...styles }}
       className={cx(
         "flex items-center bg-shark-800 justify-center gap-1 w-12 h-12 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg aspect-square",
-        isDragging && "opacity-20"
+        isDragging && "opacity-30"
       )}
       {...listeners}
       {...attributes}
@@ -236,11 +249,11 @@ function Draggable(props: DraggableProps) {
 type Items = Record<UniqueIdentifier, ReturnType<typeof createData>>;
 
 //create fake data
-function createData(length: number) {
-  return [...new Array(length)].map(() => {
+function createData(length: number, initializer: (index: number) => string) {
+  return [...new Array(length)].map((_, index) => {
     return {
       id: uuid(),
-      name: uniqueNamesGenerator(uniqueNamesConfig).slice(0, 2),
+      name: `${initializer(index)}`,
     };
   });
 }
