@@ -29,12 +29,6 @@ type Item = {
   name: string;
 };
 
-// type FreeDndProps = {
-//   hideFooter?: boolean;
-//   hideStatus?: boolean;
-//   itemCount?: number;
-// };
-
 export default function DroppableDnd() {
   const [disabled, setDisabled] = React.useState(true);
   const [items, setItems] = React.useState<Items>({
@@ -77,7 +71,7 @@ export default function DroppableDnd() {
         onDragOver={handleDragOver}
         onDragMove={handelDragStart}
       >
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           {Object.entries(items).map(([key, value]) => (
             <Droppable key={key} id={key}>
               {value.map((item) => (
@@ -90,7 +84,7 @@ export default function DroppableDnd() {
           {activeItem && (
             <div
               className={cx(
-                "flex items-center justify-center gap-1 w-12 h-12 rounded-md shadow-border-shiny transition-colors cursor-grabbing z-10  aspect-square bg-shark-700 text-silver-900 font-black"
+                "flex items-center bg-shark-800 justify-center gap-1 w-full p-2 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg"
               )}
             >
               <span className="text-base !font-black"> {activeItem.name}</span>
@@ -177,11 +171,10 @@ type DroppableProps = {
   id: UniqueIdentifier;
   children?: React.ReactNode;
   className?: string;
-  root?: boolean;
 };
 
 function Droppable(props: DroppableProps) {
-  const { children, id, className, root } = props;
+  const { children, id, className } = props;
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
@@ -197,11 +190,8 @@ function Droppable(props: DroppableProps) {
       </span>
       <div
         className={cx(
-          "h-16 flex gap-4 bg-shark-800 p-2 items-center justify-center",
+          "flex flex-col  bg-shark-800 p-2 w-48 h-48	flex-wrap gap-2 items-start justify-start",
           isOver && "bg-shark-700",
-          root
-            ? "w-[264px] bg-none"
-            : "w-32 h-32 flex-wrap gap-2 items-center justify-center",
           className
         )}
       >
@@ -235,7 +225,7 @@ function Draggable(props: DraggableProps) {
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       className={cx(
-        "flex items-center bg-shark-800 justify-center gap-1 w-12 h-12 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg aspect-square",
+        "flex items-center bg-shark-800 justify-center gap-1 w-full p-1.5 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
         isDragging && "opacity-30"
       )}
       {...listeners}
