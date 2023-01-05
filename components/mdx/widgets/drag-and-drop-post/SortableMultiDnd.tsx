@@ -180,9 +180,7 @@ export default function SortableMultiDnd(props: SortableDndProps) {
             active.rect.current.translated &&
             active.rect.current.translated.top >
               over.rect.top + over.rect.height;
-
           const modifier = isBelowOverItem ? 1 : 0;
-
           newIndex =
             overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
         }
@@ -199,9 +197,9 @@ export default function SortableMultiDnd(props: SortableDndProps) {
             ? {
                 ...item,
                 items: [
-                  ...overItems.slice(0, newIndex),
+                  ...item.items.slice(0, newIndex),
                   activeItems[activeIndex],
-                  ...overItems.slice(newIndex, item.items?.length),
+                  ...overItems.slice(newIndex, item.items.length),
                 ],
               }
             : item
@@ -216,24 +214,48 @@ export default function SortableMultiDnd(props: SortableDndProps) {
     const { active, over } = event;
     const activeId = active.id;
     const overId = over?.id;
+    if (!activeId || !overId) return;
+    const activeContainerId = findContainer(activeId);
+    const isSortingContainers =
+      sortables.map((s) => s.id).includes(overId) &&
+      sortables.map((s) => s.id).includes(activeId);
 
-    if (activeId && overId && active.id !== over.id) {
-      setSortables((items) => {
-        const oldIndex = sortables.findIndex((f) => f.id === activeId);
-        const newIndex = sortables.findIndex((f) => f.id === overId);
-        const activeItem = sortables.find((f) => f.id === activeId);
+    if (isSortingContainers) {
+      if (active.id !== over.id) {
+        setSortables((items) => {
+          const oldIndex = sortables.findIndex((f) => f.id === activeId);
+          const newIndex = sortables.findIndex((f) => f.id === overId);
+          const activeItem = sortables.find((f) => f.id === activeId);
 
-        setStatus(
-          <Status variant="orange" className="mb-7">
-            <span className="font-bold">DRAGGED</span>{" "}
-            <span className="font-bold">{activeItem?.name}</span> from index:{" "}
-            <span className="font-bold">{oldIndex}</span> to index:{" "}
-            <span className="font-bold">{newIndex}</span>
-          </Status>
-        );
+          setStatus(
+            <Status variant="orange" className="mb-7">
+              <span className="font-bold">DRAGGED</span>{" "}
+              <span className="font-bold">{activeItem?.name}</span> from index:{" "}
+              <span className="font-bold">{oldIndex}</span> to index:{" "}
+              <span className="font-bold">{newIndex}</span>
+            </Status>
+          );
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
+          return arrayMove(items, oldIndex, newIndex);
+        });
+      }
+    } else {
+      const activeContainer = sortables.find((i) => i.id === activeContainerId);
+      const activeItems = activeContainer?.items || [];
+      const oldIndex = activeItems.findIndex((i) => i.id === activeId);
+      const newIndex = activeItems.findIndex((i) => i.id === overId);
+      const newItems = sortables.map((s) =>
+        s.id === activeContainerId
+          ? {
+              ...s,
+              items: arrayMove(s.items, oldIndex, newIndex),
+            }
+          : s
+      );
+
+      if (oldIndex !== newIndex) {
+        setSortables(newItems);
+      }
     }
   }
 }
