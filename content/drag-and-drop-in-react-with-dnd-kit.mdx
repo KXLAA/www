@@ -197,10 +197,6 @@ The `DndContext` emits various events throughout a drag-and-drop interaction. We
 
 We can use handler functions to respond to these events, using the event data to update the state of our draggable and droppable components in the UI.
 
-To see when the `DndContext` emits different events, try the demo below:
-
-<DroppableDnd />
-
 #### Sensors
 
 `Dndkit` exposes the concept of sensors to detect potential input types that can trigger a drag event, such as a mouse, touchpad, keyboard, stylus pen, or touchscreen. By default, `@dnd-kit/core` ships with four sensors: `MouseSensor`, `TouchSensor`, `KeyboardSensor`, and `PointerSensor`. These are generally enough for most use cases. However, if they are not sufficient, you can build a custom sensor. For more information on this, check [here](https://docs.dndkit.com/api-documentation/sensors#custom-sensors).
@@ -581,6 +577,8 @@ Here is the code:
 ### Multi-Container Sortables
 
 A list that can be sorted and items that can be dropped into multiple containers.
+
+<SortableMultiDnd />
 
 <FreeDnDSandPack />
 
