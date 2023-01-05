@@ -15,7 +15,8 @@ import type { Config } from "unique-names-generator";
 import { animals, colors, uniqueNamesGenerator } from "unique-names-generator";
 
 import { Refresh } from "@/components/common/Refresh";
-import { LiveArea, useStatus } from "@/components/mdx/widgets/common/LiveArea";
+import { LiveArea } from "@/components/mdx/widgets/common/LiveArea";
+import { Status, useStatus } from "@/components/mdx/widgets/common/Status";
 import { cx } from "@/lib/cx";
 import { uuid } from "@/lib/uuid";
 
@@ -96,7 +97,6 @@ export default function FreeDnd(props: FreeDndProps) {
           <div className="flex justify-center gap-4 p-2">
             <motion.button
               whileTap={{ scale: 0.95 }}
-              disabled={draggables.length <= 1}
               onClick={resetDraggables}
               className={cx(
                 "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800",
@@ -161,25 +161,25 @@ export default function FreeDnd(props: FreeDndProps) {
 
     setDraggables([...draggables, newDraggable]);
     setStatus(
-      <span className="mb-8 text-silver-700">
-        <span className="font-bold text-green-500">ADD</span> new draggable:{" "}
-        <span className="font-bold text-silver-600">{newDraggable.name}</span>
-      </span>
+      <Status variant="green">
+        <span className="font-bold">ADD</span> new draggable:{" "}
+        <span className="font-bold">{newDraggable.name}</span>
+      </Status>
     );
   }
 
   function resetDraggables() {
-    setDraggables([...draggable]);
+    setDraggables(draggable);
     setStatus(undefined);
   }
 
   function handelDragStart(ev: DragStartEvent) {
     const draggable = draggables.find((x) => x.id === ev.active.id)!;
     setStatus(
-      <span className="mb-8 text-silver-700">
-        <span className="font-bold text-yellow-500">DRAGGING</span> draggable:{" "}
-        <span className="font-bold text-silver-600">{draggable.name}</span>
-      </span>
+      <Status variant="yellow">
+        <span className="font-bold">DRAGGING</span> draggable:{" "}
+        <span className="font-bold">{draggable.name}</span>
+      </Status>
     );
   }
 
@@ -189,17 +189,12 @@ export default function FreeDnd(props: FreeDndProps) {
     draggable.position.y += ev.delta.y;
 
     setStatus(
-      <span className="mb-8 text-silver-700">
-        <span className="font-bold text-orange-500">DRAGGED</span> draggable:{" "}
-        <span className="font-bold text-silver-600">{draggable.name}</span> to{" "}
-        <span className="font-bold text-orange-300">
-          x: {draggable.position.x}
-        </span>{" "}
-        and{" "}
-        <span className="font-bold text-orange-300">
-          y: {draggable.position.y}
-        </span>
-      </span>
+      <Status variant="orange">
+        <span className="font-bold">DRAGGED</span> draggable:{" "}
+        <span className="font-bold">{draggable.name}</span> to{" "}
+        <span className="font-bold">x: {draggable.position.x}</span> and{" "}
+        <span className="font-bold">y: {draggable.position.y}</span>
+      </Status>
     );
 
     const _draggables = draggables.map((d) =>
