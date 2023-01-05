@@ -20,7 +20,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 
 import { Refresh } from "@/components/common/Refresh";
-import { LiveArea, useStatus } from "@/components/mdx/widgets/common/LiveArea";
+import { LiveArea } from "@/components/mdx/widgets/common/LiveArea";
+import { Status, useStatus } from "@/components/mdx/widgets/common/Status";
 import { cx } from "@/lib/cx";
 import { uuid } from "@/lib/uuid";
 
@@ -29,24 +30,21 @@ type SortableDndProps = {
 };
 
 export default function SortableDnd(props: SortableDndProps) {
-  const { itemCount = 4 } = props;
+  const { itemCount = 3 } = props;
   const [showDragHandles, toggleShowDragHandles] = React.useReducer(
     toggleReducer,
     false
   );
   const [sortables, setSortables] = React.useState<Item[]>(
-    createData(itemCount, (index) => `A${index + 1}`)
+    createData(itemCount, (index) => `SORTABLE ${index + 1}`)
   );
-  const [status] = useStatus();
+  const [status, setStatus] = useStatus();
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
-  const onReset = () =>
-    setSortables(createData(itemCount, (index) => `A${index + 1}`));
 
   return (
     <LiveArea
@@ -66,7 +64,7 @@ export default function SortableDnd(props: SortableDndProps) {
           <motion.button
             whileTap={{ scale: 0.95 }}
             className="z-10 px-4 py-2 text-xs font-bold transition-colors rounded-md bg-shark-900 shadow-border-shiny text-silver-600 hover:bg-shark-800"
-            onClick={() => toggleShowDragHandles()}
+            onClick={toggleDragHandles}
           >
             TOGGLE DRAG HANDLES
           </motion.button>
@@ -98,6 +96,20 @@ export default function SortableDnd(props: SortableDndProps) {
     </LiveArea>
   );
 
+  function onReset() {
+    setSortables(createData(itemCount, (index) => `A${index + 1}`));
+    setStatus(null);
+  }
+
+  function toggleDragHandles() {
+    toggleShowDragHandles();
+    setStatus(
+      <Status variant="gray" className="mb-7">
+        Toggled drag handles
+      </Status>
+    );
+  }
+
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     const activeId = active.id;
@@ -107,6 +119,17 @@ export default function SortableDnd(props: SortableDndProps) {
       setSortables((items) => {
         const oldIndex = sortables.findIndex((f) => f.id === activeId);
         const newIndex = sortables.findIndex((f) => f.id === overId);
+        const activeItem = sortables.find((f) => f.id === activeId);
+
+        setStatus(
+          <Status variant="orange" className="mb-7">
+            <span className="font-bold">DRAGGED</span>{" "}
+            <span className="font-bold">{activeItem?.name}</span> from index:{" "}
+            <span className="font-bold">{oldIndex}</span> to index:{" "}
+            <span className="font-bold">{newIndex}</span>
+          </Status>
+        );
+
         return arrayMove(items, oldIndex, newIndex);
       });
     }
