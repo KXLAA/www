@@ -4,7 +4,7 @@ import type {
   UniqueIdentifier,
 } from "@dnd-kit/core";
 import {
-  closestCenter,
+  closestCorners,
   DndContext,
   KeyboardSensor,
   PointerSensor,
@@ -98,7 +98,7 @@ export default function SortableMultiDnd(props: SortableDndProps) {
       }
     >
       <DndContext
-        collisionDetection={closestCenter}
+        collisionDetection={closestCorners}
         sensors={sensors}
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
