@@ -50,6 +50,10 @@ In more advanced types of drag-and-drop UI interactions, we also have sortable c
 
 <SortableDnd />
 
+In some implementations of this type interaction, like Trello and Jira for example, we can sort both lists and list items, so both lists and list items are sortable components:
+
+<SortableMultiDnd />
+
 To handle this use case, DnD-Kit exposes a set of presets from the `@dnd-kit/sortable` package:
 
 - The `useSortable` hook, which turns HTML elements into sortable components. This hook is a combination of the `useDraggable` and `useDroppable` hooks.
@@ -578,9 +582,7 @@ Here is the code:
 
 A list that can be sorted and items that can be dropped into multiple containers.
 
-<SortableMultiDnd />
-
-<FreeDnDSandPack />
+<SortableMultiDndSandPack />
 
 <Callout intent='default' dropdown heading='Code Breakdown'>
 To build this, we'll need to create both draggable and droppable components. The draggable component is similar to the one we made in the free DnD example above. To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique ID as props:

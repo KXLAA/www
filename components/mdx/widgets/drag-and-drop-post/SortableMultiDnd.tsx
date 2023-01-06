@@ -8,6 +8,7 @@ import {
   DndContext,
   KeyboardSensor,
   PointerSensor,
+  useDroppable,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -47,7 +48,9 @@ export default function SortableMultiDnd(props: SortableDndProps) {
     toggleReducer,
     false
   );
-  const [sortables, setSortables] = React.useState<ContainerProps[]>([
+  const [isDirty, setIsDirty] = React.useState(false);
+
+  const initialItems = [
     {
       id: uuid(),
       name: "Container A",
@@ -63,7 +66,12 @@ export default function SortableMultiDnd(props: SortableDndProps) {
       name: "Container C",
       items: createData(itemCount, (index) => `C${index + 1}`),
     },
+  ];
+
+  const [sortables, setSortables] = React.useState<ContainerProps[]>([
+    ...initialItems,
   ]);
+
   const [status, setStatus] = useStatus();
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -80,7 +88,9 @@ export default function SortableMultiDnd(props: SortableDndProps) {
           <motion.button
             whileTap={{ scale: 0.95 }}
             className={cx(
-              "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800"
+              "z-10 flex items-center justify-center w-8 gap-2 text-xs transition-colors rounded-md bg-shark-900 shadow-border-shiny hover:bg-shark-800",
+              !isDirty &&
+                "bg-shark-700 text-silver-400 pointer-events-none cursor-not-allowed"
             )}
             onClick={onReset}
           >
@@ -107,7 +117,7 @@ export default function SortableMultiDnd(props: SortableDndProps) {
           items={sortables}
           strategy={horizontalListSortingStrategy}
         >
-          <div className="flex items-center justify-center w-full gap-4">
+          <div className="flex items-start justify-center w-full min-h-full gap-4">
             {sortables.map((s) => (
               <SortableContainer
                 key={s.id}
@@ -124,8 +134,9 @@ export default function SortableMultiDnd(props: SortableDndProps) {
   );
 
   function onReset() {
-    // setSortables(createData(itemCount, (index) => `A${index + 1}`));
+    setSortables([...initialItems]);
     setStatus(null);
+    setIsDirty(false);
   }
 
   function toggleDragHandles() {
@@ -150,63 +161,68 @@ export default function SortableMultiDnd(props: SortableDndProps) {
     }
   }
 
+  function isSortingContainers(
+    activeId: UniqueIdentifier,
+    overId: UniqueIdentifier
+  ) {
+    return (
+      sortables.map((s) => s.id).includes(overId) &&
+      sortables.map((s) => s.id).includes(activeId)
+    );
+  }
+
   function handleDragOver(event: DragOverEvent) {
     const { active, over } = event;
     const activeId = active.id;
     const overId = over?.id;
+    if (!activeId || !overId) return;
     const activeContainerId = findContainer(activeId);
     const overContainerId = findContainer(overId);
-    const activeIsItem = active.data.current?.type === "item";
-    const overIsItem = over?.data.current?.type === "item";
 
     if (!overContainerId || !activeContainerId) return;
+    if (isSortingContainers(activeId, overId)) return;
 
-    if (activeIsItem && overIsItem) {
-      if (activeContainerId !== overContainerId) {
-        const activeContainer = sortables.find(
-          (i) => i.id === activeContainerId
-        );
-        const overContainer = sortables.find((i) => i.id === overContainerId);
-        const activeItems = activeContainer?.items || [];
-        const activeIndex = activeItems.findIndex((i) => i.id === active.id);
-        const overItems = overContainer?.items || [];
-        const overIndex = sortables.findIndex((i) => i.id === over.id);
-        let newIndex: number;
-        if (sortables.map((s) => s.id).includes(over.id as string)) {
-          newIndex = overItems.length + 1;
-        } else {
-          const isBelowOverItem =
-            over &&
-            active.rect.current.translated &&
-            active.rect.current.translated.top >
-              over.rect.top + over.rect.height;
-          const modifier = isBelowOverItem ? 1 : 0;
-          newIndex =
-            overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
-        }
-
-        const newItems = sortables.map((item) =>
-          // Remove the active item from the old list
-          item.id === activeContainerId
-            ? {
-                ...item,
-                items: activeItems.filter((item) => item.id !== active.id),
-              }
-            : // Add the active item to the new list
-            item.id === overContainerId
-            ? {
-                ...item,
-                items: [
-                  ...item.items.slice(0, newIndex),
-                  activeItems[activeIndex],
-                  ...overItems.slice(newIndex, item.items.length),
-                ],
-              }
-            : item
-        );
-
-        setSortables(newItems);
+    if (activeContainerId !== overContainerId) {
+      const activeContainer = sortables.find((i) => i.id === activeContainerId);
+      const overContainer = sortables.find((i) => i.id === overContainerId);
+      const activeItems = activeContainer?.items || [];
+      const activeIndex = activeItems.findIndex((i) => i.id === active.id);
+      const overItems = overContainer?.items || [];
+      const overIndex = sortables.findIndex((i) => i.id === over.id);
+      let newIndex: number;
+      if (sortables.map((s) => s.id).includes(over.id as string)) {
+        newIndex = overItems.length + 1;
+      } else {
+        const isBelowOverItem =
+          over &&
+          active.rect.current.translated &&
+          active.rect.current.translated.top > over.rect.top + over.rect.height;
+        const modifier = isBelowOverItem ? 1 : 0;
+        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
       }
+
+      const newItems = sortables.map((item) =>
+        // Remove the active item from the old list
+        item.id === activeContainerId
+          ? {
+              ...item,
+              items: activeItems.filter((item) => item.id !== active.id),
+            }
+          : // Add the active item to the new list
+          item.id === overContainerId
+          ? {
+              ...item,
+              items: [
+                ...item.items.slice(0, newIndex),
+                activeItems[activeIndex],
+                ...overItems.slice(newIndex, item.items.length),
+              ],
+            }
+          : item
+      );
+
+      setSortables(newItems);
+      setIsDirty(true);
     }
   }
 
@@ -216,11 +232,8 @@ export default function SortableMultiDnd(props: SortableDndProps) {
     const overId = over?.id;
     if (!activeId || !overId) return;
     const activeContainerId = findContainer(activeId);
-    const isSortingContainers =
-      sortables.map((s) => s.id).includes(overId) &&
-      sortables.map((s) => s.id).includes(activeId);
 
-    if (isSortingContainers) {
+    if (isSortingContainers(activeId, overId)) {
       if (active.id !== over.id) {
         setSortables((items) => {
           const oldIndex = sortables.findIndex((f) => f.id === activeId);
@@ -235,6 +248,7 @@ export default function SortableMultiDnd(props: SortableDndProps) {
               <span className="font-bold">{newIndex}</span>
             </Status>
           );
+          setIsDirty(true);
 
           return arrayMove(items, oldIndex, newIndex);
         });
@@ -255,6 +269,7 @@ export default function SortableMultiDnd(props: SortableDndProps) {
 
       if (oldIndex !== newIndex) {
         setSortables(newItems);
+        setIsDirty(true);
       }
     }
   }
@@ -291,24 +306,39 @@ function SortableContainer(props: SortableContainerProps) {
       ref={setNodeRef}
       style={{ ...style }}
       className={cx(
-        "flex items-start bg-shark-800  gap-2 w-full p-2 rounded-md text-silver shadow-border-shiny transition-colors z-10 drop-shadow-lg",
+        "flex items-start bg-shark-800 min-h-full  gap-2 w-full p-2 rounded-md text-silver shadow-border-shiny transition-colors z-10 drop-shadow-lg",
         isDragging && "bg-shark-600"
       )}
     >
-      <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        <div className="flex flex-col items-center justify-center w-full gap-2">
-          <div
-            {...listeners}
-            {...attributes}
-            className="flex items-center justify-center w-full h-6 p-2 text-sm font-bold rounded-md bg-shark-600 shadow-border-shiny cursor-grab active:cursor-grabbing"
-          >
-            {name}
-          </div>
-          {items.map((s) => (
-            <SortableItem {...s} key={s.id} showDragHandles={showDragHandles} />
-          ))}
+      <div className="flex flex-col items-center justify-center w-full gap-2">
+        <div
+          {...listeners}
+          {...attributes}
+          className="flex items-center justify-center w-full h-6 p-2 text-sm font-bold rounded-md bg-shark-600 shadow-border-shiny cursor-grab active:cursor-grabbing"
+        >
+          {name}
         </div>
-      </SortableContext>
+
+        {items.length === 0 ? (
+          <Droppable
+            id={id}
+            key={id}
+            className="flex items-center justify-center w-full h-20 text-xs font-semibold rounded-md shadow-border-shiny text-silver-900"
+          >
+            List is empty
+          </Droppable>
+        ) : (
+          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+            {items.map((s) => (
+              <SortableItem
+                {...s}
+                key={s.id}
+                showDragHandles={showDragHandles}
+              />
+            ))}
+          </SortableContext>
+        )}
+      </div>
     </div>
   );
 }
@@ -379,6 +409,28 @@ function SortableItem(props: SortableItemProps) {
           {name}
         </motion.span>
       </div>
+    </div>
+  );
+}
+
+type DroppableProps = {
+  id: UniqueIdentifier;
+  children?: React.ReactNode;
+  className?: string;
+};
+
+export function Droppable(props: DroppableProps) {
+  const { id, children, className } = props;
+  console.log("Droppable", id);
+
+  const { setNodeRef } = useDroppable({
+    id,
+    data: { type: "container" },
+  });
+
+  return (
+    <div ref={setNodeRef} className={className}>
+      {children}
     </div>
   );
 }

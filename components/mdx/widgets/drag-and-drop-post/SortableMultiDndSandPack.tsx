@@ -180,9 +180,9 @@ export default function App() {
   },
 };
 
-const SortableDndSandPack = () => (
+const SortableMultiDndSandPack = () => (
   <Sandpack
-    id="sortable-dnd-sandpack"
+    id="sortable-multi-dnd-sandpack"
     files={files}
     customSetup={{
       dependencies: {
@@ -193,4 +193,4 @@ const SortableDndSandPack = () => (
   />
 );
 
-export default SortableDndSandPack;
+export default SortableMultiDndSandPack;
