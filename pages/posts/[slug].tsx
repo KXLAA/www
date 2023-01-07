@@ -39,6 +39,18 @@ const SortableDndSandPack = dynamic(
     )
 );
 
+const SortableMultiDnd = dynamic(
+  () =>
+    import("../../components/mdx/widgets/drag-and-drop-post/SortableMultiDnd")
+);
+
+const SortableMultiDndSandPack = dynamic(
+  () =>
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/SortableMultiDndSandPack"
+    )
+);
+
 const MDXComponents = {
   FreeDnDSandPack,
   FreeDnd,
@@ -46,6 +58,8 @@ const MDXComponents = {
   DroppableDndSandPack,
   SortableDnd,
   SortableDndSandPack,
+  SortableMultiDnd,
+  SortableMultiDndSandPack,
   ...components,
 };
 

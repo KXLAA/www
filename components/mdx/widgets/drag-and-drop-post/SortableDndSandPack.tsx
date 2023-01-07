@@ -182,7 +182,7 @@ export default function App() {
 
 const SortableDndSandPack = () => (
   <Sandpack
-    id="sortable--dnd-sandpack"
+    id="sortable-dnd-sandpack"
     files={files}
     customSetup={{
       dependencies: {
