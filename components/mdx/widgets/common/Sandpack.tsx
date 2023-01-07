@@ -13,7 +13,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import React from "react";
 
-// import { AnimateHeight } from "@/components/animation/AnimateHeight";
+import { AnimateHeight } from "@/components/animation/AnimateHeight";
 
 type SandpackProps = {
   id: string;
@@ -63,7 +63,7 @@ export default function Sandpack(props: SandpackProps) {
               <OpenInCodeSandboxButton />
             </div>
           </span>
-          {open && (
+          <AnimateHeight isVisible={open}>
             <SandpackCodeEditor
               showTabs
               showLineNumbers
@@ -76,7 +76,7 @@ export default function Sandpack(props: SandpackProps) {
                 background: "none",
               }}
             />
-          )}
+          </AnimateHeight>
         </SandpackLayout>
       </SandpackProvider>
     </div>
