@@ -4,8 +4,8 @@ import type {
   UniqueIdentifier,
 } from "@dnd-kit/core";
 import {
+  closestCorners,
   DndContext,
-  DragOverlay,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
@@ -48,7 +48,7 @@ export default function DroppableDnd() {
 
   return (
     <LiveArea
-      className="items-center justify-center gap-10"
+      className="w-full"
       status={status}
       footer={
         <div className="flex justify-center gap-4 p-2">
@@ -69,9 +69,10 @@ export default function DroppableDnd() {
       <DndContext
         sensors={sensors}
         onDragOver={handleDragOver}
-        onDragMove={handelDragStart}
+        onDragStart={handelDragStart}
+        collisionDetection={closestCorners}
       >
-        <div className="flex gap-4">
+        <div className="flex flex-col items-center w-full gap-10">
           {Object.entries(items).map(([key, value]) => (
             <Droppable key={key} id={key}>
               {value.map((item) => (
@@ -80,17 +81,6 @@ export default function DroppableDnd() {
             </Droppable>
           ))}
         </div>
-        <DragOverlay>
-          {activeItem && (
-            <div
-              className={cx(
-                "flex items-center bg-shark-800 justify-center gap-1 w-full p-2 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg"
-              )}
-            >
-              <span className="text-base !font-black"> {activeItem.name}</span>
-            </div>
-          )}
-        </DragOverlay>
       </DndContext>
     </LiveArea>
   );
@@ -104,6 +94,8 @@ export default function DroppableDnd() {
         (item) => item.id === activeId
       ) as Item;
       setActiveItem(activeItem);
+    } else {
+      setActiveItem(undefined);
     }
   }
 
@@ -178,25 +170,17 @@ function Droppable(props: DroppableProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
-  const container = id === "ROOT" ? "ROOT CONTAINER" : `CONTAINER ${id}`;
 
   return (
     <div
       ref={setNodeRef}
-      className="z-10 flex flex-col items-center overflow-hidden border border-shark-700"
+      className={cx(
+        "flex  bg-shark-800 p-2 w-full max-w-xs h-[52px] gap-2 items-start justify-start z-10 rounded-md shadow-border-shiny-2",
+        isOver && "bg-shark-700",
+        className
+      )}
     >
-      <span className="w-full p-1.5 text-xs font-bold text-center text-silver-900 bg-shark-900">
-        {container}
-      </span>
-      <div
-        className={cx(
-          "flex flex-col  bg-shark-800 p-2 w-48 h-48	flex-wrap gap-2 items-start justify-start",
-          isOver && "bg-shark-700",
-          className
-        )}
-      >
-        {children}
-      </div>
+      {children}
     </div>
   );
 }
@@ -209,10 +193,9 @@ type DraggableProps = {
 
 function Draggable(props: DraggableProps) {
   const { id, styles, name } = props;
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id,
-    });
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+  });
 
   const style = transform
     ? {
@@ -225,8 +208,7 @@ function Draggable(props: DraggableProps) {
       ref={setNodeRef}
       style={{ ...style, ...styles }}
       className={cx(
-        "flex items-center bg-shark-800 justify-center gap-1 w-full p-1.5 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
-        isDragging && "opacity-30"
+        "flex items-center bg-shark-800 justify-center gap-1 w-[70px] p-1.5 rounded-md text-silver shadow-border-shiny transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg"
       )}
       {...listeners}
       {...attributes}
@@ -237,8 +219,6 @@ function Draggable(props: DraggableProps) {
 }
 
 type Items = Record<UniqueIdentifier, ReturnType<typeof createData>>;
-
-//create fake data
 function createData(length: number, initializer: (index: number) => string) {
   return [...new Array(length)].map((_, index) => {
     return {
