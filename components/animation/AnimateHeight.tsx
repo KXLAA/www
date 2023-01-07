@@ -39,7 +39,7 @@ export function AnimateHeight(props: AnimateHeightProps) {
     children,
   } = props;
 
-  const [ref, bounds] = useMeasure();
+  const [ref] = useMeasure();
 
   return (
     <motion.div
@@ -51,19 +51,10 @@ export function AnimateHeight(props: AnimateHeightProps) {
       className={className}
       transition={{
         ease,
-        duration: duration
-          ? duration
-          : getAutoHeightDuration(bounds?.height) / 1000,
+        duration: duration,
       }}
     >
-      <div
-        ref={ref}
-        style={{
-          width: "100%",
-        }}
-      >
-        {children}
-      </div>
+      <div ref={ref}>{children}</div>
     </motion.div>
   );
 }
