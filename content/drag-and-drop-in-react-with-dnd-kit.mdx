@@ -313,7 +313,7 @@ A user interface allows users to pick up and drag an element across the entire v
 <FreeDnDSandPack />
 
 <Callout intent='default' dropdown heading='Code Breakdown'>
-In this interaction, we have multiple draggable components. To build this, we need to create a Draggable Component with the useDraggable hook. This component takes a unique id, and a styles object as props:
+  First we create a Draggable Component with the useDraggable hook.  This component takes a unique `id`, and a `styles` object as `props`:
 
 ```tsx
 import { useDraggable } from "@dnd-kit/core";
@@ -328,10 +328,9 @@ type DraggableProps = {
 
 function Draggable(props: DraggableProps) {
   const { id, styles, children } = props;
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id,
-    });
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+  });
 
   const transformStyles = transform
     ? {
@@ -352,105 +351,118 @@ function Draggable(props: DraggableProps) {
 }
 ```
 
-Next we need to set up our DndContext and the state of our Draggable components. We'll be storing the data about our draggable components as an array of objects in state. Each object should include a unique ID and the initial x and y position coordinates of the element:
+Next we need to set up our DndContext and the state of our Draggable components. We'll be storing the data about our draggable components as an array of objects in state.
+
+Each object should include a unique `id` and an initial `x` and `y` position coordinates for the draggable component:
 
 ```tsx
 //Set up DndContext and the state of our draggable elements
 import { DndContext } from "@dnd-kit/core";
 import { Draggable } from "./Draggable";
 
-export function App() {
-  //initial draggble state
-  const [draggables, setDraggables] = React.useState([
-    {
-      id: 1,
-      name: "OL",
-      position: {
-        x: 24,
-        y: 24,
-      },
+//initial draggble state
+const draggable = [
+  {
+    id: "DG",
+    name: "D",
+    position: {
+      x: 24,
+      y: 24,
     },
-  ]);
+  },
+  {
+    id: "KA",
+    name: "K",
+    position: {
+      x: 164,
+      y: 164,
+    },
+  },
+];
+
+export function App() {
+  const [draggables, setDraggables] = React.useState([...draggable]);
 
   return (
-    <div>
-      <DndContext>
-        {draggables.map((d) => (
-          <Draggable
-            //We pass the current position of the draggbale here ass CSS styles
-            styles={{
-              position: "absolute",
-              left: `${d.position.x}px`,
-              top: `${d.position.y}px`,
-            }}
-            key={d.id}
-            id={d.id}
-            name={d.name}
-          />
-        ))}
-      </DndContext>
-    </div>
+    <DndContext>
+      {draggables.map((d) => (
+        <Draggable
+          //We pass the current position of the draggbale here ass CSS styles
+          styles={{
+            position: "absolute",
+            left: `${d.position.x}px`,
+            top: `${d.position.y}px`,
+          }}
+          key={d.id}
+          id={d.id}
+          name={d.name}
+        />
+      ))}
+    </DndContext>
   );
 }
 ```
 
-To allow our components to be moved around the page, we need to update their positions when a drag event ends. We'll use the `onDragEnd` event emitted by the `<DndContext />` to do this. This event contains the x- and y-positions of the active draggable element when it is dropped. In our handler function, we can use this information to update the position of our element in state:
+To allow our components to be moved around the page, we need to update their positions when a drag event ends. We'll use the `onDragEnd` event emitted by the `<DndContext />` to do this. This event contains the x- and y-positions of the active draggable element when it is dropped.
+
+In our handler function, we can use this information to update the position of our element in state:
 
 ```tsx
 //Set up DndContext and the state of our draggable elements
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import { Draggable } from "./Draggable";
 
-//Create a handler function to respond to an ondragend event & update the position of the draggable element
 export function App() {
-  const [draggables, setDraggables] = React.useState([
-    {
-      id: 1,
-      name: "OL",
-      position: {
-        x: 24,
-        y: 24,
-      },
-    },
-  ]);
+  const [draggables, setDraggables] = React.useState([...draggable]);
+  //remember to add the sensors to the DndContext
+  const sensors = useSensors(
+    useSensor(KeyboardSensor),
+    useSensor(TouchSensor),
+    useSensor(MouseSensor)
+  );
 
+  //Handler function to respond to an onDragEnd event
   function handleDragEnd(ev: DragEndEvent) {
-    const activeId = ev.active.id;
+    const { active } = ev;
 
-    //if there is no active draggable return
-    if (!activeId) {
-      return;
-    }
+    //if there is no active draggable, return
+    if (!active) return;
 
-    //find active draggable in state and update its position
+    //find the active draggable in state
     const draggable = draggables.find((x) => x.id === ev.active.id);
+
+    //update the position of the active draggable
     draggable.position.x += ev.delta.x;
     draggable.position.y += ev.delta.y;
-    const _draggables = draggables.map((d) =>
-      d.id === draggable.id ? draggable : d
-    );
 
-    setDraggables(_draggables);
+    setDraggables((draggables) =>
+      //update the state of the active draggable
+      draggables.map((d) => (d.id === draggable.id ? draggable : d))
+    );
   }
 
   return (
-    <div>
-      <DndContext>
-        {draggables.map((d) => (
-          <Draggable
-            //We pass the current position of the draggbale here ass CSS styles
-            styles={{
-              position: "absolute",
-              left: `${d.position.x}px`,
-              top: `${d.position.y}px`,
-            }}
-            key={d.id}
-            id={d.id}
-            name={d.name}
-          />
-        ))}
-      </DndContext>
-    </div>
+    <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+      {draggables.map((d) => (
+        <Draggable
+          key={d.id}
+          id={d.id}
+          name={d.name}
+          styles={{
+            position: "absolute",
+            left: `${d.position.x}px`,
+            top: `${d.position.y}px`,
+          }}
+        />
+      ))}
+    </DndContext>
   );
 }
 ```
@@ -464,7 +476,9 @@ A user interface allows users to pick up and drag an element into designated dro
 <DroppableDndSandPack />
 
 <Callout intent='default' dropdown heading='Code Breakdown'>
-To build this, we'll need to create both draggable and droppable components. The draggable component is similar to the one we made in the free DnD example above. To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique ID as props:
+  We are going to need draggable and droppable components to build this. The draggable component is similar to the one we made in the free DnD example above. 
+  
+  To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique `id` as props:
 
 ```tsx
 import { useDroppable } from "@dnd-kit/core";
@@ -479,8 +493,9 @@ export function Droppable(props: DroppableProps) {
     id: props.id,
   });
 
+  //Conditional styles to indicate when a draggable is over a droppable area
   const style = {
-    color: isOver ? "green" : undefined,
+    color: isOver ? "gray" : undefined,
   };
 
   return (
@@ -491,41 +506,136 @@ export function Droppable(props: DroppableProps) {
 }
 ```
 
-Next, we need to set up our `DndContext` and the state of our draggable and droppable components. Since each droppable area can be associated with a group of draggable components, we can easily represent this relationship in state as an object. The key of the object will be the unique ID of the droppable area, and the value an array of draggable components.
-
-Here is the code:
+Next, we need to set up our `DndContext` and the state of our draggable and droppable components:
 
 ```tsx
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  closestCorners,
+  DragOverEvent,
+} from "@dnd-kit/core";
 import { Droppable } from "./Droppable";
 import { Draggable } from "./Draggable";
 
-export function App() {
-  const [items, setItems] = React.useState<Items>({
-    A: [],
-    B: [],
-    ROOT: [
-      {
-        id: "7796433d-eb92-4543-b46e-6c7fc9c5b6d4",
-        name: "AQ",
-      },
-      {
-        id: "528ec37c-08f0-4908-8bcb-248ffa288289",
-        name: "FU",
-      },
-    ],
-  });
+//initial draggble state
+const items: Items = {
+  A: [
+    {
+      id: "KV9DAsrRh2",
+      name: "AQ",
+    },
+    {
+      id: "KDVGlBlDXX",
+      name: "CO",
+    },
+  ],
+  B: [
+    {
+      id: "wXl_8K1JaC",
+      name: "BL",
+    },
+    {
+      id: "3MF7jrHKqd",
+      name: "JA",
+    },
+  ],
+};
 
-  //...other code seeting up the DndContext
+export default function App() {
+  //set up state for draggable and droppable components
+  const [items, setItems] = React.useState(defaultItems);
+
+  //remember to add the sensors to the DndContext
+  const sensors = useSensors(
+    useSensor(KeyboardSensor),
+    useSensor(TouchSensor),
+    useSensor(MouseSensor)
+  );
+
+  return (
+    <DndContext
+      sensors={sensors}
+      //see below
+      onDragOver={handleDragOver}
+      //optimised collision detection see https://docs.dndkit.com/api-documentation/context-provider/collision-detection-algorithms for more info
+      collisionDetection={closestCorners}
+    >
+      {/** map over the object in state and render a droppable component for each item */}
+      <div className="app">
+        {Object.entries(items).map(([key, value]) => (
+          <Droppable key={key} id={key}>
+            {value.map((item) => (
+              //render a draggable component for each item in the droppable container
+              <Draggable key={item.id} id={item.id} name={item.name} />
+            ))}
+          </Droppable>
+        ))}
+      </div>
+    </DndContext>
+  );
 }
 ```
 
-To allow our draggable components to move between containers, we need a helper function, findContainer, which takes an ID and returns the relevant droppable container ID. We will be using this helper function in our handler function that responds to the onDragEnd event emitted by the `DndContext`. This event contains information about the active draggable component and the ID of the droppable area that it is over. We will use the findContainer helper function to find the items in the active and over containers and update them in state.
+To allow our draggable components to move between containers, we need a helper function, `findContainer`, which takes an `id` and returns the relevant droppable container id.
 
-Here is the code:
+We will be using this helper function in our `handleDragEnd` function to find the items in the active and over containers and update them in state:
 
 ```tsx
+function findContainer(id: string) {
+  //if the id is a key in the items object, that means it is a droppable container
+  if (id in items) {
+    return id;
+  }
 
+  //if the id is not a key in the items object, that means it is a draggable item and we need to find the container it is in
+  //we can do this by looping over the items object and checking if the id is in the array of items
+  return Object.keys(items).find((key) => {
+    return items[key].some((item) => item.id === id);
+  });
+}
+
+function handleDragOver(ev: DragOverEvent) {
+  const { active, over } = ev;
+
+  //if there is no active draggable or no droppable container, return
+  if (!over || !active) {
+    return;
+  }
+  const activeId = active.id;
+  const overId = over?.id;
+
+  //find the active and over containers
+  const activeContainer = findContainer(activeId);
+  const overContainer = findContainer(overId);
+
+  //if there is no active container or no over container, or if the active container is the same as the over container, no need to update state so return
+  if (!activeContainer || !overContainer || activeContainer === overContainer) {
+    return;
+  }
+
+  setItems((items) => {
+    //find the active item and the items in the active and over containers
+    const activeItems = items[activeContainer];
+    const overItems = items[overContainer];
+    const activeItem = activeItems.find((item) => item.id === activeId);
+
+    //update the items in state
+    const newItems = {
+      ...items,
+      //remove the active item from the active container
+      [activeContainer]: activeItems.filter((item) => item.id !== activeId),
+      //add the active item to the over container
+      [overContainer]: [...overItems, activeItem],
+    } as Items;
+
+    return newItems;
+  });
+}
 ```
 
 </Callout>
