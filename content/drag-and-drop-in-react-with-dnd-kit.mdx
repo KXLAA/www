@@ -560,7 +560,6 @@ export default function App() {
   return (
     <DndContext
       sensors={sensors}
-      //see below
       onDragOver={handleDragOver}
       //optimised collision detection see https://docs.dndkit.com/api-documentation/context-provider/collision-detection-algorithms for more info
       collisionDetection={closestCorners}
@@ -583,7 +582,7 @@ export default function App() {
 
 To allow our draggable components to move between containers, we need a helper function, `findContainer`, which takes an `id` and returns the relevant droppable container id.
 
-We will be using this helper function in our `handleDragEnd` function to find the items in the active and over containers and update them in state:
+We will be using this helper function in our `handleDragEnd` function to find the items in the active and over containers in response to the onDragEnd event and update them in state:
 
 ```tsx
 function findContainer(id: string) {
@@ -647,68 +646,142 @@ A container containing a list of items that can be rearranged by dragging them.
 <SortableDndSandPack />
 
 <Callout dropdown intent='default' heading='Code Breakdown'>
-To build this, we'll need to create both draggable and droppable components. The draggable component is similar to the one we made in the free DnD example above. To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique ID as props:
+First we create a SortableItem Component with the `useSortable` hook.  This component takes a unique `id`, and a `name`  as `props`:
 
 ```tsx
-import { useDroppable } from "@dnd-kit/core";
-type DroppableProps = {
+import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+
+type SortableItemProps = {
   id: string;
-  children: React.ReactNode;
+  name?: string;
 };
 
-export function Droppable(props: DroppableProps) {
-  const { id, children } = props;
-  const { isOver, setNodeRef } = useDroppable({
-    id: props.id,
+export function SortableItem(props: SortableItemProps) {
+  const { name, id } = props;
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: id,
   });
 
+  //set up the transform and transition styles for the draggable component
   const style = {
-    color: isOver ? "green" : undefined,
+    transform: CSS.Translate.toString(transform),
+    transition,
   };
 
   return (
-    <div ref={setNodeRef} style={style}>
-      {children}
+    <div ref={setNodeRef} style={{ ...style }}>
+      {/** add the drag handle */}
+      <DragHandleDots2Icon
+        className="drag-handle"
+        {...listeners}
+        {...attributes}
+      />
+      <span>{name}</span>
     </div>
   );
 }
 ```
 
-Next, we need to set up our `DndContext` and the state of our draggable and droppable components. Since each droppable area can be associated with a group of draggable components, we can easily represent this relationship in state as an object. The key of the object will be the unique ID of the droppable area, and the value an array of draggable components.
-
-Here is the code:
+Next, we need to set up our `DndContext` and the state of our sortable component:
 
 ```tsx
-import { DndContext } from "@dnd-kit/core";
-import { Droppable } from "./Droppable";
-import { Draggable } from "./Draggable";
+import type { DragEndEvent } from "@dnd-kit/core";
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import React from "react";
+import { SortableItem } from "./SortableItem";
 
-export function App() {
-  const [items, setItems] = React.useState<Items>({
-    A: [],
-    B: [],
-    ROOT: [
-      {
-        id: "7796433d-eb92-4543-b46e-6c7fc9c5b6d4",
-        name: "AQ",
-      },
-      {
-        id: "528ec37c-08f0-4908-8bcb-248ffa288289",
-        name: "FU",
-      },
-    ],
-  });
+//set up the initial items
+const initialItems = [
+  {
+    id: "dnuannvBxx",
+    name: "GOLD",
+  },
+  {
+    id: "mrY2amrFiv",
+    name: "BRONZE",
+  },
+  {
+    id: "Y7UE3g7kD2",
+    name: "APRICOT",
+  },
+  {
+    id: "kZ9B3D_JyO",
+    name: "BEIGE",
+  },
+];
 
-  //...other code seeting up the DndContext
+export default function App() {
+  const [sortables, setSortables] = React.useState([...initialItems]);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  return (
+    <DndContext
+      collisionDetection={closestCenter}
+      sensors={sensors}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={sortables}
+        //sorting strategy suited for vertical lists see https://docs.dndkit.com/presets/sortable#sorting-strategies for more
+        strategy={verticalListSortingStrategy}
+      >
+        <div className="app">
+          {sortables.map((s) => (
+            <SortableItem key={s.id} {...s} />
+          ))}
+        </div>
+      </SortableContext>
+    </DndContext>
+  );
 }
 ```
 
-To allow our draggable components to move between containers, we need a helper function, findContainer, which takes an ID and returns the relevant droppable container ID. We will be using this helper function in our handler function that responds to the onDragEnd event emitted by the `DndContext`. This event contains information about the active draggable component and the ID of the droppable area that it is over. We will use the findContainer helper function to find the items in the active and over containers and update them in state.
-
-Here is the code:
+Finally, we need to handle the `onDragEnd` event:
 
 ```tsx
+function handleDragEnd(event: DragEndEvent) {
+  const { active, over } = event;
+  //if there is no active draggable or no droppable container, return
+  if (!over || !active) return;
+  const activeId = active.id;
+  const overId = over?.id;
 
+  if (activeId && overId && active.id !== over.id) {
+    setSortables((items) => {
+      //find the index of the active and over items and use arrayMove to update the items in state
+      const oldIndex = sortables.findIndex((f) => f.id === activeId);
+      const newIndex = sortables.findIndex((f) => f.id === overId);
+      return arrayMove(items, oldIndex, newIndex);
+    });
+  }
+}
 ```
 
 </Callout>
@@ -720,70 +793,301 @@ A list that can be sorted and items that can be dropped into multiple containers
 <SortableMultiDndSandPack />
 
 <Callout intent='default' dropdown heading='Code Breakdown'>
-To build this, we'll need to create both draggable and droppable components. The draggable component is similar to the one we made in the free DnD example above. To create a droppable component, we'll use the `useDropabale` hook. Similar to the Draggable component, this component takes a unique ID as props:
+  We are going to need a `SortableItem`  and `SortableContainer` components to build this. The `SortableItem` component is identical to the one we made in the Single Container Sortables example above. 
+  
+  The `SortableContainer` is quite similar as well, the only diffrence is that we need to add an empty droppable container to the `SortableContainer` component when it has no items:
 
 ```tsx
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { Item } from "./items";
+import { CSS } from "@dnd-kit/utilities";
 import { useDroppable } from "@dnd-kit/core";
+import { SortableItem } from "./SortableItem";
+
+type SortableContainerProps = {
+  id: string;
+  name?: string;
+  items: Item[];
+};
+
 type DroppableProps = {
   id: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
 };
 
 export function Droppable(props: DroppableProps) {
-  const { id, children } = props;
-  const { isOver, setNodeRef } = useDroppable({
-    id: props.id,
+  const { id, children, className } = props;
+
+  const { setNodeRef } = useDroppable({
+    id,
   });
 
+  return (
+    <div ref={setNodeRef} className={className}>
+      {children}
+    </div>
+  );
+}
+
+export function SortableContainer(props: SortableContainerProps) {
+  const { name, id, items } = props;
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: id,
+      data: { name, type: "container" },
+    });
   const style = {
-    color: isOver ? "green" : undefined,
+    transform: CSS.Translate.toString(transform),
+    transition,
   };
 
   return (
-    <div ref={setNodeRef} style={style}>
-      {children}
+    <div ref={setNodeRef} style={{ ...style }} className="sortable-container">
+      <div>
+        <div
+          {...listeners}
+          {...attributes}
+          className="sortable-container_header"
+        >
+          {name}
+        </div>
+        {/** if there are no items in the container, render an empty droppable container with the same id as the SortableContainer */}
+        {items.length === 0 ? (
+          <Droppable id={id} key={id} className="droppable">
+            List is empty
+          </Droppable>
+        ) : (
+          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+            {items.map((s) => (
+              <SortableItem {...s} key={s.id} />
+            ))}
+          </SortableContext>
+        )}
+      </div>
     </div>
   );
 }
 ```
 
-Next, we need to set up our `DndContext` and the state of our draggable and droppable components. Since each droppable area can be associated with a group of draggable components, we can easily represent this relationship in state as an object. The key of the object will be the unique ID of the droppable area, and the value an array of draggable components.
-
-Here is the code:
+Next, we need to set up our `DndContext` and the state of our items and containers:
 
 ```tsx
-import { DndContext } from "@dnd-kit/core";
-import { Droppable } from "./Droppable";
-import { Draggable } from "./Draggable";
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCorners,
+  DragEndEvent,
+  DragOverEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
+import React from "react";
+import { SortableContainer } from "./SortableContainer";
 
-export function App() {
-  const [items, setItems] = React.useState<Items>({
-    A: [],
-    B: [],
-    ROOT: [
-      {
-        id: "7796433d-eb92-4543-b46e-6c7fc9c5b6d4",
-        name: "AQ",
-      },
-      {
-        id: "528ec37c-08f0-4908-8bcb-248ffa288289",
-        name: "FU",
-      },
-    ],
-  });
+//initial items
+export const initialItems = [
+  {
+    id: "A",
+    name: "Container A",
+    //helper function to create an array of draggbale items
+    items: createData(3, (index) => `ITEM A${index + 1}`),
+  },
+  {
+    id: "B",
+    name: "Container B",
+    //helper function to create an array of draggbale items
+    items: createData(2, (index) => `ITEM B${index + 1}`),
+  },
+];
 
-  //...other code seeting up the DndContext
+export default function App() {
+  //state of the items
+  const [sortables, setSortables] = React.useState([...initialItems]);
+
+  //rembmber to set up your sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  return (
+    <DndContext
+      collisionDetection={closestCorners}
+      sensors={sensors}
+      //we will implment the handlers below
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+    >
+      <SortableContext
+        items={sortables}
+        strategy={horizontalListSortingStrategy}
+      >
+        {sortables.map((s) => (
+          <SortableContainer
+            key={s.id}
+            id={s.id}
+            name={s.name}
+            items={s.items}
+          />
+        ))}
+      </SortableContext>
+    </DndContext>
+  );
 }
 ```
 
-To allow our draggable components to move between containers, we need a helper function, findContainer, which takes an ID and returns the relevant droppable container ID. We will be using this helper function in our handler function that responds to the onDragEnd event emitted by the `DndContext`. This event contains information about the active draggable component and the ID of the droppable area that it is over. We will use the findContainer helper function to find the items in the active and over containers and update them in state.
+Now we can implement the `onDragOver` handler. This handler will be called when a draggable item is dragged over a droppable container. We will use this handler to update the state of the items and containers when a draggable item is dragged over a droppable container. We have two helper function to help us with this:
 
-Here is the code:
+- `findContainer` - finds the active or over container based on the id of the active or over item. If the active or over item is a container, it will return the id of the container. If the active or over item is an item inside a container, it will return the id of the container that the item is inside.
+- `isSortingContainers` - Returns true if the active and over items are both containers. If this is true we know we are sorting the containers and not the items inside the containers.
 
 ```tsx
+function findContainer(id?: string) {
+  if (id) {
+    const container = sortables?.find((i) =>
+      i.items?.find((l) => l?.id === id)
+    );
 
+    return container?.id;
+  }
+}
+
+function isSortingContainers(activeId: string, overId: string) {
+  return (
+    sortables.map((s) => s.id).includes(overId) &&
+    sortables.map((s) => s.id).includes(activeId)
+  );
+}
+
+function handleDragOver(event: DragOverEvent) {
+  const { active, over } = event;
+  const activeId = active.id as string;
+  const overId = over?.id as string;
+  if (!over || !activeId || !overId) return;
+  const activeContainerId = findContainer(activeId);
+  const overContainerId = findContainer(overId);
+
+  //If there is no active container or over container, return early
+  if (!overContainerId || !activeContainerId) return;
+
+  //In this example we can not drag a container over another container, is if we are sorting the containers
+  //we will return early and not update the state
+  if (isSortingContainers(activeId, overId)) return;
+
+  //Only update state when the active container is not the same as the over container
+  if (activeContainerId !== overContainerId) {
+    //Find active and over items
+    const activeContainer = sortables.find((i) => i.id === activeContainerId);
+    const overContainer = sortables.find((i) => i.id === overContainerId);
+    const activeItems = activeContainer?.items || [];
+    const activeIndex = activeItems.findIndex((i) => i.id === active.id);
+    const overItems = overContainer?.items || [];
+    const overIndex = sortables.findIndex((i) => i.id === over.id);
+
+    //Need to find the newindex to insert the active item into the over container
+    let newIndex: number;
+    //check if container is empty, if it is we will add the active item to the end of the container
+    if (sortables.map((s) => s.id).includes(over.id as string)) {
+      newIndex = overItems.length + 1;
+    } else {
+      //if the container is not empty we will check if the active item is below the over item and update the index accordingly
+      const isBelowOverItem =
+        over &&
+        active.rect.current.translated &&
+        active.rect.current.translated.top > over.rect.top + over.rect.height;
+      const modifier = isBelowOverItem ? 1 : 0;
+      newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
+    }
+
+    const newItems = sortables.map((item) =>
+      // Remove the active item from the old container
+      item.id === activeContainerId
+        ? {
+            ...item,
+            items: activeItems.filter((item) => item.id !== active.id),
+          }
+        : // Add the active item to the new container at the new index
+        item.id === overContainerId
+        ? {
+            ...item,
+            items: [
+              ...item.items.slice(0, newIndex),
+              activeItems[activeIndex],
+              ...overItems.slice(newIndex, item.items.length),
+            ],
+          }
+        : item
+    );
+
+    //update the state
+    setSortables(newItems);
+  }
+}
+```
+
+Now we can implement the `onDragEnd` handler. This handler will be called when a draggable item is dropped. We will use this handler to update the state of the items and containers when a draggable item is dropped. We will be using our helper functions here as well:
+
+```tsx
+function handleDragEnd(event: DragEndEvent) {
+  const { active, over } = event;
+  const activeId = active.id as string;
+  const overId = over?.id as string;
+  if (!activeId || !overId) return;
+  const activeContainerId = findContainer(activeId);
+
+  //If we are sorting the containers, we will update the state to reflect the new order of the containers
+  if (isSortingContainers(activeId, overId)) {
+    if (activeId !== overId) {
+      setSortables((items) => {
+        const oldIndex = sortables.findIndex((f) => f.id === activeId);
+        const newIndex = sortables.findIndex((f) => f.id === overId);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  } else {
+    //Update the state to reflect the new order of the items inside the containers, iuf we are sorting the items
+    const activeContainer = sortables.find((i) => i.id === activeContainerId);
+    const activeItems = activeContainer?.items || [];
+    const oldIndex = activeItems.findIndex((i) => i.id === activeId);
+    const newIndex = activeItems.findIndex((i) => i.id === overId);
+    const newItems = sortables.map((s) =>
+      //Find the active container and update the items inside the container
+      s.id === activeContainerId
+        ? {
+            ...s,
+            items: arrayMove(s.items, oldIndex, newIndex),
+          }
+        : s
+    );
+
+    //Only update the state if the active item has moved
+    if (oldIndex !== newIndex) {
+      setSortables(newItems);
+    }
+  }
+}
 ```
 
 </Callout>
 
 ## Closing Thoughts
+
+I hope I managed to demonstrate the power of DndKit. Its strength lies in its flexibility. You can use it to create anything from a simple to-do list to a complex drag-and-drop interface.
+
+I hope you enjoyed this post. If you have any questions, you can reach me on Twitter [@kxlaa\_](https://twitter.com/kxlaa_) and I'll be happy to answer them. You can also check out the [DndKit](https://dndkit.com/) website for more examples and documentation.
+
+Thank you for reading and happy coding!

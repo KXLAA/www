@@ -208,13 +208,16 @@ const files = {
     `),
     hidden: true,
   },
-  "App.tsx": `import { closestCorners, DragEndEvent, DragOverEvent } from "@dnd-kit/core";
+  "App.tsx": `
   import {
     DndContext,
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors
+    useSensors,
+    closestCorners, 
+    DragEndEvent, 
+    DragOverEvent
   } from "@dnd-kit/core";
   import {
     arrayMove,
@@ -262,9 +265,7 @@ const files = {
   
     function findContainer(id?: string) {
       if (id) {
-        if (sortables.map((s) => s.id).includes(id)) return id;
-  
-        //If id is a child item return the parent id
+          //If id is a child item return the parent id
         const container = sortables?.find((i) =>
           i.items?.find((l) => l?.id === id)
         );
