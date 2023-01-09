@@ -83,6 +83,13 @@ code::after {
   @apply m-0;
 }
 
+.prose aside ul {
+  @apply m-0;
+}
+
+.prose aside li {
+  @apply mt-0;
+}
 .gradient-bg {
   background: linear-gradient(
     rgba(255, 255, 255, 0) 0%,

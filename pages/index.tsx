@@ -16,11 +16,11 @@ export default function Home(props: HomeProps) {
   const posts = props.posts;
 
   return (
-    <Layout>
-      <div className="flex flex-col gap-24 px-10 py-16">
+    <Layout hideHeader>
+      <div className="flex flex-col justify-center max-w-5xl gap-24 px-10 py-16 m-auto">
         <div className="flex flex-col gap-0.5">
-          <h1 className="font-bold text-7xl">Kolade Afode</h1>
-          <h2 className="text-3xl !text-blue-500 font-medium">
+          <h1 className="font-bold text-8xl">Kolade Afode</h1>
+          <h2 className="text-4xl !text-blue-500 font-medium">
             Engineer / Designer
           </h2>
         </div>
