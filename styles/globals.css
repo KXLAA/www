@@ -62,7 +62,7 @@ body {
 }
 
 code {
-  @apply px-1 py-1 rounded-md bg-shark-400 shadow-border-shiny !font-normal !text-silver-50;
+  @apply px-1 py-0.5 rounded-md bg-shark-400 shadow-border-shiny !font-normal !text-silver-50;
 }
 
 code::before,
