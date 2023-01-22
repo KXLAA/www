@@ -60,7 +60,7 @@ export default function SortableMultiDnd(props: SortableDndProps) {
           items={state.sortables.map((s) => s.id)}
           strategy={horizontalListSortingStrategy}
         >
-          <div className="flex items-start justify-center w-full min-h-full gap-4">
+          <div className="flex justify-center w-full min-h-full gap-4">
             {state.sortables.map((s) => (
               <SortableContainer
                 {...s}

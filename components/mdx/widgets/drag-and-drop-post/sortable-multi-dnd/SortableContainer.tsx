@@ -46,10 +46,10 @@ export function SortableContainer(props: SortableContainerProps) {
       ref={setNodeRef}
       style={{ ...style }}
       className={cx(
-        "flex items-start bg-shark-900 min-h-full  gap-2 w-full rounded-md text-silver shadow-border-shiny transition-colors z-10 drop-shadow-lg"
+        "flex items-start bg-shark-900 gap-2 w-full rounded-md text-silver shadow-border-shiny transition-colors z-10 drop-shadow-lg"
       )}
     >
-      <div className="flex flex-col items-center justify-center w-full gap-2 ">
+      <div className="flex flex-col items-center justify-center w-full gap-2">
         <div
           {...listeners}
           {...attributes}
@@ -61,7 +61,7 @@ export function SortableContainer(props: SortableContainerProps) {
           {name}
         </div>
 
-        <div className="flex flex-col items-center justify-center w-full gap-2 p-4">
+        <div className="flex flex-col items-start w-full gap-2 p-4">
           <SortableContext items={items} strategy={verticalListSortingStrategy}>
             {items.length === 0 ? (
               <div
