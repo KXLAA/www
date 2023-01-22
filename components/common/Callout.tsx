@@ -9,7 +9,7 @@ import {
   useDisclosureState,
 } from "ariakit/disclosure";
 
-// import { AnimateHeight } from "@/components/animation/AnimateHeight";
+import { AnimateHeight } from "@/components/animation/AnimateHeight";
 import { cx } from "@/lib/cx";
 
 type CalloutProps = {
@@ -50,7 +50,7 @@ export function Callout(props: CalloutProps) {
           "bg-shark-600 border-shark-500 border-2 text-silver-600"
       )}
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col">
         <Disclosure
           state={disclosure}
           className="flex items-center justify-between w-full"
@@ -78,9 +78,15 @@ export function Callout(props: CalloutProps) {
             />
           </div>
         </Disclosure>
-        <DisclosureContent state={disclosure}>
-          <div className="flex flex-col gap-6 text-lg"> {children}</div>
-        </DisclosureContent>
+        <>
+          <DisclosureContent
+            state={disclosure}
+            as={AnimateHeight}
+            isVisible={disclosure.open}
+          >
+            <div className="flex flex-col gap-6 text-lg"> {children}</div>
+          </DisclosureContent>
+        </>
       </div>
     </aside>
   ) : (
