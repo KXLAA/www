@@ -1,29 +1,21 @@
-import type { UniqueIdentifier } from "@dnd-kit/core";
-import { closestCorners, DndContext } from "@dnd-kit/core";
+import { closestCenter, DndContext, DragOverlay } from "@dnd-kit/core";
 import {
   horizontalListSortingStrategy,
   SortableContext,
-  useSortable,
-  verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { DragHandleDots2Icon } from "@radix-ui/react-icons";
-import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import { motion } from "framer-motion";
 
 import { Refresh } from "@/components/common/Refresh";
 import { LiveArea } from "@/components/mdx/widgets/common/LiveArea";
 import { cx } from "@/lib/cx";
 
+import type { ContainerProps, Item } from "./controller";
 import { useController } from "./controller";
+import { OverlayContainer, SortableContainer } from "./SortableContainer";
+import { OverlayItem } from "./SortableItem";
 
 type SortableDndProps = {
   itemCount?: number;
-};
-
-type Item = {
-  id: UniqueIdentifier;
-  name: string;
 };
 
 export default function SortableMultiDnd(props: SortableDndProps) {
@@ -58,172 +50,42 @@ export default function SortableMultiDnd(props: SortableDndProps) {
       }
     >
       <DndContext
-        collisionDetection={closestCorners}
         sensors={state.sensors}
         onDragEnd={actions.handleDragEnd}
         onDragOver={actions.handleDragOver}
+        onDragStart={actions.handleDragStart}
+        collisionDetection={closestCenter}
       >
         <SortableContext
-          items={state.sortables}
+          items={state.sortables.map((s) => s.id)}
           strategy={horizontalListSortingStrategy}
         >
           <div className="flex items-start justify-center w-full min-h-full gap-4">
             {state.sortables.map((s) => (
               <SortableContainer
+                {...s}
                 key={s.id}
-                id={s.id}
-                name={s.name}
-                items={s.items}
                 showDragHandles={state.showDragHandles}
               />
             ))}
           </div>
         </SortableContext>
+
+        <DragOverlay>
+          {state.activeItem ? (
+            <>
+              {state.containerIds.includes(state.activeItem.id) ? (
+                <OverlayContainer
+                  {...(state.activeItem as ContainerProps)}
+                  showDragHandles={state.showDragHandles}
+                />
+              ) : (
+                <OverlayItem {...(state.activeItem as Item)} />
+              )}
+            </>
+          ) : null}
+        </DragOverlay>
       </DndContext>
     </LiveArea>
-  );
-}
-
-type SortableContainerProps = {
-  id: UniqueIdentifier;
-  name?: string;
-  items: Item[];
-  showDragHandles: boolean;
-};
-
-function SortableContainer(props: SortableContainerProps) {
-  const { name, id, showDragHandles, items } = props;
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: id,
-    data: { name, type: "container" },
-  });
-
-  const style = {
-    transform: CSS.Translate.toString(transform),
-    transition,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={{ ...style }}
-      className={cx(
-        "flex items-start bg-shark-900 min-h-full  gap-2 w-full rounded-md text-silver shadow-border-shiny transition-colors z-10 drop-shadow-lg"
-      )}
-    >
-      <div className="flex flex-col items-center justify-center w-full gap-2 ">
-        <div
-          {...listeners}
-          {...attributes}
-          className={cx(
-            "flex items-center justify-center w-full p-2 text-2xl font-bold rounded-t-md bg-shark-800 shadow-border-shiny cursor-grab active:cursor-grabbing",
-            isDragging && "bg-shark-600"
-          )}
-        >
-          {name}
-        </div>
-
-        <div className="flex flex-col items-center justify-center w-full gap-2 p-4">
-          {items.length === 0 ? (
-            <div
-              key={id}
-              className="flex items-center justify-center w-full h-20 text-2xl font-semibold rounded-md shadow-border-shiny text-silver-900"
-            >
-              EMPTY
-            </div>
-          ) : (
-            <SortableContext
-              items={items}
-              strategy={verticalListSortingStrategy}
-            >
-              {items.map((s) => (
-                <SortableItem
-                  {...s}
-                  key={s.id}
-                  showDragHandles={showDragHandles}
-                />
-              ))}
-            </SortableContext>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-type SortableItemProps = {
-  id: UniqueIdentifier;
-  name?: string;
-  showDragHandles: boolean;
-};
-
-function SortableItem(props: SortableItemProps) {
-  const { name, id, showDragHandles } = props;
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: id,
-    data: { name, type: "item" },
-  });
-
-  const style = {
-    transform: CSS.Translate.toString(transform),
-    transition,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={{ ...style }}
-      className={cx(
-        "flex items-center bg-shark-800  gap-1 w-full p-3 rounded-md text-silver  transition-colors z-10 drop-shadow-lg h-16 ",
-        isDragging && "bg-shark-600",
-        !showDragHandles && "cursor-grab active:cursor-grabbing"
-      )}
-      {...(showDragHandles ? {} : listeners)}
-      {...(showDragHandles ? {} : attributes)}
-    >
-      <div className="flex items-center justify-start gap-2 text-2xl font-black">
-        <AnimatePresence>
-          {showDragHandles && (
-            <motion.div
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showDragHandles ? 1 : 0 }}
-              transition={{ duration: 0.2 }}
-              exit={{ opacity: 0 }}
-            >
-              <DragHandleDots2Icon
-                className={cx(
-                  "w-5 h-5 transition-opacity cursor-grab active:cursor-grabbing focus:outline-none text-silver-800"
-                )}
-                {...listeners}
-                {...attributes}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <motion.span
-          initial={{ x: showDragHandles ? 0 : 4 }}
-          animate={{ x: showDragHandles ? 0 : 4 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-        >
-          {name}
-        </motion.span>
-      </div>
-    </div>
   );
 }

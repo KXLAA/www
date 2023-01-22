@@ -1,6 +1,7 @@
 import type {
   DragEndEvent,
   DragOverEvent,
+  DragStartEvent,
   UniqueIdentifier,
 } from "@dnd-kit/core";
 import {
@@ -15,7 +16,7 @@ import React from "react";
 import { Status, useStatus } from "@/components/mdx/widgets/common/Status";
 import { uuid } from "@/lib/uuid";
 
-type ContainerProps = {
+export type ContainerProps = {
   id: UniqueIdentifier;
   name?: string;
   items: Item[];
@@ -27,16 +28,19 @@ export function useController(itemCount: number) {
     toggleReducer,
     false
   );
+  const [activeItem, setActiveItem] = React.useState<
+    ContainerProps | Item | null
+  >(null);
   const [isDirty, setIsDirty] = React.useState(false);
 
   const initialItems = [
     {
-      id: uuid(),
+      id: "A",
       name: "CONTAINER A",
       items: createData(itemCount, (index) => `A${index + 1}`),
     },
     {
-      id: uuid(),
+      id: "B",
       name: "CONTAINER B",
       items: createData(itemCount, (index) => `B${index + 1}`),
     },
@@ -69,9 +73,11 @@ export function useController(itemCount: number) {
     );
   }
 
+  const containerIds = sortables.map((s) => s.id);
+
   function findContainer(id?: UniqueIdentifier) {
     if (id) {
-      //If id is a child item return the parent id
+      if (containerIds.includes(id)) return id;
       const container = sortables?.find((i) =>
         i.items?.find((l) => l?.id === id)
       );
@@ -80,36 +86,55 @@ export function useController(itemCount: number) {
     }
   }
 
-  function isSortingContainers(
-    activeId: UniqueIdentifier,
-    overId: UniqueIdentifier
-  ) {
-    return (
-      sortables.map((s) => s.id).includes(overId) &&
-      sortables.map((s) => s.id).includes(activeId)
-    );
+  function isSortingContainers({
+    activeId,
+    overId,
+  }: {
+    activeId: UniqueIdentifier;
+    overId: UniqueIdentifier;
+  }) {
+    const isActiveContainer = containerIds.includes(activeId);
+    const isOverContainer = findContainer(overId);
+    return !!isActiveContainer && !!isOverContainer;
+  }
+
+  function handleDragStart(event: DragStartEvent) {
+    const { active } = event;
+    const activeId = active.id;
+
+    if (containerIds.includes(activeId)) {
+      const container = sortables.find((i) => i.id === activeId);
+      if (container) setActiveItem(container);
+    } else {
+      const containerId = findContainer(activeId);
+      const container = sortables.find((i) => i.id === containerId);
+      const item = container?.items.find((i) => i.id === activeId);
+      if (item) setActiveItem(item);
+    }
   }
 
   function handleDragOver(event: DragOverEvent) {
     const { active, over } = event;
+    if (!active || !over) return;
     const activeId = active.id;
-    const overId = over?.id;
-    if (!activeId || !overId) return;
+    const overId = over.id;
     const activeContainerId = findContainer(activeId);
     const overContainerId = findContainer(overId);
 
     if (!overContainerId || !activeContainerId) return;
-    if (isSortingContainers(activeId, overId)) return;
+
+    if (isSortingContainers({ activeId, overId })) return;
 
     if (activeContainerId !== overContainerId) {
+      console.log("activeContainerId", activeContainerId);
       const activeContainer = sortables.find((i) => i.id === activeContainerId);
       const overContainer = sortables.find((i) => i.id === overContainerId);
       const activeItems = activeContainer?.items || [];
-      const activeIndex = activeItems.findIndex((i) => i.id === active.id);
+      const activeIndex = activeItems.findIndex((i) => i.id === activeId);
       const overItems = overContainer?.items || [];
-      const overIndex = sortables.findIndex((i) => i.id === over.id);
+      const overIndex = sortables.findIndex((i) => i.id === overId);
       let newIndex: number;
-      if (sortables.map((s) => s.id).includes(over.id as string)) {
+      if (containerIds.includes(overId)) {
         newIndex = overItems.length + 1;
       } else {
         const isBelowOverItem =
@@ -147,17 +172,20 @@ export function useController(itemCount: number) {
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
+    if (!active || !over) return;
     const activeId = active.id;
-    const overId = over?.id;
-    if (!activeId || !overId) return;
+    const overId = over.id;
     const activeContainerId = findContainer(activeId);
+    const overContainerId = findContainer(overId);
 
-    if (isSortingContainers(activeId, overId)) {
-      if (active.id !== over.id) {
+    if (isSortingContainers({ activeId, overId })) {
+      if (activeId !== overId) {
         setSortables((items) => {
-          const oldIndex = sortables.findIndex((f) => f.id === activeId);
-          const newIndex = sortables.findIndex((f) => f.id === overId);
-          const activeItem = sortables.find((f) => f.id === activeId);
+          const oldIndex = sortables.findIndex(
+            (f) => f.id === activeContainerId
+          );
+          const newIndex = sortables.findIndex((f) => f.id === overContainerId);
+          const activeItem = sortables.find((f) => f.id === activeContainerId);
 
           setStatus(
             <Status variant="orange" className="mb-7">
@@ -172,7 +200,9 @@ export function useController(itemCount: number) {
           return arrayMove(items, oldIndex, newIndex);
         });
       }
-    } else {
+    }
+
+    if (activeContainerId === overContainerId) {
       const activeContainer = sortables.find((i) => i.id === activeContainerId);
       const activeItems = activeContainer?.items || [];
       const oldIndex = activeItems.findIndex((i) => i.id === activeId);
@@ -200,18 +230,21 @@ export function useController(itemCount: number) {
       sortables,
       status,
       sensors,
+      activeItem,
+      containerIds,
     },
     actions: {
       handleReset,
       findContainer,
       handleDragOver,
       handleDragEnd,
+      handleDragStart,
       handleToggleDragHandles,
     },
   };
 }
 
-type Item = {
+export type Item = {
   id: UniqueIdentifier;
   name: string;
 };
