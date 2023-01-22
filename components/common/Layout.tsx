@@ -20,7 +20,7 @@ export function Layout(props: LayoutProps) {
       {customMeta && <NextSeo {...customMeta} />}
       <div
         className={cx(
-          "flex min-h-screen w-full flex-col bg-shark-700 text-silver"
+          "flex min-h-screen w-full flex-col bg-shark-900 text-silver"
         )}
       >
         <Show when={!hideHeader}>
