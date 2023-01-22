@@ -11,43 +11,54 @@ import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/lib/seo";
 
 const FreeDnd = dynamic(
-  () => import("../../components/mdx/widgets/drag-and-drop-post/FreeDnd")
+  () =>
+    import("../../components/mdx/widgets/drag-and-drop-post/free-dnd/FreeDnd")
 );
 const DroppableDnd = dynamic(
-  () => import("../../components/mdx/widgets/drag-and-drop-post/DroppableDnd")
+  () =>
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/droppable-dnd/DroppableDnd"
+    )
 );
 const FreeDnDSandPack = dynamic(
   () =>
-    import("../../components/mdx/widgets/drag-and-drop-post/FreeDnDSandPack")
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/free-dnd/FreeDnDSandPack"
+    )
 );
 
 const DroppableDndSandPack = dynamic(
   () =>
     import(
-      "../../components/mdx/widgets/drag-and-drop-post/DroppableDndSandPack"
+      "../../components/mdx/widgets/drag-and-drop-post/droppable-dnd/DroppableDndSandPack"
     )
 );
 
 const SortableDnd = dynamic(
-  () => import("../../components/mdx/widgets/drag-and-drop-post/SortableDnd")
+  () =>
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/sortable-dnd/SortableDnd"
+    )
 );
 
 const SortableDndSandPack = dynamic(
   () =>
     import(
-      "../../components/mdx/widgets/drag-and-drop-post/SortableDndSandPack"
+      "../../components/mdx/widgets/drag-and-drop-post/sortable-dnd/SortableDndSandPack"
     )
 );
 
 const SortableMultiDnd = dynamic(
   () =>
-    import("../../components/mdx/widgets/drag-and-drop-post/SortableMultiDnd")
+    import(
+      "../../components/mdx/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDnd"
+    )
 );
 
 const SortableMultiDndSandPack = dynamic(
   () =>
     import(
-      "../../components/mdx/widgets/drag-and-drop-post/SortableMultiDndSandPack"
+      "../../components/mdx/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDndSandPack"
     )
 );
 
