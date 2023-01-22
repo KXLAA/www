@@ -8,9 +8,9 @@ thumbnail: "/assets/blog/dynamic-routing/cover.jpg"
 postId: "drag-and-drop-in-react-with-dnd-kit"
 ---
 
-DnD Kit is an awesome library I recently discovered while working on the new dashboard at [Super](https://super.so/). It simplifies the complex task of creating performant Drag-and-Drop UI interactions, with some interesting patterns and concepts. In this post, I want to share some of the things I learned.
+DnD Kit is a relatively new, hook-based library that makes it easy to create performant and accessible drag-and-drop UI interactions in React. I have been using the library a lot at Super, particularly in our new dashboard, and I wanted to share some examples of what can be achieved with DnD Kit.
 
-If you're already familiar with DnD Kit, or just want to take a look at the code examples, you can jump straight to them [here](#examples). Otherwise, you can keep reading to learn more about the library and how to get started.
+In this post, I will provide a brief overview of the fundamentals of DnD Kit and then move on to code examples with explanations. If you need more information about DnD Kit, you can always consult the documentation.
 
 <Callout intent="info" heading="Intended Audience">
   This article assumes you have a basic understanding of React and Typescript.
@@ -24,31 +24,27 @@ Drag-and-drop interactions on the web typically involve three elements:
 - a **droppable area** where draggable components can be dropped over, and
 - a **system that manages** the interaction between the draggable components and the droppable areas.
 
-To see these elements in action, you can play with the demo below:
+To see how these elements typically come together, you can play with the demo below:
 
 <FreeDnd />
 
-In the demo, we can move our draggable components anywhere on the page. However, we can also specify particular areas that are droppable, so that users can only drag the components within those areas:
+In the demo, we can drag our draggable components and drop them anywhere on the page. However, we can also restrict the dropping of our draggable components to particular droppable areas:
 
 <DroppableDnd />
 
-DndKit is designed around this approach, providing three core primitives:
+DndKit is designed around this approach, providing three core primitives exported from the `@dnd-kit/core` package:
 
 1. The `useDraggable` hook - A React hook which makes HTML elements draggable.
 2. The `useDroppable` hook - A React hook which makes HTML elements droppable areas.
 3. The `DndContext` - A context provider which manages the interaction between draggable and droppable components using the React Context API.
 
-The @dnd-kit/core package exports these primitives; install it by running this:
-
-```shell
-yarn add @dnd-kit/core
-```
-
-In more advanced types of drag-and-drop UI interactions, we also have sortable components. These are usually used in lists, where each list item is both draggable and droppable. When you drag a list item, it automatically sorts with the other list items in the list:
+Often, drag-and-drop interactions require more than just dragging and dropping components. For example, take a look at the demo below:
 
 <SortableDnd />
 
-The sortable characteristic is not limited to just list items; the lists themselves can also be sortable:
+In the demo, we have a list and when we drag a single list item, it automatically sorts with the other items. This interaction is called "Sortables", where components, referred to as "Sortable Components", are both draggable and droppable.
+
+We can use Sortable Components in many ways. For example, we can have Sortable containers that contain sortable lists, allowing users to sort containers, list items, and drag list items between containers:
 
 <SortableMultiDnd />
 
@@ -57,13 +53,11 @@ To handle this use case, DnD-Kit exposes a set of presets from the `@dnd-kit/sor
 1. The `useSortable` hook - A react hook which makes HTML elements sortable. The hook is a combination of the `useDraggable` and `useDroppable` hooks.
 2. The `SortableContext` - An additional context provider which manages the interactions between sortable components.
 
-Install the presets by running:
+Let's now explore how to use the primitives and presets to create various drag-and-drop interactions.
 
-```shell
-yarn add @dnd-kit/sortable
-```
+## Examples
 
-You can check out the documentation for more details about these primitives and presets. For now, let's explore how to use the primitives and presets to create different drag-and-drop interactions. We'll look at four common types:
+We'll be looking at four common types of drag and drop interactions:
 
 1. **Free Drag-and-Drop** - Drag elements across the entire screen, similar to apps such as Figma and Excalidraw.
 2. **Droppable Containers** - Drag multiple draggable components into one or more designated areas.
