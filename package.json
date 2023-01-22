@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^1.18.4",
-    "@dnd-kit/core": "^6.0.6",
+    "@dnd-kit/core": "^6.0.7",
     "@dnd-kit/modifiers": "^6.0.1",
-    "@dnd-kit/sortable": "^7.0.1",
+    "@dnd-kit/sortable": "^7.0.2",
     "@next/font": "^13.1.1",
     "@radix-ui/react-icons": "^1.1.1",
     "@vercel/og": "^0.0.21",
