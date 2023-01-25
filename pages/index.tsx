@@ -1,5 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import { ChevronRightIcon } from "@radix-ui/react-icons";
+import {
+  ChevronRightIcon,
+  DragHandleDots2Icon,
+  EnterFullScreenIcon,
+  Half2Icon,
+} from "@radix-ui/react-icons";
 import type { GetStaticProps } from "next";
 import Link from "next/link";
 
@@ -13,27 +18,39 @@ type HomeProps = {
   posts: PostType[];
 };
 
+type SectionProps = {
+  heading: string;
+  children: React.ReactNode;
+};
+function Section(props: SectionProps) {
+  const { heading, children } = props;
+  return (
+    <div className="flex flex-col gap-4">
+      <h3 className="p-2 text-2xl font-normal border-l-4 rounded bg-gradient-to-r from-shark-800 border-shark-700">
+        {heading}
+      </h3>
+      {children}
+    </div>
+  );
+}
 export default function Home(props: HomeProps) {
   const posts = props.posts;
 
   return (
     <Layout hideHeader>
       <div className="flex flex-col justify-center max-w-4xl px-10 py-16 gap-14">
-        <div className="flex px-4 py-2 text-2xl font-bold rounded bg-shark-800 w-fit">
+        <div className="flex px-3 py-2 text-2xl font-bold rounded bg-shark-800 w-fit">
           <p>kxlaa</p>
         </div>
 
         <div className="flex flex-col gap-8 text-3xl font-extralight">
           <p>
-            Hello, I'm Kola. A Typescript Engineer with hands on experience in
+            Hello, I'm Kola. A Fullstack Engineer with hands on experience in
             building client & server-side web applications using Typescript.
           </p>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <h3 className="p-2 text-2xl font-normal border-l-4 bg-gradient-to-r from-shark-800 border-shark-700">
-            WRITING
-          </h3>
+        <Section heading="WRITING">
           {posts.map((post) => (
             <Link
               href={`/posts/${post.slug}`}
@@ -56,43 +73,24 @@ export default function Home(props: HomeProps) {
               />
             </Link>
           </Show>
-        </div>
+        </Section>
 
-        <div className="flex flex-col gap-4">
-          <h3 className="p-2 text-2xl font-light border-l-4 bg-gradient-to-r from-shark-800 border-shark-700">
-            PROJECTS
-          </h3>
+        <Section heading="PROJECTS">
           <a
             href={`https://www.nartefacts.com/`}
-            className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
+            className="flex items-center gap-2 text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
           >
+            <Half2Icon className="inline-block w-5 h-5" />
             Nartefacts
           </a>
           <a
             href={`https://www.devportfolios.dev/`}
-            className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
+            className="flex items-center gap-2 text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
           >
+            <EnterFullScreenIcon className="inline-block w-5 h-5" />
             DevPortfolios
           </a>
-        </div>
-
-        {/* <div className="flex flex-col gap-4">
-          <h3 className="p-2 text-2xl font-light border-l-4 bg-gradient-to-r from-shark-800 border-shark-700">
-            EXPERIMENTS
-          </h3>
-          <a
-            href={`https://www.nartefacts.com/`}
-            className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
-          >
-            Drag and Drop
-          </a>
-          <a
-            href={`https://www.devportfolios.dev/`}
-            className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
-          >
-            Animated Collision
-          </a>
-        </div> */}
+        </Section>
       </div>
     </Layout>
   );
