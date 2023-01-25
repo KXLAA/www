@@ -50,8 +50,6 @@ export function useController(itemCount: number) {
     ...initialItems,
   ]);
 
-  console.log(sortables);
-
   const [status, setStatus] = useStatus();
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -128,7 +126,6 @@ export function useController(itemCount: number) {
     if (isSortingContainers({ activeId, overId })) return;
 
     if (activeContainerId !== overContainerId) {
-      console.log("activeContainerId", activeContainerId);
       const activeContainer = sortables.find((i) => i.id === activeContainerId);
       const overContainer = sortables.find((i) => i.id === overContainerId);
       const activeItems = activeContainer?.items || [];
@@ -209,7 +206,6 @@ export function useController(itemCount: number) {
       const activeItems = activeContainer?.items || [];
       const oldIndex = activeItems.findIndex((i) => i.id === activeId);
       const newIndex = activeItems.findIndex((i) => i.id === overId);
-      console.log("newIndex", newIndex);
       const newItems = sortables.map((s) =>
         s.id === activeContainerId
           ? {
