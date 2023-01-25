@@ -95,12 +95,13 @@ function Draggable(props: DraggableProps) {
 
   const style = {
     transform: CSS.Translate.toString(transform),
+    ...styles,
   };
 
   return (
     <div
       ref={setNodeRef}
-      style={{ ...style, ...styles }}
+      style={{ ...style }}
       className={cx(
         "flex items-center bg-shark-800 justify-center gap-1 w-16  h-16 aspect-square p-3 rounded-md text-silver transition-colors cursor-grab active:cursor-grabbing z-10 drop-shadow-lg",
         isDragging && "bg-shark-700 text-silver-900 font-black"
@@ -108,7 +109,7 @@ function Draggable(props: DraggableProps) {
       {...listeners}
       {...attributes}
     >
-      <span className="text-base text-2xl font-black"> {name}</span>
+      <span className="text-2xl font-black"> {name}</span>
     </div>
   );
 }
