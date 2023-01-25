@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import type { GetStaticProps } from "next";
 import Link from "next/link";
@@ -17,21 +18,27 @@ export default function Home(props: HomeProps) {
 
   return (
     <Layout hideHeader>
-      <div className="flex flex-col justify-center max-w-5xl gap-24 px-10 py-16 m-auto">
-        <div className="flex flex-col gap-0.5">
-          <h1 className="font-bold text-8xl">Kolade Afode</h1>
-          <h2 className="text-4xl !text-blue-500 font-medium">
-            Engineer / Designer
-          </h2>
+      <div className="flex flex-col justify-center max-w-4xl px-10 py-16 gap-14">
+        <div className="flex px-4 py-2 text-2xl font-bold rounded bg-shark-800 w-fit">
+          <p>kxlaa</p>
+        </div>
+
+        <div className="flex flex-col gap-8 text-3xl font-extralight">
+          <p>
+            Hello, I'm Kola. A Typescript Engineer with hands on experience in
+            building client & server-side web applications using Typescript.
+          </p>
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 className="text-3xl font-bold">Recent Posts</h3>
+          <h3 className="p-2 text-2xl font-normal border-l-4 bg-gradient-to-r from-shark-800 border-shark-700">
+            WRITING
+          </h3>
           {posts.map((post) => (
             <Link
               href={`/posts/${post.slug}`}
               key={post.slug}
-              className="text-[36px] font-light hover:underline underline-offset-4 decoration-blue-500"
+              className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500 "
             >
               {post.title}
             </Link>
@@ -52,20 +59,40 @@ export default function Home(props: HomeProps) {
         </div>
 
         <div className="flex flex-col gap-4">
-          <h3 className="text-3xl font-bold">Projects</h3>
+          <h3 className="p-2 text-2xl font-light border-l-4 bg-gradient-to-r from-shark-800 border-shark-700">
+            PROJECTS
+          </h3>
           <a
             href={`https://www.nartefacts.com/`}
-            className="text-[40px] font-light hover:underline"
+            className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
           >
             Nartefacts
           </a>
           <a
             href={`https://www.devportfolios.dev/`}
-            className="text-[40px] font-light hover:underline"
+            className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
           >
             DevPortfolios
           </a>
         </div>
+
+        {/* <div className="flex flex-col gap-4">
+          <h3 className="p-2 text-2xl font-light border-l-4 bg-gradient-to-r from-shark-800 border-shark-700">
+            EXPERIMENTS
+          </h3>
+          <a
+            href={`https://www.nartefacts.com/`}
+            className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
+          >
+            Drag and Drop
+          </a>
+          <a
+            href={`https://www.devportfolios.dev/`}
+            className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
+          >
+            Animated Collision
+          </a>
+        </div> */}
       </div>
     </Layout>
   );
