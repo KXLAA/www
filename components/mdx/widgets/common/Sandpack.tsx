@@ -13,7 +13,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import React from "react";
 
-// import { AnimateHeight } from "@/components/animation/AnimateHeight";
+import { AnimateHeight } from "@/components/animation/AnimateHeight";
 
 type SandpackProps = {
   id: string;
@@ -63,7 +63,7 @@ export default function Sandpack(props: SandpackProps) {
               <OpenInCodeSandboxButton />
             </div>
           </span>
-          {open && (
+          <AnimateHeight isVisible={open}>
             <SandpackCodeEditor
               showTabs
               showLineNumbers
@@ -74,9 +74,10 @@ export default function Sandpack(props: SandpackProps) {
                 width: "100%",
                 overflow: "hidden",
                 background: "none",
+                border: "none",
               }}
             />
-          )}
+          </AnimateHeight>
         </SandpackLayout>
       </SandpackProvider>
     </div>
@@ -109,7 +110,7 @@ const baseCss = `
 
   --background-image: radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%),
     radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%);
-  --background: rgb(18, 18, 18);
+  --background: #0a0a0a;
   --shadow-border-shiny: inset 0 0 0 1px hsl(0deg 0% 100% / 10%);
 }
 
