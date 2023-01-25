@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import {
   ChevronRightIcon,
-  DragHandleDots2Icon,
   EnterFullScreenIcon,
   Half2Icon,
 } from "@radix-ui/react-icons";
