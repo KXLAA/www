@@ -47,20 +47,6 @@ export function useController() {
     const activeId = active.id;
     const overId = over.id as string;
 
-    if (overId === "root") {
-      setDraggables((prev) => {
-        return prev.map((item) => {
-          if (item.id === activeId) {
-            return {
-              ...item,
-              containerId: "",
-            };
-          }
-          return item;
-        });
-      });
-    }
-
     setDraggables((prev) => {
       return prev.map((item) => {
         if (item.id === activeId) {
