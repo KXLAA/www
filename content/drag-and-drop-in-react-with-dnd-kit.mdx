@@ -373,7 +373,7 @@ A container containing a list of items that can be rearranged by dragging them.
 <SortableDndSandPack />
 
 <Callout dropdown intent='default' heading='Code Breakdown'>
-First, we create a `SortableItem` component with the `useSortable` hook. This component takes a unique `id` and a `name` as props:
+First, we create a `SortableItem` component with the `useSortable` hook:
 
 ```tsx
 import { CSS } from "@dnd-kit/utilities";
@@ -418,7 +418,14 @@ export function SortableItem(props: SortableItemProps) {
 }
 ```
 
-Next, we set up our `DndContext` and the state of our `SortableItem` component, which is a simple array:
+The `SortableItem` component takes a unique `id` and a `name` as props. We pass the `id` we receive as props as a field of the object we pass to the `useSortable` hook; this `id` field is required.
+
+The `useSortable` hook is similar to the `useDraggable` hook. In addition to what the `useDraggable` hook returns, it also returns:
+
+- `isDragging` - Set to `true` when dragging a sortable component.
+- `transition` - Adds CSS animations to the Sortable Component.
+
+Next, we set up our `DndContext` and the state of our `SortableItem` components:
 
 ```tsx
 import React from "react";
@@ -491,7 +498,9 @@ export default function App() {
 }
 ```
 
-Finally, we update the positions of our sortable items at the end of the drag event using the `onDragEnd` event emitted by the `DndContext`:
+The state of our SortableItem component is a simple sorted array.
+
+Finally, we update the positions of our sortable items at the end of the drag event using the onDragEnd event emitted by the `DndContext`:
 
 ```tsx
 function handleDragEnd(event: DragEndEvent) {
