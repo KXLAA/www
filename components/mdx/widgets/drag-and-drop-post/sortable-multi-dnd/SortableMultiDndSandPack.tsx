@@ -39,7 +39,8 @@ const files = {
     );
   }
   `,
-  "SortableContainer.tsx": `import {
+  "SortableContainer.tsx": `
+  import {
     SortableContext,
     useSortable,
     verticalListSortingStrategy
@@ -103,21 +104,26 @@ const files = {
           >
             {name}
           </div>
-          {items.length === 0 ? (
-            <Droppable id={id} key={id} className="droppable">
-              List is empty
-            </Droppable>
-          ) : (
-            <SortableContext items={items} strategy={verticalListSortingStrategy}>
-              {items.map((s) => (
-                <SortableItem {...s} key={s.id} />
-              ))}
-            </SortableContext>
-          )}
+          <div className="sortable-container_wrapper">
+            {items.length === 0 ? (
+              <div key={id} className="droppable">
+                List is empty
+              </div>
+            ) : (
+              <SortableContext
+                items={items}
+                strategy={verticalListSortingStrategy}
+              >
+                {items.map((s) => (
+                  <SortableItem {...s} key={s.id} />
+                ))}
+              </SortableContext>
+            )}
+          </div>
         </div>
       </div>
     );
-  }
+  }  
   `,
   "/styles.css": {
     code: styles(`
@@ -131,15 +137,14 @@ const files = {
     
     .sortable-container {
       display: flex;
-      max-width: 220px;
-      width: 100%;
+      align-items: flex-start;
+      background: var(--shark-900);
       gap: 8px;
-      border-radius: 6px;
-      z-index: 10;
-      background: var(--shark-800);
+      width: 100%;
       border-radius: 6px;
       box-shadow: var(--shadow-border-shiny);
-      padding: 12px;
+      z-index: 10;
+      border-radius: 6px;
     }
     
     .sortable-container > div {
@@ -149,16 +154,27 @@ const files = {
       width: 100%;
     }
     
+    .sortable-container_wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px;
+    }
+    
     .sortable-container_header {
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
       padding: 8px;
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 700;
-      border-radius: 6px;
-      background: var(--shark-600);
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 900;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      background: var(--shark-800);
       cursor: grab;
       box-shadow: var(--shadow-border-shiny);
     }
@@ -169,10 +185,13 @@ const files = {
     
     .sortable-item {
       display: flex;
+      width: 100%;
+      height: 64px;
+      font-size: 24px;
+      line-height: 32px;
       align-items: center;
       border-radius: 8px;
       background-color: var(--shark-800);
-      box-shadow: var(--shadow-border-shiny);
       padding: 12px;
       z-index: 10;
       gap: 4px;
@@ -180,8 +199,8 @@ const files = {
     }
     
     .drag-handle {
-      height: 16px;
-      width: 16px;
+      height: 24px;
+      width: 24px;
       cursor: grab;
       color: var(--silver-700);
     }
@@ -197,14 +216,18 @@ const files = {
     
     .droppable {
       display: flex;
-      width: 100%;
-      height: 100%;
-      justify-content: center;
       align-items: center;
-      font-weight: 700;
-      color: var(--silver-800);
+      justify-content: center;
+      width: 100%;
+      height: 80px;
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 600;
+      border-radius: 6px;
+      box-shadow: var(--shadow-border-shiny);
+      color: var(--silver-900);
       text-transform: uppercase;
-    }    
+    }        
     `),
     hidden: true,
   },
@@ -386,7 +409,7 @@ const files = {
     {
       id: nanoid(),
       name: "Container A",
-      items: createData(3, (index) => \`ITEM A\${index + 1}\`)
+      items: createData(2, (index) => \`ITEM A\${index + 1}\`)
     },
     {
       id: nanoid(),
@@ -406,6 +429,11 @@ const SortableMultiDndSandPack = () => (
   <Sandpack
     id="sortable-multi-dnd-sandpack"
     files={files}
+    previewProps={{
+      style: {
+        height: 400,
+      },
+    }}
     customSetup={{
       dependencies: {
         "@dnd-kit/core": "6.0.5",
