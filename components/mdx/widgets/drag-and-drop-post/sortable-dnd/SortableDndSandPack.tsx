@@ -58,10 +58,6 @@ const files = {
     {
       id: nanoid(),
       name: "APRICOT"
-    },
-    {
-      id: nanoid(),
-      name: "BEIGE"
     }
   ];
   
@@ -135,24 +131,28 @@ const files = {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
+      max-width: 320px;
       width: 100%;
       align-items: center;
       gap: 12px;
     }
     
     .sortable-item {
-      max-width: 300px;
-      width: 100%;
       display: flex;
-      border-radius: 8px;
+      align-items: center;
       background-color: var(--shark-800);
-      box-shadow: var(--shadow-border-shiny);
+      gap: 8px;
+      width: 100%;
       padding: 12px;
+      border-radius: 8px;
+      height: 64px;
       z-index: 10;
       align-items: center;
       cursor: grab;
       font-weight: 900;
-      gap: 8px;
+      font-size: 24px;
+      line-height: 32px;
     }
     
     .sortable-item-active {
@@ -160,10 +160,10 @@ const files = {
     }
     
     .drag-handle {
-      height: 16px;
-      width: 16px;
+      height: 24px;
+      width: 24px;
       cursor: grab;
-      color: var(--silver-700);
+      color: var(--silver-800);
     }
     
     .drag-handle:active {
@@ -173,7 +173,7 @@ const files = {
     .drag-handle:focus {
       outline: 2px solid transparent;
       outline-offset: 2px;
-    }
+    }    
     `),
     hidden: true,
   },
