@@ -38,109 +38,95 @@ const files = {
     hidden: true,
   },
   "/App.tsx": `
-import React from "react";
-import { DragOverEvent, DragStartEvent } from "@dnd-kit/core";
-import {
-  DndContext,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  DragOverlay,
-  useSensors
-} from "@dnd-kit/core";
-import "./styles.css";
-import { Draggable } from "./Draggable";
-import { Droppable } from "./Droppable";
-import { items as defaultItems, Item } from "./items";
-
-function App() {
-  const sensors = useSensors(
-    useSensor(KeyboardSensor),
-    useSensor(TouchSensor),
-    useSensor(MouseSensor)
-  );
-  const [draggables, setDraggables] = React.useState([...defaultItems]);
-  const [containers] = React.useState(["A", "B"]);
-  const [activeItem, setActiveItem] = React.useState<Item | undefined>(
-    undefined
-  );
-
-  return (
-    <DndContext
-      sensors={sensors}
-      onDragOver={handleDragOver}
-      onDragStart={handelDragStart}
-    >
-      <div className="app">
-        <div className="containers">
-          {containers.map((id) => (
-            <Droppable key={id} id={id} className="droppable">
-              {draggables
-                .filter((draggable) => draggable.containerId === id)
-                .map((draggable) => (
-                  <Draggable key={draggable.id} {...draggable} />
-                ))}
-            </Droppable>
-          ))}
-        </div>
-        <Droppable id="root" className="root-droppable">
-          {draggables
-            .filter((draggable) => draggable.containerId === "root")
-            .map((draggable) => (
-              <Draggable key={draggable.id} {...draggable} />
+  import React from "react";
+  import { DragOverEvent, DragStartEvent } from "@dnd-kit/core";
+  import {
+    DndContext,
+    KeyboardSensor,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    DragOverlay,
+    useSensors
+  } from "@dnd-kit/core";
+  import "./styles.css";
+  import { Draggable } from "./Draggable";
+  import { Droppable } from "./Droppable";
+  import { items as defaultItems, Item } from "./items";
+  
+  function App() {
+    const sensors = useSensors(
+      useSensor(KeyboardSensor),
+      useSensor(TouchSensor),
+      useSensor(MouseSensor)
+    );
+    const [draggables, setDraggables] = React.useState([...defaultItems]);
+    const [containers] = React.useState(["A", "B"]);
+    const [activeItem, setActiveItem] = React.useState<Item | undefined>(
+      undefined
+    );
+  
+    return (
+      <DndContext
+        sensors={sensors}
+        onDragOver={handleDragOver}
+        onDragStart={handelDragStart}
+      >
+        <div className="app">
+          <div className="containers">
+            {containers.map((id) => (
+              <Droppable key={id} id={id} className="droppable">
+                {draggables
+                  .filter((draggable) => draggable.containerId === id)
+                  .map((draggable) => (
+                    <Draggable key={draggable.id} {...draggable} />
+                  ))}
+              </Droppable>
             ))}
-        </Droppable>
-      </div>
-      <DragOverlay>
-        {activeItem && (
-          <div className="draggable draggable-overlay">{activeItem.name}</div>
-        )}
-      </DragOverlay>
-    </DndContext>
-  );
-
-  function handelDragStart(ev: DragStartEvent) {
-    const { active } = ev;
-    const activeId = active.id;
-    const activeItem = draggables.find((item) => item.id === activeId);
-    setActiveItem(activeItem);
-  }
-
-  function handleDragOver(ev: DragOverEvent) {
-    const { active, over } = ev;
-    if (!over) return;
-    const activeId = active.id;
-    const overId = over.id as string;
-
-    if (overId === "root") {
+          </div>
+          <Droppable id="root" className="root-droppable">
+            {draggables
+              .filter((draggable) => draggable.containerId === "root")
+              .map((draggable) => (
+                <Draggable key={draggable.id} {...draggable} />
+              ))}
+          </Droppable>
+        </div>
+        <DragOverlay>
+          {activeItem && (
+            <div className="draggable draggable-overlay">{activeItem.name}</div>
+          )}
+        </DragOverlay>
+      </DndContext>
+    );
+  
+    function handelDragStart(ev: DragStartEvent) {
+      const { active } = ev;
+      const activeId = active.id;
+      const activeItem = draggables.find((item) => item.id === activeId);
+      setActiveItem(activeItem);
+    }
+  
+    function handleDragOver(ev: DragOverEvent) {
+      const { active, over } = ev;
+      if (!over) return;
+      const activeId = active.id;
+      const overId = over.id as string;
+  
       setDraggables((prev) => {
         return prev.map((item) => {
           if (item.id === activeId) {
             return {
               ...item,
-              containerId: ""
+              containerId: overId
             };
           }
           return item;
         });
       });
     }
-
-    setDraggables((prev) => {
-      return prev.map((item) => {
-        if (item.id === activeId) {
-          return {
-            ...item,
-            containerId: overId
-          };
-        }
-        return item;
-      });
-    });
   }
-}
-export default App;
+  export default App;  
   `,
   "Droppable.tsx": `
   import React from "react";
