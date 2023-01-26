@@ -20,6 +20,7 @@ type SandpackProps = {
   files: SandpackFiles;
   customSetup?: SandpackSetup;
   providerProps?: SandpackProviderProps;
+  previewProps?: React.ComponentProps<typeof SandpackPreview>;
 };
 
 // TODO: Animate height of code editor on toggle
@@ -27,7 +28,7 @@ type SandpackProps = {
 
 export default function Sandpack(props: SandpackProps) {
   const [open, setOpen] = React.useState(false);
-  const { id, files, customSetup, providerProps } = props;
+  const { id, files, customSetup, providerProps, previewProps } = props;
 
   return (
     <div id={id}>
@@ -42,13 +43,15 @@ export default function Sandpack(props: SandpackProps) {
           classes: {
             "sp-preview-actions": "hidden",
             "sp-layout": "rounded-md",
+            "sp-preview": "rounded-md",
+            "sp-tabs": "border-b-none",
           },
           ...providerProps,
         }}
         customSetup={customSetup}
       >
         <SandpackLayout>
-          <SandpackPreview />
+          <SandpackPreview {...previewProps} />
           <span className="flex items-center justify-between w-full p-3 bg-shark-800 text-silver">
             <button
               className="w-full text-sm font-semibold text-left transition-colors text-silver-800 hover:text-silver-600"
@@ -70,11 +73,10 @@ export default function Sandpack(props: SandpackProps) {
               showInlineErrors
               closableTabs
               style={{
-                height: "300px",
+                height: "400px",
                 width: "100%",
                 overflow: "hidden",
                 background: "none",
-                border: "none",
               }}
             />
           </AnimateHeight>
