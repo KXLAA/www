@@ -17,14 +17,16 @@ const files = {
       listeners,
       setNodeRef,
       transform,
-      transition
+      transition,
+      isDragging
     } = useSortable({
       id: id,
       data: { name, type: "item" }
     });
     const style = {
       transform: CSS.Translate.toString(transform),
-      transition
+      transition,
+      opacity: isDragging ? 0.2 : 1
     };
   
     return (
@@ -38,8 +40,20 @@ const files = {
       </div>
     );
   }
+  
+  export function OverlayItem(props: { name: string }) {
+    const { name } = props;
+    return (
+      <div className="sortable-item">
+        <DragHandleDots2Icon className="drag-handle overlay" />
+        <span>{name}</span>
+      </div>
+    );
+  }
+  
   `,
-  "SortableContainer.tsx": `import {
+  "SortableContainer.tsx": `
+  import {
     SortableContext,
     useSortable,
     verticalListSortingStrategy
@@ -47,9 +61,9 @@ const files = {
   import { Item } from "./items";
   import { CSS } from "@dnd-kit/utilities";
   import { useDroppable } from "@dnd-kit/core";
-  import { SortableItem } from "./SortableItem";
+  import { SortableItem, OverlayItem } from "./SortableItem";
   
-  type SortableContainerProps = {
+  export type SortableContainerProps = {
     id: string;
     name?: string;
     items: Item[];
@@ -83,14 +97,16 @@ const files = {
       listeners,
       setNodeRef,
       transform,
-      transition
+      transition,
+      isDragging
     } = useSortable({
       id: id,
       data: { name, type: "container" }
     });
     const style = {
       transform: CSS.Translate.toString(transform),
-      transition
+      transition,
+      opacity: isDragging ? 0.2 : 1
     };
   
     return (
@@ -103,21 +119,49 @@ const files = {
           >
             {name}
           </div>
-          {items.length === 0 ? (
-            <Droppable id={id} key={id} className="droppable">
-              List is empty
-            </Droppable>
-          ) : (
-            <SortableContext items={items} strategy={verticalListSortingStrategy}>
-              {items.map((s) => (
-                <SortableItem {...s} key={s.id} />
-              ))}
-            </SortableContext>
-          )}
+          <div className="sortable-container_wrapper">
+            {items.length === 0 ? (
+              <div key={id} className="droppable">
+                List is empty
+              </div>
+            ) : (
+              <SortableContext
+                items={items}
+                strategy={verticalListSortingStrategy}
+              >
+                {items.map((s) => (
+                  <SortableItem {...s} key={s.id} />
+                ))}
+              </SortableContext>
+            )}
+          </div>
         </div>
       </div>
     );
   }
+  
+  export function OverlayContainer(props: SortableContainerProps) {
+    const { name, id, items } = props;
+  
+    return (
+      <div className="sortable-container">
+        <div>
+          <div className="sortable-container_header overlay">{name}</div>
+  
+          <div className="sortable-container_wrapper">
+            {items.length === 0 ? (
+              <div key={id} className="droppable">
+                List is empty
+              </div>
+            ) : null}
+            {items.map((s) => (
+              <OverlayItem {...s} key={s.id} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }  
   `,
   "/styles.css": {
     code: styles(`
@@ -131,15 +175,15 @@ const files = {
     
     .sortable-container {
       display: flex;
-      max-width: 220px;
-      width: 100%;
+      align-items: flex-start;
+      background: var(--shark-900);
       gap: 8px;
-      border-radius: 6px;
-      z-index: 10;
-      background: var(--shark-800);
+      width: 100%;
       border-radius: 6px;
       box-shadow: var(--shadow-border-shiny);
-      padding: 12px;
+      z-index: 10;
+      border-radius: 6px;
+      min-height: 100%;
     }
     
     .sortable-container > div {
@@ -149,16 +193,27 @@ const files = {
       width: 100%;
     }
     
+    .sortable-container_wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px;
+    }
+    
     .sortable-container_header {
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
       padding: 8px;
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 700;
-      border-radius: 6px;
-      background: var(--shark-600);
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 900;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      background: var(--shark-800);
       cursor: grab;
       box-shadow: var(--shadow-border-shiny);
     }
@@ -169,10 +224,13 @@ const files = {
     
     .sortable-item {
       display: flex;
+      width: 100%;
+      height: 64px;
+      font-size: 24px;
+      line-height: 32px;
       align-items: center;
       border-radius: 8px;
       background-color: var(--shark-800);
-      box-shadow: var(--shadow-border-shiny);
       padding: 12px;
       z-index: 10;
       gap: 4px;
@@ -180,8 +238,8 @@ const files = {
     }
     
     .drag-handle {
-      height: 16px;
-      width: 16px;
+      height: 24px;
+      width: 24px;
       cursor: grab;
       color: var(--silver-700);
     }
@@ -197,14 +255,22 @@ const files = {
     
     .droppable {
       display: flex;
-      width: 100%;
-      height: 100%;
-      justify-content: center;
       align-items: center;
-      font-weight: 700;
-      color: var(--silver-800);
+      justify-content: center;
+      width: 100%;
+      height: 80px;
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 600;
+      border-radius: 6px;
+      box-shadow: var(--shadow-border-shiny);
+      color: var(--silver-900);
       text-transform: uppercase;
-    }    
+    }
+    
+    .overlay {
+      cursor: grabbing;
+    }
     `),
     hidden: true,
   },
@@ -215,9 +281,11 @@ const files = {
     PointerSensor,
     useSensor,
     useSensors,
-    closestCorners, 
-    DragEndEvent, 
-    DragOverEvent
+    closestCorners,
+    DragEndEvent,
+    DragOverEvent,
+    DragStartEvent,
+    DragOverlay
   } from "@dnd-kit/core";
   import {
     arrayMove,
@@ -226,17 +294,26 @@ const files = {
     sortableKeyboardCoordinates
   } from "@dnd-kit/sortable";
   import React from "react";
-  import { initialItems } from "./items";
-  import { SortableContainer } from "./SortableContainer";
+  import { initialItems, Item } from "./items";
+  import {
+    OverlayContainer,
+    SortableContainer,
+    SortableContainerProps
+  } from "./SortableContainer";
+  import { OverlayItem } from "./SortableItem";
   
   export default function App() {
     const [sortables, setSortables] = React.useState([...initialItems]);
+    const [activeItem, setActiveItem] = React.useState<
+      SortableContainerProps | Item | null
+    >(null);
     const sensors = useSensors(
       useSensor(PointerSensor),
       useSensor(KeyboardSensor, {
         coordinateGetter: sortableKeyboardCoordinates
       })
     );
+    const containerIds = sortables.map((s) => s.id);
   
     return (
       <DndContext
@@ -244,6 +321,7 @@ const files = {
         sensors={sensors}
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
+        onDragStart={handleDragStart}
       >
         <SortableContext
           items={sortables}
@@ -260,12 +338,23 @@ const files = {
             ))}
           </div>
         </SortableContext>
+        <DragOverlay>
+          {activeItem ? (
+            <>
+              {containerIds.includes(activeItem.id) ? (
+                <OverlayContainer {...(activeItem as SortableContainerProps)} />
+              ) : (
+                <OverlayItem {...(activeItem as Item)} />
+              )}
+            </>
+          ) : null}
+        </DragOverlay>
       </DndContext>
     );
   
     function findContainer(id?: string) {
       if (id) {
-          //If id is a child item return the parent id
+        if (containerIds.includes(id)) return id;
         const container = sortables?.find((i) =>
           i.items?.find((l) => l?.id === id)
         );
@@ -274,68 +363,54 @@ const files = {
       }
     }
   
-    function isSortingContainers(activeId: string, overId: string) {
-      return (
-        sortables.map((s) => s.id).includes(overId) &&
-        sortables.map((s) => s.id).includes(activeId)
-      );
+    function isSortingContainers({
+      activeId,
+      overId
+    }: {
+      activeId: string;
+      overId: string;
+    }) {
+      const isActiveContainer = containerIds.includes(activeId);
+      const isOverContainer = findContainer(overId);
+      return !!isActiveContainer && !!isOverContainer;
     }
   
-    function handleDragEnd(event: DragEndEvent) {
-      const { active, over } = event;
-      const activeId = active.id as string;
-      const overId = over?.id as string;
-      if (!activeId || !overId) return;
-      const activeContainerId = findContainer(activeId);
+    function handleDragStart(event: DragStartEvent) {
+      const { active } = event;
+      const activeId = active.id;
   
-      if (isSortingContainers(activeId, overId)) {
-        if (activeId !== overId) {
-          setSortables((items) => {
-            const oldIndex = sortables.findIndex((f) => f.id === activeId);
-            const newIndex = sortables.findIndex((f) => f.id === overId);
-            return arrayMove(items, oldIndex, newIndex);
-          });
-        }
+      if (containerIds.includes(activeId)) {
+        const container = sortables.find((i) => i.id === activeId);
+        if (container) setActiveItem(container);
       } else {
-        const activeContainer = sortables.find((i) => i.id === activeContainerId);
-        const activeItems = activeContainer?.items || [];
-        const oldIndex = activeItems.findIndex((i) => i.id === activeId);
-        const newIndex = activeItems.findIndex((i) => i.id === overId);
-        const newItems = sortables.map((s) =>
-          s.id === activeContainerId
-            ? {
-                ...s,
-                items: arrayMove(s.items, oldIndex, newIndex)
-              }
-            : s
-        );
-  
-        if (oldIndex !== newIndex) {
-          setSortables(newItems);
-        }
+        const containerId = findContainer(activeId);
+        const container = sortables.find((i) => i.id === containerId);
+        const item = container?.items.find((i) => i.id === activeId);
+        if (item) setActiveItem(item);
       }
     }
   
     function handleDragOver(event: DragOverEvent) {
       const { active, over } = event;
+      if (!active || !over) return;
       const activeId = active.id as string;
-      const overId = over?.id as string;
-      if (!over || !activeId || !overId) return;
+      const overId = over.id as string;
       const activeContainerId = findContainer(activeId);
       const overContainerId = findContainer(overId);
   
       if (!overContainerId || !activeContainerId) return;
-      if (isSortingContainers(activeId, overId)) return;
+  
+      if (isSortingContainers({ activeId, overId })) return;
   
       if (activeContainerId !== overContainerId) {
         const activeContainer = sortables.find((i) => i.id === activeContainerId);
         const overContainer = sortables.find((i) => i.id === overContainerId);
         const activeItems = activeContainer?.items || [];
-        const activeIndex = activeItems.findIndex((i) => i.id === active.id);
+        const activeIndex = activeItems.findIndex((i) => i.id === activeId);
         const overItems = overContainer?.items || [];
-        const overIndex = sortables.findIndex((i) => i.id === over.id);
+        const overIndex = sortables.findIndex((i) => i.id === overId);
         let newIndex: number;
-        if (sortables.map((s) => s.id).includes(over.id as string)) {
+        if (containerIds.includes(overId)) {
           newIndex = overItems.length + 1;
         } else {
           const isBelowOverItem =
@@ -369,7 +444,47 @@ const files = {
         setSortables(newItems);
       }
     }
-  }
+  
+    function handleDragEnd(event: DragEndEvent) {
+      const { active, over } = event;
+      if (!active || !over) return;
+      const activeId = active.id as string;
+      const overId = over.id as string;
+      const activeContainerId = findContainer(activeId);
+      const overContainerId = findContainer(overId);
+  
+      if (isSortingContainers({ activeId, overId })) {
+        if (activeId !== overId) {
+          setSortables((items) => {
+            const oldIndex = sortables.findIndex(
+              (f) => f.id === activeContainerId
+            );
+            const newIndex = sortables.findIndex((f) => f.id === overContainerId);
+            return arrayMove(items, oldIndex, newIndex);
+          });
+        }
+      }
+  
+      if (activeContainerId === overContainerId) {
+        const activeContainer = sortables.find((i) => i.id === activeContainerId);
+        const activeItems = activeContainer?.items || [];
+        const oldIndex = activeItems.findIndex((i) => i.id === activeId);
+        const newIndex = activeItems.findIndex((i) => i.id === overId);
+        const newItems = sortables.map((s) =>
+          s.id === activeContainerId
+            ? {
+                ...s,
+                items: arrayMove(s.items, oldIndex, newIndex)
+              }
+            : s
+        );
+  
+        if (oldIndex !== newIndex) {
+          setSortables(newItems);
+        }
+      }
+    }
+  }  
   `,
   "items.ts": `import { nanoid } from "nanoid";
 
@@ -386,7 +501,7 @@ const files = {
     {
       id: nanoid(),
       name: "Container A",
-      items: createData(3, (index) => \`ITEM A\${index + 1}\`)
+      items: createData(2, (index) => \`ITEM A\${index + 1}\`)
     },
     {
       id: nanoid(),
@@ -406,6 +521,11 @@ const SortableMultiDndSandPack = () => (
   <Sandpack
     id="sortable-multi-dnd-sandpack"
     files={files}
+    previewProps={{
+      style: {
+        height: 400,
+      },
+    }}
     customSetup={{
       dependencies: {
         "@dnd-kit/core": "6.0.5",

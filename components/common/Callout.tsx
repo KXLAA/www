@@ -55,7 +55,7 @@ export function Callout(props: CalloutProps) {
           state={disclosure}
           className="flex items-center justify-between w-full"
         >
-          <div className="flex items-center gap-2 text-xl font-semibold">
+          <div className={cx("flex items-center gap-2 text-xl font-semibold")}>
             {icon}
             <p className="m-0">{heading}</p>
           </div>
@@ -84,7 +84,7 @@ export function Callout(props: CalloutProps) {
             as={AnimateHeight}
             isVisible={disclosure.open}
           >
-            <div className="flex flex-col gap-6 text-lg"> {children}</div>
+            <div className="flex flex-col gap-6 text-lg mt-4"> {children}</div>
           </DisclosureContent>
         </>
       </div>

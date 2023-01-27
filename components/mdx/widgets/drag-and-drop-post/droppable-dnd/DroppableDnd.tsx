@@ -43,8 +43,8 @@ export default function DroppableDnd() {
         onDragOver={actions.handleDragOver}
         onDragStart={actions.handelDragStart}
       >
-        <div className="flex flex-col items-center justify-center w-full gap-10">
-          <div className="flex w-full gap-2">
+        <div className="flex flex-col items-center justify-center w-full gap-6">
+          <div className="flex w-full gap-2 items-center  justify-center">
             {state.containers.map((id) => (
               <Droppable key={id} id={id} className="flex-wrap">
                 {state.draggables
@@ -57,7 +57,7 @@ export default function DroppableDnd() {
           </div>
           <Droppable
             id="root"
-            className="flex items-center justify-center w-full h-16 gap-4"
+            className="flex items-center justify-center w-full h-16 gap-4 flex-wrap"
             plain
           >
             {state.draggables
@@ -98,7 +98,7 @@ function Droppable(props: DroppableProps) {
       className={cx(
         plain
           ? ""
-          : "flex  bg-shark-800 p-2 w-full max-w-xs h-44 gap-2 items-center justify-center z-10 rounded-md",
+          : "flex  bg-shark-800 p-2 w-44 max-w-xs h-44 gap-2 items-center justify-center z-10 rounded-md",
         !plain && isOver && "bg-shark-700",
         className
       )}

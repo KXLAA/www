@@ -13,13 +13,14 @@ import {
 } from "@codesandbox/sandpack-react";
 import React from "react";
 
-// import { AnimateHeight } from "@/components/animation/AnimateHeight";
+import { AnimateHeight } from "@/components/animation/AnimateHeight";
 
 type SandpackProps = {
   id: string;
   files: SandpackFiles;
   customSetup?: SandpackSetup;
   providerProps?: SandpackProviderProps;
+  previewProps?: React.ComponentProps<typeof SandpackPreview>;
 };
 
 // TODO: Animate height of code editor on toggle
@@ -27,7 +28,7 @@ type SandpackProps = {
 
 export default function Sandpack(props: SandpackProps) {
   const [open, setOpen] = React.useState(false);
-  const { id, files, customSetup, providerProps } = props;
+  const { id, files, customSetup, providerProps, previewProps } = props;
 
   return (
     <div id={id}>
@@ -42,13 +43,15 @@ export default function Sandpack(props: SandpackProps) {
           classes: {
             "sp-preview-actions": "hidden",
             "sp-layout": "rounded-md",
+            "sp-preview": "rounded-md",
+            "sp-tabs": "border-b-none",
           },
           ...providerProps,
         }}
         customSetup={customSetup}
       >
         <SandpackLayout>
-          <SandpackPreview />
+          <SandpackPreview {...previewProps} />
           <span className="flex items-center justify-between w-full p-3 bg-shark-800 text-silver">
             <button
               className="w-full text-sm font-semibold text-left transition-colors text-silver-800 hover:text-silver-600"
@@ -63,20 +66,20 @@ export default function Sandpack(props: SandpackProps) {
               <OpenInCodeSandboxButton />
             </div>
           </span>
-          {open && (
+          <AnimateHeight isVisible={open}>
             <SandpackCodeEditor
               showTabs
               showLineNumbers
               showInlineErrors
               closableTabs
               style={{
-                height: "300px",
+                height: "400px",
                 width: "100%",
                 overflow: "hidden",
                 background: "none",
               }}
             />
-          )}
+          </AnimateHeight>
         </SandpackLayout>
       </SandpackProvider>
     </div>
@@ -109,7 +112,7 @@ const baseCss = `
 
   --background-image: radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%),
     radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%);
-  --background: rgb(18, 18, 18);
+  --background: #0a0a0a;
   --shadow-border-shiny: inset 0 0 0 1px hsl(0deg 0% 100% / 10%);
 }
 
