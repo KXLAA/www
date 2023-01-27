@@ -10,7 +10,7 @@ postId: "drag-and-drop-in-react-with-dnd-kit"
 
 DnD Kit is a relatively new, hook-based library that makes it easy to create performant and accessible drag-and-drop UI interactions in React. I have been using the library a lot at Super, particularly in our new dashboard, and I wanted to share some examples of the kind of interactions that can be built with it.
 
-In this post, I will provide a brief overview of the core concepts behind `@dnd-kit` and then i’ll move on to a number of [code examples](#examples) with explanations. If you need more detail about anything i cover, you can always consult the documentation here.
+In this post, I will provide a brief overview of the core concepts behind `@dnd-kit` and then i’ll move on to a number of [code examples](#examples) with explanations. If you need more detail about anything i cover, you can always consult the documentation [here](https://docs.dndkit.com/).
 
 <Callout intent="info" heading="Intended Audience">
   This article assumes you have a basic understanding of React and Typescript.
@@ -44,7 +44,7 @@ Drag-and-drop interactions often require more than just dragging and dropping co
 
 In the demo, we have a list. When we drag a single item, it automatically sorts with its other siblings. This type of interaction is known as a sortable interface, where components are both draggable and droppable. We can refer to these components as "Sortable Components".
 
-`Sortable` components can be used in a variety of ways. For instance, we can have multiple containers with `Sortable` list items, enabling users to sort the containers, list items, and drag items between them:
+Sortable components can be used in a variety of ways. For instance, we can have multiple containers with sortable list items, enabling users to sort the containers, list items, and drag items between them:
 
 <SortableMultiDnd />
 
@@ -116,7 +116,7 @@ The `useDraggable` hook returns a number of properties. The ones we use are:
 - `attributes`: an object with sensible defaults for accessibility. We spread this object on the activator HTML element, along with the `listeners` object.
 - `transform`: an object with the x- and y-coordinates of a draggable element in 2D, which is updated during a drag event. We use the values of the object to update the position of our draggable element with CSS via the `transform` property.
 
-Next, we set up our `DndContext` and the state of our `Draggable` components:
+Next, we set up our `DndContext` and the state of our draggable components:
 
 ```tsx
 import { DndContext } from "@dnd-kit/core";
@@ -172,9 +172,9 @@ export function App() {
 }
 ```
 
-The state of our `Draggable` components is represented in an array of objects. Each object contains an `id`, `name`, and the current `position` of the component. We pass the current positions in state to the `style` object's left and top CSS properties with an `absolute` position, allowing the components to be dragged across the entire area.
+The state of our draggable components is represented in an array of objects. Each object contains an `id`, `name`, and the current `position` of the component. We pass the current positions in state to the `style` object's left and top CSS properties with an `absolute` position, allowing the components to be dragged across the entire area.
 
-We need a way to update the position of our `Draggable` component while a user is dragging it. The `onDragEnd` event, emitted by `DndContext`, is triggered at the end of a drag event. It contains data such as the `position`, `id`, and more of the active `Draggable` component. We can access this data with a handler function and use it to update the `Draggable` components' positions in state:
+We need a way to update the position of our draggable component while a user is dragging it. The `onDragEnd` event, emitted by `DndContext`, is triggered at the end of a drag event. It contains data such as the `position`, `id`, and more of the active draggable component. We can access this data with a handler function and use it to update the draggable components' positions in state:
 
 ```tsx
 //Handler function to respond to an onDragEnd event
@@ -207,7 +207,7 @@ A user interface that allows users to pick up and drag an element into designate
 <DroppableDndSandPack />
 
 <Callout intent='default' dropdown heading='Code Breakdown'>
-For this interaction, we need a `Draggable` and `Droppable` Component. We already built the `Draggable` component [`above`](#free-drag-and-drop), so there's no need to repeat it here.
+For this interaction, we need a `Draggable` and `Droppable` Component. We already built the draggable component [`above`](#free-drag-and-drop), so there's no need to repeat it here.
 
 For the `Droppable` component, we will be using the `useDropabale` hook:
 
@@ -239,14 +239,14 @@ export function Droppable(props: DroppableProps) {
 }
 ```
 
-This `Droppable` component takes a unique `id` and a `className` as `props`. We pass the `id` we receive as props as a field of the object we pass to the `useDroppable` hook; this `id` field in the object is required.
+The component takes a unique `id` and a `className` as `props`. We pass the `id` we receive as props as a field of the object we pass to the `useDroppable` hook; this `id` field in the object is required.
 
 The `useDroppable` hook returns a number of properties. The ones we use are:
 
 - `setNodeRef` - a callback ref we attach to the HTML element we want to make droppable. This is how `@dnd-kit` knows an element is a drop area.
 - `isOver` - a boolean that indicates whether a draggable component is over a droppable area. We use this to style the droppable area conditionally.
 
-Next, we set up our `DndContext` and the state of our `Draggable` and `Droppable` components:
+Next, we set up our `DndContext` and the state of our draggable and droppable components:
 
 ```tsx
 import React from "react";
@@ -319,11 +319,11 @@ We have three pieces of state:
 - `droppables`: an array of unique strings of our
 - `activeItem`: the state of the active draggable, which is `undefined` by default.
 
-We use the `draggables` & `droppables` state to render our components. If the `containerId` of a `Draggable` component is the same as the `id` of a `Droppable` component, then the `Draggable` component will be rendered as a child of the `Droppable` component.
+We use the `draggables` & `droppables` state to render our components. If the `containerId` of a draggable component is the same as the `id` of a droppable component, then the draggable component will be rendered as a child of the droppable component.
 
 The `DragOverlay` component provides a way to render a draggable overlay that is not part of the normal document flow and is positioned relative to the viewport. We can use this component, for instance, to show a preview of where the draggable source will be when dropped.
 
-To render the overlay, we need details from the `Draggable` currently being dragged. We can get this information from the `onDragStart` event emitted by the `DndContext`. In the handler function, we set our state:
+To render the overlay, we need details from the draggable currently being dragged. We can get this information from the `onDragStart` event emitted by the `DndContext`. In the handler function, we set our state:
 
 ```tsx
 function handelDragStart(ev: DragStartEvent) {
@@ -336,7 +336,7 @@ function handelDragStart(ev: DragStartEvent) {
 
 You can read more on the DragOverlay component [here](https://docs.dndkit.com/api-documentation/draggable/drag-overlay).
 
-Finally, we need to update the state of our `Draggable` components. To do this, we'll use the `onDragOver` event emitted by the DndContext. This event is triggered when a `Draggable` is dragged over a `Droppable` area. It provides us with information about the dragged element and the droppable area it is over.
+Finally, we need to update the state of our draggable components. To do this, we'll use the `onDragOver` event emitted by the `DndContext``. This event is triggered when a draggable is dragged over a droppable area. It provides us with information about the dragged element and the droppable area it is over.
 
 We can use this data to check which container our draggable component is over and update our state accordingly:
 
@@ -415,12 +415,12 @@ export function SortableItem(props: SortableItemProps) {
 }
 ```
 
-The `SortableItem` component takes two props: a unique `id` and a `name`. The `id` is passed to the `useSortable` hook with an object that requires it.
+The component takes two props: a unique `id` and a `name`. The `id` is passed to the `useSortable` hook with an object that requires it.
 
 The `useSortable` hook is similar to the `useDraggable` hook. In addition to what the `useDraggable` hook returns, it also provides:
 
-- `isDragging` - A boolean set to `true` when dragging a `Sortable` component.
-- `transition` - CSS animations to be applied to the `Sortable` Component.
+- `isDragging` - A boolean set to `true` when dragging a sortable component.
+- `transition` - CSS animations to be applied to the sortable Component.
 
 Next, we set up our `DndContext` and the state of our `SortableItem` components:
 
@@ -494,8 +494,6 @@ export default function App() {
   );
 }
 ```
-
-The state of our `SortableItem` component is a simple sorted array.
 
 Finally, we update the positions of our sortable items at the end of the drag event using the `onDragEnd` event emitted by the `DndContext`:
 
