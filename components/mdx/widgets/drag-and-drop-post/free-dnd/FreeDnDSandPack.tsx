@@ -79,7 +79,7 @@ export default App;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: var(--shark-800);
+      background-color: var(--shark-900);
       gap: 4px;
       width: 64px;
       height: 64px;
@@ -116,17 +116,16 @@ export default App;
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
       id
     });
-  
-    const style = transform
-      ? {
-          transform: CSS.Translate.toString(transform)
-        }
-      : {};
-  
+
+    const style = {
+      transform: CSS.Translate.toString(transform),
+      ...styles,
+    };
+    
     return (
       <div
         ref={setNodeRef}
-        style={{ ...style, ...styles }}
+        style={{ ...style }}
         className="draggable"
         {...listeners}
         {...attributes}

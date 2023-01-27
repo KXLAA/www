@@ -17,7 +17,7 @@ import { uuid } from "@/lib/uuid";
 
 export function useController() {
   const initialState = createData(
-    6,
+    4,
     (index) => randomLetter() + `${index + 1}`
   );
   const [disabled, setDisabled] = React.useState(true);
@@ -46,20 +46,6 @@ export function useController() {
     if (!over) return;
     const activeId = active.id;
     const overId = over.id as string;
-
-    if (overId === "root") {
-      setDraggables((prev) => {
-        return prev.map((item) => {
-          if (item.id === activeId) {
-            return {
-              ...item,
-              containerId: "",
-            };
-          }
-          return item;
-        });
-      });
-    }
 
     setDraggables((prev) => {
       return prev.map((item) => {
