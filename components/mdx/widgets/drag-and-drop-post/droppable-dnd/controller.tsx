@@ -17,7 +17,7 @@ import { uuid } from "@/lib/uuid";
 
 export function useController() {
   const initialState = createData(
-    6,
+    4,
     (index) => randomLetter() + `${index + 1}`
   );
   const [disabled, setDisabled] = React.useState(true);
