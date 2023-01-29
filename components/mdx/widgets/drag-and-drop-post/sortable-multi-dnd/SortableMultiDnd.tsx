@@ -80,7 +80,10 @@ export default function SortableMultiDnd(props: SortableDndProps) {
                   showDragHandles={state.showDragHandles}
                 />
               ) : (
-                <OverlayItem {...(state.activeItem as Item)} />
+                <OverlayItem
+                  {...(state.activeItem as Item)}
+                  showDragHandles={state.showDragHandles}
+                />
               )}
             </>
           ) : null}

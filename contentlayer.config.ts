@@ -35,7 +35,7 @@ export const Post = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
-    // publishedAt: { type: "string", required: true },
+    publishedAt: { type: "string", required: true },
     description: { type: "string", required: true },
     tags: {
       type: "list",
@@ -46,10 +46,10 @@ export const Post = defineDocumentType(() => ({
     postId: { type: "string" },
   },
   computedFields: {
-    publishedAt: {
-      type: "string",
-      resolve: (doc) => getLastEditedDate(doc),
-    },
+    // publishedAt: {
+    //   type: "string",
+    //   resolve: (doc) => getLastEditedDate(doc),
+    // },
     lastUpdatedAt: {
       type: "string",
       resolve: (doc) => getLastEditedDate(doc),
