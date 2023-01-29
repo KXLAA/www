@@ -1,9 +1,10 @@
 import { AnimatePresence } from "framer-motion";
 
 import { BreadCrumb } from "@/components/common/BreadCrumb";
+import { Show } from "@/components/common/Show";
 import { Tag } from "@/components/common/Tag";
 import { cx } from "@/lib/cx";
-import { formatDate } from "@/lib/date";
+import { formatDate, isDateAfter } from "@/lib/date";
 import { useHideOnScroll } from "@/lib/hooks/use-hide-on-scroll";
 
 import type { Post as PostType } from ".contentlayer/generated";
@@ -51,7 +52,7 @@ export function PostHeader(props: PostHeaderProps) {
       </AnimatePresence>
 
       {!isHidden && (
-        <div className="relative flex flex-col self-center justify-end w-full gap-3 pt-0 pb-6 px-0 h-52">
+        <div className="relative flex flex-col self-center justify-end w-full gap-3 px-0 pt-0 pb-6 h-52">
           <BreadCrumb
             plain
             items={[
@@ -79,13 +80,13 @@ export function PostHeader(props: PostHeaderProps) {
             <span>{readingTime.text} </span>
           </div>
 
-          <div className="z-10 flex gap-2">
-            {props.publishedAt !== props.lastUpdatedAt && (
+          <Show when={isDateAfter(props.lastUpdatedAt, props.publishedAt)}>
+            <div className="z-10 flex gap-2">
               <Tag>
                 Updated {formatDate(props.lastUpdatedAt, "MMMM dd, yyyy")}
               </Tag>
-            )}
-          </div>
+            </div>
+          </Show>
         </div>
       )}
     </div>
