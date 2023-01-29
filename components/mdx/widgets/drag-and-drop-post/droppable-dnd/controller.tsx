@@ -111,7 +111,7 @@ function createData(length: number, initializer: (index: number) => string) {
     return {
       id: uuid(),
       name: `${initializer(index)}`,
-      containerId: "root",
+      containerId: "ROOT",
     };
   });
 }
