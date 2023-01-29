@@ -12,11 +12,10 @@ type PostSideBarProps = {
 
 export function PostSideBar(props: PostSideBarProps) {
   const { tableOfContent } = props;
-  const idList =
-    (tableOfContent?.map((item) => item.link?.slice(1)) as string[]) || [];
+  const idList = tableOfContent?.map(removeHashTagFromStart) || [];
   const activeId = useActiveId(idList);
-
   const isHidden = useHideOnScroll(300);
+
   return (
     <aside className="md:w-1/3  md:sticky md:top-7 self-start max-w-[300px] md:flex flex-col gap-4 items-start hidden">
       <ul className="relative flex flex-col items-start gap-2">
@@ -31,7 +30,10 @@ export function PostSideBar(props: PostSideBarProps) {
             <motion.a
               href={item.link}
               animate={{
-                color: item.link?.slice(1) === activeId ? "#EEEEEE" : "#888888",
+                color:
+                  removeHashTagFromStart(item) === activeId
+                    ? "#EEEEEE"
+                    : "#888888",
               }}
               whileHover={{
                 color: "#EEEEEE",
@@ -127,4 +129,8 @@ function scrollTop() {
     top: 0,
     behavior: "smooth",
   });
+}
+
+function removeHashTagFromStart(item: PostHeading) {
+  return item?.link?.slice(1) || ``;
 }
