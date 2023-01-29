@@ -37,7 +37,7 @@ export function useController() {
     useSensor(TouchSensor),
     useSensor(MouseSensor)
   );
-  const [draggables, setDraggables] = React.useState([...draggable]);
+  const [draggables, setDraggables] = React.useState(draggable);
 
   function handleAddDraggables() {
     const newDraggable = {
