@@ -54,7 +54,7 @@ export default function Sandpack(props: SandpackProps) {
           <SandpackPreview {...previewProps} />
           <span className="flex items-center justify-between w-full p-3 bg-shark-800 text-silver">
             <button
-              className="w-full text-sm font-semibold text-left transition-colors text-silver-800 hover:text-silver-600"
+              className="w-full text-base font-black text-left transition-colors text-silver-800 hover:text-silver-600 uppercase"
               onClick={() => setOpen(!open)}
               title="Open Code Editor"
               aria-label="Open Code Editor"
