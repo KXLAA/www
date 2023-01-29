@@ -3,6 +3,7 @@ import type { GetStaticPaths, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
+import { AnimateLayout } from "@/components/animation/AnimateLayout";
 import { Layout } from "@/components/common/Layout";
 import { PostLayout } from "@/components/posts/PostLayout";
 import type { Post as PostType } from "@/contentlayer/generated";
@@ -116,9 +117,11 @@ export default function Post(props: PostProps) {
   return (
     <>
       <Layout customMeta={meta} hideHeader>
-        <PostLayout {...post}>
-          <Component components={MDXComponents} />
-        </PostLayout>
+        <AnimateLayout key="post">
+          <PostLayout {...post}>
+            <Component components={MDXComponents} />
+          </PostLayout>
+        </AnimateLayout>
       </Layout>
     </>
   );
