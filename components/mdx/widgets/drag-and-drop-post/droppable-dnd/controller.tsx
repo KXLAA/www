@@ -13,6 +13,7 @@ import {
 import React from "react";
 
 import { Status, useStatus } from "@/components/mdx/widgets/common/Status";
+import { useIsMobile } from "@/lib/hooks/responsive";
 import { uuid } from "@/lib/uuid";
 
 export function useController() {
@@ -27,6 +28,7 @@ export function useController() {
   const [activeItem, setActiveItem] = React.useState<Item | undefined>(
     undefined
   );
+  const isMobile = useIsMobile();
 
   const sensors = useSensors(
     useSensor(KeyboardSensor),
@@ -78,12 +80,13 @@ export function useController() {
 
   return {
     state: {
-      draggables,
-      containers,
+      draggables: draggables.slice(isMobile ? 2 : undefined),
+      containers: containers.slice(isMobile ? 1 : undefined),
       disabled,
       status,
       activeItem,
       sensors,
+      isMobile,
     },
     actions: {
       handleReset,

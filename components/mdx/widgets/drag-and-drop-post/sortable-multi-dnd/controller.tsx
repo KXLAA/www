@@ -5,15 +5,23 @@ import type {
   UniqueIdentifier,
 } from "@dnd-kit/core";
 import {
+  closestCenter,
+  closestCorners,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import React from "react";
 
 import { Status, useStatus } from "@/components/mdx/widgets/common/Status";
+import { useIsMobile } from "@/lib/hooks/responsive";
 import { uuid } from "@/lib/uuid";
 
 export type ContainerProps = {
@@ -32,6 +40,7 @@ export function useController(itemCount: number) {
     ContainerProps | Item | null
   >(null);
   const [isDirty, setIsDirty] = React.useState(false);
+  const isMobile = useIsMobile();
 
   const initialItems = [
     {
@@ -239,6 +248,11 @@ export function useController(itemCount: number) {
       sensors,
       activeItem,
       containerIds,
+      strategy: isMobile
+        ? verticalListSortingStrategy
+        : horizontalListSortingStrategy,
+      isMobile,
+      collisionDetection: isMobile ? closestCorners : closestCenter,
     },
     actions: {
       handleReset,

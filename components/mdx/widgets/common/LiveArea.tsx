@@ -3,6 +3,7 @@ import React from "react";
 
 import { Show } from "@/components/common/Show";
 import { cx } from "@/lib/cx";
+import { useIsMobile } from "@/lib/hooks/responsive";
 
 type LiveAreaProps = {
   children: React.ReactNode;
@@ -12,6 +13,8 @@ type LiveAreaProps = {
 };
 
 export function LiveArea(props: LiveAreaProps) {
+  const isMobile = useIsMobile();
+
   const { children, className, footer, status } = props;
   return (
     <div className="relative flex flex-col justify-end w-full p-2 rounded-xl bg-shark-800">
@@ -25,7 +28,7 @@ export function LiveArea(props: LiveAreaProps) {
       </div>
 
       <AnimatePresence>
-        {status && (
+        {status && !isMobile && (
           <motion.div
             key="status"
             initial={{ opacity: 0, y: 20 }}

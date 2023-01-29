@@ -25,7 +25,7 @@ function Section(props: SectionProps) {
   const { heading, children } = props;
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="p-2 text-2xl font-normal border-l-4 rounded bg-gradient-to-r from-shark-800 border-shark-700">
+      <h3 className="p-2 text-xl md:text-2xl font-normal border-l-4 rounded bg-gradient-to-r from-shark-800 border-shark-700">
         {heading}
       </h3>
       {children}
@@ -37,12 +37,12 @@ export default function Home(props: HomeProps) {
 
   return (
     <Layout hideHeader>
-      <div className="flex flex-col justify-center max-w-4xl px-10 py-16 gap-14">
+      <div className="flex flex-col justify-center max-w-4xl px-4 py-4 md:px-10 md:py-16  gap-8 md:gap-14">
         <div className="flex px-3 py-2 text-2xl font-bold rounded bg-shark-800 w-fit">
           <p>kxlaa</p>
         </div>
 
-        <div className="flex flex-col gap-8 text-3xl font-extralight">
+        <div className="flex flex-col gap-8 text-xl md:text-3xl font-extralight">
           <p>
             Hello, I'm Kola. A Fullstack Engineer with hands on experience in
             building client & server-side web applications using Typescript.
@@ -54,7 +54,7 @@ export default function Home(props: HomeProps) {
             <Link
               href={`/posts/${post.slug}`}
               key={post.slug}
-              className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500 "
+              className="text-xl md:text-3xl font-extralight hover:text-silver-900 transition-all"
             >
               {post.title}
             </Link>
@@ -63,7 +63,7 @@ export default function Home(props: HomeProps) {
           <Show when={posts.length > 6}>
             <Link
               href="/posts"
-              className="mt-6 text-xl text-blue-500 transition-colors hover:text-blue-700"
+              className="mt-6 text-base md:text-xl text-blue-500 transition-all hover:text-blue-700"
             >
               See all posts
               <ChevronRightIcon
@@ -77,14 +77,14 @@ export default function Home(props: HomeProps) {
         <Section heading="PROJECTS">
           <a
             href={`https://www.nartefacts.com/`}
-            className="flex items-center gap-2 text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
+            className="flex items-center gap-2 text-xl md:text-3xl  font-extralight hover:text-silver-900 transition-all"
           >
             <Half2Icon className="inline-block w-5 h-5" />
             Nartefacts
           </a>
           <a
             href={`https://www.devportfolios.dev/`}
-            className="flex items-center gap-2 text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
+            className="flex items-center gap-2 text-xl md:text-3xl font-extralight  hover:text-silver-900 transition-all"
           >
             <EnterFullScreenIcon className="inline-block w-5 h-5" />
             DevPortfolios
