@@ -36,7 +36,7 @@ export function LiveArea(props: LiveAreaProps) {
             exit={{ opacity: 0, y: 20 }}
             transition={{ type: "spring" }}
             className={cx(
-              "absolute  left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t border-[#1F1F22] border-dashed",
+              "absolute z-10 left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t border-[#1F1F22] border-dashed mb-0.5",
               footer ? "bottom-0" : "bottom-4"
             )}
           >
