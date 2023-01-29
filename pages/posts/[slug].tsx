@@ -84,14 +84,14 @@ export default function Post(props: PostProps) {
   const Component = useMDXComponent(post.body.code);
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
-  const title = `${post.title} | Kolade Afode`;
+  const title = `${post.title} | Kola`;
   const date = post?.publishedAt || new Date().toDateString();
   const ogImageUrl = `/api/og?title=${encodeURIComponent(
     post.title
   )}&date=${encodeURIComponent(formatDate(date, "MMMM dd yyyy"))}`;
 
   const meta: MetaProps = {
-    title: `${title} | Kola`,
+    title: `${title}`,
     description: post.description,
     canonical: url,
     openGraph: {
@@ -106,7 +106,7 @@ export default function Post(props: PostProps) {
       },
       images: [
         {
-          url: ogImageUrl,
+          url: "/images/og-image.png",
           width: 1200,
           height: 600,
           alt: title,
