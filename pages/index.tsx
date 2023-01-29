@@ -26,7 +26,7 @@ function Section(props: SectionProps) {
   const { heading, children } = props;
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="px-4 text-base font-bold rounded bg-shark-800 w-fit text-silver-600 shadow-border-shiny">
+      <h3 className="px-4 text-sm font-bold rounded md:text-base bg-shark-800 w-fit text-silver-600 shadow-border-shiny">
         {heading}
       </h3>
       {children}
@@ -36,7 +36,7 @@ function Section(props: SectionProps) {
 export default function Home(props: HomeProps) {
   return (
     <Layout
-      className="flex flex-col justify-center max-w-xl gap-4 px-4 py-4 text-lg md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
+      className="flex flex-col justify-center max-w-xl gap-4 px-4 py-4 text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
       key="home-page"
     >
       <div className="flex flex-col gap-4">

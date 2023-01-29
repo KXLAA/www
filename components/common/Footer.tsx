@@ -23,10 +23,10 @@ function FooterLink(props: FooterLinkProps) {
   return (
     <a
       href={link}
-      className="flex flex-wrap items-center justify-center gap-1 text-sm transition-colors font-extralight hover:text-silver-900"
+      className="flex flex-wrap items-center justify-center gap-1 text-xs transition-colors md:text-sm font-extralight hover:text-silver-900"
     >
       {children}
-      <div className="self-start p-1 transition-colors">
+      <div className="self-start hidden p-1 transition-colors md:block">
         <ArrowTopRightIcon className="w-4 h-4 " />
       </div>
     </a>
