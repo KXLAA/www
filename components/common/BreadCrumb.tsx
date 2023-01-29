@@ -29,7 +29,7 @@ export function BreadCrumb(props: BreadCrumbProps) {
       transition={{ duration: 0.2 }}
       exit={{ opacity: 0 }}
       className={cx(
-        "relative flex items-center  w-fit gap-2 px-4 py-2 text-[11px] font-medium rounded-md   text-silver-600 transition-all",
+        "relative flex items-center  w-fit gap-2 px-4 py-2 text-[11px] font-extralight rounded-md   text-silver-600 transition-all",
         fixed && "fixed top-7 z-10",
         filled && "bg-shark-800",
         floating && "mix-blend-lighten	backdrop-blur shadow-border-shiny  z-50",
