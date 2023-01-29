@@ -20,7 +20,7 @@ export function LiveArea(props: LiveAreaProps) {
     <div className="relative flex flex-col justify-end w-full p-2 rounded-xl bg-shark-800">
       <div
         className={cx(
-          "flex flex-col justify-end w-full h-60 p-10 rounded-xl live-area bg-shark-900",
+          "flex flex-col justify-end w-full h-60 md:p-10 p-6 rounded-xl live-area bg-shark-900",
           className
         )}
       >
