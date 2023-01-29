@@ -91,7 +91,7 @@ export default function Post(props: PostProps) {
   )}&date=${encodeURIComponent(formatDate(date, "MMMM dd yyyy"))}`;
 
   const meta: MetaProps = {
-    title: `${title} | Kolade Afode`,
+    title: `${title} | Kola`,
     description: post.description,
     canonical: url,
     openGraph: {
