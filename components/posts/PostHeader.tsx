@@ -1,7 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 
 import { BreadCrumb } from "@/components/common/BreadCrumb";
-// import { Tag } from "@/components/common/Tag";
+import { Tag } from "@/components/common/Tag";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
 import { useHideOnScroll } from "@/lib/hooks/use-hide-on-scroll";
@@ -33,10 +33,10 @@ export function PostHeader(props: PostHeaderProps) {
                 label: "Home",
                 href: "/",
               },
-              {
-                label: "Writing",
-                href: "/posts",
-              },
+              // {
+              //   label: "Writing",
+              //   href: "/posts",
+              // },
               {
                 label: title,
                 href: "/posts",
@@ -56,10 +56,10 @@ export function PostHeader(props: PostHeaderProps) {
                 label: "Home",
                 href: "/",
               },
-              {
-                label: "Writing",
-                href: "/posts",
-              },
+              // {
+              //   label: "Writing",
+              //   href: "/posts",
+              // },
               {
                 label: title,
                 href: "/posts",
@@ -74,13 +74,13 @@ export function PostHeader(props: PostHeaderProps) {
             <span>{readingTime.text} </span>
           </div>
 
-          {/* <div className="z-10 flex gap-2">
+          <div className="z-10 flex gap-2">
             {props.publishedAt !== props.lastUpdatedAt && (
               <Tag>
                 Updated {formatDate(props.lastUpdatedAt, "MMMM dd, yyyy")}
               </Tag>
             )}
-          </div> */}
+          </div>
         </div>
       )}
     </div>

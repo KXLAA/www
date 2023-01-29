@@ -166,6 +166,14 @@ export function useController(itemCount: number) {
 
       setSortables(newItems);
       setIsDirty(true);
+      setStatus(
+        <Status variant="yellow" className="mb-7">
+          <span className="font-bold">DRAGGED</span>{" "}
+          <span className="font-bold">{activeItem?.name}</span> from
+          <span className="font-bold"> {activeContainer?.name}</span> from to{" "}
+          <span className="font-bold">{overContainer?.name}</span>
+        </Status>
+      );
     }
   }
 
