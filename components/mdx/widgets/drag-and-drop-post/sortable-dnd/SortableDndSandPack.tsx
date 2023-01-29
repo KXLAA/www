@@ -12,6 +12,7 @@ const files = {
   
   export function SortableItem(props: SortableItemProps) {
     const { name, id } = props;
+    //Read more about the useSortable hook here: https://docs.dndkit.com/presets/sortable/usesortable
     const {
       attributes,
       listeners,
@@ -34,6 +35,8 @@ const files = {
         style={{ ...style }}
         className={\`sortable-item \${isDragging ? "sortable-item-active" : ""}\`}
       >
+        {/* This is a drag handle, instead of making the entire div listen for drag events
+          we listen for drag events on this svg icon */}
         <DragHandleDots2Icon
           className="drag-handle"
           {...listeners}
@@ -43,6 +46,7 @@ const files = {
       </div>
     );
   }
+  
   `,
   "items.ts": `import { nanoid } from "nanoid";
 
@@ -71,7 +75,8 @@ const files = {
     closestCenter,
     DndContext,
     KeyboardSensor,
-    PointerSensor,
+    TouchSensor,
+    MouseSensor,
     useSensor,
     useSensors
   } from "@dnd-kit/core";
@@ -86,9 +91,13 @@ const files = {
   import { SortableItem } from "./SortableItem";
   
   export default function App() {
-    const [sortables, setSortables] = React.useState(items);
+    const [sortables, setSortables] = React.useState([...items]);
+    //Sensors are an abstraction to detect different input methods in
+    //order to initiate drag operations, respond to movement and end or
+    //cancel the operation. See more here: https://docs.dndkit.com/api-documentation/sensors
     const sensors = useSensors(
-      useSensor(PointerSensor),
+      useSensor(TouchSensor),
+      useSensor(MouseSensor),
       useSensor(KeyboardSensor, {
         coordinateGetter: sortableKeyboardCoordinates
       })
@@ -96,14 +105,20 @@ const files = {
   
     return (
       <DndContext
+        //collision detection algorithm best suited for sortable interfaces
+        //read more here: https://docs.dndkit.com/api-documentation/context-provider/collision-detection-algorithms
         collisionDetection={closestCenter}
         sensors={sensors}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={sortables} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          //read more on the SortableContext here https://docs.dndkit.com/presets/sortable/sortable-context
+          items={sortables}
+          strategy={verticalListSortingStrategy}
+        >
           <div className="app">
-            {sortables.map((s) => (
-              <SortableItem key={s.id} {...s} />
+            {sortables.map((sortable) => (
+              <SortableItem key={sortable.id} {...sortable} />
             ))}
           </div>
         </SortableContext>
@@ -115,15 +130,16 @@ const files = {
       const activeId = active.id;
       const overId = over?.id;
   
-      if (activeId && overId && active.id !== over.id) {
+      if (activeId && overId && activeId !== overId) {
         setSortables((items) => {
+          //update items to thier new indexes
           const oldIndex = sortables.findIndex((f) => f.id === activeId);
           const newIndex = sortables.findIndex((f) => f.id === overId);
           return arrayMove(items, oldIndex, newIndex);
         });
       }
     }
-  }
+  }  
   `,
   "/styles.css": {
     code: styles(`

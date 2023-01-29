@@ -49,7 +49,7 @@ body {
 }
 
 .prose a {
-  @apply text-silver-100 hover:text-silver-800 transition-all;
+  @apply text-silver-400 hover:text-silver-800 transition-all;
 }
 
 .prose .anchor:after {
