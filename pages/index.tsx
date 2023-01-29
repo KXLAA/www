@@ -8,7 +8,9 @@ import type { GetStaticProps } from "next";
 import Link from "next/link";
 
 import { AnimateLayout } from "@/components/animation/AnimateLayout";
+import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
+import { Logo } from "@/components/common/Logo";
 import { Show } from "@/components/common/Show";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
@@ -26,7 +28,7 @@ function Section(props: SectionProps) {
   const { heading, children } = props;
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="p-2 text-xl md:text-2xl font-normal border-l-4 rounded bg-gradient-to-r from-shark-800 border-shark-700">
+      <h3 className="p-2 text-xl font-normal border-l-4 rounded md:text-2xl bg-gradient-to-r from-shark-800 border-shark-700">
         {heading}
       </h3>
       {children}
@@ -39,12 +41,15 @@ export default function Home(props: HomeProps) {
   return (
     <Layout hideHeader>
       <AnimateLayout
-        className="flex flex-col justify-center max-w-4xl px-4 py-4 md:px-10 md:py-16  gap-8 md:gap-14"
+        className="flex flex-col justify-center max-w-4xl gap-8 px-4 py-4 md:px-10 md:py-16 md:gap-14"
         key="home-page"
       >
-        <div className="flex px-3 py-2 text-2xl font-bold rounded bg-shark-800 w-fit">
-          <p>kxlaa</p>
-        </div>
+        <Link
+          className="flex items-center justify-center transition-colors rounded-full w-fit shadow-border-shiny hover:bg-shark-700"
+          href="/"
+        >
+          <Logo className="w-20 h-20 text-silver-500 " />
+        </Link>
 
         <div className="flex flex-col gap-8 text-xl md:text-3xl font-extralight">
           <p>
@@ -62,7 +67,7 @@ export default function Home(props: HomeProps) {
             <Link
               href={`/posts/${post.slug}`}
               key={post.slug}
-              className="text-xl md:text-3xl font-extralight hover:text-silver-900 transition-all"
+              className="text-xl transition-all md:text-3xl font-extralight hover:text-silver-900"
             >
               {post.title}
             </Link>
@@ -71,7 +76,7 @@ export default function Home(props: HomeProps) {
           <Show when={posts.length > 6}>
             <Link
               href="/posts"
-              className="mt-6 text-base md:text-xl text-blue-500 transition-all hover:text-blue-700"
+              className="mt-6 text-base text-blue-500 transition-all md:text-xl hover:text-blue-700"
             >
               See all posts
               <ChevronRightIcon
@@ -85,19 +90,21 @@ export default function Home(props: HomeProps) {
         <Section heading="PROJECTS">
           <a
             href={`https://www.nartefacts.com/`}
-            className="flex items-center gap-2 text-xl md:text-3xl  font-extralight hover:text-silver-900 transition-all"
+            className="flex items-center gap-2 text-xl transition-all md:text-3xl font-extralight hover:text-silver-900"
           >
             <Half2Icon className="inline-block w-5 h-5" />
             Nartefacts
           </a>
           <a
             href={`https://www.devportfolios.dev/`}
-            className="flex items-center gap-2 text-xl md:text-3xl font-extralight  hover:text-silver-900 transition-all"
+            className="flex items-center gap-2 text-xl transition-all md:text-3xl font-extralight hover:text-silver-900"
           >
             <EnterFullScreenIcon className="inline-block w-5 h-5" />
             DevPortfolios
           </a>
         </Section>
+
+        <Footer />
       </AnimateLayout>
     </Layout>
   );
