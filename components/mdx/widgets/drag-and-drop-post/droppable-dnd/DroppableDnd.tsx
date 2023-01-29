@@ -44,11 +44,10 @@ export default function DroppableDnd() {
         onDragStart={actions.handelDragStart}
       >
         <div className="flex flex-col items-center justify-center w-full gap-6">
-          <div className="flex w-full gap-2 items-center  justify-center">
+          <div className="flex items-center justify-center w-full gap-2">
             {state.containers.map((id) => (
               <Droppable key={id} id={id} className="flex-wrap">
                 {state.draggables
-                  .slice(state.isMobile ? 2 : undefined)
                   .filter((draggable) => draggable.containerId === id)
                   .map((draggable) => (
                     <Draggable key={draggable.id} {...draggable} border />
@@ -57,12 +56,12 @@ export default function DroppableDnd() {
             ))}
           </div>
           <Droppable
-            id="root"
-            className="flex items-center justify-center w-full h-16 gap-4 flex-wrap"
+            id="ROOT"
+            className="flex flex-wrap items-center justify-center w-full h-16 gap-4"
             plain
           >
             {state.draggables
-              .filter((draggable) => draggable.containerId === "root")
+              .filter((draggable) => draggable.containerId === "ROOT")
               .map((draggable) => (
                 <Draggable key={draggable.id} {...draggable} />
               ))}
