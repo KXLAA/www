@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["*"],
-      "@/contentlayer/*": [".contentlayer/*"]
+      "@/contentlayer/*": [".contentlayer/*"],
+      "@/widgets/*": ["./components/mdx/widgets/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

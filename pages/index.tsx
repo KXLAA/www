@@ -7,6 +7,7 @@ import {
 import type { GetStaticProps } from "next";
 import Link from "next/link";
 
+import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
 import type { Post as PostType } from "@/contentlayer/generated";
@@ -25,7 +26,7 @@ function Section(props: SectionProps) {
   const { heading, children } = props;
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="p-2 text-2xl font-normal border-l-4 rounded bg-gradient-to-r from-shark-800 border-shark-700">
+      <h3 className="px-4 text-sm font-bold rounded md:text-base bg-shark-800 w-fit text-silver-600 shadow-border-shiny">
         {heading}
       </h3>
       {children}
@@ -33,64 +34,66 @@ function Section(props: SectionProps) {
   );
 }
 export default function Home(props: HomeProps) {
-  const posts = props.posts;
-
   return (
-    <Layout hideHeader>
-      <div className="flex flex-col justify-center max-w-4xl px-10 py-16 gap-14">
-        <div className="flex px-3 py-2 text-2xl font-bold rounded bg-shark-800 w-fit">
-          <p>kxlaa</p>
-        </div>
+    <Layout
+      className="flex flex-col justify-center max-w-xl gap-4 px-4 py-4 text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
+      key="home-page"
+    >
+      <div className="flex flex-col gap-4">
+        <p>
+          Hello, I'm Kola, a design-minded full-stack engineer with experience
+          in building client- and server-side web applications.
+        </p>
 
-        <div className="flex flex-col gap-8 text-3xl font-extralight">
-          <p>
-            Hello, I'm Kola. A Fullstack Engineer with hands on experience in
-            building client & server-side web applications using Typescript.
-          </p>
-        </div>
-
-        <Section heading="WRITING">
-          {posts.map((post) => (
-            <Link
-              href={`/posts/${post.slug}`}
-              key={post.slug}
-              className="text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500 "
-            >
-              {post.title}
-            </Link>
-          ))}
-
-          <Show when={posts.length > 6}>
-            <Link
-              href="/posts"
-              className="mt-6 text-xl text-blue-500 transition-colors hover:text-blue-700"
-            >
-              See all posts
-              <ChevronRightIcon
-                className="inline-block w-5 h-5 ml-2 -mr-1"
-                aria-hidden="true"
-              />
-            </Link>
-          </Show>
-        </Section>
-
-        <Section heading="PROJECTS">
-          <a
-            href={`https://www.nartefacts.com/`}
-            className="flex items-center gap-2 text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
-          >
-            <Half2Icon className="inline-block w-5 h-5" />
-            Nartefacts
-          </a>
-          <a
-            href={`https://www.devportfolios.dev/`}
-            className="flex items-center gap-2 text-3xl font-extralight hover:underline underline-offset-4 decoration-blue-500"
-          >
-            <EnterFullScreenIcon className="inline-block w-5 h-5" />
-            DevPortfolios
-          </a>
-        </Section>
+        <p>
+          I mainly work with Typescript and related web technologies, but I'm
+          currently exploring the Go programming language.
+        </p>
       </div>
+
+      <Section heading="WRITING">
+        {props.posts.map((post) => (
+          <Link
+            href={`/posts/${post.slug}`}
+            key={post.slug}
+            className="transition-all hover:text-silver-900"
+          >
+            {post.title}
+          </Link>
+        ))}
+
+        <Show when={props.posts.length > 6}>
+          <Link
+            href="/posts"
+            className="mt-6 !text-sm text-blue-500 transition-all md:text-xl hover:text-blue-700"
+          >
+            See all posts
+            <ChevronRightIcon
+              className="inline-block w-5 h-5 ml-2 -mr-1"
+              aria-hidden="true"
+            />
+          </Link>
+        </Show>
+      </Section>
+
+      <Section heading="PROJECTS">
+        <a
+          href={`https://www.nartefacts.com/`}
+          className="flex items-center gap-2 transition-all hover:text-silver-900"
+        >
+          <Half2Icon className="inline-block w-5 h-5" />
+          Nartefacts
+        </a>
+        <a
+          href={`https://www.devportfolios.dev/`}
+          className="flex items-center gap-2 transition-all hover:text-silver-900"
+        >
+          <EnterFullScreenIcon className="inline-block w-5 h-5" />
+          DevPortfolios
+        </a>
+      </Section>
+
+      <Footer />
     </Layout>
   );
 }

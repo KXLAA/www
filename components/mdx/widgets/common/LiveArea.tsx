@@ -3,6 +3,7 @@ import React from "react";
 
 import { Show } from "@/components/common/Show";
 import { cx } from "@/lib/cx";
+import { useIsMobile } from "@/lib/hooks/responsive";
 
 type LiveAreaProps = {
   children: React.ReactNode;
@@ -12,12 +13,14 @@ type LiveAreaProps = {
 };
 
 export function LiveArea(props: LiveAreaProps) {
+  const isMobile = useIsMobile();
+
   const { children, className, footer, status } = props;
   return (
     <div className="relative flex flex-col justify-end w-full p-2 rounded-xl bg-shark-800">
       <div
         className={cx(
-          "flex flex-col justify-end w-full h-60 p-10 rounded-xl live-area bg-shark-900",
+          "flex flex-col justify-end w-full h-60 md:p-10 p-6 rounded-xl live-area bg-shark-900",
           className
         )}
       >
@@ -25,7 +28,7 @@ export function LiveArea(props: LiveAreaProps) {
       </div>
 
       <AnimatePresence>
-        {status && (
+        {status && !isMobile && (
           <motion.div
             key="status"
             initial={{ opacity: 0, y: 20 }}
@@ -33,7 +36,7 @@ export function LiveArea(props: LiveAreaProps) {
             exit={{ opacity: 0, y: 20 }}
             transition={{ type: "spring" }}
             className={cx(
-              "absolute  left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t border-[#1F1F22] border-dashed",
+              "absolute z-10 left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t border-[#1F1F22] border-dashed mb-0.5",
               footer ? "bottom-0" : "bottom-4"
             )}
           >

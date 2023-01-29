@@ -54,7 +54,7 @@ export function SortableContainer(props: SortableContainerProps) {
           {...listeners}
           {...attributes}
           className={cx(
-            "flex items-center justify-center w-full p-2 text-2xl font-bold rounded-t-md bg-shark-800 shadow-border-shiny cursor-grab active:cursor-grabbing",
+            "flex items-center justify-center w-full p-2 text-xl md:text-2xl font-bold rounded-t-md bg-shark-800 shadow-border-shiny cursor-grab active:cursor-grabbing",
             isDragging && "opacity-10"
           )}
         >
@@ -98,7 +98,7 @@ export function OverlayContainer(props: SortableContainerProps) {
       <div className="flex flex-col items-center justify-center w-full gap-2 ">
         <div
           className={cx(
-            "flex items-center justify-center w-full p-2 text-2xl font-bold rounded-t-md bg-shark-800 shadow-border-shiny cursor-grabbing"
+            "flex items-center justify-center w-full p-2 text-xl md:text-2xl font-bold rounded-t-md bg-shark-800 shadow-border-shiny cursor-grabbing"
           )}
         >
           {name}

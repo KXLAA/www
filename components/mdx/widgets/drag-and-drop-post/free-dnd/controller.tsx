@@ -37,7 +37,7 @@ export function useController() {
     useSensor(TouchSensor),
     useSensor(MouseSensor)
   );
-  const [draggables, setDraggables] = React.useState([...draggable]);
+  const [draggables, setDraggables] = React.useState(draggable);
 
   function handleAddDraggables() {
     const newDraggable = {
@@ -48,7 +48,7 @@ export function useController() {
       },
     };
 
-    setDraggables([...draggables, newDraggable]);
+    setDraggables((draggable) => [...draggable, newDraggable]);
     setStatus(
       <Status variant="green">
         <span className="font-bold">ADD</span> new draggable:{" "}

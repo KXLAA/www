@@ -2,13 +2,10 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 
 export function Footer() {
   return (
-    <footer
-      className="flex w-full gap-4 p-6 bg-shark-700 rounded-xl max-w-[540px] shadow-border-shiny"
-      id="links"
-    >
+    <footer className="flex w-full gap-2" id="links">
       <FooterLink link="https://github.com/KXLAA">GITHUB</FooterLink>
       <FooterLink link="https://twitter.com/kxlaa_">TWITTER</FooterLink>
-      <FooterLink link="https://twitter.com/kxlaa_">EMAIL</FooterLink>
+      <FooterLink link="mailto:kolade.afode@yahoo.com">EMAIL</FooterLink>
       <FooterLink link="https://www.linkedin.com/in/kxlaa/">
         LINKEDIN
       </FooterLink>
@@ -26,11 +23,11 @@ function FooterLink(props: FooterLinkProps) {
   return (
     <a
       href={link}
-      className="flex items-center justify-center w-full gap-2 p-2 text-base transition duration-300 ease-in-out rounded-md text-silver-50 bg-shark-500 hover:shadow-border-shiny"
+      className="flex flex-wrap items-center justify-center gap-1 text-xs transition-colors md:text-sm font-extralight hover:text-silver-900"
     >
       {children}
-      <div className="self-start p-1 transition-colors duration-200 rounded-full shadow-border-shiny text-silver-700">
-        <ArrowTopRightIcon className="w-3 h-3" />
+      <div className="self-start hidden p-1 transition-colors md:block">
+        <ArrowTopRightIcon className="w-4 h-4 " />
       </div>
     </a>
   );

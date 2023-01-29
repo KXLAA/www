@@ -2,76 +2,96 @@ import Sandpack, { styles } from "@/components/mdx/widgets/common/Sandpack";
 
 const files = {
   "/App.tsx": `
-import React from "react";
-import type { DragEndEvent } from "@dnd-kit/core";
-import {
-  DndContext,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors
-} from "@dnd-kit/core";
-import "./styles.css";
-import { Draggable } from "./Draggable";
-
-const draggable = [
-  {
-    id: "DG",
-    name: "D",
-    position: {
-      x: 24,
-      y: 24
+  import React from "react";
+  import type { DragEndEvent } from "@dnd-kit/core";
+  import {
+    DndContext,
+    KeyboardSensor,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors
+  } from "@dnd-kit/core";
+  import "./styles.css";
+  import { Draggable } from "./Draggable";
+  
+  const draggable = [
+    {
+      id: "DG",
+      name: "D",
+      position: {
+        x: 24,
+        y: 24
+      }
+    },
+    {
+      id: "KA",
+      name: "K",
+      position: {
+        x: 164,
+        y: 164
+      }
     }
-  },
-  {
-    id: "KA",
-    name: "K",
-    position: {
-      x: 164,
-      y: 164
-    }
-  }
-];
-
-function App() {
-  const sensors = useSensors(
-    useSensor(KeyboardSensor),
-    useSensor(TouchSensor),
-    useSensor(MouseSensor)
-  );
-  const [draggables, setDraggables] = React.useState([...draggable]);
-
-  return (
-    <div style={{ width: "100%", minHeight: "100vh" }} className="dotted-bg">
-      <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
-        {draggables.map((d) => (
-          <Draggable
-            key={d.id}
-            id={d.id}
-            name={d.name}
-            styles={{
-              position: "absolute",
-              left: \`\${d.position.x}px\`,
-              top: \`\${d.position.y}px\`
-            }}
-          />
-        ))}
-      </DndContext>
-    </div>
-  );
-
-  function handleDragEnd(ev: DragEndEvent) {
-    const draggable = draggables.find((x) => x.id === ev.active.id)!;
-    draggable.position.x += ev.delta.x;
-    draggable.position.y += ev.delta.y;
-
-    setDraggables((draggables) =>
-      draggables.map((d) => (d.id === draggable.id ? draggable : d))
+  ];
+  
+  function App() {
+    //Sensors are an abstraction to detect different input methods in
+    //order to initiate drag operations, respond to movement and end or
+    //cancel the operation. See more here: https://docs.dndkit.com/api-documentation/sensors
+    const sensors = useSensors(
+      useSensor(KeyboardSensor),
+      useSensor(TouchSensor),
+      useSensor(MouseSensor)
     );
+  
+    const [draggables, setDraggables] = React.useState([...draggable]);
+  
+    return (
+      <div style={{ width: "100%", minHeight: "100vh" }} className="dotted-bg">
+        <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+          {draggables.map((draggable) => (
+            <Draggable
+              {...draggable}
+              key={draggable.id}
+              //Pass current position as css styles, makes sure we can drag element
+              //across the viewport
+              styles={{
+                position: "absolute",
+                left: \`\${draggable.position.x}px\`,
+                top: \`\${draggable.position.y}px\`
+              }}
+            />
+          ))}
+        </DndContext>
+      </div>
+    );
+  
+    function handleDragEnd(ev: DragEndEvent) {
+      //Get the id of the active draggable
+      const activeId = ev.active.id;
+  
+      //Update the state
+      setDraggables((draggables) => {
+        return draggables.map((draggable) => {
+          //if draggable id matches the active id
+          if (draggable.id === activeId) {
+            return {
+              ...draggable,
+              //update its position with the new position in the delta object in
+              //the drag end event
+              position: {
+                x: draggable.position.x += ev.delta.x,
+                y: draggable.position.y += ev.delta.y
+              }
+            };
+          }
+          //return draggable that is not active
+          return draggable;
+        });
+      });
+    }
   }
-}
-export default App;
+  export default App;  
     `,
   "/styles.css": {
     code: styles(`
@@ -113,15 +133,16 @@ export default App;
   
   export function Draggable(props: DraggableProps) {
     const { id, styles, name } = props;
+    //Read more about the useDraggable hook here: https://docs.dndkit.com/api-documentation/draggable/usedraggable
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
       id
     });
-
+  
     const style = {
       transform: CSS.Translate.toString(transform),
-      ...styles,
+      ...styles
     };
-    
+  
     return (
       <div
         ref={setNodeRef}
@@ -133,7 +154,7 @@ export default App;
         <span> {name}</span>
       </div>
     );
-  }  
+  }   
   `,
 };
 
