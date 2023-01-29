@@ -7,6 +7,7 @@ import {
 import type { GetStaticProps } from "next";
 import Link from "next/link";
 
+import { AnimateLayout } from "@/components/animation/AnimateLayout";
 import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
 import type { Post as PostType } from "@/contentlayer/generated";
@@ -37,15 +38,22 @@ export default function Home(props: HomeProps) {
 
   return (
     <Layout hideHeader>
-      <div className="flex flex-col justify-center max-w-4xl px-4 py-4 md:px-10 md:py-16  gap-8 md:gap-14">
+      <AnimateLayout
+        className="flex flex-col justify-center max-w-4xl px-4 py-4 md:px-10 md:py-16  gap-8 md:gap-14"
+        key="home-page"
+      >
         <div className="flex px-3 py-2 text-2xl font-bold rounded bg-shark-800 w-fit">
           <p>kxlaa</p>
         </div>
 
         <div className="flex flex-col gap-8 text-xl md:text-3xl font-extralight">
           <p>
-            Hello, I'm Kola. A Fullstack Engineer with hands on experience in
-            building client & server-side web applications using Typescript.
+            Hello, I'm Kola, a design-minded full-stack engineer with experience
+            in building client- and server-side web applications.
+          </p>
+          <p>
+            I mainly work with Typescript and related web technologies, but I'm
+            currently exploring the Go programming language.
           </p>
         </div>
 
@@ -90,7 +98,7 @@ export default function Home(props: HomeProps) {
             DevPortfolios
           </a>
         </Section>
-      </div>
+      </AnimateLayout>
     </Layout>
   );
 }
