@@ -48,6 +48,7 @@ export default function DroppableDnd() {
             {state.containers.map((id) => (
               <Droppable key={id} id={id} className="flex-wrap">
                 {state.draggables
+                  .slice(state.isMobile ? 2 : undefined)
                   .filter((draggable) => draggable.containerId === id)
                   .map((draggable) => (
                     <Draggable key={draggable.id} {...draggable} border />

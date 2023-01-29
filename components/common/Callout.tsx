@@ -25,17 +25,9 @@ export function Callout(props: CalloutProps) {
   const { intent, children, heading, dropdown } = props;
   const icon =
     intent === "danger" ? (
-      <div className="rounded-full bg-[#3C181A] p-1 border-2 border-[#481A1D]">
-        <ExclamationTriangleIcon className="w-4 h-4 shrink-0" />
-      </div>
+      <ExclamationTriangleIcon className="w-4 h-5 shrink-0" />
     ) : intent === "info" ? (
-      <div
-        className={cx(
-          "rounded-full bg-[#192140] p-1 border-2 border-[#1C274F]"
-        )}
-      >
-        <QuestionMarkCircledIcon className="w-4 h-4 shrink-0" />
-      </div>
+      <QuestionMarkCircledIcon className="w-5 h-5 shrink-0" />
     ) : null;
 
   return dropdown ? (
@@ -43,9 +35,9 @@ export function Callout(props: CalloutProps) {
       className={cx(
         "p-3 w-full rounded-xl my-6",
         intent === "danger" &&
-          "bg-[#291415] border-2 border-[#481A1D] text-[#FF6369]",
+          "bg-red-dark-2 border-2 border-red-dark-4 text-red-dark-11",
         intent === "info" &&
-          "bg-[#15192D] border-2 border-[#1C274F] !text-[#849DFF]",
+          "bg-indigo-dark-2 border-2 border-indigo-dark-4 !text-indigo-dark-11",
         intent === "default" &&
           "bg-shark-600 border-shark-500 border-2 text-silver-600"
       )}
@@ -62,15 +54,15 @@ export function Callout(props: CalloutProps) {
 
           <div
             className={cx(
-              "rounded-full bg-[#192140] p-1 border-2 border-[#1C274F]",
+              "rounded-full bg-indigo-dark-3 p-1 border-2 border-indigo-dark-4",
               intent === "danger" &&
-                "bg-[#3C181A] p-1 border-2 border-[#481A1D]",
+                "bg-red-dark-3  border-2 border-red-dark-4",
               intent === "default" && "bg-shark-400 p-1 border-shark-300"
             )}
           >
             <ChevronDownIcon
               className={cx(
-                "w-4 h-4",
+                "w-5 h-5",
                 disclosure.open
                   ? "rotate-180 duration-300"
                   : "rotate-0 duration-300"
@@ -78,15 +70,13 @@ export function Callout(props: CalloutProps) {
             />
           </div>
         </Disclosure>
-        <>
-          <DisclosureContent
-            state={disclosure}
-            as={AnimateHeight}
-            isVisible={disclosure.open}
-          >
-            <div className="flex flex-col gap-6 text-lg mt-4"> {children}</div>
-          </DisclosureContent>
-        </>
+        <DisclosureContent
+          state={disclosure}
+          as={AnimateHeight}
+          isVisible={disclosure.open}
+        >
+          <div className="flex flex-col gap-6 mt-4 text-lg"> {children}</div>
+        </DisclosureContent>
       </div>
     </aside>
   ) : (
@@ -94,9 +84,11 @@ export function Callout(props: CalloutProps) {
       className={cx(
         "p-3 w-full rounded-xl ",
         intent === "danger" &&
-          "bg-[#291415] border-2 border-[#481A1D] text-[#FF6369]",
+          "bg-red-dark-2 border-2 border-red-dark-4 text-red-dark-11",
         intent === "info" &&
-          "bg-[#15192D] border-2 border-[#1C274F] !text-[#849DFF]"
+          "bg-indigo-dark-2 border-2 border-indigo-dark-4 !text-indigo-dark-11",
+        intent === "default" &&
+          "bg-shark-600 border-shark-500 border-2 text-silver-600"
       )}
     >
       <div className="flex flex-col gap-2">

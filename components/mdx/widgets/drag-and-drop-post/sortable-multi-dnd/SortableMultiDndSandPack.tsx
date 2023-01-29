@@ -69,29 +69,10 @@ const files = {
     items: Item[];
   };
   
-  type DroppableProps = {
-    id: string;
-    children?: React.ReactNode;
-    className?: string;
-  };
-  
-  export function Droppable(props: DroppableProps) {
-    const { id, children, className } = props;
-  
-    const { setNodeRef } = useDroppable({
-      id,
-      data: { type: "container" }
-    });
-  
-    return (
-      <div ref={setNodeRef} className={className}>
-        {children}
-      </div>
-    );
-  }
-  
   export function SortableContainer(props: SortableContainerProps) {
     const { name, id, items } = props;
+    
+    //Read more about the useSortable hook here: https://docs.dndkit.com/presets/sortable/usesortable
     const {
       attributes,
       listeners,
@@ -278,9 +259,10 @@ const files = {
   import {
     DndContext,
     KeyboardSensor,
-    PointerSensor,
+    TouchSensor,
     useSensor,
     useSensors,
+    MouseSensor,
     closestCorners,
     DragEndEvent,
     DragOverEvent,
@@ -304,19 +286,28 @@ const files = {
   
   export default function App() {
     const [sortables, setSortables] = React.useState([...initialItems]);
+  
+    //The state of the active draggable, used to render the drag overlay below
     const [activeItem, setActiveItem] = React.useState<
       SortableContainerProps | Item | null
     >(null);
+    //Sensors are an abstraction to detect different input methods in
+    //order to initiate drag operations, respond to movement and end or
+    //cancel the operation. See more here: https://docs.dndkit.com/api-documentation/sensors
     const sensors = useSensors(
-      useSensor(PointerSensor),
+      useSensor(TouchSensor),
+      useSensor(MouseSensor),
       useSensor(KeyboardSensor, {
         coordinateGetter: sortableKeyboardCoordinates
       })
     );
+  
     const containerIds = sortables.map((s) => s.id);
   
     return (
       <DndContext
+        //collision detection algorithm best suited for sortable interfaces and multiple containers
+        //read more here: https://docs.dndkit.com/api-documentation/context-provider/collision-detection-algorithms
         collisionDetection={closestCorners}
         sensors={sensors}
         onDragEnd={handleDragEnd}
@@ -324,6 +315,7 @@ const files = {
         onDragStart={handleDragStart}
       >
         <SortableContext
+          //read more on the SortableContext here https://docs.dndkit.com/presets/sortable/sortable-context
           items={sortables}
           strategy={horizontalListSortingStrategy}
         >
@@ -340,6 +332,8 @@ const files = {
         </SortableContext>
         <DragOverlay>
           {activeItem ? (
+            //Render a drag overlay for either the container or sortable item based on the id of the active item
+            // check here https://docs.dndkit.com/api-documentation/draggable/drag-overlay for more info
             <>
               {containerIds.includes(activeItem.id) ? (
                 <OverlayContainer {...(activeItem as SortableContainerProps)} />
@@ -352,6 +346,7 @@ const files = {
       </DndContext>
     );
   
+    //Returns the id of a container based on the id of any of its child items
     function findContainer(id?: string) {
       if (id) {
         if (containerIds.includes(id)) return id;
@@ -363,6 +358,11 @@ const files = {
       }
     }
   
+    /*Returns true if we are sorting containers
+     * we will know if we are sorting containers if the id of the active item is a
+     * container id and it is being dragged over any item in the over container
+     * or the over container itself
+     */
     function isSortingContainers({
       activeId,
       overId
@@ -371,18 +371,21 @@ const files = {
       overId: string;
     }) {
       const isActiveContainer = containerIds.includes(activeId);
-      const isOverContainer = findContainer(overId);
+      const isOverContainer =
+        findContainer(overId) || containerIds.includes(overId);
       return !!isActiveContainer && !!isOverContainer;
     }
   
     function handleDragStart(event: DragStartEvent) {
       const { active } = event;
-      const activeId = active.id;
+      const activeId = active.id as string;
   
       if (containerIds.includes(activeId)) {
+        //set the state of active item if we are dragging a container
         const container = sortables.find((i) => i.id === activeId);
         if (container) setActiveItem(container);
       } else {
+        //set the state of active item if we are dragging a container item
         const containerId = findContainer(activeId);
         const container = sortables.find((i) => i.id === containerId);
         const item = container?.items.find((i) => i.id === activeId);
@@ -390,18 +393,27 @@ const files = {
       }
     }
   
+    /*In this function we handle when a sortable item is dragged from one container 
+    to another container, to do this we need to know:
+     - what item is being dragged 
+     - what container it is being dragged from
+     - what container it is being dragged to
+     - what index to insert the active item into, in the new container
+     */
     function handleDragOver(event: DragOverEvent) {
       const { active, over } = event;
       if (!active || !over) return;
       const activeId = active.id as string;
       const overId = over.id as string;
+      //find the container id of the active item and the container id of the item being dragged over
       const activeContainerId = findContainer(activeId);
       const overContainerId = findContainer(overId);
-  
       if (!overContainerId || !activeContainerId) return;
   
+      //we don't want to sort containers, so we return early if we are sorting containers
       if (isSortingContainers({ activeId, overId })) return;
   
+      //we only want to update the state if we are dragging over a different container
       if (activeContainerId !== overContainerId) {
         const activeContainer = sortables.find((i) => i.id === activeContainerId);
         const overContainer = sortables.find((i) => i.id === overContainerId);
@@ -411,8 +423,12 @@ const files = {
         const overIndex = sortables.findIndex((i) => i.id === overId);
         let newIndex: number;
         if (containerIds.includes(overId)) {
+          //if the container is empty, and we drag over it, the overId would be the id of that container and not
+          //the id of any of its items since it is empty so we want to add the item to the end of
+          //the container basically making it the last item
           newIndex = overItems.length + 1;
         } else {
+          //Get the new index of the item being dragged over if it is a sortable item in the over container
           const isBelowOverItem =
             over &&
             active.rect.current.translated &&
@@ -421,6 +437,7 @@ const files = {
           newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
         }
   
+        //Update the state
         const newItems = sortables.map((item) =>
           // Remove the active item from the old list
           item.id === activeContainerId
@@ -445,6 +462,9 @@ const files = {
       }
     }
   
+    /*In this function we handle when a sortable item is sorted within its container
+      or when a sortable container is sorted with other sortable container
+     */
     function handleDragEnd(event: DragEndEvent) {
       const { active, over } = event;
       if (!active || !over) return;
@@ -455,6 +475,7 @@ const files = {
   
       if (isSortingContainers({ activeId, overId })) {
         if (activeId !== overId) {
+          //update sortable containers to their new positions
           setSortables((items) => {
             const oldIndex = sortables.findIndex(
               (f) => f.id === activeContainerId
@@ -470,6 +491,7 @@ const files = {
         const activeItems = activeContainer?.items || [];
         const oldIndex = activeItems.findIndex((i) => i.id === activeId);
         const newIndex = activeItems.findIndex((i) => i.id === overId);
+        //update sortable items to their new positions
         const newItems = sortables.map((s) =>
           s.id === activeContainerId
             ? {
@@ -484,7 +506,8 @@ const files = {
         }
       }
     }
-  }  
+  }
+  
   `,
   "items.ts": `import { nanoid } from "nanoid";
 

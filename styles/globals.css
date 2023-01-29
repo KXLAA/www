@@ -20,7 +20,7 @@ body {
 }
 
 .prose {
-  @apply !text-silver font-light text-xl;
+  @apply !text-silver-600 font-extralight text-lg md:text-xl;
 }
 
 .prose h2,
@@ -28,28 +28,28 @@ body {
 .prose h4,
 .prose h5,
 .prose h6 {
-  @apply text-silver-400 font-bold;
+  @apply text-silver font-semibold;
 }
 
 .prose h1 {
-  @apply !text-7xl font-bold mt-8 mb-4 text-silver-400;
+  @apply text-5xl font-bold mt-8 mb-4;
 }
 
 .prose h2 {
-  @apply text-3xl font-bold mt-8 mb-4 text-silver-400;
+  @apply text-2xl md:text-3xl font-bold mt-8 mb-4;
 }
 
 .prose h3 {
-  @apply text-2xl font-bold mt-8 mb-4 text-silver-400;
+  @apply text-2xl font-bold mt-8 mb-4;
 }
 
 .prose strong {
   /* Don't apply styles to next/image */
-  @apply font-semibold text-silver-300;
+  @apply font-semibold text-silver-500;
 }
 
 .prose a {
-  @apply text-silver-100 hover:text-silver-800 transition-all;
+  @apply text-silver-400 hover:text-silver-800 transition-all no-underline;
 }
 
 .prose .anchor:after {
@@ -61,8 +61,18 @@ body {
   @apply visible;
 }
 
+.prose ol > li::marker {
+  font-weight: 400;
+  @apply !text-silver-700;
+}
+
+.prose ul > li::marker {
+  font-weight: 400;
+  @apply !text-silver-700;
+}
+
 code {
-  @apply px-1 py-0.5 rounded-md bg-shark-400 shadow-border-shiny !font-normal !text-silver-50;
+  @apply px-1 py-0.5 rounded-md bg-shark-700 shadow-border-shiny !font-normal !text-silver-100;
 }
 
 code::before,
@@ -90,61 +100,6 @@ code::after {
 .prose aside li {
   @apply mt-0;
 }
-.gradient-bg {
-  background: linear-gradient(
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.05) 100%
-  );
-}
-
-.gradient-bg-flip {
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-}
-
-.fade-out {
-  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-  height: 100%;
-}
-
-.fade-out-top {
-  -webkit-mask-image: linear-gradient(to top, black 50%, transparent 100%);
-  mask-image: linear-gradient(to top, black 50%, transparent 100%);
-  height: 100%;
-  z-index: 1;
-}
-
-.dotted-bg {
-  background-image: radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%),
-    radial-gradient(rgb(31, 31, 31) 11.6%, transparent 11.6%);
-  background-position: 0px 0px, 12px 12px;
-  background-size: 24px 24px;
-  background-color: rgb(18, 18, 18);
-}
-
-.grid-bg {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
-  /* -webkit-mask-image: linear-gradient(0deg, transparent, #000);
-  mask-image: linear-gradient(0deg, transparent, #000); */
-}
-
-.grid-bg-faded {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjA0IiBoZWlnaHQ9Ijc3MiIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDEyMDQgNzcyIj48cGF0aCBmaWxsPSIjMEMwQzBDIiBkPSJNMCAwaDEyMDR2NzcySDB6Ii8+PG1hc2sgaWQ9ImIiIHdpZHRoPSI4MTIiIGhlaWdodD0iNjM5IiB4PSIxOTYiIHk9IjY2IiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIiBzdHlsZT0ibWFzay10eXBlOmFscGhhIj48cGF0aCBmaWxsPSJ1cmwoI2EpIiBkPSJNMTk2IDY2aDgxMnY2MzlIMTk2eiIvPjwvbWFzaz48ZyBzdHJva2U9IiNmZmYiIG1hc2s9InVybCgjYikiPjxwYXRoIGQ9Ik0yODUuNSAxNDguNWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5eiIvPjxwYXRoIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjIiIGQ9Ik02ODAuNSAxNDguNWg3OXY3OWgtNzl6Ii8+PHBhdGggZD0iTTc1OS41IDE0OC41aDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bS01NTMgNzloNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXoiLz48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4yIiBkPSJNNTIyLjUgMzA2LjVoNzl2NzloLTc5eiIvPjxwYXRoIGQ9Ik02MDEuNSAzMDYuNWg3OXY3OWgtNzl6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMiIgZD0iTTY4MC41IDMwNi41aDc5djc5aC03OXoiLz48cGF0aCBkPSJNNzU5LjUgMzA2LjVoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em0tNTUzIDc5aDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuMiIgZD0iTTQ0My41IDQ2NC41aDc5djc5aC03OXoiLz48cGF0aCBkPSJNNTIyLjUgNDY0LjVoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptLTU1MyA3OWg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5em03OSAwaDc5djc5aC03OXptNzkgMGg3OXY3OWgtNzl6bTc5IDBoNzl2NzloLTc5eiIvPjwvZz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImEiIGN4PSIwIiBjeT0iMCIgcj0iMSIgZ3JhZGllbnRUcmFuc2Zvcm09Im1hdHJpeCgwIDMxOS41IC00MDYgMCA2MDIgMzg1LjUpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI0Q5RDlEOSIgc3RvcC1vcGFjaXR5PSIuMiIvPjxzdG9wIG9mZnNldD0iLjc0MyIgc3RvcC1jb2xvcj0iI0Q5RDlEOSIgc3RvcC1vcGFjaXR5PSIwIi8+PC9yYWRpYWxHcmFkaWVudD48L2RlZnM+PC9zdmc+");
-  background-size: 100%;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-}
-
-.gradient-bg-flipp {
-  background: linear-gradient(rgb(17, 17, 17) 0%, rgb(12, 12, 12) 100%);
-}
-
-.main-gradient {
-  background: linear-gradient(rgb(17, 17, 17) 0%, rgb(12, 12, 12) 100%);
-}
 
 .live-area {
   min-block-size: 200px;
@@ -169,10 +124,4 @@ code::after {
   background-image: radial-gradient(circle at center, #202328 60%, #101114);
   mask-image: radial-gradient(black 0.9px, transparent 0.9px);
   mask-size: 18px 18px;
-}
-
-.main-layout {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
 }
