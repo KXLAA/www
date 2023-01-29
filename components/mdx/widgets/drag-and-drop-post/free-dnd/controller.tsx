@@ -48,7 +48,7 @@ export function useController() {
       },
     };
 
-    setDraggables([...draggables, newDraggable]);
+    setDraggables((draggable) => [...draggable, newDraggable]);
     setStatus(
       <Status variant="green">
         <span className="font-bold">ADD</span> new draggable:{" "}
