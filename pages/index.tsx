@@ -45,10 +45,10 @@ export default function Home(props: HomeProps) {
         key="home-page"
       >
         <Link
-          className="flex items-center justify-center transition-colors rounded-full w-fit shadow-border-shiny hover:bg-shark-700"
+          className="flex items-center justify-center transition-colors rounded-full w-fit"
           href="/"
         >
-          <Logo className="w-20 h-20 text-silver-500 " />
+          <Logo className="w-20 h-20 transition-colors text-silver-500 hover:text-silver-800" />
         </Link>
 
         <div className="flex flex-col gap-8 text-xl md:text-3xl font-extralight">
