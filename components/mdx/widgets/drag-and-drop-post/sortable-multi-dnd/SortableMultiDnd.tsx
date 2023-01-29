@@ -1,8 +1,5 @@
-import { closestCenter, DndContext, DragOverlay } from "@dnd-kit/core";
-import {
-  horizontalListSortingStrategy,
-  SortableContext,
-} from "@dnd-kit/sortable";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
 import { motion } from "framer-motion";
 
 import { Refresh } from "@/components/common/Refresh";
@@ -54,13 +51,18 @@ export default function SortableMultiDnd(props: SortableDndProps) {
         onDragEnd={actions.handleDragEnd}
         onDragOver={actions.handleDragOver}
         onDragStart={actions.handleDragStart}
-        collisionDetection={closestCenter}
+        collisionDetection={state.collisionDetection}
       >
         <SortableContext
           items={state.sortables.map((s) => s.id)}
-          strategy={horizontalListSortingStrategy}
+          strategy={state.strategy}
         >
-          <div className="flex justify-center w-full min-h-full gap-4">
+          <div
+            className={cx(
+              "flex justify-center w-full min-h-full gap-4",
+              state.isMobile && "flex-col"
+            )}
+          >
             {state.sortables.map((s) => (
               <SortableContainer
                 {...s}
