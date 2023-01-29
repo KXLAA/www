@@ -525,9 +525,9 @@ A list that can be sorted and items that can be dropped into multiple containers
 <SortableMultiDndSandPack />
 
 <Callout intent='default' dropdown heading='Code Breakdown'>
-We need a `SortableItem` component. This component is identical to the one we created in the single container sortable list example above, so I will omit the implementation here.
+For this interaction, we need a `SortableItem` and `SortableContainer` Component. We already built the `SortableItem` component above, so there's no need to repeat it here.
 
-Our containers are sortable, so we create a `SortableContainer` component. This is quite similar to the `SortableItem`, but we need to add an empty `Droppable` container when it has no items:
+The `SortableContainer` component, is quite similar to the `SortableItem` component, it uses the `useSortable` hook as well:
 
 ```tsx
 import {
@@ -538,44 +538,31 @@ import {
 import { Item } from "./items";
 import { CSS } from "@dnd-kit/utilities";
 import { useDroppable } from "@dnd-kit/core";
-import { SortableItem } from "./SortableItem";
+import { SortableItem, OverlayItem } from "./SortableItem";
 
-type SortableContainerProps = {
+export type SortableContainerProps = {
   id: string;
   name?: string;
   items: Item[];
 };
 
-type DroppableProps = {
-  id: string;
-  children?: React.ReactNode;
-  className?: string;
-};
-
-export function Droppable(props: DroppableProps) {
-  const { id, children, className } = props;
-
-  const { setNodeRef } = useDroppable({
-    id,
-  });
-
-  return (
-    <div ref={setNodeRef} className={className}>
-      {children}
-    </div>
-  );
-}
-
 export function SortableContainer(props: SortableContainerProps) {
   const { name, id, items } = props;
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({
-      id: id,
-      data: { name, type: "container" },
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: id,
+    data: { name, type: "container" },
+  });
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
+    opacity: isDragging ? 0.2 : 1,
   };
 
   return (
@@ -588,25 +575,87 @@ export function SortableContainer(props: SortableContainerProps) {
         >
           {name}
         </div>
-        {/** if there are no items in the container, render an empty droppable container with the same id as the SortableContainer */}
-        {items.length === 0 ? (
-          <Droppable id={id} key={id} className="droppable">
-            List is empty
-          </Droppable>
-        ) : (
-          <SortableContext items={items} strategy={verticalListSortingStrategy}>
-            {items.map((s) => (
-              <SortableItem {...s} key={s.id} />
-            ))}
-          </SortableContext>
-        )}
+        <div className="sortable-container_wrapper">
+          {items.length === 0 ? (
+            //Render a message if container is empty
+            <div key={id} className="droppable">
+              List is empty
+            </div>
+          ) : (
+            <SortableContext
+              items={items}
+              strategy={verticalListSortingStrategy}
+            >
+              {items.map((s) => (
+                <SortableItem {...s} key={s.id} />
+              ))}
+            </SortableContext>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 ```
 
-Next, we set up our `DndContext` and the state of our items and containers:
+The component takes a unique `id`, a `name`, and an array of sortable `items` as props. The children of the `SortableContainer` are an array of sortable items rendered within the `SortableContext` component. This ensures that we can sort these items within their respective `SortableContainer`. The container itself is sortable, so we hook it up to the `useSortable` hook.
+
+We also need to create an overlay component for our `DragOverlay` component:
+
+```tsx
+import { OverlayItem } from "./SortableItem";
+
+export function OverlayContainer(props: SortableContainerProps) {
+  const { name, id, items } = props;
+
+  return (
+    <div className="sortable-container">
+      <div>
+        <div className="sortable-container_header overlay">{name}</div>
+
+        <div className="sortable-container_wrapper">
+          {items.length === 0 ? (
+            <div key={id} className="droppable">
+              List is empty
+            </div>
+          ) : null}
+          {items.map((s) => (
+            //overlay component for sortable item component
+            <OverlayItem {...s} key={s.id} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+Next, we set the state of our components. Our state has the following shape:
+
+```tsx
+export const items = [
+  {
+    id: "Container A",
+    name: "Container A",
+    items: [
+      { id: 1, name: `ITEM A1` },
+      { id: 2, name: `ITEM A2` },
+    ],
+  },
+  {
+    id: "Container B",
+    name: "Container B",
+    items: [
+      { id: 1, name: `ITEM B1` },
+      { id: 2, name: `ITEM B2` },
+    ],
+  },
+];
+```
+
+Each container has an `id`, `name` and an array of `items`. We will update this state based on the drag actions performed by our users.
+
+We’ll use our state in the `DndContext`, like so:
 
 ```tsx
 import {
@@ -618,6 +667,8 @@ import {
   closestCorners,
   DragEndEvent,
   DragOverEvent,
+  DragStartEvent,
+  DragOverlay,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -626,70 +677,76 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import React from "react";
-import { SortableContainer } from "./SortableContainer";
+import { initialItems, Item } from "./items";
+import {
+  OverlayContainer,
+  SortableContainer,
+  SortableContainerProps,
+} from "./SortableContainer";
+import { OverlayItem } from "./SortableItem";
 
 export default function App() {
-  //state of the items
-  const [sortables, setSortables] = React.useState([
-    {
-      id: "A",
-      name: "Container A",
-      //helper function to create an array of draggbale items
-      items: createData(3, (index) => `ITEM A${index + 1}`),
-    },
-    {
-      id: "B",
-      name: "Container B",
-      //helper function to create an array of draggbale items
-      items: createData(2, (index) => `ITEM B${index + 1}`),
-    },
-  ]);
-
-  //remember to set up your sensors
+  const [sortables, setSortables] = React.useState([...initialItems]);
+  const [activeItem, setActiveItem] = React.useState<
+    SortableContainerProps | Item | null
+  >(null);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+  const containerIds = sortables.map((s) => s.id);
 
   return (
     <DndContext
       collisionDetection={closestCorners}
       sensors={sensors}
-      //we will implment the handlers below
+      //We implement these below
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
+      onDragStart={handleDragStart}
     >
       <SortableContext
         items={sortables}
         strategy={horizontalListSortingStrategy}
       >
-        {sortables.map((s) => (
-          <SortableContainer
-            key={s.id}
-            id={s.id}
-            name={s.name}
-            items={s.items}
-          />
-        ))}
+        <div className="app">
+          {sortables.map((s) => (
+            <SortableContainer
+              key={s.id}
+              id={s.id}
+              name={s.name}
+              items={s.items}
+            />
+          ))}
+        </div>
       </SortableContext>
+      <DragOverlay>
+        {activeItem ? (
+          <>
+            {containerIds.includes(activeItem.id) ? (
+              <OverlayContainer {...(activeItem as SortableContainerProps)} />
+            ) : (
+              <OverlayItem {...(activeItem as Item)} />
+            )}
+          </>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 }
 ```
 
-We respond to two events in this example:
+As discussed in the single [container sortable example](#), we are rendering our drag overlay with the data of the item being actively dragged on line 65. The only difference here is that we can be dragging either a sortable item or a sortable container, so we need to check whether the active item is a sortable container or sortable item.
 
-- `onDragOver` when a `SortableItem` is dragged over a `SortableContainer`;
-- `onDragEnd` when a `SortableContainer` is sorted with other `SortableContainer's` or when a `SortableItem` is sorted within a `SortableContainer`.
-
-In the `onDragOver` handler, we use two helper functions: `findContainer`, which finds the relevant container based on the id passed in, and `isSortingContainers`, which returns true if the active and over items are both `SortableContainers`:
+Now lets implement our handlers, we’ll need to helper functions:
 
 ```tsx
+//Returns the id of a container based on the id of any of its items
 function findContainer(id?: string) {
   if (id) {
-    //find the container id based on the id of container item
+    if (containerIds.includes(id)) return id;
     const container = sortables?.find((i) =>
       i.items?.find((l) => l?.id === id)
     );
@@ -698,45 +755,75 @@ function findContainer(id?: string) {
   }
 }
 
-function isSortingContainers(activeId: string, overId: string) {
-  return (
-    sortables.map((s) => s.id).includes(overId) &&
-    sortables.map((s) => s.id).includes(activeId)
-  );
+//checks if we are sorting containers
+function isSortingContainers({
+  activeId,
+  overId,
+}: {
+  activeId: string;
+  overId: string;
+}) {
+  const isActiveContainer = containerIds.includes(activeId);
+  const isOverContainer = findContainer(overId);
+  return !!isActiveContainer && !!isOverContainer;
 }
+```
 
+Let's start with the `handleDragStart` handler function. Remember, this function responds to the `onDragStart` event emitted by the `DndContext`:
+
+```tsx
+function handleDragStart(event: DragStartEvent) {
+  const { active } = event;
+  const activeId = active.id;
+
+  if (containerIds.includes(activeId)) {
+    const container = sortables.find((i) => i.id === activeId);
+    if (container) setActiveItem(container);
+  } else {
+    const containerId = findContainer(activeId);
+    const container = sortables.find((i) => i.id === containerId);
+    const item = container?.items.find((i) => i.id === activeId);
+    if (item) setActiveItem(item);
+  }
+}
+```
+
+The event object contains information about the component being dragged, such as its `id`. We check if this `id` is a sortable container or a sortable item and update the state of our active item accordingly.
+
+Next is the `handleDragOver` handler function:
+
+```tsx
 function handleDragOver(event: DragOverEvent) {
   const { active, over } = event;
+  if (!active || !over) return;
   const activeId = active.id as string;
-  const overId = over?.id as string;
-  if (!over || !activeId || !overId) return;
+  const overId = over.id as string;
+  //find the container id of the active item and the container id of the item being dragged over
   const activeContainerId = findContainer(activeId);
   const overContainerId = findContainer(overId);
 
-  //If there is no active container or over container, return early
   if (!overContainerId || !activeContainerId) return;
 
-  //In this example we can not drag a container over another container, is if we are sorting the containers
-  //we will return early and not update the state
-  if (isSortingContainers(activeId, overId)) return;
+  //We don't want to sort containers, so we return early if we are sorting containers
+  if (isSortingContainers({ activeId, overId })) return;
 
-  //Only update state when the active container is not the same as the over container
+  //we only want to update the state if we are dragging over a different container
   if (activeContainerId !== overContainerId) {
-    //Find active and over items
     const activeContainer = sortables.find((i) => i.id === activeContainerId);
     const overContainer = sortables.find((i) => i.id === overContainerId);
     const activeItems = activeContainer?.items || [];
-    const activeIndex = activeItems.findIndex((i) => i.id === active.id);
+    const activeIndex = activeItems.findIndex((i) => i.id === activeId);
     const overItems = overContainer?.items || [];
-    const overIndex = sortables.findIndex((i) => i.id === over.id);
-
-    //Need to find the newindex to insert the active item into the over container
+    const overIndex = sortables.findIndex((i) => i.id === overId);
     let newIndex: number;
-    //check if container is empty, if it is we will add the active item to the end of the container
-    if (sortables.map((s) => s.id).includes(over.id as string)) {
+
+    if (containerIds.includes(overId)) {
+      //if the container is empty, and we drag over it, the overId would be the id of that container and not
+      //the id of any of its items since it is empty so we want to add the item to the end of
+      //the container basically making it the last item
       newIndex = overItems.length + 1;
     } else {
-      //if the container is not empty we will check if the active item is below the over item and update the index accordingly
+      //Get the new index of the item being dragged over if it is a sortable item in the over container
       const isBelowOverItem =
         over &&
         active.rect.current.translated &&
@@ -745,14 +832,15 @@ function handleDragOver(event: DragOverEvent) {
       newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
     }
 
+    //Update the state
     const newItems = sortables.map((item) =>
-      // Remove the active item from the old container
+      // Remove the active item from the old list
       item.id === activeContainerId
         ? {
             ...item,
             items: activeItems.filter((item) => item.id !== active.id),
           }
-        : // Add the active item to the new container at the new index
+        : // Add the active item to the new list
         item.id === overContainerId
         ? {
             ...item,
@@ -765,39 +853,38 @@ function handleDragOver(event: DragOverEvent) {
         : item
     );
 
-    //update the state
     setSortables(newItems);
   }
 }
 ```
 
-In the `onDragEnd` handler, we handle two cases: sorting a `SortableContainer` and sorting a `SortableItem` within a `SortableContainer`:
+Finally, the `handleDragEnd` function:
 
 ```tsx
 function handleDragEnd(event: DragEndEvent) {
   const { active, over } = event;
+  if (!active || !over) return;
   const activeId = active.id as string;
-  const overId = over?.id as string;
-  if (!activeId || !overId) return;
+  const overId = over.id as string;
   const activeContainerId = findContainer(activeId);
+  const overContainerId = findContainer(overId);
 
-  //If we are sorting the containers, we will update the state to reflect the new order of the containers
-  if (isSortingContainers(activeId, overId)) {
+  if (isSortingContainers({ activeId, overId })) {
     if (activeId !== overId) {
       setSortables((items) => {
-        const oldIndex = sortables.findIndex((f) => f.id === activeId);
-        const newIndex = sortables.findIndex((f) => f.id === overId);
+        const oldIndex = sortables.findIndex((f) => f.id === activeContainerId);
+        const newIndex = sortables.findIndex((f) => f.id === overContainerId);
         return arrayMove(items, oldIndex, newIndex);
       });
     }
-  } else {
-    //Update the state to reflect the new order of the items inside the containers, iuf we are sorting the items
+  }
+
+  if (activeContainerId === overContainerId) {
     const activeContainer = sortables.find((i) => i.id === activeContainerId);
     const activeItems = activeContainer?.items || [];
     const oldIndex = activeItems.findIndex((i) => i.id === activeId);
     const newIndex = activeItems.findIndex((i) => i.id === overId);
     const newItems = sortables.map((s) =>
-      //Find the active container and update the items inside the container
       s.id === activeContainerId
         ? {
             ...s,
@@ -806,7 +893,6 @@ function handleDragEnd(event: DragEndEvent) {
         : s
     );
 
-    //Only update the state if the active item has moved
     if (oldIndex !== newIndex) {
       setSortables(newItems);
     }
