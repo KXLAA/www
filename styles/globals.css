@@ -20,7 +20,7 @@ body {
 }
 
 .prose {
-  @apply !text-silver font-light text-lg md:text-xl;
+  @apply !text-silver font-extralight text-lg md:text-xl;
 }
 
 .prose h2,
@@ -32,7 +32,7 @@ body {
 }
 
 .prose h1 {
-  @apply !text-7xl font-bold mt-8 mb-4 text-silver-400;
+  @apply text-5xl font-bold mt-8 mb-4 text-silver-400;
 }
 
 .prose h2 {
@@ -59,6 +59,16 @@ body {
 
 .prose *:hover > .anchor {
   @apply visible;
+}
+
+.prose ol > li::marker {
+  font-weight: 400;
+  @apply !text-silver-700;
+}
+
+.prose ul > li::marker {
+  font-weight: 400;
+  @apply !text-silver-700;
 }
 
 code {
