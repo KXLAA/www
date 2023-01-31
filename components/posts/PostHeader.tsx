@@ -71,7 +71,7 @@ export function PostHeader(props: PostHeaderProps) {
               },
             ]}
           />
-          <h1 className="m-0 text-3xl md:text-5xl font-bold max-w-[840px]">
+          <h1 className="m-0 text-2xl md:text-5xl font-bold max-w-[840px]">
             {title}
           </h1>
           <div className="flex items-center justify-center gap-1 text-sm rounded-md font-extralight text-silver-700 underline-offset-1 w-fit">
@@ -80,13 +80,13 @@ export function PostHeader(props: PostHeaderProps) {
             <span>{readingTime.text} </span>
           </div>
 
-          <Show when={isDateAfter(props.lastUpdatedAt, props.publishedAt)}>
+          {/* <Show when={isDateAfter(props.lastUpdatedAt, props.publishedAt)}>
             <div className="z-10 flex gap-2">
               <Tag>
                 Updated {formatDate(props.lastUpdatedAt, "MMMM dd, yyyy")}
               </Tag>
             </div>
-          </Show>
+          </Show> */}
         </div>
       )}
     </div>
