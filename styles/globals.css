@@ -40,7 +40,7 @@ body {
 }
 
 .prose h3 {
-  @apply text-2xl font-bold mt-8 mb-4;
+  @apply text-xl md:text-2xl font-bold mt-8 mb-4;
 }
 
 .prose strong {
