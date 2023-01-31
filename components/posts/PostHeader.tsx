@@ -80,13 +80,13 @@ export function PostHeader(props: PostHeaderProps) {
             <span>{readingTime.text} </span>
           </div>
 
-          <Show when={isDateAfter(props.lastUpdatedAt, props.publishedAt)}>
+          {/* <Show when={isDateAfter(props.lastUpdatedAt, props.publishedAt)}>
             <div className="z-10 flex gap-2">
               <Tag>
                 Updated {formatDate(props.lastUpdatedAt, "MMMM dd, yyyy")}
               </Tag>
             </div>
-          </Show>
+          </Show> */}
         </div>
       )}
     </div>
