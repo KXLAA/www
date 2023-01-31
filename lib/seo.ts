@@ -2,23 +2,20 @@ import type { DefaultSeoProps, NextSeoProps } from "next-seo";
 
 export type MetaProps = NextSeoProps;
 
-const title = `Kola`;
-const description = `Do it with flair ✨`;
-
 export const seo: DefaultSeoProps = {
   title: `Kola | Full Stack Engineer`,
-  description,
+  description: `Do it with flair ✨`,
   openGraph: {
-    title,
+    title: `Kola | Full Stack Engineer`,
     type: "website",
     url: `https://kxlaa.com`,
-    site_name: title,
+    site_name: `Kola | Full Stack Engineer`,
     images: [
       {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: title,
+        alt: `Kola | Full Stack Engineer`,
       },
     ],
   },
