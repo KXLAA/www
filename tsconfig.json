@@ -17,10 +17,16 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["*"],
-      "@/contentlayer/*": [".contentlayer/*"],
+
+      "@/contentlayer/*": ["./.contentlayer/generated"],
       "@/widgets/*": ["./components/mdx/widgets/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".contentlayer/generated"
+  ],
   "exclude": ["node_modules"]
 }

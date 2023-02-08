@@ -6,7 +6,7 @@ import { cx } from "@/lib/cx";
 
 import { useController } from "./controller";
 
-export function VercelEnvInputs() {
+export default function VercelEnvInputs() {
   const { register, onDelete, onPaste, onAdd, fields, onImport, error } =
     useController();
 

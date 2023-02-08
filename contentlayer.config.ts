@@ -31,7 +31,7 @@ const ReadingTime = defineNestedType(() => ({
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
-  filePathPattern: `**/*.mdx`,
+  filePathPattern: `posts/*.mdx`,
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
@@ -63,9 +63,43 @@ export const Post = defineDocumentType(() => ({
   },
 }));
 
+const ExperimentLink = defineNestedType(() => ({
+  name: "Link",
+  fields: {
+    github: {
+      type: "string",
+    },
+    codesandbox: {
+      type: "string",
+    },
+    url: {
+      type: "string",
+    },
+  },
+}));
+
+export const Experiments = defineDocumentType(() => ({
+  name: "Experiments",
+  filePathPattern: `experiments/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    heading: { type: "string", required: true },
+    links: {
+      type: "nested",
+      of: ExperimentLink,
+    },
+  },
+  computedFields: {
+    slug: {
+      type: "string",
+      resolve: (doc) => doc._raw.sourceFileName.replace(".mdx", ""),
+    },
+  },
+}));
+
 export default makeSource({
   contentDirPath: contentDirPath,
-  documentTypes: [Post],
+  documentTypes: [Post, Experiments],
   mdx: {
     ...mdxOptions,
   },
