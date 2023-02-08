@@ -599,7 +599,31 @@ module.exports = {
         "border-shiny-4": "inset 0 0 0 4px hsl(0deg 0% 100% / 10%)",
         "border-shiny-8": "inset 0 0 0 8px hsl(0deg 0% 100% / 10%)",
       },
+
+      keyframes: {
+        // Tooltip
+        "slide-up-fade": {
+          "0%": { opacity: 0, transform: "translateY(2px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        "slide-right-fade": {
+          "0%": { opacity: 0, transform: "translateX(-2px)" },
+          "100%": { opacity: 1, transform: "translateX(0)" },
+        },
+        "slide-down-fade": {
+          "0%": { opacity: 0, transform: "translateY(-2px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        "slide-left-fade": {
+          "0%": { opacity: 0, transform: "translateX(2px)" },
+          "100%": { opacity: 1, transform: "translateX(0)" },
+        },
+      },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("tailwindcss-radix")(),
+    require("tailwindcss-animate"),
+  ],
 };
