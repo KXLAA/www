@@ -23,10 +23,7 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
   const prev = allExperiments[currentIndex - 1];
 
   return (
-    <Layout
-      className="flex flex-col items-center justify-center max-w-5xl gap-4 px-4 py-4 mx-auto text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
-      key="home-page"
-    >
+    <Layout className="flex flex-col items-center justify-center max-w-5xl gap-4 px-4 py-4 mx-auto text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight">
       <Link
         href="/"
         className="flex items-center self-start gap-2 text-sm transition-all hover:text-silver text-silver-800"
