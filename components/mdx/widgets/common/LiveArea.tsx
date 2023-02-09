@@ -17,7 +17,7 @@ export function LiveArea(props: LiveAreaProps) {
 
   const { children, className, footer, status } = props;
   return (
-    <div className="relative flex flex-col justify-end w-full p-2 rounded-xl bg-shark-800">
+    <div className="relative flex flex-col justify-end w-full p-2 border rounded-xl bg-cod-gray-800 border-cod-gray-600">
       <div
         className={cx(
           "flex flex-col justify-end w-full h-60 md:p-10 p-6 rounded-xl live-area bg-shark-900",
