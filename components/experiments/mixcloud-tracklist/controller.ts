@@ -33,17 +33,17 @@ export function useController() {
     }
   };
 
-  const firstField = watch(`tracklist.0.artist`);
+  const firstField = watch(`tracklist.0`);
   React.useEffect(() => {
     if (fields.length > 0) {
       setPasted(true);
     }
 
-    if (firstField?.length === 0) {
+    if (firstField?.artist.length === 0 && firstField?.trackName.length <= 0) {
       setPasted(false);
       remove(0);
     }
-  }, [fields.length, firstField?.length, remove]);
+  }, [fields.length, firstField?.artist.length, firstField?.trackName.length]);
 
   const onPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -82,6 +82,8 @@ export function useController() {
       };
     });
 
+    console.log(newTracklist);
+
     replace(newTracklist);
   };
 
@@ -93,6 +95,7 @@ export function useController() {
   const hidePastedMessage = () => {
     setPastedMessage(false);
   };
+
   const onAddNewTrack = () => {
     append({
       artist: "",
