@@ -84,6 +84,9 @@ export const Experiments = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     heading: { type: "string", required: true },
+    source: {
+      type: "string",
+    },
     links: {
       type: "nested",
       of: ExperimentLink,
