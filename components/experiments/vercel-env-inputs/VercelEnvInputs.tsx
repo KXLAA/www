@@ -11,7 +11,7 @@ export default function VercelEnvInputs() {
     useController();
 
   return (
-    <div className="flex flex-col w-full gap-3 border rounded-lg bg-shark-800 border-shark-600">
+    <div className="flex flex-col w-full gap-3 border rounded-lg shadow-lg bg-cod-gray-900 border-cod-gray-400">
       <div className="flex flex-col w-full gap-3 p-4">
         <div className="grid grid-cols-2 text-xs text-silver-700">
           <span>Key</span>
@@ -29,7 +29,7 @@ export default function VercelEnvInputs() {
               />
               <Input {...register(`env.${index}.value`)} placeholder="Value" />
               <button type="button" onClick={() => onDelete(index)}>
-                <MinusCircle className="w-4 h-4 text-shark-300 hover:text-shark-100" />
+                <MinusCircle className="w-4 h-4 text-cod-gray-100 hover:text-cod-gray-50" />
               </button>
             </li>
           ))}
@@ -37,20 +37,20 @@ export default function VercelEnvInputs() {
 
         <button
           className={cx(
-            "transition relative flex text-xs items-center justify-center px-2 w-fit py-1 rounded text-silver-600 bg-shark-900 border border-shark-600",
-            "hover:bg-shark-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-shark-800 focus-visible:ring-shark-500"
+            "transition relative flex text-xs items-center justify-center px-2 w-fit py-1 rounded text-silver-600 bg-cod-gray-600 border border-cod-gray-400",
+            "hover:bg-cod-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-cod-gray-800 focus-visible:ring-cod-gray-500"
           )}
           onClick={onAdd}
         >
           Add Another <PlusCircle className="w-3 h-3 ml-2 text-silver-900" />
         </button>
       </div>
-      <div className="flex items-center justify-between gap-4 p-4 border-t border-shark-600">
+      <div className="flex items-center justify-between gap-4 p-4 border-t border-cod-gray-500">
         <div className="flex items-center justify-between gap-4 ">
           <button
             className={cx(
-              "transition relative flex text-xs items-center justify-center px-2 w-fit py-1 rounded text-silver-600 bg-shark-900 border border-shark-600",
-              "hover:bg-shark-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-shark-800 focus-visible:ring-shark-500"
+              "transition relative flex text-xs items-center justify-center px-2 w-fit py-1 rounded text-silver-600 bg-cod-gray-600 border border-cod-gray-400",
+              "hover:bg-cod-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-cod-gray-800 focus-visible:ring-cod-gray-500"
             )}
           >
             Import <Import className="w-3 h-3 ml-2 text-silver-900" />
@@ -85,7 +85,7 @@ const Input = React.forwardRef<
 >((props, ref) => {
   return (
     <input
-      className="w-full px-2 py-1.5 text-xs rounded text-silver-500 placeholder:text-silver-900 bg-shark-900 border border-shark-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-shark-800 focus:ring-shark-500 transition self-start"
+      className="w-full px-2 py-1.5 text-xs rounded text-silver-500 placeholder:text-silver-900 bg-cod-gray-800 border border-cod-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cod-gray-800 focus:ring-cod-gray-500 transition self-start"
       ref={ref}
       {...props}
     />

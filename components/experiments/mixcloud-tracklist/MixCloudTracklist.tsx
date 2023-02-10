@@ -36,27 +36,27 @@ export default function MixCloudTrackList() {
       </Show>
 
       <Show when={pasted}>
-        <div className="grid grid-cols-12 gap-1">
-          <div className="p-4 text-xs font-medium text-silver-700 bg-shark-800">
+        <div className="grid grid-cols-12 gap-0.5">
+          <div className="p-4 text-xs font-medium text-silver-700 bg-cod-gray-500">
             #
           </div>
-          <div className="flex items-center justify-center col-span-4 p-3 text-xs font-medium text-silver-700 bg-shark-800">
+          <div className="flex items-center justify-center col-span-4 p-3 text-xs font-medium text-silver-700 bg-cod-gray-500">
             Artist
           </div>
-          <div className="flex items-center justify-center col-span-4 p-3 text-xs font-medium text-silver-700 bg-shark-800">
+          <div className="flex items-center justify-center col-span-4 p-3 text-xs font-medium text-silver-700 bg-cod-gray-500">
             Track Name
           </div>
-          <div className="flex items-center justify-center col-span-3 p-3 text-xs font-medium text-silver-700 bg-shark-800">
+          <div className="flex items-center justify-center col-span-3 p-3 text-xs font-medium text-silver-700 bg-cod-gray-500">
             Start time
           </div>
           {fields.map((field, index) => (
             <React.Fragment key={field.id}>
-              <div className="p-4 text-xs text-silver-500 bg-shark-800">
+              <div className="p-4 text-xs text-silver-500 bg-cod-gray-500">
                 {index + 1}
               </div>
               <input
                 className={cx(
-                  "flex items-center justify-center col-span-4 p-3 text-xs text-silver-500 bg-shark-700 focus:text-silver-200 focus:bg-shark-100 focus:outline-none",
+                  "flex items-center justify-center col-span-4 p-3 text-xs text-silver-500 bg-cod-gray-400 focus:text-silver-200 focus:bg-cod-gray-200 focus:outline-none",
                   field?.chapter ? "col-span-8" : "col-span-4"
                 )}
                 {...register(`tracklist.${index}.artist` as const)}
@@ -64,7 +64,7 @@ export default function MixCloudTrackList() {
               />
               <input
                 className={cx(
-                  "flex items-center justify-center col-span-4 p-3 text-xs text-silver-500 bg-shark-700 focus:text-silver-200 focus:bg-shark-100 focus:outline-none",
+                  "flex items-center justify-center col-span-4 p-3 text-xs text-silver-500 bg-cod-gray-400 focus:text-silver-200 focus:bg-cod-gray-200 focus:outline-none",
                   field?.chapter && "hidden"
                 )}
                 {...register(`tracklist.${index}.trackName` as const)}
@@ -94,20 +94,20 @@ export default function MixCloudTrackList() {
         <div className="flex items-center justify-center gap-2 mt-4">
           <button
             onClick={onAdd.newTrack}
-            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-shark-900 border-shark-600 hover:bg-shark-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-shark-800 focus:ring-shark-500"
+            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-cod-gray-900 border-cod-gray-600 hover:bg-cod-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cod-gray-800 focus:ring-cod-gray-500"
           >
             Add a new track row at the end
           </button>
           <button
             onClick={onAdd.newChapter}
-            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-shark-900 border-shark-600 hover:bg-shark-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-shark-800 focus:ring-shark-500"
+            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-cod-gray-900 border-cod-gray-600 hover:bg-cod-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cod-gray-800 focus:ring-cod-gray-500"
           >
             Add a new chapter row at the end
           </button>
 
           <button
             onClick={toggleTitleAndArtist}
-            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-shark-900 border-shark-600 hover:bg-shark-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-shark-800 focus:ring-shark-500"
+            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-cod-gray-900 border-cod-gray-600 hover:bg-cod-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cod-gray-800 focus:ring-cod-gray-500"
           >
             Swap Artist and Track columns
           </button>
@@ -123,7 +123,7 @@ const TextArea = React.forwardRef<
 >((props, ref) => {
   return (
     <textarea
-      className="w-full px-2 py-1.5 text-xs rounded text-silver-500 placeholder:text-silver-900 bg-shark-900 border border-shark-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-shark-800 focus:ring-shark-500 transition self-start resize-none h-40 placeholder:text-center block placeholder:relative placeholder:top-2/4  placeholder:-translate-y-2/4 placeholder:font-medium"
+      className="w-full px-2 py-1.5 text-xs rounded text-silver-500 placeholder:text-silver-900 bg-cod-gray-800 border border-cod-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cod-gray-800 focus:ring-cod-gray-500 transition self-start resize-none h-40 placeholder:text-center block placeholder:relative placeholder:top-2/4  placeholder:-translate-y-2/4 placeholder:font-medium"
       ref={ref}
       {...props}
     />
@@ -150,11 +150,11 @@ function StartTime(props: StartTimeProps) {
 
   return (
     <div
-      className="flex items-center justify-center col-span-3 gap-2 text-xs text-silver-500 bg-shark-700 hover:bg-shark-100"
+      className="flex items-center justify-center col-span-3 gap-2 text-xs text-silver-500 bg-cod-gray-400 hover:bg-cod-gray-200"
       ref={ref}
     >
       <input
-        className="flex items-center justify-center w-full h-full col-span-3 p-3 text-xs bg-transparent text-silver-500 bg-shark-700 focus:text-silver-200 focus:bg-shark-100 focus:outline-none"
+        className="flex items-center justify-center w-full h-full col-span-3 p-3 text-xs bg-transparent text-silver-500 bg-cod-gray-700 focus:text-silver-200 focus:bg-cod-gray-100 focus:outline-none"
         {...register(`tracklist.${index}.startTime` as const)}
         placeholder="0.00"
         readOnly
@@ -166,7 +166,7 @@ function StartTime(props: StartTimeProps) {
             <Tooltip content="Convert to Track">
               <button
                 onClick={() => convert.toTrack(index, field)}
-                className="w-6 h-6 transition rounded aspect-square bg-shark-600 hover:bg-shark-500"
+                className="w-6 h-6 transition rounded aspect-square bg-cod-gray-400 hover:bg-cod-gray-200"
               >
                 T
               </button>
@@ -175,7 +175,7 @@ function StartTime(props: StartTimeProps) {
             <Tooltip content="Convert to Chapter">
               <button
                 onClick={() => convert.toChapter(index, field)}
-                className="w-6 h-6 transition rounded aspect-square bg-shark-600 hover:bg-shark-500"
+                className="w-6 h-6 transition rounded aspect-square bg-cod-gray-600 hover:bg-cod-gray-500"
               >
                 C
               </button>
@@ -184,7 +184,7 @@ function StartTime(props: StartTimeProps) {
           <Tooltip content="Remove">
             <button
               onClick={() => onRemove(index)}
-              className="w-6 h-6 transition rounded aspect-square bg-shark-600 hover:bg-shark-500"
+              className="w-6 h-6 transition rounded aspect-square bg-cod-gray-600 hover:bg-cod-gray-500"
             >
               R
             </button>

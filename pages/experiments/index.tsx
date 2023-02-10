@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import type { GetStaticProps } from "next";
 import Link from "next/link";
 
@@ -26,10 +27,12 @@ export default function Experiments(props: ExperimentsProps) {
     >
       <Link
         href="/"
-        className="px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
+        className="flex items-center self-start gap-1 px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
       >
-        BACK
+        <ArrowLeft className="w-3 h-3 text-silver-700" />
+        Back
       </Link>
+
       <div className="grid gap-2 md:grid-cols-3 2xl:grid-cols-4">
         {experiments.map((experiment) => (
           <ExperimentCard {...experiment} key={experiment.slug} />

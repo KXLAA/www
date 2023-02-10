@@ -88,6 +88,7 @@ export function useController() {
   };
 
   const resetPasted = () => {
+    setPastedMessage(false);
     setPasted(false);
     replace([]); // reset tracklist
   };
