@@ -13,6 +13,7 @@ type ExperimentsProps = {
 
 export default function Experiments(props: ExperimentsProps) {
   const { experiments } = props;
+
   return (
     <Layout
       className="flex flex-col justify-center gap-4 p-2"
