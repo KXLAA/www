@@ -1,8 +1,8 @@
 import type { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
+import { GripVertical } from "lucide-react";
 import React from "react";
 
 import { cx } from "@/lib/cx";
@@ -56,7 +56,7 @@ export function SortableItem(props: SortableItemProps) {
               transition={{ duration: 0.2 }}
               exit={{ opacity: 0 }}
             >
-              <DragHandleDots2Icon
+              <GripVertical
                 className={cx(
                   "w-5 h-5 transition-opacity cursor-grab active:cursor-grabbing focus:outline-none text-silver-800"
                 )}
@@ -95,7 +95,7 @@ export function OverlayItem(props: OverlayItemProps) {
         <AnimatePresence>
           {showDragHandles && (
             <div>
-              <DragHandleDots2Icon
+              <GripVertical
                 className={cx(
                   "w-5 h-5 transition-opacity cursor-grab active:cursor-grabbing focus:outline-none text-silver-800"
                 )}

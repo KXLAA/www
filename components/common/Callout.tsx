@@ -1,13 +1,9 @@
 import {
-  ChevronDownIcon,
-  ExclamationTriangleIcon,
-  QuestionMarkCircledIcon,
-} from "@radix-ui/react-icons";
-import {
   Disclosure,
   DisclosureContent,
   useDisclosureState,
 } from "ariakit/disclosure";
+import { AlertTriangle, ChevronDown, Info } from "lucide-react";
 
 import { AnimateHeight } from "@/components/animation/AnimateHeight";
 import { cx } from "@/lib/cx";
@@ -25,9 +21,9 @@ export function Callout(props: CalloutProps) {
   const { intent, children, heading, dropdown } = props;
   const icon =
     intent === "danger" ? (
-      <ExclamationTriangleIcon className="w-4 h-5 shrink-0" />
+      <AlertTriangle className="w-4 h-5 shrink-0" />
     ) : intent === "info" ? (
-      <QuestionMarkCircledIcon className="w-5 h-5 shrink-0" />
+      <Info className="w-5 h-5 shrink-0" />
     ) : null;
 
   return dropdown ? (
@@ -60,7 +56,7 @@ export function Callout(props: CalloutProps) {
               intent === "default" && "bg-shark-400 p-1 border-shark-300"
             )}
           >
-            <ChevronDownIcon
+            <ChevronDown
               className={cx(
                 "w-5 h-5",
                 disclosure.open

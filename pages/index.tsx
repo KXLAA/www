@@ -113,7 +113,7 @@ export default function Home(props: HomeProps) {
       >
         <div className="grid gap-4 md:grid-cols-2">
           {props.experiments.slice(0, 2).map((experiment) => (
-            <ExperimentCard {...experiment} key={experiment.slug} />
+            <ExperimentCard {...experiment} key={experiment.slug} size="sm" />
           ))}
         </div>
 
