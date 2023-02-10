@@ -5,15 +5,20 @@ import Link from "next/link";
 import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
+import { ExperimentCard } from "@/components/experiments/common/ExperimentCard";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { Section } from "@/components/home/Section";
 import { useCopyEmail } from "@/components/home/use-copy-email";
-import type { Post as PostType } from "@/contentlayer/generated";
-import { allPosts } from "@/contentlayer/generated";
+import type {
+  Experiments as ExperimentsType,
+  Post as PostType,
+} from "@/contentlayer/generated";
+import { allExperiments, allPosts } from "@/contentlayer/generated";
 import { getMinimalPostDetails } from "@/lib/api";
 
 type HomeProps = {
   posts: PostType[];
+  experiments: ExperimentsType[];
 };
 
 export default function Home(props: HomeProps) {
@@ -54,7 +59,7 @@ export default function Home(props: HomeProps) {
       <div className="flex flex-col gap-2">
         <h2 className="text-xs font-semibold">PROJECTS</h2>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid gap-3 md:grid-cols-2">
           <ProjectCard
             link="https://www.nartefacts.com/"
             title="Nartefacts"
@@ -106,15 +111,10 @@ export default function Home(props: HomeProps) {
         description="Recreating some of my favorite ui interactions & building new
         prototypes."
       >
-        <div className="grid grid-cols-2 gap-4">
-          <Link
-            href="/"
-            className="flex gap-3 p-3 transition-colors border rounded-md h-36 hover:bg-cod-gray-500 border-cod-gray-400"
-          ></Link>
-          <Link
-            href="/"
-            className="flex gap-3 p-3 transition-colors border rounded-md h-36 hover:bg-cod-gray-500 border-cod-gray-400"
-          ></Link>
+        <div className="grid gap-4 md:grid-cols-2">
+          {props.experiments.slice(0, 2).map((experiment) => (
+            <ExperimentCard {...experiment} key={experiment.slug} />
+          ))}
         </div>
 
         <Link
@@ -138,6 +138,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       posts: getMinimalPostDetails(posts),
+      experiments: allExperiments,
     },
   };
 };

@@ -84,9 +84,8 @@ export const Experiments = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     heading: { type: "string", required: true },
-    source: {
-      type: "string",
-    },
+    mp4: { type: "string", required: true },
+    webm: { type: "string", required: true },
     links: {
       type: "nested",
       of: ExperimentLink,
