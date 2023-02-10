@@ -1,6 +1,6 @@
 import copy from "copy-to-clipboard";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { IoChevronBackCircleSharp } from "react-icons/io5";
 import { SiCodesandbox } from "react-icons/si";
 import { TfiLink } from "react-icons/tfi";
 
@@ -9,7 +9,6 @@ import { Show } from "@/components/common/Show";
 import { Tooltip } from "@/components/common/Tooltip";
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { allExperiments } from "@/contentlayer/generated";
-import { BASE_URL } from "@/lib/constants";
 import { cx } from "@/lib/cx";
 
 type ExperimentLayoutProps = ExperimentsType & {
@@ -18,18 +17,18 @@ type ExperimentLayoutProps = ExperimentsType & {
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
   const { children, heading, slug } = props;
-  const currentIndex = allExperiments.findIndex((p) => p.slug === slug);
-  const next = allExperiments[currentIndex + 1];
-  const prev = allExperiments[currentIndex - 1];
+  const current = allExperiments.findIndex((p) => p.slug === slug);
+  const next = allExperiments[current + 1];
+  const prev = allExperiments[current - 1];
 
   return (
     <Layout className="flex flex-col items-center justify-center max-w-5xl gap-4 px-4 py-4 mx-auto text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight">
       <Link
         href="/experiments"
-        className="flex items-center self-start gap-2 text-sm transition-all hover:text-silver text-silver-800"
+        className="flex items-center self-start gap-1 px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
       >
-        <IoChevronBackCircleSharp className="w-4 h-4" />
-        <span>Experiments</span>
+        <ArrowLeft className="w-3 h-3 text-silver-700" />
+        Experiments
       </Link>
 
       <div className="flex justify-between w-full">
@@ -42,7 +41,7 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
           <AnchorLink
             icon={<TfiLink className="w-4 h-4" />}
             tooltipMessage="Copy Link"
-            onClick={() => copy(`${BASE_URL}${slug}`)}
+            onClick={() => copy(`${getBaseUrl()}/experiments/${slug}`)}
           />
           <AnchorLink
             icon={<SiCodesandbox className="w-4 h-4" />}
@@ -51,7 +50,7 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
         </div>
       </div>
 
-      <div className="w-full p-8 border border-dashed rounded-lg border-shark-600 grid-bg">
+      <div className="w-full p-8 border border-dashed rounded-lg border-shark-600 grid-bg bg-cod-gray-800">
         {children}
       </div>
 
@@ -119,5 +118,13 @@ function Navigation(props: NavigationProps) {
         {experiment?.heading}
       </span>
     </Link>
+  );
+}
+
+export function getBaseUrl() {
+  return (
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    process.env.NEXT_PUBLIC_VERCEL_URL ??
+    "http://localhost:3000"
   );
 }

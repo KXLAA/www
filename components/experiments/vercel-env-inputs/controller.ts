@@ -1,3 +1,4 @@
+import copy from "copy-to-clipboard";
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -63,6 +64,10 @@ export function useController() {
     }
   };
 
+  const onCopyLink = (link: string) => {
+    copy(link);
+  };
+
   return {
     register,
     onDelete,
@@ -73,6 +78,7 @@ export function useController() {
     env,
     onImport,
     error,
+    onCopyLink,
   };
 }
 
