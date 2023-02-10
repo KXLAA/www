@@ -29,7 +29,7 @@ export default function Experiments(props: ExperimentsProps) {
       >
         BACK
       </Link>
-      <div className="grid gap-2 md:grid-cols-3">
+      <div className="grid gap-2 md:grid-cols-3 2xl:grid-cols-4">
         {experiments.map((experiment) => (
           <ExperimentCard {...experiment} key={experiment.slug} />
         ))}
