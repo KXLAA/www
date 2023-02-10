@@ -56,7 +56,7 @@ export default function MixCloudTrackList() {
               </div>
               <input
                 className={cx(
-                  "flex items-center justify-center col-span-4 p-3 text-xs text-silver-500 bg-cod-gray-400 focus:text-silver-200 focus:bg-cod-gray-200 focus:outline-none",
+                  "flex items-center justify-center col-span-4 p-3 text-xs text-silver-500 bg-cod-gray-400 focus:text-silver-200 focus:bg-cod-gray-200 focus:outline-none hover:bg-cod-gray-200",
                   field?.chapter ? "col-span-8" : "col-span-4"
                 )}
                 {...register(`tracklist.${index}.artist` as const)}
@@ -64,7 +64,7 @@ export default function MixCloudTrackList() {
               />
               <input
                 className={cx(
-                  "flex items-center justify-center col-span-4 p-3 text-xs text-silver-500 bg-cod-gray-400 focus:text-silver-200 focus:bg-cod-gray-200 focus:outline-none",
+                  "flex items-center justify-center col-span-4 p-3 text-xs text-silver-500 bg-cod-gray-400 focus:text-silver-200 focus:bg-cod-gray-200 focus:outline-none hover:bg-cod-gray-200",
                   field?.chapter && "hidden"
                 )}
                 {...register(`tracklist.${index}.trackName` as const)}
@@ -94,20 +94,29 @@ export default function MixCloudTrackList() {
         <div className="flex items-center justify-center gap-2 mt-4">
           <button
             onClick={onAdd.newTrack}
-            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-cod-gray-900 border-cod-gray-600 hover:bg-cod-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cod-gray-800 focus:ring-cod-gray-500"
+            className={cx(
+              "transition relative flex text-xs items-center justify-center px-2 w-fit py-1 rounded text-silver-600 bg-cod-gray-600 border border-cod-gray-400",
+              "hover:bg-cod-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-cod-gray-800 focus-visible:ring-cod-gray-500"
+            )}
           >
             Add a new track row at the end
           </button>
           <button
             onClick={onAdd.newChapter}
-            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-cod-gray-900 border-cod-gray-600 hover:bg-cod-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cod-gray-800 focus:ring-cod-gray-500"
+            className={cx(
+              "transition relative flex text-xs items-center justify-center px-2 w-fit py-1 rounded text-silver-600 bg-cod-gray-600 border border-cod-gray-400",
+              "hover:bg-cod-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-cod-gray-800 focus-visible:ring-cod-gray-500"
+            )}
           >
             Add a new chapter row at the end
           </button>
 
           <button
             onClick={toggleTitleAndArtist}
-            className="flex items-center justify-center px-4 py-2 text-xs font-medium transition border rounded text-silver-500 bg-cod-gray-900 border-cod-gray-600 hover:bg-cod-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-cod-gray-800 focus:ring-cod-gray-500"
+            className={cx(
+              "transition relative flex text-xs items-center justify-center px-2 w-fit py-1 rounded text-silver-600 bg-cod-gray-600 border border-cod-gray-400",
+              "hover:bg-cod-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-cod-gray-800 focus-visible:ring-cod-gray-500"
+            )}
           >
             Swap Artist and Track columns
           </button>
@@ -154,7 +163,7 @@ function StartTime(props: StartTimeProps) {
       ref={ref}
     >
       <input
-        className="flex items-center justify-center w-full h-full col-span-3 p-3 text-xs bg-transparent text-silver-500 bg-cod-gray-700 focus:text-silver-200 focus:bg-cod-gray-100 focus:outline-none"
+        className="flex items-center justify-center w-full h-full col-span-3 p-3 text-xs bg-transparent text-silver-500 bg-cod-gray-700 focus:text-silver-200 focus:bg-cod-gray-200 focus:outline-none hover:bg-cod-gray-200"
         {...register(`tracklist.${index}.startTime` as const)}
         placeholder="0.00"
         readOnly
@@ -166,7 +175,7 @@ function StartTime(props: StartTimeProps) {
             <Tooltip content="Convert to Track">
               <button
                 onClick={() => convert.toTrack(index, field)}
-                className="w-6 h-6 transition rounded aspect-square bg-cod-gray-400 hover:bg-cod-gray-200"
+                className="w-6 h-6 transition rounded aspect-square bg-cod-gray-600 hover:bg-cod-gray-500"
               >
                 T
               </button>
