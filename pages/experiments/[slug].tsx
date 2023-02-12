@@ -8,7 +8,12 @@ import { allExperiments } from "@/contentlayer/generated";
 import { getPublished } from "@/lib/api";
 
 const VercelEnvInputs = dynamic(
-  () => import("@/components/experiments/vercel-env-inputs/VercelEnvInputs")
+  () => import("@/components/experiments/vercel-env-inputs/VercelEnvInputs"),
+  {
+    loading: () => (
+      <div className="h-[201px] bg-cod-gray-600 border border-cod-gray-900 animate-pulse rounded-lg shadow-lg" />
+    ),
+  }
 );
 
 const MixCloudTrackList = dynamic(
