@@ -3,7 +3,7 @@ import React from "react";
 
 export function useCopyEmail() {
   const [copied, setCopied] = React.useState(false);
-  const email = process.env.EMAIL;
+  const email = process.env.NEXT_PUBLIC_EMAIL;
 
   React.useEffect(() => {
     if (copied) {
