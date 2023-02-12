@@ -19,7 +19,7 @@ type ExperimentLayoutProps = ExperimentsType & {
 };
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
-  const { children, title, slug, customMeta } = props;
+  const { children, title, slug, customMeta, codesandbox } = props;
   const publishedExperiments = getPublished(allExperiments);
 
   const current = publishedExperiments.findIndex((p) => p.slug === slug);
@@ -51,10 +51,13 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
             tooltipMessage="Copy Link"
             onClick={() => copy(`${getBaseUrl()}/experiments/${slug}`)}
           />
-          <AnchorLink
-            icon={<SiCodesandbox className="w-4 h-4" />}
-            tooltipMessage="View on Codesandbox"
-          />
+          <Show when={!!codesandbox}>
+            <AnchorLink
+              icon={<SiCodesandbox className="w-4 h-4" />}
+              tooltipMessage="View on Codesandbox"
+              href={codesandbox}
+            />
+          </Show>
         </div>
       </div>
 

@@ -103,21 +103,6 @@ export const Post = defineDocumentType(() => ({
   },
 }));
 
-const ExperimentLink = defineNestedType(() => ({
-  name: "Link",
-  fields: {
-    github: {
-      type: "string",
-    },
-    codesandbox: {
-      type: "string",
-    },
-    url: {
-      type: "string",
-    },
-  },
-}));
-
 export const Experiments = defineDocumentType(() => ({
   name: "Experiments",
   filePathPattern: `experiments/*.mdx`,
@@ -127,9 +112,11 @@ export const Experiments = defineDocumentType(() => ({
     publishedAt: { type: "string", required: true },
     mp4: { type: "string", required: true },
     webm: { type: "string", required: true },
-    links: {
-      type: "nested",
-      of: ExperimentLink,
+    codesandbox: {
+      type: "string",
+    },
+    github: {
+      type: "string",
     },
   },
   computedFields: {
