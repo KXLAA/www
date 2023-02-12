@@ -15,6 +15,7 @@ import type {
 } from "@/contentlayer/generated";
 import { allExperiments, allPosts } from "@/contentlayer/generated";
 import { getMinimalPostDetails } from "@/lib/api";
+import { formatDate } from "@/lib/date";
 
 type HomeProps = {
   posts: PostType[];
@@ -37,9 +38,9 @@ export default function Home(props: HomeProps) {
         </p>
 
         <div className="flex gap-4">
-          <button className="px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400">
+          {/* <button className="px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400">
             About
-          </button>
+          </button> */}
 
           <button
             className="flex items-center justify-center gap-1 px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400"
@@ -47,11 +48,9 @@ export default function Home(props: HomeProps) {
           >
             <Copy className="w-3 h-3 text-silver-700" />
 
-            {copied ? (
-              <span className="text-xs text-silver-700">Copied</span>
-            ) : (
-              <span className="text-xs text-silver-700">E-mail</span>
-            )}
+            <span className="text-xs text-silver-700">
+              {copied ? "Copied" : "E-mail"}
+            </span>
           </button>
         </div>
       </div>
@@ -82,17 +81,20 @@ export default function Home(props: HomeProps) {
       >
         <div className="flex flex-col gap-2">
           {props.posts.slice(0, 3).map((post) => (
-            <Link
-              href={`/posts/${post.slug}`}
-              key={post.slug}
-              className="flex gap-3 p-3 transition-colors rounded-md hover:bg-cod-gray-500"
-            >
-              <div className="w-10 h-10 border rounded border-cod-gray-400" />
-              <div className="flex flex-col gap-0.5">
-                <p className="text-sm font-semibold">{post.title}</p>
-                <p className="text-xs text-silver-800">React</p>
-              </div>
-            </Link>
+            <>
+              <Link
+                href={`/posts/${post.slug}`}
+                key={post.slug}
+                className="flex gap-3 p-3 transition-colors rounded-md hover:bg-cod-gray-500"
+              >
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-sm font-semibold">{post.title}</p>
+                  <p className="mt-0.5 text-xs text-[10px] font-normal text-silver-900">
+                    {formatDate(post.publishedAt, "MM/dd/yyyy")}
+                  </p>
+                </div>
+              </Link>
+            </>
           ))}
 
           <Show when={props.posts.length > 3}>
