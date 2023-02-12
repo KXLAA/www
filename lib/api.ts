@@ -12,7 +12,7 @@ export type PostHeading = {
   level?: number;
 };
 
-function getPublished<T extends { slug: string }>(content: T[]) {
+export function getPublished<T extends { slug: string }>(content: T[]) {
   return content.filter((c) => !c.slug.startsWith("_"));
 }
 
