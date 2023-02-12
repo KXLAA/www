@@ -1,3 +1,7 @@
+import * as fs from "node:fs/promises";
+import path from "node:path";
+
+import type { DocumentGen } from "contentlayer/core";
 import {
   defineDocumentType,
   defineNestedType,
@@ -5,8 +9,44 @@ import {
 } from "contentlayer/source-files";
 import readingTime from "reading-time";
 
-import { contentDirPath, getHeadings, getLastEditedDate } from "./lib/api";
 import { mdxOptions } from "./lib/mdx-config";
+
+export const contentDirPath = "content";
+
+type PostHeading = {
+  id?: string;
+  content?: string;
+  link?: string;
+  level?: number;
+};
+
+function getHeadings(source: string): PostHeading[] {
+  //get all heading levels from markdown source, including #, ##, ###, etc.
+  const headings = source.match(/#+\s(.*?)\n/g);
+
+  //return array of objects with heading names and ids
+  return (
+    headings?.map((h, i) => {
+      const content = h.match(/#+\s(.*?)\n/)?.[1];
+      const type = headings?.[i].match(/#+/)?.[0];
+      const slug = content?.replace(/ /g, "-").toLowerCase();
+      const link = "#" + slug;
+      return {
+        id: slug || "",
+        content: content || "",
+        link: link || "",
+        level: type?.length || 0,
+      };
+    }) || []
+  );
+}
+
+async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
+  const stats = await fs.stat(
+    path.join(contentDirPath, doc._raw.sourceFilePath)
+  );
+  return stats.mtime;
+}
 
 const ReadingTime = defineNestedType(() => ({
   name: "readingTime",
@@ -31,7 +71,7 @@ const ReadingTime = defineNestedType(() => ({
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
-  filePathPattern: `**/*.mdx`,
+  filePathPattern: `posts/*.mdx`,
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
@@ -63,9 +103,45 @@ export const Post = defineDocumentType(() => ({
   },
 }));
 
+export const Experiments = defineDocumentType(() => ({
+  name: "Experiments",
+  filePathPattern: `experiments/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: { type: "string", required: true },
+    publishedAt: { type: "string", required: true },
+    mp4: { type: "string", required: true },
+    webm: { type: "string", required: true },
+    codesandbox: {
+      type: "string",
+    },
+    github: {
+      type: "string",
+    },
+  },
+  computedFields: {
+    slug: {
+      type: "string",
+      resolve: (doc) => doc._raw.sourceFileName.replace(".mdx", ""),
+    },
+  },
+}));
+
+export const Projects = defineDocumentType(() => ({
+  name: "Projects",
+  filePathPattern: `projects/*.json`,
+  contentType: "data",
+  fields: {
+    title: { type: "string", required: true },
+    description: { type: "string", required: true },
+    image: { type: "string", required: true },
+    link: { type: "string", required: true },
+  },
+}));
+
 export default makeSource({
   contentDirPath: contentDirPath,
-  documentTypes: [Post],
+  documentTypes: [Post, Experiments, Projects],
   mdx: {
     ...mdxOptions,
   },
