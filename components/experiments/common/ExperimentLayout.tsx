@@ -9,6 +9,7 @@ import { Show } from "@/components/common/Show";
 import { Tooltip } from "@/components/common/Tooltip";
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { allExperiments } from "@/contentlayer/generated";
+import { getPublished } from "@/lib/api";
 import { cx } from "@/lib/cx";
 
 type ExperimentLayoutProps = ExperimentsType & {
@@ -17,9 +18,11 @@ type ExperimentLayoutProps = ExperimentsType & {
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
   const { children, title, slug } = props;
-  const current = allExperiments.findIndex((p) => p.slug === slug);
-  const next = allExperiments[current + 1];
-  const prev = allExperiments[current - 1];
+  const publishedExperiments = getPublished(allExperiments);
+
+  const current = publishedExperiments.findIndex((p) => p.slug === slug);
+  const next = publishedExperiments[current + 1];
+  const prev = publishedExperiments[current - 1];
 
   return (
     <Layout className="flex flex-col items-center justify-center max-w-5xl gap-4 px-4 py-4 mx-auto text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight">

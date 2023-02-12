@@ -31,7 +31,7 @@ export default function Experiments(props: ExperimentsProps) {
         className="flex items-center self-start gap-1 px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
       >
         <ArrowLeft className="w-3 h-3 text-silver-700" />
-        Back
+        Home
       </Link>
 
       <div className="grid gap-2 md:grid-cols-3 2xl:grid-cols-4">
