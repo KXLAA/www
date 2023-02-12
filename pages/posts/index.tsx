@@ -6,6 +6,7 @@ import { Layout } from "@/components/common/Layout";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
 import { getMinimalPostDetails } from "@/lib/api";
+import { formatDate } from "@/lib/date";
 
 type PostsProps = {
   posts: PostType[];
@@ -29,7 +30,7 @@ export default function Posts(props: PostsProps) {
         BACK
       </Link>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-4">
         {posts.map((post) => (
           <ArticleCard {...post} key={post.slug} />
         ))}
@@ -44,16 +45,24 @@ type ArticleCardProps = {
   description?: string;
   image?: string;
   slug: string;
+  publishedAt: string;
 };
 
 function ArticleCard(props: ArticleCardProps) {
-  const { title, slug } = props;
+  const { title, slug, description, publishedAt } = props;
+
   return (
-    <Link className="flex flex-col w-full gap-2" href={`/posts/${slug}`}>
-      <div className="w-full h-40 border rounded border-cod-gray-400 bg-cod-gray-600" />
+    <Link
+      className="flex gap-3 p-3 transition-colors rounded-md hover:bg-cod-gray-500"
+      href={`/posts/${slug}`}
+    >
       <div className="flex flex-col gap-1">
-        <p className="text-sm font-semibold">{title || "Article Title"}</p>
-        <p className="text-xs text-silver-800">React</p>
+        <p className="text-base font-semibold">{title}</p>
+        <p className="text-sm text-silver-800">{description}</p>
+
+        <p className="mt-1 text-xs text-silver-900">
+          {formatDate(publishedAt, "MM/dd/yyyy")}
+        </p>
       </div>
     </Link>
   );

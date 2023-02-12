@@ -7,8 +7,7 @@ import { cx } from "@/lib/cx";
 import { useController } from "./controller";
 
 export default function VercelEnvInputs() {
-  const { register, onDelete, onPaste, onAdd, fields, onImport, error } =
-    useController();
+  const controller = useController();
 
   return (
     <div className="flex flex-col w-full gap-3 border rounded-lg shadow-lg bg-cod-gray-900 border-cod-gray-400">
@@ -19,16 +18,19 @@ export default function VercelEnvInputs() {
         </div>
 
         <ul className="flex flex-col gap-2">
-          {fields.map((item, index) => (
+          {controller.fields.map((item, index) => (
             <li key={item.id} className="flex justify-between gap-2">
               <Input
-                {...register(`env.${index}.envKey`)}
+                {...controller.register(`env.${index}.envKey`)}
                 type="text"
                 placeholder="e.g CLIENT_KEY"
-                onPaste={(e) => onPaste(e, index)}
+                onPaste={(e) => controller.onPaste(e, index)}
               />
-              <Input {...register(`env.${index}.value`)} placeholder="Value" />
-              <button type="button" onClick={() => onDelete(index)}>
+              <Input
+                {...controller.register(`env.${index}.value`)}
+                placeholder="Value"
+              />
+              <button type="button" onClick={() => controller.onDelete(index)}>
                 <MinusCircle className="w-4 h-4 text-cod-gray-100 hover:text-cod-gray-50" />
               </button>
             </li>
@@ -40,7 +42,7 @@ export default function VercelEnvInputs() {
             "transition relative flex text-xs items-center justify-center px-2 w-fit py-1 rounded text-silver-600 bg-cod-gray-600 border border-cod-gray-400",
             "hover:bg-cod-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-cod-gray-800 focus-visible:ring-cod-gray-500"
           )}
-          onClick={onAdd}
+          onClick={controller.onAdd}
         >
           Add Another <PlusCircle className="w-3 h-3 ml-2 text-silver-900" />
         </button>
@@ -60,7 +62,7 @@ export default function VercelEnvInputs() {
                 "absolute top-0 bottom-0 left-0 right-0 w-full h-full opacity-0 cursor-pointer focus:outline-none"
               )}
               accept=".txt"
-              onChange={onImport}
+              onChange={controller.onImport}
             />
           </button>
           <span className="text-xs text-silver-900">
@@ -69,9 +71,9 @@ export default function VercelEnvInputs() {
           </span>
         </div>
 
-        <Show when={!!error}>
+        <Show when={!!controller.error}>
           <div className="flex items-center self-end gap-4 py-0.5 px-2 text-xs border border-t rounded-full border-red-dark-4 bg-red-dark-2 text-red-dark-11">
-            {error}
+            {controller.error}
           </div>
         </Show>
       </div>

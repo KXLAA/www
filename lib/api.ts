@@ -46,6 +46,7 @@ export function getMinimalPostDetails(posts: PostType[]) {
   return posts.map((p) => ({
     title: p.title,
     slug: p.slug,
+    description: p.description,
     publishedAt: p.publishedAt,
   }));
 }
