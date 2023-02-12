@@ -5,6 +5,7 @@ import { useLiveReload, useMDXComponent } from "next-contentlayer/hooks";
 import { ExperimentLayout } from "@/components/experiments/common/ExperimentLayout";
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { allExperiments } from "@/contentlayer/generated";
+import { getPublished } from "@/lib/api";
 
 const VercelEnvInputs = dynamic(
   () => import("@/components/experiments/vercel-env-inputs/VercelEnvInputs")
@@ -29,7 +30,12 @@ export default function Experiment(props: ExperimentProps) {
   useLiveReload();
 
   return (
-    <ExperimentLayout {...experiment}>
+    <ExperimentLayout
+      {...experiment}
+      customMeta={{
+        title: `Experiments | ${experiment.title}`,
+      }}
+    >
       <Component components={MDXComponents} />
     </ExperimentLayout>
   );
@@ -37,12 +43,16 @@ export default function Experiment(props: ExperimentProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: allExperiments.map((p) => ({ params: { slug: p.slug } })),
+    paths: getPublished(allExperiments).map((p) => ({
+      params: { slug: p.slug },
+    })),
     fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const experiment = allExperiments.find((p) => p.slug === params?.slug);
+  const experiment = getPublished(allExperiments).find(
+    (p) => p.slug === params?.slug
+  );
   return { props: { experiment } };
 };
