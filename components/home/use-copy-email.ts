@@ -3,6 +3,7 @@ import React from "react";
 
 export function useCopyEmail() {
   const [copied, setCopied] = React.useState(false);
+  const email = process.env.EMAIL;
 
   React.useEffect(() => {
     if (copied) {
@@ -13,7 +14,7 @@ export function useCopyEmail() {
 
   const copyEmail = () => {
     setCopied(true);
-    copy("kolade.afode@yahoo.com");
+    copy(email!);
   };
 
   return { copied, copyEmail };
