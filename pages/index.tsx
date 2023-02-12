@@ -15,6 +15,7 @@ import type {
 } from "@/contentlayer/generated";
 import { allExperiments, allPosts } from "@/contentlayer/generated";
 import { prepare } from "@/lib/api";
+import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
 
 type HomeProps = {
@@ -115,16 +116,30 @@ export default function Home(props: HomeProps) {
       >
         <div className="grid gap-4 md:grid-cols-2">
           {props.experiments.slice(0, 2).map((experiment) => (
-            <ExperimentCard {...experiment} key={experiment.slug} size="sm" />
+            <>
+              <ExperimentCard {...experiment} key={experiment.slug} size="sm" />
+              <Show when={props.experiments.length === 1}>
+                <div
+                  className={cx(
+                    "group relative flex  items-center justify-center gap-1.5 overflow-hidden transition-colors border rounded-md",
+                    "border-cod-gray-300 hover:border-cod-gray-400 bg-cod-gray-500 text-sm text-silver hover:text-silver-700"
+                  )}
+                >
+                  More Coming Soon
+                </div>
+              </Show>
+            </>
           ))}
         </div>
 
-        <Link
-          href="/experiments"
-          className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
-        >
-          All Experiments
-        </Link>
+        <Show when={props.experiments.length >= 2}>
+          <Link
+            href="/experiments"
+            className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
+          >
+            All Experiments
+          </Link>
+        </Show>
       </Section>
 
       <Footer />
