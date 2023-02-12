@@ -9,7 +9,7 @@ type ExperimentCardProps = ExperimentsType & {
 };
 
 export function ExperimentCard(props: ExperimentCardProps) {
-  const { heading, slug, webm, mp4, size } = props;
+  const { title, slug, webm, mp4, size } = props;
   return (
     <Link
       href={`/experiments/${slug}`}
@@ -44,7 +44,7 @@ export function ExperimentCard(props: ExperimentCardProps) {
         )}
       >
         <div className="flex flex-col">
-          <span>{heading}</span>
+          <span>{title}</span>
           <span
             className={cx(
               "text-sm text-silver-700",

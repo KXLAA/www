@@ -5,7 +5,7 @@ import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { allPosts } from "@/contentlayer/generated";
-import { getMinimalPostDetails } from "@/lib/api";
+import { prepare } from "@/lib/api";
 import { formatDate } from "@/lib/date";
 
 type PostsProps = {
@@ -69,13 +69,9 @@ function ArticleCard(props: ArticleCardProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = allPosts.sort(
-    (a, b) => Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
-  );
-
   return {
     props: {
-      posts: getMinimalPostDetails(posts),
+      posts: prepare.posts(allPosts),
     },
   };
 };

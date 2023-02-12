@@ -7,6 +7,7 @@ import { Layout } from "@/components/common/Layout";
 import { ExperimentCard } from "@/components/experiments/common/ExperimentCard";
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { allExperiments } from "@/contentlayer/generated";
+import { prepare } from "@/lib/api";
 
 type ExperimentsProps = {
   experiments: ExperimentsType[];
@@ -46,7 +47,7 @@ export default function Experiments(props: ExperimentsProps) {
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      experiments: allExperiments,
+      experiments: prepare.experiments(allExperiments),
     },
   };
 };
