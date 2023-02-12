@@ -1,5 +1,5 @@
-import { CheckIcon, CopyIcon } from "@radix-ui/react-icons";
 import copy from "copy-to-clipboard";
+import { Check, Copy } from "lucide-react";
 import Image from "next/image";
 import NextLink from "next/link";
 import React from "react";
@@ -62,9 +62,9 @@ function Pre(props: any) {
         )}
       >
         {hasCopied ? (
-          <CheckIcon className="w-4 h-4 text-silver-600" />
+          <Check className="w-4 h-4 text-silver-600" />
         ) : (
-          <CopyIcon className="w-4 h-4 text-silver-600" />
+          <Copy className="w-4 h-4 text-silver-600" />
         )}
       </button>
     </div>

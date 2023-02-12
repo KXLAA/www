@@ -1,5 +1,5 @@
-import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -43,7 +43,7 @@ export function BreadCrumb(props: BreadCrumbProps) {
         <React.Fragment key={index}>
           <Crumb {...item} />
           <Show when={index !== items.length - 1}>
-            <ChevronRightIcon className="w-2 h-2 md:w-3 md:h-3 shrink-0 text-silver-600" />
+            <ChevronRight className="w-2 h-2 md:w-3 md:h-3 shrink-0 text-silver-600" />
           </Show>
         </React.Fragment>
       ))}

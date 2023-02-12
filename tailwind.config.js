@@ -33,6 +33,20 @@ module.exports = {
         900: "#0A0A0A",
       },
 
+      "cod-gray": {
+        DEFAULT: "#161616",
+        50: "#444444",
+        100: "#3F3F3F",
+        200: "#353535",
+        300: "#2A2A2A",
+        400: "#202020",
+        500: "#161616",
+        600: "#131313",
+        700: "#111111",
+        800: "#0E0E0E",
+        900: "#0C0C0C",
+      },
+
       silver: {
         DEFAULT: "#C0C0C0",
         50: "#EEEEEE",
@@ -599,7 +613,31 @@ module.exports = {
         "border-shiny-4": "inset 0 0 0 4px hsl(0deg 0% 100% / 10%)",
         "border-shiny-8": "inset 0 0 0 8px hsl(0deg 0% 100% / 10%)",
       },
+
+      keyframes: {
+        // Tooltip
+        "slide-up-fade": {
+          "0%": { opacity: 0, transform: "translateY(2px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        "slide-right-fade": {
+          "0%": { opacity: 0, transform: "translateX(-2px)" },
+          "100%": { opacity: 1, transform: "translateX(0)" },
+        },
+        "slide-down-fade": {
+          "0%": { opacity: 0, transform: "translateY(-2px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        "slide-left-fade": {
+          "0%": { opacity: 0, transform: "translateX(2px)" },
+          "100%": { opacity: 1, transform: "translateX(0)" },
+        },
+      },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("tailwindcss-radix")(),
+    require("tailwindcss-animate"),
+  ],
 };
