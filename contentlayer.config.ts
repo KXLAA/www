@@ -83,7 +83,8 @@ export const Experiments = defineDocumentType(() => ({
   filePathPattern: `experiments/*.mdx`,
   contentType: "mdx",
   fields: {
-    heading: { type: "string", required: true },
+    title: { type: "string", required: true },
+    publishedAt: { type: "string", required: true },
     mp4: { type: "string", required: true },
     webm: { type: "string", required: true },
     links: {

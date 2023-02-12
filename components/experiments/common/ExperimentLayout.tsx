@@ -16,7 +16,7 @@ type ExperimentLayoutProps = ExperimentsType & {
 };
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
-  const { children, heading, slug } = props;
+  const { children, title, slug } = props;
   const current = allExperiments.findIndex((p) => p.slug === slug);
   const next = allExperiments[current + 1];
   const prev = allExperiments[current - 1];
@@ -33,7 +33,7 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
 
       <div className="flex justify-between w-full">
         <div>
-          <h1 className="text-base font-normal text-silver-600">{heading}</h1>
+          <h1 className="text-base font-normal text-silver-600">{title}</h1>
           <p className="text-sm text-silver-800">January 2023</p>
         </div>
 
@@ -115,7 +115,7 @@ function Navigation(props: NavigationProps) {
     >
       <span className="font-normal">{label}</span>
       <span className="font-extralight text-silver-700">
-        {experiment?.heading}
+        {experiment?.title}
       </span>
     </Link>
   );

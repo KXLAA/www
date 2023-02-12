@@ -14,7 +14,7 @@ import type {
   Post as PostType,
 } from "@/contentlayer/generated";
 import { allExperiments, allPosts } from "@/contentlayer/generated";
-import { getMinimalPostDetails } from "@/lib/api";
+import { prepare } from "@/lib/api";
 import { formatDate } from "@/lib/date";
 
 type HomeProps = {
@@ -133,14 +133,10 @@ export default function Home(props: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = allPosts.sort(
-    (a, b) => Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
-  );
-
   return {
     props: {
-      posts: getMinimalPostDetails(posts),
-      experiments: allExperiments,
+      posts: prepare.posts(allPosts),
+      experiments: prepare.experiments(allExperiments),
     },
   };
 };
