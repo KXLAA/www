@@ -11,13 +11,15 @@ import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { allExperiments } from "@/contentlayer/generated";
 import { getPublished } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import type { MetaProps } from "@/lib/seo";
 
 type ExperimentLayoutProps = ExperimentsType & {
   children: React.ReactNode;
+  customMeta?: MetaProps;
 };
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
-  const { children, title, slug } = props;
+  const { children, title, slug, customMeta } = props;
   const publishedExperiments = getPublished(allExperiments);
 
   const current = publishedExperiments.findIndex((p) => p.slug === slug);
@@ -25,7 +27,10 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
   const prev = publishedExperiments[current - 1];
 
   return (
-    <Layout className="flex flex-col items-center justify-center max-w-5xl gap-4 px-4 py-4 mx-auto text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight">
+    <Layout
+      className="flex flex-col items-center justify-center max-w-5xl gap-4 px-4 py-4 mx-auto text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
+      customMeta={customMeta}
+    >
       <Link
         href="/experiments"
         className="flex items-center self-start gap-1 px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"

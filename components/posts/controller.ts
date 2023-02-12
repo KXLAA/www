@@ -8,14 +8,14 @@ export function useController(post: PostType) {
   const Component = useMDXComponent(post.body.code);
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
-  const title = `${post.title} | Kola`;
+  const title = `Writing | ${post.title}`;
   const date = post?.publishedAt || new Date().toDateString();
   const ogImageUrl = `/api/og?title=${encodeURIComponent(
     post.title
   )}&date=${encodeURIComponent(formatDate(date, "MMMM dd yyyy"))}`;
 
   const meta: MetaProps = {
-    title: `${title}`,
+    title: title,
     description: post.description,
     canonical: url,
     openGraph: {
