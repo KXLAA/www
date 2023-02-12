@@ -122,7 +122,7 @@ export default function Home(props: HomeProps) {
                 <div
                   className={cx(
                     "group relative flex  items-center justify-center gap-1.5 overflow-hidden transition-colors border rounded-md",
-                    "border-cod-gray-300 hover:border-cod-gray-400 bg-cod-gray-500 text-sm text-silver hover:text-silver-700"
+                    "border-cod-gray-300 hover:border-cod-gray-400 bg-cod-gray-500 text-sm text-silver-600 hover:text-silver-800"
                   )}
                 >
                   More Coming Soon
