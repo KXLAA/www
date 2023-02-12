@@ -62,20 +62,22 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
         {children}
       </div>
 
-      <div
-        className={cx(
-          "flex w-full gap-4 text-sm font-medium border-t border-dashed text-silver-900 border-shark-600 py-10 ",
-          prev ? "justify-between " : "justify-end"
-        )}
-      >
-        <Show when={!!prev}>
-          <Navigation experiment={prev} label="Previous" />
-        </Show>
+      <Show when={!!prev && !!next}>
+        <div
+          className={cx(
+            "flex w-full gap-4 text-sm font-medium border-t border-dashed text-silver-900 border-shark-600 py-10 ",
+            prev ? "justify-between " : "justify-end"
+          )}
+        >
+          <Show when={!!prev}>
+            <Navigation experiment={prev} label="Previous" />
+          </Show>
 
-        <Show when={!!next}>
-          <Navigation experiment={next} label="Next" className="text-right" />
-        </Show>
-      </div>
+          <Show when={!!next}>
+            <Navigation experiment={next} label="Next" className="text-right" />
+          </Show>
+        </div>
+      </Show>
     </Layout>
   );
 }
