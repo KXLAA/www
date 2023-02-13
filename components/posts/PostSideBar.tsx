@@ -1,5 +1,5 @@
-import { ChevronUpIcon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronUp } from "lucide-react";
 import React from "react";
 
 import type { PostHeading } from "@/lib/api";
@@ -82,7 +82,7 @@ function BackToTop({ isHidden }: { isHidden: boolean }) {
           whileTap={{ scale: 0.9 }}
         >
           <div className="flex items-center justify-center p-1 rounded-lg shadow-border-shiny bg-shark-700">
-            <ChevronUpIcon className="w-4 h-4" />
+            <ChevronUp className="w-4 h-4" />
           </div>
           <span>Back to top</span>
         </motion.button>
