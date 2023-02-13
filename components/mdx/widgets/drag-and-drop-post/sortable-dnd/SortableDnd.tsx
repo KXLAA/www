@@ -6,9 +6,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import { GripVertical } from "lucide-react";
 
 import { Refresh } from "@/components/common/Refresh";
 import { LiveArea } from "@/components/mdx/widgets/common/LiveArea";
@@ -122,7 +121,7 @@ function SortableItem(props: SortableItemProps) {
               transition={{ duration: 0.2 }}
               exit={{ opacity: 0 }}
             >
-              <DragHandleDots2Icon
+              <GripVertical
                 className={cx(
                   "w-6 h-6 transition-opacity cursor-grab active:cursor-grabbing focus:outline-none text-silver-800"
                 )}

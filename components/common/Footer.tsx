@@ -1,14 +1,16 @@
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="flex w-full gap-2" id="links">
-      <FooterLink link="https://github.com/KXLAA">GITHUB</FooterLink>
-      <FooterLink link="https://twitter.com/kxlaa_">TWITTER</FooterLink>
-      <FooterLink link="mailto:kolade.afode@yahoo.com">EMAIL</FooterLink>
-      <FooterLink link="https://www.linkedin.com/in/kxlaa/">
-        LINKEDIN
-      </FooterLink>
+    <footer
+      className="flex justify-between w-full gap-4 pt-3 border-t border-t-cod-gray-400"
+      id="links"
+    >
+      <div className="flex w-full gap-4">
+        <FooterLink link="https://github.com/KXLAA">GitHub</FooterLink>
+        <FooterLink link="https://twitter.com/kxlaa_">Twitter</FooterLink>
+      </div>
+      <Logo className="w-7 h-7 text-silver-700" />
     </footer>
   );
 }
@@ -23,12 +25,9 @@ function FooterLink(props: FooterLinkProps) {
   return (
     <a
       href={link}
-      className="flex flex-wrap items-center justify-center gap-1 text-xs transition-colors md:text-sm font-extralight hover:text-silver-900"
+      className="flex flex-wrap items-center justify-center gap-1 text-xs transition-colors text-silver-700 md:text-sm font-extralight hover:text-silver-400"
     >
       {children}
-      <div className="self-start hidden p-1 transition-colors md:block">
-        <ArrowTopRightIcon className="w-4 h-4 " />
-      </div>
     </a>
   );
 }
