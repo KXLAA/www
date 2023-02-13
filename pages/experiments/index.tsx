@@ -19,7 +19,6 @@ export default function Experiments(props: ExperimentsProps) {
   return (
     <Layout
       className="flex flex-col justify-center gap-4 p-2"
-      key="home-page"
       customMeta={{
         title: `Kola | Experiments`,
         description: `Recreating some of my favorite ui interactions & building new
