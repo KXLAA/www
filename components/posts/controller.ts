@@ -25,7 +25,7 @@ export function useController(post: PostType) {
       },
       images: [
         {
-          url: post.ogImage || "/images/og-image.png",
+          url: post.ogImage || "/images/main-og-image.jpg",
           width: 1200,
           height: 600,
           alt: title,

@@ -11,7 +11,7 @@ export const seo: DefaultSeoProps = {
     url: `https://kxlaa.com`,
     images: [
       {
-        url: "/images/main-og-image.png",
+        url: "/images/main-og-image.jpg",
         width: 1200,
         height: 600,
         alt: `Kola | Full Stack Engineer`,
