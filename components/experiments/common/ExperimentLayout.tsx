@@ -11,6 +11,7 @@ import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { allExperiments } from "@/contentlayer/generated";
 import { getPublished } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import { getBaseUrl } from "@/lib/get-base-url";
 import type { MetaProps } from "@/lib/seo";
 
 type ExperimentLayoutProps = ExperimentsType & {
@@ -131,13 +132,5 @@ function Navigation(props: NavigationProps) {
         {experiment?.title}
       </span>
     </Link>
-  );
-}
-
-export function getBaseUrl() {
-  return (
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.NEXT_PUBLIC_VERCEL_URL ??
-    "http://localhost:3000"
   );
 }
