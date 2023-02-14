@@ -8,7 +8,6 @@ export function useController(post: PostType) {
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
   const title = `Writing | ${post.title}`;
-  const ogImage = `${getBaseUrl()}${post.ogImage}`;
 
   const meta: MetaProps = {
     title: title,
@@ -26,7 +25,7 @@ export function useController(post: PostType) {
       },
       images: [
         {
-          url: ogImage || "/images/main-og-image.jpg",
+          url: post.ogImage || "/images/main-og-image.jpg",
           width: 1200,
           height: 600,
           alt: title,
@@ -44,12 +43,4 @@ export function useController(post: PostType) {
     Component,
     meta,
   };
-}
-
-function getBaseUrl() {
-  return (
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    process.env.NEXT_PUBLIC_VERCEL_URL ||
-    "http://localhost:3000"
-  );
 }
