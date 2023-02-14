@@ -18,9 +18,4 @@ export const seo: DefaultSeoProps = {
       },
     ],
   },
-  twitter: {
-    handle: `@kxlaa_`,
-    site: `@kxlaa_`,
-    cardType: "summary_large_image",
-  },
 };

@@ -32,6 +32,11 @@ export function useController(post: PostType) {
         },
       ],
     },
+    twitter: {
+      handle: `@kxlaa_`,
+      site: `@kxlaa_`,
+      cardType: "summary_large_image",
+    },
   };
 
   return {
