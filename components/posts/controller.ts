@@ -8,7 +8,8 @@ export function useController(post: PostType) {
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
   const title = `Writing | ${post.title}`;
-  const ogImage = `${getBaseUrl()}/${post.ogImage}}`;
+  const ogImage = `${getBaseUrl()}${post.ogImage}`;
+  console.log(ogImage);
 
   const meta: MetaProps = {
     title: title,
@@ -26,7 +27,7 @@ export function useController(post: PostType) {
       },
       images: [
         {
-          url: post.ogImage || "/images/main-og-image.jpg",
+          url: ogImage || "/images/main-og-image.jpg",
           width: 1200,
           height: 600,
           alt: title,
