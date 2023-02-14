@@ -81,6 +81,7 @@ export const Post = defineDocumentType(() => ({
       type: "list",
       of: { type: "string" },
     },
+    ogImage: { type: "string" },
   },
   computedFields: {
     lastUpdatedAt: {

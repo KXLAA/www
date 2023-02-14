@@ -27,10 +27,7 @@ export default function Home(props: HomeProps) {
   const { copyEmail, copied } = useCopyEmail();
 
   return (
-    <Layout
-      className="flex flex-col justify-center max-w-xl gap-4 px-4 py-4 text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
-      key="home-page"
-    >
+    <Layout className="flex flex-col justify-center max-w-xl gap-4 px-4 py-4 text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight">
       <div className="flex flex-col gap-4">
         <h1 className="text-5xl font-semibold">KOLA</h1>
         <p className="text-base">
@@ -39,10 +36,6 @@ export default function Home(props: HomeProps) {
         </p>
 
         <div className="flex gap-4">
-          {/* <button className="px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400">
-            About
-          </button> */}
-
           <button
             className="flex items-center justify-center gap-1 px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400"
             onClick={copyEmail}
@@ -82,20 +75,18 @@ export default function Home(props: HomeProps) {
       >
         <div className="flex flex-col gap-2">
           {props.posts.slice(0, 3).map((post) => (
-            <>
-              <Link
-                href={`/posts/${post.slug}`}
-                key={post.slug}
-                className="flex gap-3 p-3 transition-colors rounded-md hover:bg-cod-gray-500"
-              >
-                <div className="flex flex-col gap-0.5">
-                  <p className="text-sm font-semibold">{post.title}</p>
-                  <p className="mt-0.5 text-xs text-[10px] font-normal text-silver-900">
-                    {formatDate(post.publishedAt, "MM/dd/yyyy")}
-                  </p>
-                </div>
-              </Link>
-            </>
+            <Link
+              href={`/posts/${post.slug}`}
+              key={post.slug}
+              className="flex gap-3 p-3 transition-colors rounded-md hover:bg-cod-gray-500"
+            >
+              <div className="flex flex-col gap-0.5">
+                <p className="text-sm font-semibold">{post.title}</p>
+                <p className="mt-0.5 text-xs text-[10px] font-normal text-silver-900">
+                  {formatDate(post.publishedAt, "MM/dd/yyyy")}
+                </p>
+              </div>
+            </Link>
           ))}
 
           <Show when={props.posts.length > 3}>
