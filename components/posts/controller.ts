@@ -9,7 +9,6 @@ export function useController(post: PostType) {
   const url = `https://kxlaa.com${path}`;
   const title = `Writing | ${post.title}`;
   const ogImage = `${getBaseUrl()}${post.ogImage}`;
-  console.log(ogImage);
 
   const meta: MetaProps = {
     title: title,
@@ -49,8 +48,8 @@ export function useController(post: PostType) {
 
 function getBaseUrl() {
   return (
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.NEXT_PUBLIC_VERCEL_URL ??
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.NEXT_PUBLIC_VERCEL_URL ||
     "http://localhost:3000"
   );
 }
