@@ -1,7 +1,6 @@
 import { useMDXComponent } from "next-contentlayer/hooks";
 
 import type { Post as PostType } from "@/contentlayer/generated";
-import { getBaseUrl } from "@/lib/get-base-url";
 import type { MetaProps } from "@/lib/seo";
 
 export function useController(post: PostType) {
@@ -27,7 +26,7 @@ export function useController(post: PostType) {
       },
       images: [
         {
-          url: ogImage || "/images/main-og-image.jpg",
+          url: post.ogImage || "/images/main-og-image.jpg",
           width: 1200,
           height: 600,
           alt: title,
@@ -45,4 +44,12 @@ export function useController(post: PostType) {
     Component,
     meta,
   };
+}
+
+function getBaseUrl() {
+  return (
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    process.env.NEXT_PUBLIC_VERCEL_URL ??
+    "http://localhost:3000"
+  );
 }
