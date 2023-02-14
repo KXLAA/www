@@ -1,7 +1,6 @@
 import { useMDXComponent } from "next-contentlayer/hooks";
 
 import type { Post as PostType } from "@/contentlayer/generated";
-import { formatDate } from "@/lib/date";
 import type { MetaProps } from "@/lib/seo";
 
 export function useController(post: PostType) {
@@ -9,10 +8,6 @@ export function useController(post: PostType) {
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
   const title = `Writing | ${post.title}`;
-  const date = post?.publishedAt || new Date().toDateString();
-  const ogImageUrl = `/api/og?title=${encodeURIComponent(
-    post.title
-  )}&date=${encodeURIComponent(formatDate(date, "MMMM dd yyyy"))}`;
 
   const meta: MetaProps = {
     title: title,
@@ -30,12 +25,17 @@ export function useController(post: PostType) {
       },
       images: [
         {
-          url: "/images/og-image.png",
+          url: post.ogImage || "/images/main-og-image.jpg",
           width: 1200,
           height: 600,
           alt: title,
         },
       ],
+    },
+    twitter: {
+      handle: `@kxlaa_`,
+      site: `@kxlaa_`,
+      cardType: "summary_large_image",
     },
   };
 

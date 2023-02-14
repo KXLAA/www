@@ -17,7 +17,6 @@ export default function Posts(props: PostsProps) {
   return (
     <Layout
       className="flex flex-col max-w-3xl gap-4 px-4 py-4 text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
-      key="home-page"
       customMeta={{
         title: `Kola | Articles`,
         description: `Sharing experiences, knowledge and videos on design & tech.`,
