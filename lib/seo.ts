@@ -9,12 +9,11 @@ export const seo: DefaultSeoProps = {
     title: `Kola | Full Stack Engineer`,
     type: "website",
     url: `https://kxlaa.com`,
-    site_name: `Kola | Full Stack Engineer`,
     images: [
       {
-        url: "/images/og-image.png",
+        url: "/images/main-og-image.png",
         width: 1200,
-        height: 630,
+        height: 600,
         alt: `Kola | Full Stack Engineer`,
       },
     ],
