@@ -128,21 +128,9 @@ export const Experiments = defineDocumentType(() => ({
   },
 }));
 
-export const Projects = defineDocumentType(() => ({
-  name: "Projects",
-  filePathPattern: `projects/*.json`,
-  contentType: "data",
-  fields: {
-    title: { type: "string", required: true },
-    description: { type: "string", required: true },
-    image: { type: "string", required: true },
-    link: { type: "string", required: true },
-  },
-}));
-
 export default makeSource({
   contentDirPath: contentDirPath,
-  documentTypes: [Post, Experiments, Projects],
+  documentTypes: [Post, Experiments],
   mdx: {
     ...mdxOptions,
   },
