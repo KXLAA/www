@@ -17,9 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["*"],
-
       "@/contentlayer/*": ["./.contentlayer/generated"],
-      "@/widgets/*": ["./components/mdx/widgets/*"]
+      "@/widgets/*": ["./components/posts/widgets/*"]
     }
   },
   "include": [
