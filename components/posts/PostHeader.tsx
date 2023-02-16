@@ -1,10 +1,8 @@
 import { AnimatePresence } from "framer-motion";
 
 import { BreadCrumb } from "@/components/common/BreadCrumb";
-import { Show } from "@/components/common/Show";
-import { Tag } from "@/components/common/Tag";
 import { cx } from "@/lib/cx";
-import { formatDate, isDateAfter } from "@/lib/date";
+import { formatDate } from "@/lib/date";
 import { useHideOnScroll } from "@/lib/hooks/use-hide-on-scroll";
 
 import type { Post as PostType } from ".contentlayer/generated";
