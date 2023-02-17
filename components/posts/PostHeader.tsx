@@ -35,10 +35,6 @@ export function PostHeader(props: PostHeaderProps) {
                 label: "Home",
                 href: "/",
               },
-              // {
-              //   label: "Writing",
-              //   href: "/posts",
-              // },
               {
                 label: title,
                 href: "/posts",
@@ -58,10 +54,6 @@ export function PostHeader(props: PostHeaderProps) {
                 label: "Home",
                 href: "/",
               },
-              // {
-              //   label: "Writing",
-              //   href: "/posts",
-              // },
               {
                 label: title,
                 href: "/posts",

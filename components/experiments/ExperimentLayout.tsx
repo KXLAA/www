@@ -22,7 +22,6 @@ type ExperimentLayoutProps = ExperimentsType & {
 export function ExperimentLayout(props: ExperimentLayoutProps) {
   const { children, title, slug, customMeta, codesandbox } = props;
   const publishedExperiments = getPublished(allExperiments);
-
   const current = publishedExperiments.findIndex((p) => p.slug === slug);
   const next = publishedExperiments[current + 1];
   const prev = publishedExperiments[current - 1];
@@ -33,11 +32,11 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
       customMeta={customMeta}
     >
       <Link
-        href="/experiments"
+        href={publishedExperiments.length > 1 ? "/experiments" : "/"}
         className="flex items-center self-start gap-1 px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
       >
         <ArrowLeft className="w-3 h-3 text-silver-700" />
-        Experiments
+        {publishedExperiments.length > 1 ? "Experiments" : "Home"}
       </Link>
 
       <div className="flex justify-between w-full">

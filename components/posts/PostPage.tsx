@@ -3,7 +3,8 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { Layout } from "@/components/common/Layout";
 import { components } from "@/components/mdx/MDXComponents";
-import { PostLayout } from "@/components/posts/PostLayout";
+import { PostHeader } from "@/components/posts/PostHeader";
+import { PostSideBar } from "@/components/posts/PostSideBar";
 import type { Post as PostType } from "@/contentlayer/generated";
 import type { MetaProps } from "@/lib/seo";
 
@@ -59,9 +60,15 @@ export function PostPage(props: PostPageProps) {
 
   return (
     <Layout customMeta={meta} key="post">
-      <PostLayout {...post}>
-        <Component components={MDXComponents} />
-      </PostLayout>
+      <div className="flex flex-col items-center justify-center max-w-5xl px-4 m-auto">
+        <PostHeader {...post} />
+        <div className="flex w-full px-0 pb-24 gap-14 md:flex-row">
+          <div className="relative flex-1 max-w-[65ch] min-w-0 px-0 text-lg md:text-xl prose scroll-smooth">
+            <Component components={MDXComponents} />
+          </div>
+          <PostSideBar tableOfContent={post?.headings || []} />
+        </div>
+      </div>
     </Layout>
   );
 }
