@@ -8,8 +8,7 @@ import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
 import { Tooltip } from "@/components/common/Tooltip";
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
-import { allExperiments } from "@/contentlayer/generated";
-import { getPublished } from "@/lib/api";
+import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { getBaseUrl } from "@/lib/get-base-url";
 import type { MetaProps } from "@/lib/seo";
@@ -21,7 +20,7 @@ type ExperimentLayoutProps = ExperimentsType & {
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
   const { children, title, slug, customMeta, codesandbox } = props;
-  const publishedExperiments = getPublished(allExperiments);
+  const publishedExperiments = api.getPublishedExperiments();
   const current = publishedExperiments.findIndex((p) => p.slug === slug);
   const next = publishedExperiments[current + 1];
   const prev = publishedExperiments[current - 1];
