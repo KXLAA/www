@@ -13,14 +13,7 @@ import { mdxOptions } from "./lib/mdx-config";
 
 export const contentDirPath = "content";
 
-type PostHeading = {
-  id?: string;
-  content?: string;
-  link?: string;
-  level?: number;
-};
-
-function getHeadings(source: string): PostHeading[] {
+function getHeadings(source: string) {
   //get all heading levels from markdown source, including #, ##, ###, etc.
   const headings = source.match(/#+\s(.*?)\n/g);
 
@@ -48,28 +41,7 @@ async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
   return stats.mtime;
 }
 
-const ReadingTime = defineNestedType(() => ({
-  name: "readingTime",
-  fields: {
-    title: {
-      type: "string",
-    },
-    text: {
-      type: "string",
-    },
-    minutes: {
-      type: "number",
-    },
-    time: {
-      type: "number",
-    },
-    words: {
-      type: "number",
-    },
-  },
-}));
-
-export const Post = defineDocumentType(() => ({
+const Post = defineDocumentType(() => ({
   name: "Post",
   filePathPattern: `posts/*.mdx`,
   contentType: "mdx",
@@ -94,7 +66,26 @@ export const Post = defineDocumentType(() => ({
     },
     headings: {
       type: "nested",
-      of: ReadingTime,
+      of: defineNestedType(() => ({
+        name: "readingTime",
+        fields: {
+          title: {
+            type: "string",
+          },
+          text: {
+            type: "string",
+          },
+          minutes: {
+            type: "number",
+          },
+          time: {
+            type: "number",
+          },
+          words: {
+            type: "number",
+          },
+        },
+      })),
       resolve: (doc) => getHeadings(doc.body.raw),
     },
     slug: {
@@ -104,7 +95,7 @@ export const Post = defineDocumentType(() => ({
   },
 }));
 
-export const Experiments = defineDocumentType(() => ({
+const Experiments = defineDocumentType(() => ({
   name: "Experiments",
   filePathPattern: `experiments/*.mdx`,
   contentType: "mdx",
