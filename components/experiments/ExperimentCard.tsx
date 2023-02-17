@@ -9,7 +9,7 @@ type ExperimentCardProps = ExperimentsType & {
 };
 
 export function ExperimentCard(props: ExperimentCardProps) {
-  const { title, slug, webm, mp4, size } = props;
+  const { title, slug, webm, mp4, size, poster } = props;
   return (
     <Link
       href={`/experiments/${slug}`}
@@ -29,9 +29,9 @@ export function ExperimentCard(props: ExperimentCardProps) {
           loop
           muted
           className="rounded rounded-b-0"
+          poster={poster}
           onMouseOver={(e) => e.currentTarget.play()}
           onMouseOut={(e) => e.currentTarget.pause()}
-          playsInline
         >
           <source src={webm} type="video/webm" />
           <source src={mp4} type="video/mp4" />

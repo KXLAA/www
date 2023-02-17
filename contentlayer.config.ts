@@ -113,6 +113,7 @@ export const Experiments = defineDocumentType(() => ({
     publishedAt: { type: "string", required: true },
     mp4: { type: "string", required: true },
     webm: { type: "string", required: true },
+    poster: { type: "string", required: true },
     codesandbox: {
       type: "string",
     },
