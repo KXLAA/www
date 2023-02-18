@@ -63,6 +63,9 @@ class Api {
         title: e.title,
         slug: e.slug,
         publishedAt: e.publishedAt,
+        mp4: e.mp4,
+        webm: e.webm,
+        poster: e.poster,
       }))
     );
   }
