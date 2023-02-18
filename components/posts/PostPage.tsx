@@ -59,7 +59,7 @@ export function PostPage(props: PostPageProps) {
   const { Component, meta } = usePostPage(props);
 
   return (
-    <Layout customMeta={meta} key="post">
+    <Layout customMeta={meta}>
       <div className="flex flex-col items-center justify-center max-w-5xl px-4 m-auto">
         <PostHeader {...post} />
         <div className="flex w-full px-0 pb-24 gap-14 md:flex-row">
