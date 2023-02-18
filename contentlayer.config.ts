@@ -105,6 +105,7 @@ const Experiments = defineDocumentType(() => ({
     mp4: { type: "string", required: true },
     webm: { type: "string", required: true },
     poster: { type: "string", required: true },
+    articleLink: { type: "string" },
     codesandbox: {
       type: "string",
     },
