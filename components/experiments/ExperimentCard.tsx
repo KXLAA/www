@@ -30,8 +30,8 @@ export function ExperimentCard(props: ExperimentCardProps) {
           muted
           className="rounded rounded-b-0"
           poster={poster}
-          onMouseOver={(e) => e.currentTarget.play()}
-          onMouseOut={(e) => e.currentTarget.pause()}
+          onMouseOver={({ currentTarget }) => currentTarget.play()}
+          onMouseOut={({ currentTarget }) => currentTarget.pause()}
         >
           <source src={webm} type="video/webm" />
           <source src={mp4} type="video/mp4" />
