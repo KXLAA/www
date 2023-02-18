@@ -1,4 +1,5 @@
 import Link from "next/link";
+import React from "react";
 
 import { Show } from "@/components/common/Show";
 import { ExperimentCard } from "@/components/experiments/ExperimentCard";
@@ -21,8 +22,8 @@ export function Experiments(props: ExperimentsProps) {
     >
       <div className="grid gap-4 md:grid-cols-2">
         {experiments.slice(0, 2).map((experiment) => (
-          <>
-            <ExperimentCard {...experiment} key={experiment.slug} size="sm" />
+          <React.Fragment key={experiment.slug}>
+            <ExperimentCard {...experiment} size="sm" />
             <Show when={experiments.length === 1}>
               <div
                 className={cx(
@@ -33,7 +34,7 @@ export function Experiments(props: ExperimentsProps) {
                 More Coming Soon
               </div>
             </Show>
-          </>
+          </React.Fragment>
         ))}
       </div>
 
