@@ -10,6 +10,7 @@ import { Tooltip } from "@/components/common/Tooltip";
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import { formatDate } from "@/lib/date";
 import { getBaseUrl } from "@/lib/get-base-url";
 import type { MetaProps } from "@/lib/seo";
 
@@ -19,7 +20,7 @@ type ExperimentLayoutProps = ExperimentsType & {
 };
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
-  const { children, title, slug, customMeta, codesandbox } = props;
+  const { children, title, slug, customMeta, codesandbox, publishedAt } = props;
   const publishedExperiments = api.getPublishedExperiments();
   const current = publishedExperiments.findIndex((p) => p.slug === slug);
   const next = publishedExperiments[current + 1];
@@ -41,7 +42,9 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
       <div className="flex justify-between w-full">
         <div>
           <h1 className="text-base font-normal text-silver-600">{title}</h1>
-          <p className="text-sm text-silver-800">January 2023</p>
+          <p className="text-sm text-silver-800">
+            {formatDate(publishedAt, "MMMM dd, yyyy")}
+          </p>
         </div>
 
         <div className="flex gap-2">
