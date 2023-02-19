@@ -27,7 +27,7 @@ export function Experiments(props: ExperimentsProps) {
             <Show when={experiments.length === 1}>
               <div
                 className={cx(
-                  "group relative flex  items-center justify-center gap-1.5 overflow-hidden transition-colors border rounded-md",
+                  "group relative flex  items-center justify-center gap-1.5 overflow-hidden transition-colors border rounded-md p-4 md:p-0 ",
                   "border-cod-gray-300 hover:border-cod-gray-400 bg-cod-gray-500 text-sm text-silver-600 hover:text-silver-800"
                 )}
               >
