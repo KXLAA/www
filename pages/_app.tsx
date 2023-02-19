@@ -37,6 +37,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#101010" />
         <meta name="msapplication-TileColor" content="#101010" />
         <meta name="theme-color" content="#ffffff" />
+        <meta
+          name="twitter:image"
+          content="https://ucarecdn.com/2fecb5b1-ed81-47b7-917d-b5c70f3ed733/mainogimage.jpg"
+        />
       </Head>
 
       <style jsx global>{`
