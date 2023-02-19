@@ -41,8 +41,10 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
 
       <div className="flex justify-between w-full">
         <div>
-          <h1 className="text-base font-normal text-silver-600">{title}</h1>
-          <p className="text-sm text-silver-800">
+          <h1 className="text-sm font-normal md:text-base text-silver-600">
+            {title}
+          </h1>
+          <p className="text-xs md:text-sm text-silver-800">
             {formatDate(publishedAt, "MMMM dd, yyyy")}
           </p>
         </div>
@@ -63,7 +65,7 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
         </div>
       </div>
 
-      <div className="w-full p-8 border border-dashed rounded-lg border-shark-600 grid-bg bg-cod-gray-800">
+      <div className="w-full p-4 border border-dashed rounded-lg md:p-8 border-shark-600 grid-bg bg-cod-gray-800">
         {children}
       </div>
 
