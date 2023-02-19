@@ -1,7 +1,5 @@
-"use client";
-
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import * as React from "react";
+import React from "react";
 
 import { cx } from "@/lib/cx";
 
