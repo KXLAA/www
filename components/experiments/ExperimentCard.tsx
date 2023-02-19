@@ -3,13 +3,14 @@ import Link from "next/link";
 
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { cx } from "@/lib/cx";
+import { formatDate } from "@/lib/date";
 
 type ExperimentCardProps = ExperimentsType & {
   size?: "sm" | "md";
 };
 
 export function ExperimentCard(props: ExperimentCardProps) {
-  const { title, slug, webm, mp4, size, poster } = props;
+  const { title, slug, webm, mp4, size, poster, publishedAt } = props;
   return (
     <Link
       href={`/experiments/${slug}`}
@@ -51,7 +52,7 @@ export function ExperimentCard(props: ExperimentCardProps) {
               size === "sm" && "text-xs text-[10px]"
             )}
           >
-            2022
+            {formatDate(publishedAt, "yyyy")}
           </span>
         </div>
 
