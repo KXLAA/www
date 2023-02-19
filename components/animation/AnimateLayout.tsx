@@ -9,7 +9,7 @@ type AnimateLayoutProps = {
 export function AnimateLayout(props: AnimateLayoutProps) {
   const { className, children, key } = props;
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence mode="wait">
       <motion.div
         className={className}
         key={key || "empty"}

@@ -10,11 +10,10 @@ type LayoutProps = {
   customMeta?: MetaProps;
   className?: string;
   hideHeader?: boolean;
-  key?: string;
 };
 
 export function Layout(props: LayoutProps) {
-  const { children, customMeta, key, className } = props;
+  const { children, customMeta, className } = props;
   return (
     <>
       {customMeta && <NextSeo {...customMeta} />}
@@ -24,9 +23,7 @@ export function Layout(props: LayoutProps) {
         )}
       >
         <main>
-          <AnimateLayout key={key} className={className}>
-            {children}
-          </AnimateLayout>
+          <AnimateLayout className={className}>{children}</AnimateLayout>
         </main>
       </div>
     </>
