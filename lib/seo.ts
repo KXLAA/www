@@ -11,11 +11,16 @@ export const seo: DefaultSeoProps = {
     url: `https://kxlaa.com`,
     images: [
       {
-        url: "/images/main-og-image.jpg",
+        url: "https://ucarecdn.com/2fecb5b1-ed81-47b7-917d-b5c70f3ed733/mainogimage.jpg",
         width: 1200,
         height: 600,
         alt: `Kola | Full Stack Engineer`,
       },
     ],
+  },
+  twitter: {
+    handle: `@kxlaa_`,
+    site: `@kxlaa_`,
+    cardType: "summary_large_image",
   },
 };

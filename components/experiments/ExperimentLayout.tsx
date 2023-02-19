@@ -8,9 +8,9 @@ import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
 import { Tooltip } from "@/components/common/Tooltip";
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
-import { allExperiments } from "@/contentlayer/generated";
-import { getPublished } from "@/lib/api";
+import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import { formatDate } from "@/lib/date";
 import { getBaseUrl } from "@/lib/get-base-url";
 import type { MetaProps } from "@/lib/seo";
 
@@ -20,9 +20,8 @@ type ExperimentLayoutProps = ExperimentsType & {
 };
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
-  const { children, title, slug, customMeta, codesandbox } = props;
-  const publishedExperiments = getPublished(allExperiments);
-
+  const { children, title, slug, customMeta, codesandbox, publishedAt } = props;
+  const publishedExperiments = api.getPublishedExperiments();
   const current = publishedExperiments.findIndex((p) => p.slug === slug);
   const next = publishedExperiments[current + 1];
   const prev = publishedExperiments[current - 1];
@@ -33,17 +32,19 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
       customMeta={customMeta}
     >
       <Link
-        href="/experiments"
+        href={publishedExperiments.length > 1 ? "/experiments" : "/"}
         className="flex items-center self-start gap-1 px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
       >
         <ArrowLeft className="w-3 h-3 text-silver-700" />
-        Experiments
+        {publishedExperiments.length > 1 ? "Experiments" : "Home"}
       </Link>
 
       <div className="flex justify-between w-full">
         <div>
           <h1 className="text-base font-normal text-silver-600">{title}</h1>
-          <p className="text-sm text-silver-800">January 2023</p>
+          <p className="text-sm text-silver-800">
+            {formatDate(publishedAt, "MMMM dd, yyyy")}
+          </p>
         </div>
 
         <div className="flex gap-2">

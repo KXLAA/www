@@ -29,7 +29,7 @@ export function Header() {
   );
 }
 
-export function useCopyEmail() {
+function useCopyEmail() {
   const [copied, setCopied] = React.useState(false);
   const email = process.env.NEXT_PUBLIC_EMAIL;
 

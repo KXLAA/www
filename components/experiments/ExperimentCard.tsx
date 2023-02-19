@@ -3,13 +3,14 @@ import Link from "next/link";
 
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
 import { cx } from "@/lib/cx";
+import { formatDate } from "@/lib/date";
 
 type ExperimentCardProps = ExperimentsType & {
   size?: "sm" | "md";
 };
 
 export function ExperimentCard(props: ExperimentCardProps) {
-  const { title, slug, webm, mp4, size } = props;
+  const { title, slug, webm, mp4, size, poster, publishedAt } = props;
   return (
     <Link
       href={`/experiments/${slug}`}
@@ -29,9 +30,9 @@ export function ExperimentCard(props: ExperimentCardProps) {
           loop
           muted
           className="rounded rounded-b-0"
-          onMouseOver={(e) => e.currentTarget.play()}
-          onMouseOut={(e) => e.currentTarget.pause()}
-          playsInline
+          poster={poster}
+          onMouseOver={({ currentTarget }) => currentTarget.play()}
+          onMouseOut={({ currentTarget }) => currentTarget.pause()}
         >
           <source src={webm} type="video/webm" />
           <source src={mp4} type="video/mp4" />
@@ -51,7 +52,7 @@ export function ExperimentCard(props: ExperimentCardProps) {
               size === "sm" && "text-xs text-[10px]"
             )}
           >
-            2022
+            {formatDate(publishedAt, "yyyy")}
           </span>
         </div>
 
