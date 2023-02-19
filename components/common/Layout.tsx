@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { NextSeo } from "next-seo";
 
 import { AnimateLayout } from "@/components/animation/AnimateLayout";
@@ -16,7 +17,17 @@ export function Layout(props: LayoutProps) {
   const { children, customMeta, className } = props;
   return (
     <>
-      {customMeta && <NextSeo {...customMeta} />}
+      {customMeta && (
+        <>
+          <NextSeo {...customMeta} />
+          <Head>
+            <meta
+              name="twitter:image"
+              content={customMeta.openGraph?.images?.[0].url}
+            />
+          </Head>
+        </>
+      )}
       <div
         className={cx(
           "flex min-h-screen w-full flex-col bg-cod-gray-700 text-silver"

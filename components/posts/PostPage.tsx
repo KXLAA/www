@@ -78,7 +78,7 @@ function usePostPage(args: PostPageProps) {
   const Component = useMDXComponent(post.body.code);
   const path = `/posts/${post.slug}`;
   const url = `https://kxlaa.com${path}`;
-  const title = `Writing | ${post.title}`;
+  const title = `${post.title}`;
 
   const meta: MetaProps = {
     title: title,
