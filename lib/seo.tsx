@@ -1,4 +1,6 @@
+import Head from "next/head";
 import type { DefaultSeoProps, NextSeoProps } from "next-seo";
+import { NextSeo } from "next-seo";
 
 export type MetaProps = NextSeoProps;
 
@@ -24,3 +26,19 @@ export const seo: DefaultSeoProps = {
     cardType: "summary_large_image",
   },
 };
+
+export type SeoProps = MetaProps & {
+  ogImage?: string;
+};
+
+export function Seo(props: SeoProps) {
+  const { ogImage, ...meta } = props;
+  return (
+    <>
+      <NextSeo {...meta} />
+      <Head>
+        <meta name="twitter:image" content={ogImage} />
+      </Head>
+    </>
+  );
+}

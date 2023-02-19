@@ -6,7 +6,7 @@ import { components } from "@/components/mdx/MDXComponents";
 import { PostHeader } from "@/components/posts/PostHeader";
 import { PostSideBar } from "@/components/posts/PostSideBar";
 import type { Post as PostType } from "@/contentlayer/generated";
-import type { MetaProps } from "@/lib/seo";
+import type { SeoProps } from "@/lib/seo";
 
 const FreeDnd = dynamic(
   () => import("@/widgets/drag-and-drop-post/free-dnd/FreeDnd")
@@ -80,7 +80,7 @@ function usePostPage(args: PostPageProps) {
   const url = `https://kxlaa.com${path}`;
   const title = `${post.title}`;
 
-  const meta: MetaProps = {
+  const meta: SeoProps = {
     title: title,
     description: post.description,
     canonical: url,
@@ -108,6 +108,7 @@ function usePostPage(args: PostPageProps) {
       site: `@kxlaa_`,
       cardType: "summary_large_image",
     },
+    ogImage: post.ogImage || "/images/main-og-image.jpg",
   };
 
   return {
