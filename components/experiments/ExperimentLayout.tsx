@@ -12,11 +12,11 @@ import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
 import { getBaseUrl } from "@/lib/get-base-url";
-import type { MetaProps } from "@/lib/seo";
+import type { SeoProps } from "@/lib/seo";
 
 type ExperimentLayoutProps = ExperimentsType & {
   children: React.ReactNode;
-  customMeta?: MetaProps;
+  customMeta?: SeoProps;
 };
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
