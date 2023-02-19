@@ -21,7 +21,7 @@ export function Writing(props: WritingProps) {
           <Link
             href={`/posts/${post.slug}`}
             key={post.slug}
-            className="flex gap-3 p-3 transition-colors rounded-md hover:bg-cod-gray-500"
+            className="flex gap-3 p-2 transition-colors rounded-md md:p-3 hover:bg-cod-gray-500"
           >
             <div className="flex flex-col gap-0.5">
               <p className="text-sm font-semibold">{post.title}</p>
