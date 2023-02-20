@@ -22,6 +22,8 @@ export function Writing(props: WritingProps) {
             href={`/posts/${post.slug}`}
             key={post.slug}
             className="flex gap-3 p-2 transition-colors rounded-md md:p-3 hover:bg-cod-gray-500"
+            data-splitbee-event={`Click on ${post.title}`}
+            data-splitbee-event-contentType="Article"
           >
             <div className="flex flex-col gap-0.5">
               <p className="text-sm font-semibold">{post.title}</p>
@@ -36,6 +38,7 @@ export function Writing(props: WritingProps) {
           <Link
             href="/posts"
             className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
+            data-splitbee-event="Click on All Articles"
           >
             All Articles
           </Link>

@@ -17,6 +17,7 @@ export function Header() {
         <button
           className="flex items-center justify-center gap-1 px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400"
           onClick={copyEmail}
+          data-splitbee-event="Click on Copy E-mail"
         >
           <Copy className="w-3 h-3 text-silver-700" />
 

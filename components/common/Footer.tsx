@@ -14,6 +14,8 @@ export function Footer() {
             className="flex flex-wrap items-center justify-center gap-1 text-xs transition-colors text-silver-700 md:text-sm font-extralight hover:text-silver-400"
             target="_blank"
             rel="noreferrer"
+            data-splitbee-event={`Click on ${label}`}
+            data-splitbee-event-destination={label.toLowerCase()}
           >
             {label}
           </a>
