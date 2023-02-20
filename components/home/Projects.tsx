@@ -3,19 +3,9 @@ import Image from "next/image";
 export function Projects() {
   return (
     <div className="grid gap-3 md:grid-cols-2">
-      <ProjectCard
-        link="https://www.nartefacts.com/"
-        title="Nartefacts"
-        image="https://ucarecdn.com/85a59495-37d7-4fd0-b128-482cdbf43445/"
-        description="Color pallette's inspired by the vibrant colors of African music."
-      />
-
-      <ProjectCard
-        link="https://www.devportfolios.dev/"
-        title="DevPortfolios"
-        image="https://ucarecdn.com/4d9faa95-0f9d-4889-b6a4-f3e2ecd5adf0/"
-        description="The most beautiful developer portfolios on the web."
-      />
+      {PROJECTS.map((project) => (
+        <ProjectCard key={project.link} {...project} />
+      ))}
     </div>
   );
 }
@@ -36,6 +26,7 @@ export function ProjectCard(props: ProjectCardProps) {
       className="flex flex-col w-full gap-3 overflow-hidden transition-colors border rounded-md bg-cod-gray-600 border-cod-gray-400 hover:border-cod-gray-200"
       target="_blank"
       rel="noreferrer"
+      data-splitbee-event={`Click on ${title}`}
     >
       <Image
         src={image}
@@ -53,3 +44,19 @@ export function ProjectCard(props: ProjectCardProps) {
     </a>
   );
 }
+
+const PROJECTS = [
+  {
+    title: "Nartefacts",
+    description:
+      "Color pallette's inspired by the vibrant colors of African music.",
+    link: "https://www.nartefacts.com/",
+    image: "https://ucarecdn.com/85a59495-37d7-4fd0-b128-482cdbf43445/",
+  },
+  {
+    title: "DevPortfolios",
+    description: "The most beautiful developer portfolios on the web.",
+    link: "https://www.devportfolios.dev/",
+    image: "https://ucarecdn.com/4d9faa95-0f9d-4889-b6a4-f3e2ecd5adf0/",
+  },
+];

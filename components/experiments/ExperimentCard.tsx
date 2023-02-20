@@ -19,6 +19,8 @@ export function ExperimentCard(props: ExperimentCardProps) {
         size === "sm" && "gap-0.5",
         "border-cod-gray-300 hover:border-cod-gray-400 bg-cod-gray-500"
       )}
+      data-splitbee-event={`Click on ${title}`}
+      data-splitbee-event-contentType="Experiment"
     >
       <div
         className={cx(

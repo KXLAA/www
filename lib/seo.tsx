@@ -20,10 +20,10 @@ export function Seo(props: SeoProps) {
 
 export function DefaultSeo() {
   const seo: DefaultSeoProps = {
-    title: `Kola | Full Stack Engineer`,
+    title: `Kola | Frontend Engineer`,
     description: `Do it with flair ✨`,
     openGraph: {
-      title: `Kola | Full Stack Engineer`,
+      title: `Kola | Frontend Engineer`,
       type: "website",
       url: `https://kxlaa.com`,
       images: [
@@ -31,7 +31,7 @@ export function DefaultSeo() {
           url: "https://ucarecdn.com/2fecb5b1-ed81-47b7-917d-b5c70f3ed733/mainogimage.jpg",
           width: 1200,
           height: 600,
-          alt: `Kola | Full Stack Engineer`,
+          alt: `Kola | Frontend Engineer`,
         },
       ],
     },
