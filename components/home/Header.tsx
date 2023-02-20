@@ -9,8 +9,8 @@ export function Header() {
     <div className="flex flex-col gap-4">
       <h1 className="text-5xl font-semibold">KOLA</h1>
       <p className="text-base">
-        Design-minded full-stack engineer with experience in building client-
-        and server-side web applications.
+        Design-minded frontend engineer with hands on experience in building
+        client- and server-side web applications.
       </p>
 
       <div className="flex gap-4">
