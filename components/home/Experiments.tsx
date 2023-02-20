@@ -42,6 +42,7 @@ export function Experiments(props: ExperimentsProps) {
         <Link
           href="/experiments"
           className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
+          data-splitbee-event="Click on All Experiments"
         >
           All Experiments
         </Link>
