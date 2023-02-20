@@ -29,12 +29,12 @@ export function PostsPage(props: PostsPageProps) {
       <div className="flex flex-col gap-4">
         {posts.map((post) => (
           <Link
-            className="flex gap-3 p-3 transition-colors rounded-md hover:bg-cod-gray-500"
+            className="flex gap-3 p-3 transition-colors border border-transparent rounded-md hover:bg-cod-gray-500 hover:border-cod-gray-400"
             href={`/posts/${post.slug}`}
             key={post.slug}
           >
             <div className="flex flex-col gap-1">
-              <p className="text-base font-semibold">{post.title}</p>
+              <p className="text-lg font-semibold">{post.title}</p>
               <p className="text-sm text-silver-800">{post.description}</p>
 
               <p className="mt-1 text-xs text-silver-900">
