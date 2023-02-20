@@ -13,18 +13,28 @@ export type PostHeading = {
   level?: number;
 };
 
+export type Project = {
+  title: string;
+  description: string;
+  link: string;
+  image: string;
+};
+
 type Config = {
   experiments: ExperimentsType[];
   posts: PostType[];
+  projects: Project[];
 };
 
 class Api {
   private experiments: ExperimentsType[];
   private posts: PostType[];
+  private projects: Project[];
 
-  constructor({ experiments, posts }: Config) {
+  constructor({ experiments, posts, projects }: Config) {
     this.experiments = experiments;
     this.posts = posts;
+    this.projects = projects;
   }
 
   getPublished<T extends { slug: string }>(content: T[]) {
@@ -57,6 +67,10 @@ class Api {
     );
   }
 
+  getProjects() {
+    return this.projects;
+  }
+
   getMinimalExperiments() {
     return pipe(this.experiments, this.getPublished, this.sort, (experiments) =>
       experiments.map((e) => ({
@@ -74,4 +88,19 @@ class Api {
 export const api = new Api({
   experiments: allExperiments,
   posts: allPosts,
+  projects: [
+    {
+      title: "Nartefacts",
+      description:
+        "Color pallette's inspired by the vibrant colors of African music.",
+      link: "https://www.nartefacts.com/",
+      image: "https://ucarecdn.com/85a59495-37d7-4fd0-b128-482cdbf43445/",
+    },
+    {
+      title: "DevPortfolios",
+      description: "The most beautiful developer portfolios on the web.",
+      link: "https://www.devportfolios.dev/",
+      image: "https://ucarecdn.com/4d9faa95-0f9d-4889-b6a4-f3e2ecd5adf0/",
+    },
+  ],
 });
