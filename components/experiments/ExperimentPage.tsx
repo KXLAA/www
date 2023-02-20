@@ -3,6 +3,7 @@ import { useLiveReload, useMDXComponent } from "next-contentlayer/hooks";
 
 import { ExperimentLayout } from "@/components/experiments/ExperimentLayout";
 import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
+import type { SeoProps } from "@/lib/seo";
 
 const VercelEnvInputs = dynamic(
   () =>
@@ -34,17 +35,52 @@ export type ExperimentPageProps = {
 
 export function ExperimentPage(props: ExperimentPageProps) {
   const { experiment } = props;
-  const Component = useMDXComponent(experiment.body?.code);
-  useLiveReload();
+  const { Component, meta } = useExperimentPage(props);
 
   return (
-    <ExperimentLayout
-      {...experiment}
-      customMeta={{
-        title: `Experiments | ${experiment.title}`,
-      }}
-    >
+    <ExperimentLayout {...experiment} customMeta={meta}>
       <Component components={MDXComponents} />
     </ExperimentLayout>
   );
+}
+
+function useExperimentPage(args: ExperimentPageProps) {
+  const { experiment } = args;
+  const Component = useMDXComponent(experiment.body?.code);
+  useLiveReload();
+
+  const path = `/experiments/${experiment.slug}`;
+  const url = `https://kxlaa.com${path}`;
+  const title = `Experiment ${experiment.number} - ${experiment.title}`;
+  const description = `Kola's UI Experiments`;
+
+  const meta: SeoProps = {
+    title: title,
+    description: description,
+    canonical: url,
+    openGraph: {
+      title,
+      description: description,
+      url,
+      images: [
+        {
+          url: experiment.ogImage,
+          width: 1200,
+          height: 600,
+          alt: `Kola's UI Experiments`,
+        },
+      ],
+    },
+    twitter: {
+      handle: `@kxlaa_`,
+      site: `@kxlaa_`,
+      cardType: "summary_large_image",
+    },
+    ogImage: experiment.ogImage,
+  };
+
+  return {
+    Component,
+    meta,
+  };
 }

@@ -101,7 +101,10 @@ const Experiments = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
+    number: { type: "string", required: true },
     publishedAt: { type: "string", required: true },
+    description: { type: "string" },
+    ogImage: { type: "string", required: true },
     mp4: { type: "string", required: true },
     webm: { type: "string", required: true },
     poster: { type: "string", required: true },
