@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Copy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,17 +37,18 @@ export default function HomePage(props: HomePageProps) {
         </p>
 
         <div className="flex gap-4">
-          <button
+          <motion.button
             className="flex items-center justify-center gap-1 px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400"
             onClick={copyEmail}
             data-splitbee-event="Click on Copy E-mail"
+            whileTap={{ scale: 0.95 }}
           >
             <Copy className="w-3 h-3 text-silver-700" />
 
             <span className="text-xs text-silver-700">
               {copied ? "Copied" : "E-mail"}
             </span>
-          </button>
+          </motion.button>
         </div>
       </div>
 
