@@ -23,9 +23,6 @@ type PostCodeSandpackProps = {
   previewProps?: React.ComponentProps<typeof SandpackPreview>;
 };
 
-// TODO: Animate height of code editor on toggle
-// TODO: Persist code editor state in local storage
-
 export default function PostCodeSandpack(props: PostCodeSandpackProps) {
   const [open, setOpen] = React.useState(false);
 
