@@ -13,7 +13,6 @@ export type PostHeaderProps = PostType & {
 
 export function PostHeader(props: PostHeaderProps) {
   const isHidden = useHideOnScroll();
-  const { title, readingTime, className } = props;
   const date = props?.publishedAt
     ? formatDate(props?.publishedAt, "MMMM dd, yyyy")
     : null;
@@ -21,7 +20,7 @@ export function PostHeader(props: PostHeaderProps) {
     <div
       className={cx(
         "flex flex-col items-center gap-4 w-full mt-4 md:mt-10",
-        className
+        props.className
       )}
     >
       <AnimatePresence>
@@ -36,7 +35,7 @@ export function PostHeader(props: PostHeaderProps) {
                 href: "/",
               },
               {
-                label: title,
+                label: props.title,
                 href: "/posts",
                 active: true,
               },
@@ -55,19 +54,19 @@ export function PostHeader(props: PostHeaderProps) {
                 href: "/",
               },
               {
-                label: title,
+                label: props.title,
                 href: "/posts",
                 active: true,
               },
             ]}
           />
           <h1 className="m-0 text-2xl md:text-5xl font-bold max-w-[840px]">
-            {title}
+            {props.title}
           </h1>
           <div className="flex items-center justify-center gap-1 text-sm rounded-md font-extralight text-silver-700 underline-offset-1 w-fit">
             <span className="m-0">{date}</span>
             <span>/</span>
-            <span>{readingTime.text} </span>
+            <span>{props.readingTime.text} </span>
           </div>
 
           {/* <Show when={isDateAfter(props.lastUpdatedAt, props.publishedAt)}>
