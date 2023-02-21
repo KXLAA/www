@@ -11,7 +11,7 @@ Rewrite of my personal site. You can view the code of the previous version [here
 
 Tasks left to do:
 
-- [ ] Add support for sitmaps and RSS feeds
+- [ ] Add support for sitmaps and RSS feeds. Maybe use [next-sitemap](https://www.npmjs.com/package/next-sitemap) for sitmps.
 - [ ] Refactor to use the new `/app` directory
 - [ ] Imporve how images are handled
 - [ ] Automatic og Images with new next og image package
@@ -20,5 +20,6 @@ Tasks left to do:
 - [ ] Switch package manager to pnpm
 - [ ] Add some tests and CI
 - [ ] Animate hover states on blog posts
+- [ ] Persist code editor state in local storage
 
 ## Running Locally
