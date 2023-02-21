@@ -65,8 +65,6 @@ export default function HomePage(props: HomePageProps) {
               alt={project.title}
               width={2000}
               height={630}
-              placeholder="blur"
-              blurDataURL={project.image}
             />
             <div className="flex flex-col justify-center gap-1 p-2 pt-0 text-sm font-light">
               <span>{project.title}</span>

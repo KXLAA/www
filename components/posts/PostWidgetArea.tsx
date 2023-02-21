@@ -14,20 +14,19 @@ type PostWidgetAreaProps = {
 
 export function PostWidgetArea(props: PostWidgetAreaProps) {
   const isMobile = useIsMobile();
-  const { children, className, footer, status } = props;
   return (
     <div className="relative flex flex-col justify-end w-full p-2 border rounded-xl bg-cod-gray-800 border-cod-gray-600">
       <div
         className={cx(
           "flex flex-col justify-end w-full h-60 md:p-10 p-6 rounded-xl live-area bg-shark-900",
-          className
+          props.className
         )}
       >
-        {children}
+        {props.children}
       </div>
 
       <AnimatePresence>
-        {status && !isMobile && (
+        {props.status && !isMobile && (
           <motion.div
             key="status"
             initial={{ opacity: 0, y: 20 }}
@@ -36,15 +35,15 @@ export function PostWidgetArea(props: PostWidgetAreaProps) {
             transition={{ type: "spring" }}
             className={cx(
               "absolute z-10 left-0 flex items-center justify-between w-full p-6 text-xs text-silver-400 mix-blend-lighten backdrop-blur border-t border-[#1F1F22] border-dashed mb-0.5",
-              footer ? "bottom-0" : "bottom-4"
+              props.footer ? "bottom-0" : "bottom-4"
             )}
           >
-            {status}
+            {props.status}
           </motion.div>
         )}
       </AnimatePresence>
 
-      <Show when={!!footer}>{footer}</Show>
+      <Show when={!!props.footer}>{props.footer}</Show>
     </div>
   );
 }
