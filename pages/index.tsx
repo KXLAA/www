@@ -1,4 +1,3 @@
-import copy from "copy-to-clipboard";
 import { Copy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +15,7 @@ import type { Project } from "@/lib/api";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
+import { useCopyEmail } from "@/lib/hooks/use-copy-email";
 
 type HomePageProps = {
   posts: PostType[];
@@ -81,7 +81,7 @@ export default function HomePage(props: HomePageProps) {
 
       <Section
         heading="Writing"
-        description="Articles on web development, React  & any other topics that interest me."
+        description="Articles on web development, React  & any other intresting topics."
       >
         <div className="flex flex-col gap-2">
           {props.posts.slice(0, 3).map((post) => (
@@ -152,42 +152,11 @@ export default function HomePage(props: HomePageProps) {
   );
 }
 
-export const getStaticProps = async () => {
-  return {
-    props: {
-      posts: api.getMinimalPosts(),
-      experiments: api.getMinimalExperiments(),
-      projects: api.getProjects(),
-    },
-  };
-};
-
-function useCopyEmail() {
-  const [copied, setCopied] = React.useState(false);
-  const email = process.env.NEXT_PUBLIC_EMAIL;
-
-  React.useEffect(() => {
-    if (copied) {
-      const timeout = setTimeout(() => setCopied(false), 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [copied]);
-
-  const copyEmail = () => {
-    setCopied(true);
-    copy(email!);
-  };
-
-  return { copied, copyEmail };
-}
-
-type SectionProps = {
+function Section(props: {
   heading: string;
   description: string;
   children: React.ReactNode;
-};
-
-export function Section(props: SectionProps) {
+}) {
   const { heading, description, children } = props;
   return (
     <div className="flex flex-col gap-4 p-3 border rounded-md md:p-4 border-cod-gray-400">
@@ -200,3 +169,13 @@ export function Section(props: SectionProps) {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      posts: api.getMinimalPosts(),
+      experiments: api.getMinimalExperiments(),
+      projects: api.getProjects(),
+    },
+  };
+};
