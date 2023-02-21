@@ -12,8 +12,6 @@ type ExperimentsPageProps = {
 };
 
 export default function Experiments(props: ExperimentsPageProps) {
-  const { experiments } = props;
-
   return (
     <Layout
       className="flex flex-col justify-center gap-4 p-2"
@@ -32,7 +30,7 @@ export default function Experiments(props: ExperimentsPageProps) {
       </Link>
 
       <div className="grid gap-2 md:grid-cols-3 2xl:grid-cols-4">
-        {experiments.map((experiment) => (
+        {props.experiments.map((experiment) => (
           <ExperimentCard {...experiment} key={experiment.slug} />
         ))}
       </div>
