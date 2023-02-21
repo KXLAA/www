@@ -17,24 +17,22 @@ type CalloutProps = {
 
 export function Callout(props: CalloutProps) {
   const disclosure = useDisclosureState();
-
-  const { intent, children, heading, dropdown } = props;
   const icon =
-    intent === "danger" ? (
+    props.intent === "danger" ? (
       <AlertTriangle className="w-4 h-5 shrink-0" />
-    ) : intent === "info" ? (
+    ) : props.intent === "info" ? (
       <Info className="w-5 h-5 shrink-0" />
     ) : null;
 
-  return dropdown ? (
+  return props.dropdown ? (
     <aside
       className={cx(
         "p-3 w-full rounded-xl my-6",
-        intent === "danger" &&
+        props.intent === "danger" &&
           "bg-red-dark-2 border-2 border-red-dark-4 text-red-dark-11",
-        intent === "info" &&
+        props.intent === "info" &&
           "bg-indigo-dark-2 border-2 border-indigo-dark-4 !text-indigo-dark-11",
-        intent === "default" &&
+        props.intent === "default" &&
           "bg-shark-600 border-shark-500 border-2 text-silver-600"
       )}
     >
@@ -45,15 +43,15 @@ export function Callout(props: CalloutProps) {
         >
           <div className={cx("flex items-center gap-2 text-xl font-semibold")}>
             {icon}
-            <p className="m-0">{heading}</p>
+            <p className="m-0">{props.heading}</p>
           </div>
 
           <div
             className={cx(
               "rounded-full bg-indigo-dark-3 p-1 border-2 border-indigo-dark-4",
-              intent === "danger" &&
+              props.intent === "danger" &&
                 "bg-red-dark-3  border-2 border-red-dark-4",
-              intent === "default" && "bg-shark-400 p-1 border-shark-300"
+              props.intent === "default" && "bg-shark-400 p-1 border-shark-300"
             )}
           >
             <ChevronDown
@@ -71,7 +69,10 @@ export function Callout(props: CalloutProps) {
           as={AnimateHeight}
           isVisible={disclosure.open}
         >
-          <div className="flex flex-col gap-6 mt-4 text-lg"> {children}</div>
+          <div className="flex flex-col gap-6 mt-4 text-lg">
+            {" "}
+            {props.children}
+          </div>
         </DisclosureContent>
       </div>
     </aside>
@@ -79,20 +80,20 @@ export function Callout(props: CalloutProps) {
     <aside
       className={cx(
         "p-3 w-full rounded-xl ",
-        intent === "danger" &&
+        props.intent === "danger" &&
           "bg-red-dark-2 border-2 border-red-dark-4 text-red-dark-11",
-        intent === "info" &&
+        props.intent === "info" &&
           "bg-indigo-dark-2 border-2 border-indigo-dark-4 !text-indigo-dark-11",
-        intent === "default" &&
+        props.intent === "default" &&
           "bg-shark-600 border-shark-500 border-2 text-silver-600"
       )}
     >
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 text-xl font-bold">
           {icon}
-          <p className="m-0">{heading}</p>
+          <p className="m-0">{props.heading}</p>
         </div>
-        <div className="flex flex-col gap-2 text-lg"> {children}</div>
+        <div className="flex flex-col gap-2 text-lg"> {props.children}</div>
       </div>
     </aside>
   );

@@ -19,12 +19,12 @@ export function PostSideBar(props: PostSideBarProps) {
   return (
     <aside className="md:w-1/3  md:sticky md:top-7 self-start max-w-[300px] md:flex flex-col gap-4 items-start hidden">
       <ul className="relative flex flex-col items-start gap-2">
-        <div className="text-lg font-semibold text-left text-silver-50">
+        <div className="text-lg font-normal text-left text-silver-50">
           On this page
         </div>
         {tableOfContent?.map((item) => (
           <li
-            className="text-base transition text-silver-700 hover:text-silver-50 text-light"
+            className="transition font-extralight text-silver-700 hover:text-silver-50"
             key={item.link}
           >
             <motion.a

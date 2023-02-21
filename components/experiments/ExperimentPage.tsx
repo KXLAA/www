@@ -34,11 +34,10 @@ export type ExperimentPageProps = {
 };
 
 export function ExperimentPage(props: ExperimentPageProps) {
-  const { experiment } = props;
   const { Component, meta } = useExperimentPage(props);
 
   return (
-    <ExperimentLayout {...experiment} customMeta={meta}>
+    <ExperimentLayout {...props.experiment} customMeta={meta}>
       <Component components={MDXComponents} />
     </ExperimentLayout>
   );

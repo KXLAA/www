@@ -1,7 +1,8 @@
 import copy from "copy-to-clipboard";
+import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { SiCodesandbox } from "react-icons/si";
+import { SiCodesandbox, SiGithub } from "react-icons/si";
 import { TfiLink } from "react-icons/tfi";
 
 import { Layout } from "@/components/common/Layout";
@@ -20,16 +21,13 @@ type ExperimentLayoutProps = ExperimentsType & {
 };
 
 export function ExperimentLayout(props: ExperimentLayoutProps) {
-  const { children, title, slug, customMeta, codesandbox, publishedAt } = props;
-  const publishedExperiments = api.getPublishedExperiments();
-  const current = publishedExperiments.findIndex((p) => p.slug === slug);
-  const next = publishedExperiments[current + 1];
-  const prev = publishedExperiments[current - 1];
+  const { next, prev, links, publishedExperiments } =
+    useExperimentLayout(props);
 
   return (
     <Layout
       className="flex flex-col items-center justify-center max-w-5xl gap-4 px-4 py-4 mx-auto text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
-      customMeta={customMeta}
+      customMeta={props.customMeta}
     >
       <Link
         href={publishedExperiments.length > 1 ? "/experiments" : "/"}
@@ -42,31 +40,24 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
       <div className="flex justify-between w-full">
         <div>
           <h1 className="text-sm font-normal md:text-base text-silver-600">
-            {title}
+            {props.title}
           </h1>
           <p className="text-xs md:text-sm text-silver-800">
-            {formatDate(publishedAt, "MMMM dd, yyyy")}
+            {formatDate(props.publishedAt, "MMMM dd, yyyy")}
           </p>
         </div>
 
         <div className="flex gap-2">
-          <AnchorLink
-            icon={<TfiLink className="w-4 h-4" />}
-            tooltipMessage="Copy Link"
-            onClick={() => copy(`${getBaseUrl()}/experiments/${slug}`)}
-          />
-          <Show when={!!codesandbox}>
-            <AnchorLink
-              icon={<SiCodesandbox className="w-4 h-4" />}
-              tooltipMessage="View on Codesandbox"
-              href={codesandbox}
-            />
-          </Show>
+          {links.map((link) => (
+            <Show when={!link.hidden} key={link.id}>
+              <AnchorLink {...link} />
+            </Show>
+          ))}
         </div>
       </div>
 
       <div className="w-full p-4 border border-dashed rounded-lg md:p-8 border-shark-600 grid-bg bg-cod-gray-800">
-        {children}
+        {props.children}
       </div>
 
       <Show when={!!prev && !!next}>
@@ -98,42 +89,78 @@ type AnchorLinkProps = {
 };
 
 function AnchorLink(props: AnchorLinkProps) {
-  const { icon, className, href, onClick, tooltipMessage } = props;
-  const Element = props.href ? "a" : "button";
+  const Element = props.href ? motion.a : motion.button;
 
   return (
-    <Tooltip content={tooltipMessage}>
+    <Tooltip content={props.tooltipMessage}>
       <Element
-        href={href}
-        onClick={onClick}
+        href={props.href}
+        whileTap={{ scale: 0.95 }}
+        onClick={props.onClick}
         className={cx(
-          "flex items-center justify-center w-8 h-8 transition border rounded-full text-silver-800 bg-shark-700 border-shark-600 hover:bg-shark-500 hover:order-shark-400 hover:text-silver-500",
-          className
+          "flex items-center justify-center w-8 h-8 transition-colors  border rounded-full text-silver-800 bg-shark-700 border-shark-600 hover:bg-shark-500 hover:order-shark-400 hover:text-silver-500",
+          props.className
         )}
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        {icon}
+        {props.icon}
       </Element>
     </Tooltip>
   );
 }
 
-type NavigationProps = {
+function Navigation(props: {
   experiment?: ExperimentsType;
   className?: string;
   label?: string;
-};
-
-function Navigation(props: NavigationProps) {
-  const { experiment, className, label } = props;
+}) {
   return (
     <Link
-      href={experiment!.slug}
-      className={cx("flex flex-col gap-1 text-sm", className)}
+      href={props.experiment!.slug}
+      className={cx("flex flex-col gap-1 text-sm", props.className)}
     >
-      <span className="font-normal">{label}</span>
+      <span className="font-normal">{props.label}</span>
       <span className="font-extralight text-silver-700">
-        {experiment?.title}
+        {props.experiment?.title}
       </span>
     </Link>
   );
+}
+
+function useExperimentLayout(args: ExperimentLayoutProps) {
+  const { slug, codesandbox, github } = args;
+  const publishedExperiments = api.getPublishedExperiments();
+  const current = publishedExperiments.findIndex((p) => p.slug === slug);
+  const next = publishedExperiments[current + 1];
+  const prev = publishedExperiments[current - 1];
+
+  return {
+    next,
+    prev,
+    links: [
+      {
+        id: "codesandbox",
+        icon: <SiCodesandbox className="w-4 h-4" />,
+        tooltipMessage: "View on Codesandbox",
+        href: codesandbox,
+        hidden: !codesandbox,
+      },
+      {
+        id: "github",
+        icon: <SiGithub className="w-4 h-4" />,
+        tooltipMessage: "View on Github",
+        href: github,
+        hidden: !github,
+      },
+      {
+        id: "copy-link",
+        icon: <TfiLink className="w-4 h-4" />,
+        tooltipMessage: "Copy Link",
+        onClick: () => copy(`${getBaseUrl()}/experiments/${slug}`),
+        hidden: false,
+      },
+    ],
+    publishedExperiments,
+  };
 }
