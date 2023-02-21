@@ -12,17 +12,18 @@ type LayoutProps = {
 };
 
 export function Layout(props: LayoutProps) {
-  const { children, customMeta, className } = props;
   return (
     <>
-      {customMeta && <Seo {...customMeta} />}
+      {props.customMeta && <Seo {...props.customMeta} />}
       <div
         className={cx(
           "flex min-h-screen w-full flex-col bg-cod-gray-700 text-silver"
         )}
       >
         <main>
-          <AnimateLayout className={className}>{children}</AnimateLayout>
+          <AnimateLayout className={props.className}>
+            {props.children}
+          </AnimateLayout>
         </main>
       </div>
     </>

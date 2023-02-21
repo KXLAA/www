@@ -23,19 +23,15 @@ type PostCodeSandpackProps = {
   previewProps?: React.ComponentProps<typeof SandpackPreview>;
 };
 
-// TODO: Animate height of code editor on toggle
-// TODO: Persist code editor state in local storage
-
 export default function PostCodeSandpack(props: PostCodeSandpackProps) {
   const [open, setOpen] = React.useState(false);
-  const { id, files, customSetup, providerProps, previewProps } = props;
 
   return (
-    <div id={id}>
+    <div id={props.id}>
       <SandpackProvider
         template="react-ts"
         theme="dark"
-        files={files}
+        files={props.files}
         options={{
           externalResources: [
             "https://unpkg.com/@tailwindcss/ui/dist/tailwind-ui.min.css",
@@ -46,12 +42,12 @@ export default function PostCodeSandpack(props: PostCodeSandpackProps) {
             "sp-preview": "rounded-md",
             "sp-tabs": "border-b-none",
           },
-          ...providerProps,
+          ...props.providerProps,
         }}
-        customSetup={customSetup}
+        customSetup={props.customSetup}
       >
         <SandpackLayout>
-          <SandpackPreview {...previewProps} />
+          <SandpackPreview {...props.previewProps} />
           <span className="flex items-center justify-between w-full p-3 bg-shark-800 text-silver">
             <button
               className="w-full text-base font-black text-left uppercase transition-colors text-silver-800 hover:text-silver-600"

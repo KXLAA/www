@@ -6,13 +6,14 @@ import { allPosts } from "../.contentlayer/generated/index.mjs";
 
 const feed = new Feed({
   title: "My Blogs",
-  link: "localhost:3000/rss.xml",
-  url: "localhost:3000",
+  link: "https://kxlaa.com/rss.xml",
+  url: "https://kxlaa.com/",
   description: "My Blogs",
 });
 
 allPosts
   .sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)))
+  .filter((c) => !c.slug.startsWith("_"))
   .forEach((post) => {
     const url = `https://kxlaa.com/posts/${post._raw.flattenedPath}`;
     feed.addItem({
@@ -20,7 +21,7 @@ allPosts
       link: url,
       title: post.title,
       description: post.description,
-      date: parseISO(post.date),
+      date: parseISO(post.publishedAt),
       category: post.tags.map((name) => ({ name })),
       author: [
         {

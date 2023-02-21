@@ -7,8 +7,3 @@ export function formatDate(date: string, formatStr: string) {
 export function isDateAfter(date: string, dateToCompare: string) {
   return isAfter(parseISO(date), parseISO(dateToCompare));
 }
-
-// export const date = {
-//   format: formatDate,
-//   isAfter: isDateAfter,
-// };

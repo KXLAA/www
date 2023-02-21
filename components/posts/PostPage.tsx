@@ -9,32 +9,48 @@ import type { Post as PostType } from "@/contentlayer/generated";
 import type { SeoProps } from "@/lib/seo";
 
 const FreeDnd = dynamic(
-  () => import("@/widgets/drag-and-drop-post/free-dnd/FreeDnd")
+  () => import("@/components/posts/widgets/drag-and-drop-post/free-dnd/FreeDnd")
 );
 const DroppableDnd = dynamic(
-  () => import("@/widgets/drag-and-drop-post/droppable-dnd/DroppableDnd")
+  () =>
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/droppable-dnd/DroppableDnd"
+    )
 );
 const FreeDnDSandPack = dynamic(
-  () => import("@/widgets/drag-and-drop-post/free-dnd/FreeDnDSandPack")
+  () =>
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/free-dnd/FreeDnDSandPack"
+    )
 );
 const DroppableDndSandPack = dynamic(
   () =>
-    import("@/widgets/drag-and-drop-post/droppable-dnd/DroppableDndSandPack")
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/droppable-dnd/DroppableDndSandPack"
+    )
 );
 const SortableDnd = dynamic(
-  () => import("@/widgets/drag-and-drop-post/sortable-dnd/SortableDnd")
+  () =>
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/sortable-dnd/SortableDnd"
+    )
 );
 const SortableDndSandPack = dynamic(
-  () => import("@/widgets/drag-and-drop-post/sortable-dnd/SortableDndSandPack")
+  () =>
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/sortable-dnd/SortableDndSandPack"
+    )
 );
 const SortableMultiDnd = dynamic(
   () =>
-    import("@/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDnd")
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDnd"
+    )
 );
 const SortableMultiDndSandPack = dynamic(
   () =>
     import(
-      "@/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDndSandPack"
+      "@/components/posts/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDndSandPack"
     )
 );
 
@@ -55,18 +71,17 @@ export type PostPageProps = {
 };
 
 export function PostPage(props: PostPageProps) {
-  const { post } = props;
   const { Component, meta } = usePostPage(props);
 
   return (
     <Layout customMeta={meta}>
       <div className="flex flex-col items-center justify-center max-w-5xl px-4 m-auto">
-        <PostHeader {...post} />
+        <PostHeader {...props.post} />
         <div className="flex w-full px-0 pb-24 gap-14 md:flex-row">
           <div className="relative flex-1 max-w-[65ch] min-w-0 px-0 text-lg md:text-xl prose scroll-smooth">
             <Component components={MDXComponents} />
           </div>
-          <PostSideBar tableOfContent={post?.headings || []} />
+          <PostSideBar tableOfContent={props.post?.headings || []} />
         </div>
       </div>
     </Layout>

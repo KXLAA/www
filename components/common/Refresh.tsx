@@ -15,11 +15,10 @@ type RefreshProps = {
 };
 
 export function Refresh(props: RefreshProps) {
-  const { onClick } = props;
   return (
     <motion.div
       className="w-4 h-4 text-silver-600"
-      onClick={onClick}
+      onClick={props.onClick}
       variants={button}
       initial="rest"
       whileHover="hover"
