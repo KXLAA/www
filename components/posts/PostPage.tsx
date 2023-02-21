@@ -9,32 +9,48 @@ import type { Post as PostType } from "@/contentlayer/generated";
 import type { SeoProps } from "@/lib/seo";
 
 const FreeDnd = dynamic(
-  () => import("@/widgets/drag-and-drop-post/free-dnd/FreeDnd")
+  () => import("@/components/posts/widgets/drag-and-drop-post/free-dnd/FreeDnd")
 );
 const DroppableDnd = dynamic(
-  () => import("@/widgets/drag-and-drop-post/droppable-dnd/DroppableDnd")
+  () =>
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/droppable-dnd/DroppableDnd"
+    )
 );
 const FreeDnDSandPack = dynamic(
-  () => import("@/widgets/drag-and-drop-post/free-dnd/FreeDnDSandPack")
+  () =>
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/free-dnd/FreeDnDSandPack"
+    )
 );
 const DroppableDndSandPack = dynamic(
   () =>
-    import("@/widgets/drag-and-drop-post/droppable-dnd/DroppableDndSandPack")
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/droppable-dnd/DroppableDndSandPack"
+    )
 );
 const SortableDnd = dynamic(
-  () => import("@/widgets/drag-and-drop-post/sortable-dnd/SortableDnd")
+  () =>
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/sortable-dnd/SortableDnd"
+    )
 );
 const SortableDndSandPack = dynamic(
-  () => import("@/widgets/drag-and-drop-post/sortable-dnd/SortableDndSandPack")
+  () =>
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/sortable-dnd/SortableDndSandPack"
+    )
 );
 const SortableMultiDnd = dynamic(
   () =>
-    import("@/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDnd")
+    import(
+      "@/components/posts/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDnd"
+    )
 );
 const SortableMultiDndSandPack = dynamic(
   () =>
     import(
-      "@/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDndSandPack"
+      "@/components/posts/widgets/drag-and-drop-post/sortable-multi-dnd/SortableMultiDndSandPack"
     )
 );
 

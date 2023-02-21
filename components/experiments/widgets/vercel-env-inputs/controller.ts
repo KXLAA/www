@@ -64,9 +64,7 @@ export function useVercelEnvInputs() {
     }
   };
 
-  const onCopyLink = (link: string) => {
-    copy(link);
-  };
+  const onCopyLink = (link: string) => copy(link);
 
   return {
     register,

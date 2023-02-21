@@ -5,7 +5,7 @@
     "dev": "export NODE_ENV=dev && concurrently -n NEXT,TS -c magenta,cyan \"next dev\" \"yarn type-check --watch\"",
     "rss": "node scripts/rss.mjs",
     "sitemap": "node scripts/sitemap.mjs",
-    "build": "next build && yarn postbuild",
+    "build": "next build",
     "start": "next start",
     "format": "prettier --write .",
     "lint": "eslint . --ext ts --ext tsx --ext js",
