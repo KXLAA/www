@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^1.18.4",
+    "@contentlayer/core": "^0.3.0",
     "@dnd-kit/core": "^6.0.7",
     "@dnd-kit/modifiers": "^6.0.1",
     "@dnd-kit/sortable": "^7.0.2",
