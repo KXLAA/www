@@ -1,12 +1,8 @@
-import type { CompileOptions } from "@mdx-js/mdx";
+import type { MDXOptions } from "@contentlayer/core";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode, { type Options } from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
-
-type MDXConfig =
-  | Omit<CompileOptions, "outputFormat" | "providerImportSource">
-  | undefined;
 
 export const rehypePrettyCodeOptions: Partial<Options> = {
   // use a prepackaged theme, see all themes here:
@@ -17,7 +13,7 @@ export const rehypePrettyCodeOptions: Partial<Options> = {
   },
 };
 
-export const mdxOptions: MDXConfig = {
+export const mdxOptions: MDXOptions = {
   remarkPlugins: [remarkGfm],
   rehypePlugins: [
     rehypeSlug,
@@ -31,5 +27,4 @@ export const mdxOptions: MDXConfig = {
       },
     ],
   ],
-  format: "mdx",
 };
