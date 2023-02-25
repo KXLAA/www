@@ -9,7 +9,7 @@
     "start": "next start",
     "format": "prettier --write .",
     "lint": "eslint . --ext ts --ext tsx --ext js",
-    "postbuild": "yarn sitemap && yarn rss"
+    "postbuild": "pnpm sitemap && yarn rss"
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^1.18.4",
