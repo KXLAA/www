@@ -31,6 +31,7 @@
     "fp-ts": "^2.13.1",
     "framer-motion": "^7.10.2",
     "globby": "^13.1.3",
+    "is-hotkey": "^0.2.0",
     "lucide-react": "^0.112.0",
     "mdx-prism": "^0.3.4",
     "next": "latest",
