@@ -45,7 +45,7 @@ function Pre(props: any) {
     <div className="relative" ref={hoverRef as any}>
       <pre
         ref={(node) => getCodeString(node)}
-        className="py-4 m-0 rounded-xl bg-shark-800"
+        className="py-4 m-0 rounded-xl bg-cod-gray-500"
         {...props}
       />
 
