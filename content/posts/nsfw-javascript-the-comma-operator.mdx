@@ -6,7 +6,7 @@ tags: ["Javascript", "Patterns"]
 ogImage: "https://ucarecdn.com/4dfc29bc-c051-4094-9d68-d6395c9fcf76/nsfwjs.png"
 ---
 
-While reading "[_JavaScript: The New Toys_](https://www.amazon.co.uk/JavaScript-Toys-T-J-Crowder/dp/1119367956)", a fantastic book on the new features introduced in JavaScript with ES6, I came across an operator that was new to me: the comma operator.
+While reading "[_JavaScript: The New Toys_](https://www.amazon.co.uk/JavaScript-Toys-T-J-Crowder/dp/1119367956)", a fantastic book on the new features introduced in JavaScript with ES6, I came across an operator that was new to me: the **comma** operator.
 
 Take a look at the following code snippet:
 
@@ -42,11 +42,11 @@ So, how is this possible?
 const hello = () => (console.log("does this work ?"), "returned value");
 ```
 
-This is the comma operator in action. If you look at any minified JavaScript code, you'll see that this operator is always present. It's a handy way to save space and write concise code.
+This is the **comma** operator in action. If you look at any minified JavaScript code, you'll see that this operator always appears.It's a handy way to save space and write concise code.
 
 According to MDN - "_the comma `(,)` operator evaluates each of its operands from left to right and returns the value of the last operand_".
 
-Essentially, in the code above, the `console.log` statement would print `'does this work?' `and the function would return the string `'returned value'`. The `console.log` on the right is evaluated or called and thrown away and the string on the right is evaluated and returned as a value.
+Essentially, in the code above, `console.log` would print `does this work?` and the function would return the string `returned value`. The `console.log` on the right is evaluated or called and thrown away and the string on the right is evaluated and returned as a value.
 
 It's a bit strange, isn't it?
 
