@@ -15,8 +15,9 @@ export function PostSideBar(props: PostSideBarProps) {
   const idList = tableOfContent?.map(removeHashTagFromStart) || [];
   const activeId = useActiveId(idList);
   const isHidden = useHideOnScroll(300);
+  const isTableOfContentEmpty = tableOfContent?.length === 0;
 
-  return (
+  return isTableOfContentEmpty ? null : (
     <aside className="md:w-1/3  md:sticky md:top-7 self-start max-w-[300px] md:flex flex-col gap-4 items-start hidden">
       <ul className="relative flex flex-col items-start gap-2">
         <div className="text-lg font-normal text-left text-silver-50">
