@@ -52,7 +52,7 @@ export default function Posts(props: PostsPageProps) {
 export const getStaticProps = async () => {
   return {
     props: {
-      posts: api.getMinimalPosts(),
+      posts: api.posts.minimal,
     },
   };
 };
