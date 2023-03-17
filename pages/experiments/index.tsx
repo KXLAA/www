@@ -42,7 +42,7 @@ export default function Experiments(props: ExperimentsPageProps) {
 export const getStaticProps = async () => {
   return {
     props: {
-      experiments: api.getMinimalExperiments(),
+      experiments: api.experiments.minimal,
     },
   };
 };

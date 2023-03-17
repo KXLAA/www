@@ -173,9 +173,9 @@ function Section(props: {
 export const getStaticProps = async () => {
   return {
     props: {
-      posts: api.getMinimalPosts(),
-      experiments: api.getMinimalExperiments(),
-      projects: api.getProjects(),
+      posts: api.posts.minimal,
+      experiments: api.experiments.minimal,
+      projects: api.projects,
     },
   };
 };
