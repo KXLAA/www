@@ -130,10 +130,9 @@ function Navigation(props: {
 
 function useExperimentLayout(args: ExperimentLayoutProps) {
   const { slug, codesandbox, github } = args;
-  const publishedExperiments = api.getPublishedExperiments();
-  const current = publishedExperiments.findIndex((p) => p.slug === slug);
-  const next = publishedExperiments[current + 1];
-  const prev = publishedExperiments[current - 1];
+  const current = api.experiments.published.findIndex((p) => p.slug === slug);
+  const next = api.experiments.published[current + 1];
+  const prev = api.experiments.published[current - 1];
 
   return {
     next,
@@ -161,6 +160,6 @@ function useExperimentLayout(args: ExperimentLayoutProps) {
         hidden: false,
       },
     ],
-    publishedExperiments,
+    publishedExperiments: api.experiments.published,
   };
 }
