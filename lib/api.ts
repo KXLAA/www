@@ -5,6 +5,7 @@ import type {
   Post as PostType,
 } from "@/contentlayer/generated";
 import { allExperiments, allPosts } from "@/contentlayer/generated";
+import { pick } from "@/lib/pick";
 
 export type PostHeading = {
   id?: string;
@@ -52,12 +53,9 @@ class Api {
     return {
       published: this.getPublished(this._posts),
       minimal: pipe(this._posts, this.getPublished, this.sort, (posts) =>
-        posts.map((p) => ({
-          title: p.title,
-          slug: p.slug,
-          description: p.description,
-          publishedAt: p.publishedAt,
-        }))
+        posts.map((p) =>
+          pick(p, ["title", "slug", "publishedAt", "description"])
+        )
       ),
     };
   }
@@ -70,14 +68,17 @@ class Api {
         this.getPublished,
         this.sort,
         (experiments) =>
-          experiments.map((e) => ({
-            title: e.title,
-            slug: e.slug,
-            publishedAt: e.publishedAt,
-            mp4: e.mp4,
-            webm: e.webm,
-            poster: e.poster,
-          }))
+          experiments.map((e) =>
+            pick(e, [
+              "title",
+              "slug",
+              "publishedAt",
+              "description",
+              "mp4",
+              "webm",
+              "poster",
+            ])
+          )
       ),
     };
   }
