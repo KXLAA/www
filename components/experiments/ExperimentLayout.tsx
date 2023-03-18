@@ -8,7 +8,7 @@ import { TfiLink } from "react-icons/tfi";
 import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
 import { Tooltip } from "@/components/common/Tooltip";
-import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
+import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
