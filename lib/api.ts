@@ -1,10 +1,15 @@
 import { pipe } from "fp-ts/function";
 
 import type {
-  Experiments as ExperimentsType,
+  Experiment as ExperimentsType,
   Post as PostType,
+  Project as ProjectType,
 } from "@/contentlayer/generated";
-import { allExperiments, allPosts } from "@/contentlayer/generated";
+import {
+  allExperiments as experiments,
+  allPosts as posts,
+  allProjects as projects,
+} from "@/contentlayer/generated";
 import { pick } from "@/lib/pick";
 
 export type PostHeading = {
@@ -14,23 +19,16 @@ export type PostHeading = {
   level?: number;
 };
 
-export type Project = {
-  title: string;
-  description: string;
-  link: string;
-  image: string;
-};
-
 type Config = {
   experiments: ExperimentsType[];
   posts: PostType[];
-  projects: Project[];
+  projects: ProjectType[];
 };
 
 class Api {
   private readonly _experiments: ExperimentsType[];
   private readonly _posts: PostType[];
-  private readonly _projects: Project[];
+  private readonly _projects: ProjectType[];
 
   constructor({ experiments, posts, projects }: Config) {
     this._experiments = experiments;
@@ -69,15 +67,7 @@ class Api {
         this.sort,
         (experiments) =>
           experiments.map((e) =>
-            pick(e, [
-              "title",
-              "slug",
-              "publishedAt",
-              "description",
-              "mp4",
-              "webm",
-              "poster",
-            ])
+            pick(e, ["title", "slug", "publishedAt", "mp4", "webm", "poster"])
           )
       ),
     };
@@ -88,22 +78,4 @@ class Api {
   }
 }
 
-export const api = new Api({
-  experiments: allExperiments,
-  posts: allPosts,
-  projects: [
-    {
-      title: "Nartefacts",
-      description:
-        "Color pallette's inspired by the vibrant colors of African music.",
-      link: "https://www.nartefacts.com/",
-      image: "https://ucarecdn.com/85a59495-37d7-4fd0-b128-482cdbf43445/",
-    },
-    {
-      title: "DevPortfolios",
-      description: "The most beautiful developer portfolios on the web.",
-      link: "https://www.devportfolios.dev/",
-      image: "https://ucarecdn.com/4d9faa95-0f9d-4889-b6a4-f3e2ecd5adf0/",
-    },
-  ],
-});
+export const api = new Api({ experiments, posts, projects });
