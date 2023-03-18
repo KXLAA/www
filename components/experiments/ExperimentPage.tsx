@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useLiveReload, useMDXComponent } from "next-contentlayer/hooks";
 
 import { ExperimentLayout } from "@/components/experiments/ExperimentLayout";
-import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
+import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import type { SeoProps } from "@/lib/seo";
 
 const VercelEnvInputs = dynamic(

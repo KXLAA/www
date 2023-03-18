@@ -41,6 +41,8 @@ async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
   return stats.mtime;
 }
 
+const getSlug = (doc: any) => doc._raw.sourceFileName.replace(/\.mdx$/, "");
+
 const Post = defineDocumentType(() => ({
   name: "Post",
   filePathPattern: `posts/*.mdx`,
@@ -90,13 +92,13 @@ const Post = defineDocumentType(() => ({
     },
     slug: {
       type: "string",
-      resolve: (doc) => doc._raw.sourceFileName.replace(".mdx", ""),
+      resolve: (doc) => getSlug(doc),
     },
   },
 }));
 
-const Experiments = defineDocumentType(() => ({
-  name: "Experiments",
+const Experiment = defineDocumentType(() => ({
+  name: "Experiment",
   filePathPattern: `experiments/*.mdx`,
   contentType: "mdx",
   fields: {
@@ -119,14 +121,36 @@ const Experiments = defineDocumentType(() => ({
   computedFields: {
     slug: {
       type: "string",
-      resolve: (doc) => doc._raw.sourceFileName.replace(".mdx", ""),
+      resolve: (doc) => getSlug(doc),
+    },
+  },
+}));
+
+const Project = defineDocumentType(() => ({
+  name: "Project",
+  filePathPattern: `projects/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: { type: "string", required: true },
+    description: { type: "string", required: true },
+    time: { type: "string", required: true },
+    url: { type: "string", required: false },
+  },
+  computedFields: {
+    slug: {
+      type: "string",
+      resolve: (doc) => getSlug(doc),
+    },
+    image: {
+      type: "string",
+      resolve: (doc) => `/projects/${getSlug(doc)}/image.png`,
     },
   },
 }));
 
 export default makeSource({
   contentDirPath: contentDirPath,
-  documentTypes: [Post, Experiments],
+  documentTypes: [Post, Experiment, Project],
   mdx: {
     ...mdxOptions,
   },
