@@ -8,8 +8,10 @@ import {
   makeSource,
 } from "contentlayer/source-files";
 import readingTime from "reading-time";
-
-import { mdxOptions } from "./lib/mdx-config";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 
 export const contentDirPath = "content";
 
@@ -148,10 +150,30 @@ const Project = defineDocumentType(() => ({
   },
 }));
 
+const rehypePrettyCodeOptions = {
+  // use a prepackaged theme, see all themes here:
+  // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+  theme: "github-dark-dimmed",
+  onVisitHighlightedLine(node: any) {
+    node.properties.className.push("line--highlighted");
+  },
+};
+
+const rehypeAutolinkHeadingsOptions = {
+  properties: {
+    className: ["anchor"],
+  },
+};
+
 export default makeSource({
   contentDirPath: contentDirPath,
   documentTypes: [Post, Experiment, Project],
   mdx: {
-    ...mdxOptions,
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypePrettyCode, rehypePrettyCodeOptions],
+      [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOptions],
+    ],
   },
 });
