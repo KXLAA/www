@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
+import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
 

@@ -8,8 +8,10 @@ import {
   makeSource,
 } from "contentlayer/source-files";
 import readingTime from "reading-time";
-
-import { mdxOptions } from "./lib/mdx-config";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
 
 export const contentDirPath = "content";
 
@@ -40,6 +42,8 @@ async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
   );
   return stats.mtime;
 }
+
+const getSlug = (doc: any) => doc._raw.sourceFileName.replace(/\.mdx$/, "");
 
 const Post = defineDocumentType(() => ({
   name: "Post",
@@ -90,13 +94,13 @@ const Post = defineDocumentType(() => ({
     },
     slug: {
       type: "string",
-      resolve: (doc) => doc._raw.sourceFileName.replace(".mdx", ""),
+      resolve: (doc) => getSlug(doc),
     },
   },
 }));
 
-const Experiments = defineDocumentType(() => ({
-  name: "Experiments",
+const Experiment = defineDocumentType(() => ({
+  name: "Experiment",
   filePathPattern: `experiments/*.mdx`,
   contentType: "mdx",
   fields: {
@@ -119,15 +123,57 @@ const Experiments = defineDocumentType(() => ({
   computedFields: {
     slug: {
       type: "string",
-      resolve: (doc) => doc._raw.sourceFileName.replace(".mdx", ""),
+      resolve: (doc) => getSlug(doc),
     },
   },
 }));
 
+const Project = defineDocumentType(() => ({
+  name: "Project",
+  filePathPattern: `projects/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: { type: "string", required: true },
+    description: { type: "string", required: true },
+    time: { type: "string", required: true },
+    url: { type: "string", required: false },
+  },
+  computedFields: {
+    slug: {
+      type: "string",
+      resolve: (doc) => getSlug(doc),
+    },
+    image: {
+      type: "string",
+      resolve: (doc) => `/projects/${getSlug(doc)}/image.png`,
+    },
+  },
+}));
+
+const rehypePrettyCodeOptions = {
+  // use a prepackaged theme, see all themes here:
+  // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+  theme: "github-dark-dimmed",
+  onVisitHighlightedLine(node: any) {
+    node.properties.className.push("line--highlighted");
+  },
+};
+
+const rehypeAutolinkHeadingsOptions = {
+  properties: {
+    className: ["anchor"],
+  },
+};
+
 export default makeSource({
   contentDirPath: contentDirPath,
-  documentTypes: [Post, Experiments],
+  documentTypes: [Post, Experiment, Project],
   mdx: {
-    ...mdxOptions,
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypePrettyCode, rehypePrettyCodeOptions],
+      [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOptions],
+    ],
   },
 });

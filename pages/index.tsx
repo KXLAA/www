@@ -9,10 +9,10 @@ import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
 import { ExperimentCard } from "@/components/experiments/ExperimentCard";
 import type {
-  Experiments as ExperimentsType,
+  Experiment as ExperimentsType,
   Post as PostType,
+  Project as ProjectType,
 } from "@/contentlayer/generated";
-import type { Project } from "@/lib/api";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
@@ -21,7 +21,7 @@ import { useCopyEmail } from "@/lib/hooks/use-copy-email";
 type HomePageProps = {
   posts: PostType[];
   experiments: ExperimentsType[];
-  projects: Project[];
+  projects: ProjectType[];
 };
 
 export default function HomePage(props: HomePageProps) {
@@ -55,8 +55,8 @@ export default function HomePage(props: HomePageProps) {
       <div className="grid gap-3 md:grid-cols-2">
         {props.projects.map((project) => (
           <a
-            key={project.link}
-            href={project.link}
+            key={project.url}
+            href={project.url}
             className="flex flex-col w-full gap-3 overflow-hidden transition-colors border rounded-md bg-cod-gray-600 border-cod-gray-400 hover:border-cod-gray-200"
             target="_blank"
             rel="noreferrer"
