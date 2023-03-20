@@ -1,0 +1,58 @@
+---
+title: "Have a problem before you solve it"
+publishedAt: "2023-03-21"
+description: "Advice on why embracing problems is a good thing"
+tags: ["Advice", "Patterns", "Javascript", "React"]
+---
+
+In popular discourse on Twitter about React, there is a fascination in the community with making sure components do not re-render unnecessarily. A lot of best practices and strategies are recommended such as restructuring the application or using making use memoization through `useMemo` & `memo`.
+
+When it comes to handling state, it is generally advised to keep state local whenever possible. If you need shared or global state that will be used across multiple parts of the application, it is preferable to use external state management libraries such as Zustand or Redux instead of relying on React context.
+
+Keeping global state in React context should be avoided, unless it is state that does not change often. This is because when state in context changes, the entire part of the app that consumes that state will re-render.
+
+These optimisations & best practices are what developers are advised to do by default when writing React applications and as someone who works with react quit a lot i took these best practices and optimisations to heart.
+
+But, did I fully understand why these are considered best practices or why a lot of influential people in the React community advise following these strategies?
+
+At Super, we have a fairly large front-end application written in React. This application is very dynamic and client side heavy, we rely a lot on state. On my first day, I went through the codebase and noticed that React context was used extensively throughout the application to share state deeply throughout the application.
+
+When I came across this, I thought we could restructure the application to reduce reliance on React context for sharing state. Instead of using React context, we could use Zustand to manage the state of the application outside the React tree which should improve the performance of the application.
+
+What is the point of removing state from context? — To minimise unnecessary renders.
+
+Why do we want to reduce unnecessary renders? — To improve the performance of our application.
+
+But the application worked fine with React context. At that point i had run into no performance issues — Our UI was performant and there was no jank at all, or the performance issues that comes with excessive re-rendering.
+
+But our application worked fine with React context. At that point, we had not encountered any performance issues. Our UI was responsive with no janky behaviour or excessive re-rendering.
+
+So what would be the point of introducing an external state management library preemptively to the codebase, to solve a problem that we don't have yet? This would only add unnecessary complexity to the application for seemingly no good reason.
+
+It makes sense to first have a problem before you solve it.
+
+The problem with best practices is that, while they are made with good intentions and are sometimes helpful, there is beauty in encountering a problem, understanding it in the specific context in which it arises, and applying best practices to solve the problem instead of preemptively doing so.
+
+If you've read about `useMemo` or `memo`, you might understand why it's useful and the problems it solves. But if you've never had to solve the specific problem that `useMemo` solves in a codebase you're working on, you might never truly appreciate it’s benefits. Do not rob yourself of such a great learning opportunity by preemptively solving a problem that does not exist.
+
+Running in problems and solving them is a good thing.
+
+For example, at Super I had to create an Icon picker for our version 3 release:
+
+<Image
+  src="/posts/have-a-problem-before-you-solve-it/icon-picker-demo.gif"
+  width={1000}
+  height={720}
+/>
+
+As you can imagine, this component is quite heavy, with a long list of rendered components. After building it out, I ran into performance issues. The scroll was janky, searching for icons was slow, and the component took a while to show up on the screen when triggered.
+
+I decided to search for how i could solve this problem and i discovered the list virtualisation technique. List virtualisations is a technique used to efficiently display large lists of data by rendering only the visible list items in a scrolling viewport. You can learn more about the technique [here](https://www.patterns.dev/posts/virtual-lists).
+
+Using the technique with the icon picker significantly improved its performance. It felt like magic and it gave me a deeper appreciation and understanding of list virtualisation — I encountered a problem in a specific context, searched for a solution, found one, and applied it.
+
+There is no better learning experience than encountering problems and fixing them.
+
+Best practices have good intentions, but you never fully understand their usefulness until you appreciate the problems they try to prevent in your specific context. Embrace encountering problems and fixing them.
+
+Have a problem before you solve it.
