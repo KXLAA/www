@@ -17,6 +17,7 @@ import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
+import generateRSS from "@/lib/rss";
 
 type HomePageProps = {
   posts: PostType[];
@@ -171,6 +172,8 @@ function Section(props: {
 }
 
 export const getStaticProps = async () => {
+  await generateRSS();
+
   return {
     props: {
       posts: api.posts.minimal,
