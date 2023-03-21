@@ -3,5 +3,5 @@ export function getBaseUrl() {
     return "http://localhost:3000";
   }
 
-  return process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_VERCEL_URL;
+  return process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_VERCEL_URL;
 }
