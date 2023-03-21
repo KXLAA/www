@@ -41,6 +41,7 @@ tsconfig.tsbuildinfo
 # rss
 public/feed.xml
 public/rss.xml
+public/rss
 
 
 # site map
