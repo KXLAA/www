@@ -57,9 +57,16 @@ const Post = defineDocumentType(() => ({
       type: "list",
       of: { type: "string" },
     },
-    ogImage: { type: "string" },
   },
   computedFields: {
+    og: {
+      type: "string",
+      resolve: (doc) => `/posts/${getSlug(doc)}/og.png`,
+    },
+    image: {
+      type: "string",
+      resolve: (doc) => `/posts/${getSlug(doc)}/image.png`,
+    },
     lastUpdatedAt: {
       type: "string",
       resolve: (doc) => getLastEditedDate(doc),
