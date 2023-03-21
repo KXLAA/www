@@ -3,7 +3,7 @@ import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "edge",
 };
 
 ///http://localhost:3000/api/og?title=test%20title&description=hello%20world,
