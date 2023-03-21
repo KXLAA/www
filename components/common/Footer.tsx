@@ -1,3 +1,5 @@
+import { getBaseUrl } from "@/lib/get-base-url";
+
 import { Logo } from "./Logo";
 
 export function Footer() {
@@ -38,5 +40,9 @@ const FOOTER_LINKS = [
   {
     label: "LinkedIn",
     link: "https://www.linkedin.com/in/kxlaa",
+  },
+  {
+    label: "RSS",
+    link: `${getBaseUrl()}/feed.xml`,
   },
 ];

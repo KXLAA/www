@@ -40,6 +40,7 @@ tsconfig.tsbuildinfo
 
 # rss
 public/rss.xml
+/public/rss.xml
 
 # site map
 public/sitemap.xml
