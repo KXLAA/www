@@ -41,6 +41,6 @@ const FOOTER_LINKS = [
   },
   {
     label: "RSS",
-    link: `/rss.xml`,
+    link: `/rss/feed.xml`,
   },
 ];
