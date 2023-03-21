@@ -1,10 +1,10 @@
-import { parseISO } from "date-fns";
 import { Feed } from "feed";
 import fs from "fs";
 
 import { api } from "@/lib/api";
 
 export default async function generateRSS() {
+  const baseUrl = "https://www.kxlaa.com";
   const date = new Date();
   const author = {
     name: "Kolade Afode",
@@ -13,8 +13,9 @@ export default async function generateRSS() {
   };
 
   const feed = new Feed({
-    title: "Kola | Articles",
-    description: "",
+    title: "Articles by Kola",
+    description:
+      "Articles on web development, React  & any other interesting topics.",
     id: "https://www.kxlaa.com",
     link: "https://www.kxlaa.com",
     image:
@@ -22,11 +23,8 @@ export default async function generateRSS() {
     favicon: `/favicon-32x32.png`,
     copyright: `All rights reserved ${date.getFullYear()}, Kola`,
     updated: date,
-    generator: "Feed for Node.js",
     feedLinks: {
-      rss2: `/rss/feed.xml`,
-      json: `/rss/feed.json`,
-      atom: `/rss/atom.xml`,
+      rss2: `${baseUrl}/rss.xml`,
     },
     author,
   });
@@ -36,7 +34,7 @@ export default async function generateRSS() {
       title: post.title,
       id: `https://kxlaa.com/posts/${post._raw.flattenedPath}`,
       link: `https://kxlaa.com/posts/${post._raw.flattenedPath}`,
-      date: parseISO(post.publishedAt),
+      date: new Date(post.publishedAt),
       description: post.description,
       content: post.description,
       author: [author],
@@ -44,8 +42,5 @@ export default async function generateRSS() {
     });
   });
 
-  fs.mkdirSync("./public/rss", { recursive: true });
-  fs.writeFileSync("./public/rss/feed.xml", feed.rss2());
-  fs.writeFileSync("./public/rss/atom.xml", feed.atom1());
-  fs.writeFileSync("./public/rss/feed.json", feed.json1());
+  fs.writeFileSync("public/rss.xml", feed.rss2());
 }

@@ -82,7 +82,7 @@ export default function HomePage(props: HomePageProps) {
 
       <Section
         heading="Writing"
-        description="Articles on web development, React  & any other intresting topics."
+        description="Articles on web development, React  & any other interesting topics."
       >
         <div className="flex flex-col gap-2">
           {props.posts.slice(0, 3).map((post) => (
