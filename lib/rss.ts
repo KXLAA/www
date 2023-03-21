@@ -36,7 +36,7 @@ export default async function generateRSS() {
       link: `https://kxlaa.com/posts/${post._raw.flattenedPath}`,
       date: new Date(post.publishedAt),
       description: post.description,
-      content: post.description,
+      content: post.body.raw,
       author: [author],
       contributor: [author],
     });

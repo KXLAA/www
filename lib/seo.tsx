@@ -63,12 +63,6 @@ export function DefaultSeo() {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          title="Kola's blog feed"
-          href="/rss/feed.xml"
-        />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#101010" />
         <meta name="msapplication-TileColor" content="#101010" />
         <meta name="theme-color" content="#ffffff" />
