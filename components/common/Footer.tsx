@@ -1,5 +1,3 @@
-import { getBaseUrl } from "@/lib/get-base-url";
-
 import { Logo } from "./Logo";
 
 export function Footer() {
@@ -43,6 +41,6 @@ const FOOTER_LINKS = [
   },
   {
     label: "RSS",
-    link: `${getBaseUrl()}/feed.xml`,
+    link: `/feed.xml`,
   },
 ];
