@@ -1,3 +1,4 @@
+import { compareDesc } from "date-fns";
 import { pipe } from "fp-ts/function";
 
 import type {
@@ -37,9 +38,8 @@ class Api {
   }
 
   private sort<T extends { publishedAt: string }>(content: T[]) {
-    return content.sort(
-      (a, b) =>
-        Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
+    return content.sort((a, b) =>
+      compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
     );
   }
 
