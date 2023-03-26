@@ -15,7 +15,6 @@ import type {
 } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
-import { formatDate } from "@/lib/date";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
 import generateRSS from "@/lib/rss";
 
@@ -82,10 +81,10 @@ export default function HomePage(props: HomePageProps) {
 
       <Section
         heading="Writing"
-        description="Articles on web development, React  & any other intresting topics."
+        description="Articles on web development, React  & any other interesting topics."
       >
         <div className="flex flex-col gap-2">
-          {props.posts.slice(0, 3).map((post) => (
+          {props.posts.slice(0, 2).map((post) => (
             <Link
               href={`/posts/${post.slug}`}
               key={post.slug}
@@ -96,13 +95,13 @@ export default function HomePage(props: HomePageProps) {
               <div className="flex flex-col gap-0.5">
                 <p className="text-sm font-semibold">{post.title}</p>
                 <p className="mt-0.5 text-xs text-[10px] font-normal text-silver-900">
-                  {formatDate(post.publishedAt, "MM/dd/yyyy")}
+                  {post.publishedAt}
                 </p>
               </div>
             </Link>
           ))}
 
-          <Show when={props.posts.length > 3}>
+          <Show when={props.posts.length > 2}>
             <Link
               href="/posts"
               className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
@@ -172,7 +171,7 @@ function Section(props: {
 }
 
 export const getStaticProps = async () => {
-  await generateRSS();
+  generateRSS();
 
   return {
     props: {
