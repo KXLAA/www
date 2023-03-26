@@ -1,9 +1,9 @@
-import { format, isAfter, parseISO } from "date-fns";
+import { format, isAfter } from "date-fns";
 
 export function formatDate(date: string, formatStr: string) {
-  return format(parseISO(date), formatStr);
+  return format(new Date(date), formatStr);
 }
 
 export function isDateAfter(date: string, dateToCompare: string) {
-  return isAfter(parseISO(date), parseISO(dateToCompare));
+  return isAfter(new Date(date), new Date(dateToCompare));
 }
