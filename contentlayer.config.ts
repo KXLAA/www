@@ -53,16 +53,17 @@ const Post = defineDocumentType(() => ({
     title: { type: "string", required: true },
     publishedAt: { type: "string", required: true },
     description: { type: "string", required: true },
+    og: { type: "string", required: true },
     tags: {
       type: "list",
       of: { type: "string" },
     },
   },
   computedFields: {
-    og: {
-      type: "string",
-      resolve: (doc) => `/posts/${getSlug(doc)}/og.png`,
-    },
+    // og: {
+    //   type: "string",
+    //   resolve: (doc) => `/posts/${getSlug(doc)}/og.png`,
+    // },
     image: {
       type: "string",
       resolve: (doc) => `/posts/${getSlug(doc)}/image.png`,
@@ -115,7 +116,7 @@ const Experiment = defineDocumentType(() => ({
     number: { type: "string", required: true },
     publishedAt: { type: "string", required: true },
     description: { type: "string" },
-    ogImage: { type: "string", required: true },
+    og: { type: "string", required: true },
     mp4: { type: "string", required: true },
     webm: { type: "string", required: true },
     poster: { type: "string", required: true },
