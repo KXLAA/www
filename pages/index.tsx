@@ -171,7 +171,7 @@ function Section(props: {
 }
 
 export const getStaticProps = async () => {
-  await generateRSS();
+  generateRSS();
 
   return {
     props: {
