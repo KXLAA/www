@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
 import { ExperimentCard } from "@/components/experiments/ExperimentCard";
-import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
+import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 
 type ExperimentsPageProps = {
@@ -42,7 +42,7 @@ export default function Experiments(props: ExperimentsPageProps) {
 export const getStaticProps = async () => {
   return {
     props: {
-      experiments: api.getMinimalExperiments(),
+      experiments: api.experiments.minimal,
     },
   };
 };

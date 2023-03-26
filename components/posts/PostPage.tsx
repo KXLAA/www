@@ -111,7 +111,7 @@ function usePostPage(args: PostPageProps) {
       },
       images: [
         {
-          url: post.ogImage || "/images/main-og-image.jpg",
+          url: post.og,
           width: 1200,
           height: 600,
           alt: title,
@@ -123,7 +123,7 @@ function usePostPage(args: PostPageProps) {
       site: `@kxlaa_`,
       cardType: "summary_large_image",
     },
-    ogImage: post.ogImage || "/images/main-og-image.jpg",
+    ogImage: post.og,
   };
 
   return {

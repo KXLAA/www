@@ -9,19 +9,19 @@ import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
 import { ExperimentCard } from "@/components/experiments/ExperimentCard";
 import type {
-  Experiments as ExperimentsType,
+  Experiment as ExperimentsType,
   Post as PostType,
+  Project as ProjectType,
 } from "@/contentlayer/generated";
-import type { Project } from "@/lib/api";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
-import { formatDate } from "@/lib/date";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
+import generateRSS from "@/lib/rss";
 
 type HomePageProps = {
   posts: PostType[];
   experiments: ExperimentsType[];
-  projects: Project[];
+  projects: ProjectType[];
 };
 
 export default function HomePage(props: HomePageProps) {
@@ -55,8 +55,8 @@ export default function HomePage(props: HomePageProps) {
       <div className="grid gap-3 md:grid-cols-2">
         {props.projects.map((project) => (
           <a
-            key={project.link}
-            href={project.link}
+            key={project.url}
+            href={project.url}
             className="flex flex-col w-full gap-3 overflow-hidden transition-colors border rounded-md bg-cod-gray-600 border-cod-gray-400 hover:border-cod-gray-200"
             target="_blank"
             rel="noreferrer"
@@ -81,10 +81,10 @@ export default function HomePage(props: HomePageProps) {
 
       <Section
         heading="Writing"
-        description="Articles on web development, React  & any other intresting topics."
+        description="Articles on web development, React  & any other interesting topics."
       >
         <div className="flex flex-col gap-2">
-          {props.posts.slice(0, 3).map((post) => (
+          {props.posts.slice(0, 2).map((post) => (
             <Link
               href={`/posts/${post.slug}`}
               key={post.slug}
@@ -95,13 +95,13 @@ export default function HomePage(props: HomePageProps) {
               <div className="flex flex-col gap-0.5">
                 <p className="text-sm font-semibold">{post.title}</p>
                 <p className="mt-0.5 text-xs text-[10px] font-normal text-silver-900">
-                  {formatDate(post.publishedAt, "MM/dd/yyyy")}
+                  {post.publishedAt}
                 </p>
               </div>
             </Link>
           ))}
 
-          <Show when={props.posts.length > 3}>
+          <Show when={props.posts.length > 2}>
             <Link
               href="/posts"
               className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
@@ -171,11 +171,13 @@ function Section(props: {
 }
 
 export const getStaticProps = async () => {
+  generateRSS();
+
   return {
     props: {
-      posts: api.getMinimalPosts(),
-      experiments: api.getMinimalExperiments(),
-      projects: api.getProjects(),
+      posts: api.posts.minimal,
+      experiments: api.experiments.minimal,
+      projects: api.projects,
     },
   };
 };

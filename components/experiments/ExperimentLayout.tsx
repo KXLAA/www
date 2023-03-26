@@ -8,7 +8,7 @@ import { TfiLink } from "react-icons/tfi";
 import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
 import { Tooltip } from "@/components/common/Tooltip";
-import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
+import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { formatDate } from "@/lib/date";
@@ -130,10 +130,9 @@ function Navigation(props: {
 
 function useExperimentLayout(args: ExperimentLayoutProps) {
   const { slug, codesandbox, github } = args;
-  const publishedExperiments = api.getPublishedExperiments();
-  const current = publishedExperiments.findIndex((p) => p.slug === slug);
-  const next = publishedExperiments[current + 1];
-  const prev = publishedExperiments[current - 1];
+  const current = api.experiments.published.findIndex((p) => p.slug === slug);
+  const next = api.experiments.published[current + 1];
+  const prev = api.experiments.published[current - 1];
 
   return {
     next,
@@ -161,6 +160,6 @@ function useExperimentLayout(args: ExperimentLayoutProps) {
         hidden: false,
       },
     ],
-    publishedExperiments,
+    publishedExperiments: api.experiments.published,
   };
 }

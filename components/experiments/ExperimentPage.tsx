@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useLiveReload, useMDXComponent } from "next-contentlayer/hooks";
 
 import { ExperimentLayout } from "@/components/experiments/ExperimentLayout";
-import type { Experiments as ExperimentsType } from "@/contentlayer/generated";
+import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import type { SeoProps } from "@/lib/seo";
 
 const VercelEnvInputs = dynamic(
@@ -63,7 +63,7 @@ function useExperimentPage(args: ExperimentPageProps) {
       url,
       images: [
         {
-          url: experiment?.ogImage || "/images/main-og-image.jpg",
+          url: experiment?.og || "/images/main-og-image.jpg",
           width: 1200,
           height: 600,
           alt: `Kola's UI Experiments`,
@@ -75,7 +75,7 @@ function useExperimentPage(args: ExperimentPageProps) {
       site: `@kxlaa_`,
       cardType: "summary_large_image",
     },
-    ogImage: experiment?.ogImage || "/images/main-og-image.jpg",
+    ogImage: experiment?.og || "/images/main-og-image.jpg",
   };
 
   return {
