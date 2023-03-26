@@ -63,7 +63,7 @@ function useExperimentPage(args: ExperimentPageProps) {
       url,
       images: [
         {
-          url: experiment?.ogImage || "/images/main-og-image.jpg",
+          url: experiment?.og || "/images/main-og-image.jpg",
           width: 1200,
           height: 600,
           alt: `Kola's UI Experiments`,
@@ -75,7 +75,7 @@ function useExperimentPage(args: ExperimentPageProps) {
       site: `@kxlaa_`,
       cardType: "summary_large_image",
     },
-    ogImage: experiment?.ogImage || "/images/main-og-image.jpg",
+    ogImage: experiment?.og || "/images/main-og-image.jpg",
   };
 
   return {
