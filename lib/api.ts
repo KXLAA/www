@@ -49,7 +49,7 @@ class Api {
 
   get posts() {
     return {
-      published: this.getPublished(this._posts),
+      published: pipe(this._posts, this.sort, this.getPublished),
       minimal: pipe(this._posts, this.getPublished, this.sort, (posts) =>
         posts.map((p) =>
           pick(p, ["title", "slug", "publishedAt", "description"])
@@ -60,7 +60,7 @@ class Api {
 
   get experiments() {
     return {
-      published: this.getPublished(this._experiments),
+      published: pipe(this._experiments, this.sort, this.getPublished),
       minimal: pipe(
         this._experiments,
         this.getPublished,
