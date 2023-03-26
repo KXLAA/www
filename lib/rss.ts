@@ -3,7 +3,7 @@ import fs from "fs";
 
 import { api } from "@/lib/api";
 
-export default async function generateRSS() {
+export default function generateRSS() {
   const baseUrl = "https://www.kxlaa.com";
   const date = new Date();
   const author = {
@@ -16,8 +16,8 @@ export default async function generateRSS() {
     title: "Articles by Kola",
     description:
       "Articles on web development, React  & any other interesting topics.",
-    id: "https://www.kxlaa.com",
-    link: "https://www.kxlaa.com",
+    id: baseUrl,
+    link: baseUrl,
     image:
       "https://ucarecdn.com/2fecb5b1-ed81-47b7-917d-b5c70f3ed733/mainogimage.jpg",
     favicon: `/favicon-32x32.png`,
