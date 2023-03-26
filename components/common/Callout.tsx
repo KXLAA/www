@@ -15,12 +15,13 @@ type CalloutProps = {
   dropdown?: boolean;
 };
 
-export function Callout(props: CalloutProps) {
+//need to improve this component
+export function Callout({ intent = "default", ...props }: CalloutProps) {
   const disclosure = useDisclosureState();
   const icon =
-    props.intent === "danger" ? (
+    intent === "danger" ? (
       <AlertTriangle className="w-4 h-5 shrink-0" />
-    ) : props.intent === "info" ? (
+    ) : intent === "info" ? (
       <Info className="w-5 h-5 shrink-0" />
     ) : null;
 
@@ -28,12 +29,12 @@ export function Callout(props: CalloutProps) {
     <aside
       className={cx(
         "p-3 w-full rounded-xl my-6",
-        props.intent === "danger" &&
+        intent === "danger" &&
           "bg-red-dark-2 border-2 border-red-dark-4 text-red-dark-11",
-        props.intent === "info" &&
+        intent === "info" &&
           "bg-indigo-dark-2 border-2 border-indigo-dark-4 !text-indigo-dark-11",
-        props.intent === "default" &&
-          "bg-shark-600 border-shark-500 border-2 text-silver-600"
+        intent === "default" &&
+          "bg-cod-gray-500 border-cod-gray-400 border-2 text-silver-600"
       )}
     >
       <div className="flex flex-col">
@@ -49,9 +50,9 @@ export function Callout(props: CalloutProps) {
           <div
             className={cx(
               "rounded-full bg-indigo-dark-3 p-1 border-2 border-indigo-dark-4",
-              props.intent === "danger" &&
+              intent === "danger" &&
                 "bg-red-dark-3  border-2 border-red-dark-4",
-              props.intent === "default" && "bg-shark-400 p-1 border-shark-300"
+              intent === "default" && "bg-shark-400 p-1 border-shark-300"
             )}
           >
             <ChevronDown
@@ -80,12 +81,12 @@ export function Callout(props: CalloutProps) {
     <aside
       className={cx(
         "p-3 w-full rounded-xl ",
-        props.intent === "danger" &&
+        intent === "danger" &&
           "bg-red-dark-2 border-2 border-red-dark-4 text-red-dark-11",
-        props.intent === "info" &&
+        intent === "info" &&
           "bg-indigo-dark-2 border-2 border-indigo-dark-4 !text-indigo-dark-11",
-        props.intent === "default" &&
-          "bg-shark-600 border-shark-500 border-2 text-silver-600"
+        intent === "default" &&
+          "bg-cod-gray-500 border-cod-gray-400 border-2 text-silver-600"
       )}
     >
       <div className="flex flex-col gap-2">

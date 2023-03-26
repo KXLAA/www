@@ -39,7 +39,10 @@ tsconfig.tsbuildinfo
 .contentlayer
 
 # rss
+public/feed.xml
 public/rss.xml
+public/rss
+
 
 # site map
 public/sitemap.xml

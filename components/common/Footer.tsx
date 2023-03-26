@@ -39,4 +39,8 @@ const FOOTER_LINKS = [
     label: "LinkedIn",
     link: "https://www.linkedin.com/in/kxlaa",
   },
+  {
+    label: "RSS",
+    link: `/rss.xml`,
+  },
 ];

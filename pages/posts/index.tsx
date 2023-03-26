@@ -4,7 +4,6 @@ import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
-import { formatDate } from "@/lib/date";
 
 type PostsPageProps = {
   posts: PostType[];
@@ -16,7 +15,7 @@ export default function Posts(props: PostsPageProps) {
       className="flex flex-col max-w-3xl gap-4 px-4 py-4 text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
       customMeta={{
         title: `Kola | Articles`,
-        description: `Articles on web development, React  & any other intresting topics.`,
+        description: `Articles on web development, React  & any other interesting topics.`,
       }}
     >
       <Link
@@ -37,9 +36,7 @@ export default function Posts(props: PostsPageProps) {
               <p className="text-lg font-semibold">{post.title}</p>
               <p className="text-sm text-silver-800">{post.description}</p>
 
-              <p className="mt-1 text-xs text-silver-900">
-                {formatDate(post.publishedAt, "MM/dd/yyyy")}
-              </p>
+              <p className="mt-1 text-xs text-silver-900">{post.publishedAt}</p>
             </div>
           </Link>
         ))}
@@ -52,7 +49,7 @@ export default function Posts(props: PostsPageProps) {
 export const getStaticProps = async () => {
   return {
     props: {
-      posts: api.getMinimalPosts(),
+      posts: api.posts.minimal,
     },
   };
 };
