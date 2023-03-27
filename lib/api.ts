@@ -54,15 +54,16 @@ class Api {
     content: T[],
     format?: DateFormat
   ) {
-    const formatString = {
-      long: "MMMM dd, yyyy",
-      short: "MM/dd/yyyy",
-      year: "yyyy",
-    } as const;
-
     return content.map((c) => ({
       ...c,
-      publishedAt: formatDate(c.publishedAt, formatString[format || "short"]),
+      publishedAt: formatDate(
+        c.publishedAt,
+        {
+          long: "MMMM dd, yyyy",
+          short: "MM/dd/yyyy",
+          year: "yyyy",
+        }[format || "short"]
+      ),
     }));
   }
 
