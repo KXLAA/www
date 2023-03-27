@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Copy } from "lucide-react";
+import { Copy, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -7,14 +7,14 @@ import React from "react";
 import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
 import { Show } from "@/components/common/Show";
-import { ExperimentCard } from "@/components/experiments/ExperimentCard";
+// import { ExperimentCard } from "@/components/experiments/ExperimentCard";
 import type {
   Experiment as ExperimentsType,
   Post as PostType,
   Project as ProjectType,
 } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
-import { cx } from "@/lib/cx";
+// import { cx } from "@/lib/cx";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
 import generateRSS from "@/lib/rss";
 
@@ -28,7 +28,7 @@ export default function HomePage(props: HomePageProps) {
   const { copyEmail, copied } = useCopyEmail();
 
   return (
-    <Layout className="flex flex-col justify-center max-w-xl gap-4 px-4 py-4 text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight">
+    <Layout className="flex flex-col justify-center max-w-xl gap-4 px-4 py-4 text-base md:px-8 md:py-8 md:gap-8 md:text-xl font-extralight">
       <div className="flex flex-col gap-4">
         <h1 className="text-5xl font-semibold">KOLA</h1>
         <p className="text-base">
@@ -36,7 +36,17 @@ export default function HomePage(props: HomePageProps) {
           client- and server-side web applications.
         </p>
 
-        <div className="flex gap-4">
+        <div className="flex gap-2">
+          <Link href="/about">
+            <motion.div
+              className="flex items-center justify-center gap-1 px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400"
+              whileTap={{ scale: 0.95 }}
+            >
+              <User className="w-3 h-3 text-silver-700" />
+              <span className="text-xs text-silver-700">About</span>
+            </motion.div>
+          </Link>
+
           <motion.button
             className="flex items-center justify-center gap-1 px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400"
             onClick={copyEmail}
@@ -81,10 +91,10 @@ export default function HomePage(props: HomePageProps) {
 
       <Section
         heading="Writing"
-        description="Articles on web development, React  & any other interesting topics."
+        description="I write about things I learn and things I build."
       >
         <div className="flex flex-col gap-2">
-          {props.posts.slice(0, 2).map((post) => (
+          {props.posts.slice(0, 3).map((post) => (
             <Link
               href={`/posts/${post.slug}`}
               key={post.slug}
@@ -101,7 +111,7 @@ export default function HomePage(props: HomePageProps) {
             </Link>
           ))}
 
-          <Show when={props.posts.length > 2}>
+          <Show when={props.posts.length > 3}>
             <Link
               href="/posts"
               className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
@@ -113,7 +123,7 @@ export default function HomePage(props: HomePageProps) {
         </div>
       </Section>
 
-      <Section
+      {/* <Section
         heading="Experiments"
         description="Recreating some of my favorite ui interactions & building new
         prototypes."
@@ -145,7 +155,7 @@ export default function HomePage(props: HomePageProps) {
             All Experiments
           </Link>
         </Show>
-      </Section>
+      </Section> */}
 
       <Footer />
     </Layout>
