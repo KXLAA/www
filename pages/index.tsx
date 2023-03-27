@@ -32,8 +32,11 @@ export default function HomePage(props: HomePageProps) {
       <div className="flex flex-col gap-4">
         <h1 className="text-5xl font-semibold">KOLA</h1>
         <p className="text-base">
-          Design-minded frontend engineer with hands on experience in building
-          client- and server-side web applications.
+          Design-minded frontend engineer currently building the future of low &
+          no code websites all on top of Notion at{" "}
+          <a href="https://www.notion.so" target="_blank" rel="noreferrer">
+            Super
+          </a>
         </p>
 
         <div className="flex gap-2">
