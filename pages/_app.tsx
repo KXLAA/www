@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
-import { Poppins } from "@next/font/google";
 import type { AppProps } from "next/app";
+import { Poppins } from "next/font/google";
 
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { DefaultSeo } from "@/lib/seo";

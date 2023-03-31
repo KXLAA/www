@@ -7,7 +7,6 @@ specifiers:
   '@dnd-kit/modifiers': ^6.0.1
   '@dnd-kit/sortable': ^7.0.2
   '@dnd-kit/utilities': ^3.2.1
-  '@next/font': ^13.1.1
   '@radix-ui/react-icons': ^1.1.1
   '@radix-ui/react-tooltip': ^1.0.3
   '@splitbee/web': ^0.3.0
@@ -73,7 +72,6 @@ dependencies:
   '@dnd-kit/modifiers': 6.0.1_52scne4zmdeyjh2otzkgz2xfvu
   '@dnd-kit/sortable': 7.0.2_52scne4zmdeyjh2otzkgz2xfvu
   '@dnd-kit/utilities': 3.2.1_react@18.2.0
-  '@next/font': 13.2.1
   '@radix-ui/react-icons': 1.2.0_react@18.2.0
   '@radix-ui/react-tooltip': 1.0.4_rj7ozvcq3uehdlnj3cbwzbi5ce
   '@splitbee/web': 0.3.0
@@ -1062,10 +1060,6 @@ packages:
     dependencies:
       glob: 7.1.7
     dev: true
-
-  /@next/font/13.2.1:
-    resolution: {integrity: sha512-4sergLt7xp9+mZuKME/xM4tLlHGTcmL7naCq0qCTcAlof6NnttshYgiLOdhSiy0NcI+/yM3BjvdEk++O96UzTg==}
-    dev: false
 
   /@next/swc-android-arm-eabi/13.2.4:
     resolution: {integrity: sha512-DWlalTSkLjDU11MY11jg17O1gGQzpRccM9Oes2yTqj2DpHndajrXHGxj9HGtJ+idq2k7ImUdJVWS2h2l/EDJOw==}
