@@ -76,7 +76,7 @@ class Api {
         this._posts,
         this.getPublished,
         this.sort,
-        (posts) => this.formatDate(posts),
+        (posts) => this.formatDate(posts, "long"),
         (posts) =>
           posts.map((p) =>
             pick(p, ["title", "slug", "publishedAt", "description"])

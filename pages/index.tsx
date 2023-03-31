@@ -1,21 +1,23 @@
 import { motion } from "framer-motion";
-import { Copy, User } from "lucide-react";
-import Image from "next/image";
+import { ArrowUpRight, Clock, Copy, User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
+import { Avatar } from "@/components/common/Avatar";
 import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
+import { Logo } from "@/components/common/Logo";
 import { Show } from "@/components/common/Show";
-// import { ExperimentCard } from "@/components/experiments/ExperimentCard";
 import type {
   Experiment as ExperimentsType,
   Post as PostType,
   Project as ProjectType,
 } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
+import { cx } from "@/lib/cx";
 // import { cx } from "@/lib/cx";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
+import { useHover } from "@/lib/hooks/use-hover";
 import generateRSS from "@/lib/rss";
 
 type HomePageProps = {
@@ -26,160 +28,110 @@ type HomePageProps = {
 
 export default function HomePage(props: HomePageProps) {
   const { copyEmail, copied } = useCopyEmail();
+  const [hoverRef, isHovered] = useHover<any>();
 
   return (
-    <Layout className="flex flex-col justify-center max-w-xl gap-4 px-4 py-4 text-base md:px-8 md:py-8 md:gap-8 md:text-xl font-extralight">
+    <Layout className="flex flex-col justify-center max-w-lg gap-4 px-4 py-4 text-base md:px-8 md:py-8 md:gap-8 md:text-xl font-extralight">
       <div className="flex flex-col gap-4">
-        <h1 className="text-5xl font-semibold">KOLA</h1>
-        <p className="text-base">
-          Design-minded frontend engineer currently building the future of low &
-          no code websites all on top of Notion at{" "}
-          <a href="https://www.notion.so" target="_blank" rel="noreferrer">
-            Super
-          </a>
-        </p>
+        <span className="flex gap-2 text-xs text-[10px] font-medium text-silver-900">
+          <p>7:00:28 PM</p>
+          <p>.</p>
+          <p>London, UK 🇬🇧</p>
+        </span>
 
-        <div className="flex gap-2">
-          <Link href="/about">
-            <motion.div
-              className="flex items-center justify-center gap-1 px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400"
-              whileTap={{ scale: 0.95 }}
-            >
-              <User className="w-3 h-3 text-silver-700" />
-              <span className="text-xs text-silver-700">About</span>
-            </motion.div>
-          </Link>
+        <div className="flex items-center gap-4">
+          <Avatar />
 
-          <motion.button
-            className="flex items-center justify-center gap-1 px-4 py-1 text-sm font-semibold transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:bg-cod-gray-600 hover:border-cod-gray-400"
-            onClick={copyEmail}
-            data-splitbee-event="Click on Copy E-mail"
-            whileTap={{ scale: 0.95 }}
-          >
-            <Copy className="w-3 h-3 text-silver-700" />
-
-            <span className="text-xs text-silver-700">
-              {copied ? "Copied" : "E-mail"}
-            </span>
-          </motion.button>
+          <div className="text-base font-normal">
+            <p className="text-silver-600">Kolade Afode</p>
+            <p className="text-sm text-silver-800">
+              Frontend Engineer, London UK.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2">
-        {props.projects.map((project) => (
-          <a
-            key={project.url}
-            href={project.url}
-            className="flex flex-col w-full gap-3 overflow-hidden transition-colors border rounded-md bg-cod-gray-600 border-cod-gray-400 hover:border-cod-gray-200"
-            target="_blank"
-            rel="noreferrer"
-            data-splitbee-event={`Click on ${project.title}`}
-          >
-            <Image
-              src={project.image}
-              alt={project.title}
-              width={2000}
-              height={630}
-            />
-            <div className="flex flex-col justify-center gap-1 p-2 pt-0 text-sm font-light">
-              <span>{project.title}</span>
+      <div>
+        <h2 className="text-sm font-semibold text-silver-800" ref={hoverRef}>
+          Selected Posts
+        </h2>
 
-              <span className="text-xs text-silver-700">
-                {project.description}
-              </span>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      <Section
-        heading="Writing"
-        description="I write about things I learn and things I build."
-      >
-        <div className="flex flex-col gap-2">
-          {props.posts.slice(0, 3).map((post) => (
+        {props.posts.slice(0, 3).map((post) => (
+          <article key={post.slug}>
             <Link
               href={`/posts/${post.slug}`}
-              key={post.slug}
-              className="flex gap-3 p-2 transition-colors border border-transparent rounded-md md:p-3 hover:bg-cod-gray-500 hover:border-cod-gray-400"
+              className="flex gap-3 px-0 py-2"
               data-splitbee-event={`Click on ${post.title}`}
               data-splitbee-event-contentType="Article"
             >
               <div className="flex flex-col gap-0.5">
-                <p className="text-sm font-semibold">{post.title}</p>
-                <p className="mt-0.5 text-xs text-[10px] font-normal text-silver-900">
-                  {post.publishedAt}
+                <p className="text-base font-normal underline text-silver-600 hover:decoration-dotted">
+                  {post.title}
                 </p>
+                <p className="text-sm font-extralight text-silver-700">
+                  {post.description}
+                </p>
+
+                <div className="flex items-center gap-1 font-extralight mt-0.5">
+                  <Clock className="inline-block w-3 h-3 text-silver-900" />
+                  <p className="text-xs font-normal text-silver-900">
+                    {post.publishedAt}
+                  </p>
+                </div>
               </div>
             </Link>
-          ))}
+          </article>
+        ))}
 
-          <Show when={props.posts.length > 3}>
-            <Link
-              href="/posts"
-              className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
-              data-splitbee-event="Click on All Articles"
-            >
-              All Articles
-            </Link>
-          </Show>
-        </div>
-      </Section>
-
-      {/* <Section
-        heading="Experiments"
-        description="Recreating some of my favorite ui interactions & building new
-        prototypes."
-      >
-        <div className="grid gap-4 md:grid-cols-2">
-          {props.experiments.slice(0, 2).map((experiment) => (
-            <React.Fragment key={experiment.slug}>
-              <ExperimentCard {...experiment} size="sm" />
-              <Show when={props.experiments.length === 1}>
-                <div
-                  className={cx(
-                    "group relative flex  items-center justify-center gap-1.5 overflow-hidden transition-colors border rounded-md p-4 md:p-0 ",
-                    "border-cod-gray-300 hover:border-cod-gray-400 bg-cod-gray-500 text-sm text-silver-600 hover:text-silver-800"
-                  )}
-                >
-                  More Coming Soon
-                </div>
-              </Show>
-            </React.Fragment>
-          ))}
-        </div>
-
-        <Show when={props.experiments.length >= 2}>
-          <Link
-            href="/experiments"
-            className="py-2 text-xs font-semibold text-center transition-colors border rounded bg-cod-gray-500 border-cod-gray-300 hover:border-cod-gray-400"
-            data-splitbee-event="Click on All Experiments"
-          >
-            All Experiments
-          </Link>
-        </Show>
-      </Section> */}
-
-      <Footer />
-    </Layout>
-  );
-}
-
-function Section(props: {
-  heading: string;
-  description: string;
-  children: React.ReactNode;
-}) {
-  const { heading, description, children } = props;
-  return (
-    <div className="flex flex-col gap-4 p-3 border rounded-md md:p-4 border-cod-gray-400">
-      <div className="flex flex-col gap-0.5">
-        <p className="text-sm font-semibold">{heading}</p>
-        <p className="text-xs text-silver-700">{description}</p>
+        <Link
+          href="/posts"
+          className="text-xs font-bold underline text-silver-900 hover:decoration-dotted"
+        >
+          View all posts
+        </Link>
       </div>
 
-      {children}
-    </div>
+      <div>
+        <h2 className="text-sm font-semibold text-silver-800">
+          Selected Projects
+        </h2>
+
+        <div className="flex flex-col gap-2">
+          {props.projects.map((project) => (
+            <a
+              key={project.url}
+              href={project.url}
+              className="flex gap-3 px-0 py-2"
+              target="_blank"
+              rel="noreferrer"
+              data-splitbee-event={`Click on ${project.title}`}
+            >
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-1">
+                  <p className="text-base font-normal underline text-silver-600 hover:decoration-dotted">
+                    {project.title}
+                  </p>
+                  <ArrowUpRight
+                    className="w-5 h-5 text-silver-600"
+                    strokeWidth={1.22}
+                  />
+                </div>
+
+                <p className="text-sm font-extralight text-silver-700">
+                  {project.description}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h2 className="text-sm font-semibold text-silver-800">Contact </h2>
+
+        <div className="flex flex-col gap-2"></div>
+      </div>
+    </Layout>
   );
 }
 
@@ -194,3 +146,21 @@ export const getStaticProps = async () => {
     },
   };
 };
+
+const CONTACTS = [
+  {
+    name: "Twitter",
+    link: "https://twitter.com/kxlaa_",
+    label: "kxlaa_",
+  },
+  {
+    name: "GitHub",
+    link: "https://github.com/KXLAA",
+    label: "kxlaa",
+  },
+  {
+    name: "LinkedIn",
+    link: "https://www.linkedin.com/in/kxlaa/",
+    label: "kxlaa",
+  },
+];
