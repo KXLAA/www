@@ -1,13 +1,9 @@
-import { motion } from "framer-motion";
-import { ArrowUpRight, Clock, Copy, User } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Clock, Copy } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 import { Avatar } from "@/components/common/Avatar";
-import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
-import { Logo } from "@/components/common/Logo";
-import { Show } from "@/components/common/Show";
 import type {
   Experiment as ExperimentsType,
   Post as PostType,
@@ -15,9 +11,8 @@ import type {
 } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
-// import { cx } from "@/lib/cx";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
-import { useHover } from "@/lib/hooks/use-hover";
+import { useCurrentTime } from "@/lib/hooks/use-current-time";
 import generateRSS from "@/lib/rss";
 
 type HomePageProps = {
@@ -28,13 +23,15 @@ type HomePageProps = {
 
 export default function HomePage(props: HomePageProps) {
   const { copyEmail, copied } = useCopyEmail();
-  const [hoverRef, isHovered] = useHover<any>();
+  const currentTime = useCurrentTime();
 
   return (
     <Layout className="flex flex-col justify-center max-w-lg gap-4 px-4 py-4 text-base md:px-8 md:py-8 md:gap-8 md:text-xl font-extralight">
       <div className="flex flex-col gap-4">
         <span className="flex gap-2 text-xs text-[10px] font-medium text-silver-900">
-          <p>7:00:28 PM</p>
+          <p className="min-w-[66px]">{currentTime.toLocaleTimeString()}</p>
+          <p>.</p>
+          <p>{currentTime.toDateString()}</p>
           <p>.</p>
           <p>London, UK 🇬🇧</p>
         </span>
@@ -52,7 +49,7 @@ export default function HomePage(props: HomePageProps) {
       </div>
 
       <div>
-        <h2 className="text-sm font-semibold text-silver-800" ref={hoverRef}>
+        <h2 className="text-sm font-semibold text-silver-800">
           Selected Posts
         </h2>
 
@@ -127,9 +124,61 @@ export default function HomePage(props: HomePageProps) {
       </div>
 
       <div>
-        <h2 className="text-sm font-semibold text-silver-800">Contact </h2>
+        <h2 className="mb-2 text-sm font-semibold text-silver-800">Contact </h2>
 
-        <div className="flex flex-col gap-2"></div>
+        <div className="grid grid-cols-2 gap-2">
+          {CONTACTS.map((contact) =>
+            contact.name === "Email" ? (
+              <button
+                key={contact.name}
+                className="flex gap-3"
+                onClick={copyEmail}
+              >
+                <div className="flex flex-col gap-0.5">
+                  <div className="flex items-center gap-1">
+                    <p className="text-sm font-normal underline text-silver-600 hover:decoration-dotted">
+                      {contact.name}
+                    </p>
+                    {copied ? (
+                      <CheckCircle2
+                        className={cx("w-4 h-4 text-silver-600")}
+                        strokeWidth={1.22}
+                      />
+                    ) : (
+                      <Copy
+                        className={cx(
+                          "w-4 h-4 text-silver-600 transition-colors hover:text-silver-800"
+                        )}
+                        strokeWidth={1.22}
+                      />
+                    )}
+                  </div>
+                </div>
+              </button>
+            ) : (
+              <a
+                key={contact.name}
+                href={contact.href}
+                className="flex gap-3"
+                target="_blank"
+                rel="noreferrer"
+                data-splitbee-event={`Click on ${contact.name}`}
+              >
+                <div className="flex flex-col gap-0.5">
+                  <div className="flex items-center gap-1">
+                    <p className="text-sm font-normal underline text-silver-600 hover:decoration-dotted">
+                      {contact.name}
+                    </p>
+                    <ArrowUpRight
+                      className={cx("w-4 h-4 text-silver-600")}
+                      strokeWidth={1.22}
+                    />
+                  </div>
+                </div>
+              </a>
+            )
+          )}
+        </div>
       </div>
     </Layout>
   );
@@ -150,17 +199,18 @@ export const getStaticProps = async () => {
 const CONTACTS = [
   {
     name: "Twitter",
-    link: "https://twitter.com/kxlaa_",
-    label: "kxlaa_",
+    href: "https://twitter.com/kxlaa_",
   },
   {
     name: "GitHub",
-    link: "https://github.com/KXLAA",
-    label: "kxlaa",
+    href: "https://github.com/KXLAA",
   },
   {
     name: "LinkedIn",
-    link: "https://www.linkedin.com/in/kxlaa/",
-    label: "kxlaa",
+    href: "https://www.linkedin.com/in/kxlaa/",
+  },
+  {
+    name: "Email",
+    href: process.env.NEXT_PUBLIC_EMAIL,
   },
 ];
