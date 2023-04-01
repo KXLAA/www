@@ -1,6 +1,5 @@
 import { ArrowUpRight, CheckCircle2, Clock, Copy } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 import { Avatar } from "@/components/common/Avatar";
 import { Layout } from "@/components/common/Layout";
@@ -12,26 +11,27 @@ import type {
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
-import { useCurrentTime } from "@/lib/hooks/use-current-time";
+import { useDate } from "@/lib/hooks/use-date";
 import generateRSS from "@/lib/rss";
 
 type HomePageProps = {
-  posts: PostType[];
-  experiments: ExperimentsType[];
-  projects: ProjectType[];
+  posts: Array<PostType>;
+  experiments: Array<ExperimentsType>;
+  projects: Array<ProjectType>;
+  contacts: Array<{ name: string; href: string }>;
 };
 
 export default function HomePage(props: HomePageProps) {
   const { copyEmail, copied } = useCopyEmail();
-  const currentTime = useCurrentTime();
+  const { time, date } = useDate();
 
   return (
     <Layout className="flex flex-col justify-center max-w-lg gap-4 px-4 py-4 text-base md:px-8 md:py-8 md:gap-8 md:text-xl font-extralight">
       <div className="flex flex-col gap-4">
         <span className="flex gap-2 text-xs text-[10px] font-medium text-silver-900">
-          <p className="min-w-[66px]">{currentTime.toLocaleTimeString()}</p>
+          <p className="min-w-[66px]">{time}</p>
           <p>.</p>
-          <p>{currentTime.toDateString()}</p>
+          <p>{date}</p>
           <p>.</p>
           <p>London, UK 🇬🇧</p>
         </span>
@@ -127,7 +127,7 @@ export default function HomePage(props: HomePageProps) {
         <h2 className="mb-2 text-sm font-semibold text-silver-800">Contact </h2>
 
         <div className="grid grid-cols-2 gap-2">
-          {CONTACTS.map((contact) =>
+          {props.contacts.map((contact) =>
             contact.name === "Email" ? (
               <button
                 key={contact.name}
@@ -192,25 +192,7 @@ export const getStaticProps = async () => {
       posts: api.posts.minimal,
       experiments: api.experiments.minimal,
       projects: api.projects,
+      contacts: api.contacts,
     },
   };
 };
-
-const CONTACTS = [
-  {
-    name: "Twitter",
-    href: "https://twitter.com/kxlaa_",
-  },
-  {
-    name: "GitHub",
-    href: "https://github.com/KXLAA",
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/kxlaa/",
-  },
-  {
-    name: "Email",
-    href: process.env.NEXT_PUBLIC_EMAIL,
-  },
-];

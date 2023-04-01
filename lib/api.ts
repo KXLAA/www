@@ -22,17 +22,17 @@ export type PostHeading = {
 };
 
 type Config = {
-  experiments: ExperimentsType[];
-  posts: PostType[];
-  projects: ProjectType[];
+  posts: Array<PostType>;
+  experiments: Array<ExperimentsType>;
+  projects: Array<ProjectType>;
 };
 
 type DateFormat = "long" | "short" | "year";
 
 class Api {
-  private readonly _experiments: ExperimentsType[];
-  private readonly _posts: PostType[];
-  private readonly _projects: ProjectType[];
+  private readonly _experiments: Array<ExperimentsType>;
+  private readonly _posts: Array<PostType>;
+  private readonly _projects: Array<ProjectType>;
 
   constructor({ experiments, posts, projects }: Config) {
     this._experiments = experiments;
@@ -83,6 +83,27 @@ class Api {
           )
       ),
     };
+  }
+
+  get contacts() {
+    return [
+      {
+        name: "Twitter",
+        href: "https://twitter.com/kxlaa_",
+      },
+      {
+        name: "GitHub",
+        href: "https://github.com/KXLAA",
+      },
+      {
+        name: "LinkedIn",
+        href: "https://www.linkedin.com/in/kxlaa/",
+      },
+      {
+        name: "Email",
+        href: process.env.NEXT_PUBLIC_EMAIL,
+      },
+    ];
   }
 
   get experiments() {

@@ -1,6 +1,6 @@
 import React from "react";
 
-export function useCurrentTime() {
+export function useDate() {
   const [currentTime, setCurrentTime] = React.useState(new Date());
 
   React.useEffect(() => {
@@ -11,5 +11,9 @@ export function useCurrentTime() {
     return () => clearInterval(interval);
   }, []);
 
-  return currentTime;
+  return {
+    raw: currentTime,
+    date: currentTime.toDateString(),
+    time: currentTime.toLocaleTimeString(),
+  };
 }

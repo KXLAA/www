@@ -1,6 +1,10 @@
 import { Logo } from "@/components/common/Logo";
 
-export function Avatar() {
+type AvatarProps = {
+  status?: "online" | "offline";
+};
+
+export function Avatar(props: AvatarProps) {
   return (
     <div className="relative flex items-center justify-center p-3 rounded-full aspect-square shadow-border-shiny bg-cod-gray-500">
       <Logo className="w-6 h-6 text-silver-700" />
