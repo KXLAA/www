@@ -1,18 +1,18 @@
+import { Clock, Home } from "lucide-react";
 import Link from "next/link";
 
-import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 
 type PostsPageProps = {
-  posts: PostType[];
+  posts: Array<PostType>;
 };
 
 export default function Posts(props: PostsPageProps) {
   return (
     <Layout
-      className="flex flex-col max-w-3xl gap-4 px-4 py-4 text-base md:px-10 md:py-16 md:gap-8 md:text-xl font-extralight"
+      className="flex flex-col justify-center max-w-lg gap-6 px-4 py-4 text-base md:px-8 md:py-8 md:text-xl font-extralight"
       customMeta={{
         title: `Kola | Articles`,
         description: `Articles on web development, React  & any other interesting topics.`,
@@ -20,28 +20,60 @@ export default function Posts(props: PostsPageProps) {
     >
       <Link
         href="/"
-        className="px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
+        className="flex gap-1 text-xs text-[10px] font-extralight text-silver-600 items-center transition-colors duration-200 hover:text-silver-900"
       >
-        BACK
+        <Home className="w-3 h-3" strokeWidth={1.44} />
+        <span>Home</span>
       </Link>
 
-      <div className="flex flex-col gap-4">
-        {props.posts.map((post) => (
-          <Link
-            className="flex gap-3 p-3 transition-colors border border-transparent rounded-md hover:bg-cod-gray-500 hover:border-cod-gray-400"
-            href={`/posts/${post.slug}`}
-            key={post.slug}
-          >
-            <div className="flex flex-col gap-1">
-              <p className="text-lg font-semibold">{post.title}</p>
-              <p className="text-sm text-silver-800">{post.description}</p>
+      <div>
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-xl font-semibold text-silver-800">Blog</h2>
 
-              <p className="mt-1 text-xs text-silver-900">{post.publishedAt}</p>
+            <div className="flex gap-2">
+              <span className="text-xs font-light text-silver-900">
+                {props.posts.length} posts
+              </span>
+
+              <span className="text-xs font-light text-silver-900">·</span>
+
+              <span className="text-xs font-extralight text-silver-900">
+                Last updated: {props.posts[0].publishedAt}
+              </span>
             </div>
-          </Link>
-        ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          {props.posts.map((post) => (
+            <article key={post.slug}>
+              <Link
+                href={`/posts/${post.slug}`}
+                className="flex gap-3 px-0 py-2"
+                data-splitbee-event={`Click on ${post.title}`}
+                data-splitbee-event-contentType="Article"
+              >
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-base font-normal underline text-silver-600 hover:decoration-dotted">
+                    {post.title}
+                  </p>
+                  <p className="text-sm font-extralight text-silver-700">
+                    {post.description}
+                  </p>
+
+                  <div className="flex items-center gap-1 font-extralight mt-0.5">
+                    <Clock className="inline-block w-3 h-3 text-silver-900" />
+                    <p className="text-xs font-normal text-silver-900">
+                      {post.publishedAt}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </article>
+          ))}
+        </div>
       </div>
-      <Footer />
     </Layout>
   );
 }
