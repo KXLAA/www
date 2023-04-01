@@ -13,7 +13,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   useAnalytics();
 
   return (
@@ -28,5 +28,3 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-
-export default MyApp;

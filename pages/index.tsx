@@ -10,6 +10,7 @@ import type {
 } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import { useScreenSize } from "@/lib/hooks/responsive";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
 import { useDate } from "@/lib/hooks/use-date";
 import generateRSS from "@/lib/rss";
@@ -24,6 +25,7 @@ type HomePageProps = {
 export default function HomePage(props: HomePageProps) {
   const { copyEmail, copied } = useCopyEmail();
   const { time, date } = useDate();
+  const screenSize = useScreenSize();
 
   return (
     <Layout className="flex flex-col justify-center max-w-lg gap-4 px-4 py-4 text-base md:px-8 md:py-8 md:gap-8 md:text-xl font-extralight">
@@ -33,7 +35,7 @@ export default function HomePage(props: HomePageProps) {
           <p>.</p>
           <p>{date}</p>
           <p>.</p>
-          <p>London, UK 🇬🇧</p>
+          <p>{screenSize.sm ? "London" : "LDN"}, UK 🇬🇧</p>
         </span>
 
         <div className="flex items-center gap-4">
