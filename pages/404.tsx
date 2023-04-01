@@ -12,7 +12,7 @@ export default () => (
       description: "The page you are looking for does not exist.",
     }}
   >
-    <div className="flex flex-col ">
+    <div className="flex flex-col">
       <Link
         href="/"
         className="px-2 py-1 mb-6 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
