@@ -22,17 +22,17 @@ export type PostHeading = {
 };
 
 type Config = {
-  experiments: ExperimentsType[];
-  posts: PostType[];
-  projects: ProjectType[];
+  posts: Array<PostType>;
+  experiments: Array<ExperimentsType>;
+  projects: Array<ProjectType>;
 };
 
 type DateFormat = "long" | "short" | "year";
 
 class Api {
-  private readonly _experiments: ExperimentsType[];
-  private readonly _posts: PostType[];
-  private readonly _projects: ProjectType[];
+  private readonly _experiments: Array<ExperimentsType>;
+  private readonly _posts: Array<PostType>;
+  private readonly _projects: Array<ProjectType>;
 
   constructor({ experiments, posts, projects }: Config) {
     this._experiments = experiments;
@@ -54,15 +54,16 @@ class Api {
     content: T[],
     format?: DateFormat
   ) {
-    const formatString = {
-      long: "MMMM dd, yyyy",
-      short: "MM/dd/yyyy",
-      year: "yyyy",
-    } as const;
-
     return content.map((c) => ({
       ...c,
-      publishedAt: formatDate(c.publishedAt, formatString[format || "short"]),
+      publishedAt: formatDate(
+        c.publishedAt,
+        {
+          long: "MMMM dd, yyyy",
+          short: "MM/dd/yyyy",
+          year: "yyyy",
+        }[format || "short"]
+      ),
     }));
   }
 
@@ -75,13 +76,34 @@ class Api {
         this._posts,
         this.getPublished,
         this.sort,
-        (posts) => this.formatDate(posts),
+        (posts) => this.formatDate(posts, "long"),
         (posts) =>
           posts.map((p) =>
             pick(p, ["title", "slug", "publishedAt", "description"])
           )
       ),
     };
+  }
+
+  get contacts() {
+    return [
+      {
+        name: "Twitter",
+        href: "https://twitter.com/kxlaa_",
+      },
+      {
+        name: "GitHub",
+        href: "https://github.com/KXLAA",
+      },
+      {
+        name: "LinkedIn",
+        href: "https://www.linkedin.com/in/kxlaa/",
+      },
+      {
+        name: "Email",
+        href: process.env.NEXT_PUBLIC_EMAIL,
+      },
+    ];
   }
 
   get experiments() {
