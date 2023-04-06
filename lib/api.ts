@@ -85,6 +85,25 @@ class Api {
     };
   }
 
+  get experience() {
+    return [
+      {
+        role: "Software Engineer",
+        company: "Starling Bank",
+        location: "London, UK",
+        href: "https://www.starlingbank.com/",
+        date: "Apr 2023 - Present",
+      },
+      {
+        role: "Full Stack Engineer",
+        company: "Super",
+        location: "Remote",
+        href: "https://super.so/",
+        date: "Mar 2022 - Apr 2023",
+      },
+    ];
+  }
+
   get contacts() {
     return [
       {
