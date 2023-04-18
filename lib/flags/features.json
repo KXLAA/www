@@ -29,6 +29,16 @@
       }
     }
   },
+  "contact": {
+    "environments": {
+      "production": {
+        "enabled": true
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  },
   "experiments": {
     "environments": {
       "production": {
