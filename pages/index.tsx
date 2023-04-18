@@ -9,13 +9,15 @@ import Link from "next/link";
 
 import { Avatar } from "@/components/common/Avatar";
 import { Layout } from "@/components/common/Layout";
+import { Show } from "@/components/common/Show";
 import type {
   Experiment as ExperimentsType,
   Post as PostType,
   Project as ProjectType,
 } from "@/contentlayer/generated";
-import { api } from "@/lib/api";
+import { api, Experience } from "@/lib/api";
 import { cx } from "@/lib/cx";
+import { useFeature } from "@/lib/flags";
 import { useCopyEmail } from "@/lib/hooks/use-copy-email";
 import { useDate } from "@/lib/hooks/use-date";
 import { generateRSS } from "@/lib/rss";
@@ -25,13 +27,7 @@ type HomePageProps = {
   experiments: Array<ExperimentsType>;
   projects: Array<ProjectType>;
   contacts: Array<{ name: string; href: string }>;
-  experience: Array<{
-    role: string;
-    company: string;
-    location: string;
-    href: string;
-    date: string;
-  }>;
+  experience: Array<Experience>;
 };
 
 export default function HomePage(props: HomePageProps) {
@@ -59,28 +55,7 @@ export default function HomePage(props: HomePageProps) {
         </div>
       </div>
 
-      <Section heading="Experience">
-        {props.experience.map((e) => (
-          <div className="flex flex-col gap-1" key={e.href}>
-            <p className="text-base font-normal underline text-silver-600">
-              {e.role}
-            </p>
-            <p className="text-sm font-light text-silver-700">
-              <a
-                href={e.href}
-                target="_blank"
-                rel="noreferrer"
-                data-splitbee-event={`Click on ${e.company}`}
-                className=" text-silver-600 hover:underline hover:decoration-dotted"
-              >
-                {e.company}
-              </a>
-              · {e.location}
-            </p>
-            <p className="text-xs font-medium text-silver-900">{e.date}</p>
-          </div>
-        ))}
-      </Section>
+      <Experience {...props} />
 
       <Section heading="Selected Posts">
         {props.posts.slice(0, 2).map((post) => (
@@ -203,6 +178,37 @@ export default function HomePage(props: HomePageProps) {
         </div>
       </Section>
     </Layout>
+  );
+}
+
+function Experience({ experience }: { experience: Array<Experience> }) {
+  const isFeatureEnabled = useFeature("experience");
+
+  return (
+    <Show when={isFeatureEnabled}>
+      <Section heading="Experience">
+        {experience.map((e) => (
+          <div className="flex flex-col gap-1" key={e.href}>
+            <p className="text-base font-normal underline text-silver-600">
+              {e.role}
+            </p>
+            <p className="text-sm font-light text-silver-700">
+              <a
+                href={e.href}
+                target="_blank"
+                rel="noreferrer"
+                data-splitbee-event={`Click on ${e.company}`}
+                className=" text-silver-600 hover:underline hover:decoration-dotted"
+              >
+                {e.company}
+              </a>
+              · {e.location}
+            </p>
+            <p className="text-xs font-medium text-silver-900">{e.date}</p>
+          </div>
+        ))}
+      </Section>
+    </Show>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Clock, Home } from "lucide-react";
+import { Clock } from "lucide-react";
 import Link from "next/link";
 
 import { Layout } from "@/components/common/Layout";
@@ -22,8 +22,7 @@ export default function Posts(props: PostsPageProps) {
         href="/"
         className="flex gap-1 text-xs text-[10px] font-extralight text-silver-600 items-center transition-colors duration-200 hover:text-silver-900"
       >
-        <Home className="w-3 h-3" strokeWidth={1.44} />
-        <span>Home</span>
+        <span>Back</span>
       </Link>
 
       <div>
