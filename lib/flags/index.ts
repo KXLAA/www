@@ -17,20 +17,18 @@ export type FeatureSet = Record<Feature, FeatureConfig>;
 export function useFeatureCheck() {
   return (feature: Feature) => {
     const featureConfig = features[feature];
-
     if (!featureConfig) return false;
 
     const { environments } = featureConfig;
 
-    if (process.env.NODE_ENV === "production") {
-      return environments.production.enabled;
+    switch (process.env.NODE_ENV) {
+      case "production":
+        return environments.production.enabled;
+      case "development":
+        return environments.development.enabled;
+      default:
+        return false;
     }
-
-    if (process.env.NODE_ENV === "development") {
-      return environments.development.enabled;
-    }
-
-    return false;
   };
 }
 
