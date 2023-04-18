@@ -21,6 +21,14 @@ export type PostHeading = {
   level?: number;
 };
 
+export type Experience = {
+  role: string;
+  company: string;
+  location: string;
+  href: string;
+  date: string;
+};
+
 type Config = {
   posts: Array<PostType>;
   experiments: Array<ExperimentsType>;

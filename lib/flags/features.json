@@ -1,0 +1,42 @@
+{
+  "experience": {
+    "environments": {
+      "production": {
+        "enabled": false
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  },
+  "posts": {
+    "environments": {
+      "production": {
+        "enabled": true
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  },
+  "projects": {
+    "environments": {
+      "production": {
+        "enabled": true
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  },
+  "experiments": {
+    "environments": {
+      "production": {
+        "enabled": false
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  }
+}
