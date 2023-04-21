@@ -2,7 +2,6 @@ import features from "./features.json";
 
 export type Feature = keyof typeof features;
 export type FeatureConfig = {
-  enabled: boolean;
   environments: {
     production: {
       enabled: boolean;
@@ -12,6 +11,7 @@ export type FeatureConfig = {
     };
   };
 };
+
 export type FeatureSet = Record<Feature, FeatureConfig>;
 
 export function useFeatureCheck() {
@@ -35,7 +35,5 @@ export function useFeatureCheck() {
 export function useFeature(feature: Feature) {
   const checkFeature = useFeatureCheck();
 
-  const isPermitted = checkFeature(feature);
-
-  return isPermitted;
+  return checkFeature(feature);
 }
