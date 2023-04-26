@@ -49,13 +49,13 @@
       }
     }
   },
-  "headerNav": {
+  "wiki": {
     "environments": {
       "production": {
         "enabled": false
       },
       "development": {
-        "enabled": true
+        "enabled": false
       }
     }
   }

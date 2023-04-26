@@ -8,7 +8,6 @@ type LayoutProps = {
   light?: boolean;
   customMeta?: SeoProps;
   className?: string;
-  hideHeader?: boolean;
 };
 
 export function Layout(props: LayoutProps) {
