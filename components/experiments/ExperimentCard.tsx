@@ -14,7 +14,7 @@ export function ExperimentCard(props: ExperimentCardProps) {
     <Link
       href={`/experiments/${props.slug}`}
       className={cx(
-        "group relative flex flex-col gap-1.5 overflow-hidden transition-colors border rounded-md",
+        "group relative flex gap-1.5 overflow-hidden transition-colors border rounded-md",
         props.size === "sm" && "gap-0.5",
         "border-cod-gray-300 hover:border-cod-gray-400 bg-cod-gray-500"
       )}
@@ -22,10 +22,7 @@ export function ExperimentCard(props: ExperimentCardProps) {
       data-splitbee-event-contentType="Experiment"
     >
       <div
-        className={cx(
-          "flex flex-col p-1.5 pb-0",
-          props.size === "sm" && "p-0.5 pb-0"
-        )}
+        className={cx("flex p-1.5 pb-0", props.size === "sm" && "p-0.5 pb-0")}
       >
         <video
           loop

@@ -21,6 +21,14 @@ export type PostHeading = {
   level?: number;
 };
 
+export type Experience = {
+  role: string;
+  company: string;
+  location: string;
+  href: string;
+  date: string;
+};
+
 type Config = {
   posts: Array<PostType>;
   experiments: Array<ExperimentsType>;
@@ -85,6 +93,25 @@ class Api {
     };
   }
 
+  get experience() {
+    return [
+      {
+        role: "Software Engineer",
+        company: "Starling Bank",
+        location: "London, UK",
+        href: "https://www.starlingbank.com/",
+        date: "Apr 2023 - Present",
+      },
+      {
+        role: "Full Stack Engineer",
+        company: "Super",
+        location: "Remote",
+        href: "https://super.so/",
+        date: "Mar 2022 - Apr 2023",
+      },
+    ];
+  }
+
   get contacts() {
     return [
       {
@@ -101,7 +128,7 @@ class Api {
       },
       {
         name: "Email",
-        href: process.env.NEXT_PUBLIC_EMAIL,
+        href: `mailto:${process.env.NEXT_PUBLIC_EMAIL}`,
       },
     ];
   }
@@ -113,6 +140,7 @@ class Api {
         this._experiments,
         this.getPublished,
         this.sort,
+        (experiment) => this.formatDate(experiment, "long"),
         (experiments) =>
           experiments.map((e) =>
             pick(e, ["title", "slug", "publishedAt", "mp4", "webm", "poster"])
