@@ -45,7 +45,7 @@ export default (props: PostsPageProps) => {
         ))}
       </div>
 
-      <span className="text-xs font-extralight text-silver-900">
+      <span className="text-xs font-semibold text-silver-900">
         Last updated: {props.posts[0].publishedAt}
       </span>
     </Layout>
