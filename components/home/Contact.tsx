@@ -1,10 +1,6 @@
-import { ArrowUpRight, CheckCircle2, Copy } from "lucide-react";
-
 import { Section } from "@/components/common/Section";
 import { Show } from "@/components/common/Show";
-import { cx } from "@/lib/cx";
 import { useFeature } from "@/lib/flags";
-import { useCopyEmail } from "@/lib/hooks/use-copy-email";
 
 type PostsProps = {
   contacts: Array<{ name: string; href: string }>;
@@ -12,8 +8,6 @@ type PostsProps = {
 
 export function Contact(props: PostsProps) {
   const isFeatureEnabled = useFeature("contact");
-  const { copyEmail, copied } = useCopyEmail();
-
   return (
     <Show when={isFeatureEnabled}>
       <Section heading="Contact">
@@ -22,16 +16,12 @@ export function Contact(props: PostsProps) {
             <a
               key={contact.name}
               href={contact.href}
-              className="flex gap-3 text-silver-700"
+              className="flex gap-3 text-base font-normal text-silver-700 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy"
               target="_blank"
               rel="noreferrer"
               data-splitbee-event={`Click on ${contact.name}`}
             >
-              <div className="flex flex-col gap-0.5">
-                <div className="flex items-center gap-1">
-                  <p className="text-base font-normal">{contact.name}</p>
-                </div>
-              </div>
+              {contact.name}
             </a>
           ))}
         </div>

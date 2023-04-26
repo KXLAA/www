@@ -24,7 +24,7 @@ export function Posts(props: PostsProps) {
               data-splitbee-event-contentType="Article"
             >
               <div className="flex flex-col gap-0.5">
-                <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 ">
+                <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy">
                   {post.title}
                 </p>
                 <p className="text-base font-extralight text-silver-700">
@@ -43,7 +43,7 @@ export function Posts(props: PostsProps) {
 
         <Link
           href="/posts"
-          className="self-start px-3 py-1 text-xs font-semibold transition-all rounded text-silver-700 hover:bg-cod-gray-300 bg-cod-gray-400"
+          className="self-start text-xs font-semibold transition-all text-silver-700 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy"
         >
           View all posts
         </Link>

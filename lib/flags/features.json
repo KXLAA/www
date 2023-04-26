@@ -48,5 +48,15 @@
         "enabled": false
       }
     }
+  },
+  "headerNav": {
+    "environments": {
+      "production": {
+        "enabled": false
+      },
+      "development": {
+        "enabled": true
+      }
+    }
   }
 }
