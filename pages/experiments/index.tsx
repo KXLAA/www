@@ -37,9 +37,9 @@ export default function Experiments(props: ExperimentsPageProps) {
                 <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy">
                   {experiment.title}
                 </p>
-                <p className="text-base font-extralight text-silver-700">
+                {/* <p className="text-base font-extralight text-silver-700">
                   {experiment.description}
-                </p>
+                </p> */}
                 <p className="mt-2 text-xs font-normal text-silver-900">
                   {experiment.publishedAt}
                 </p>
