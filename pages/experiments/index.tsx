@@ -1,9 +1,7 @@
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-import { Footer } from "@/components/common/Footer";
 import { Layout } from "@/components/common/Layout";
-import { ExperimentCard } from "@/components/experiments/ExperimentCard";
+import { Header } from "@/components/home/Header";
 import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 
@@ -14,27 +12,42 @@ type ExperimentsPageProps = {
 export default function Experiments(props: ExperimentsPageProps) {
   return (
     <Layout
-      className="flex flex-col justify-center gap-4 p-2"
+      className="flex flex-col justify-center max-w-lg gap-6 px-4 py-4 text-base md:px-8 md:py-8 md:text-xl font-extralight"
       customMeta={{
         title: `Kola | Experiments`,
         description: `Recreating some of my favorite ui interactions & building new
             prototypes.`,
       }}
     >
-      <Link
-        href="/"
-        className="flex items-center self-start gap-1 px-2 py-1 text-xs font-normal transition-all border border-transparent rounded bg-cod-gray-500 hover:border-cod-gray-400 w-fit"
-      >
-        <ArrowLeft className="w-3 h-3 text-silver-700" />
-        Home
-      </Link>
+      <Header
+        heading="Experiments."
+        subheading="Recreating some of my favorite ui interactions"
+      />
 
-      <div className="grid gap-2 md:grid-cols-3 2xl:grid-cols-4">
+      <div className="flex flex-col gap-1">
         {props.experiments.map((experiment) => (
-          <ExperimentCard {...experiment} key={experiment.slug} />
+          <article key={experiment.slug}>
+            <Link
+              href={`/experiments/${experiment.slug}`}
+              className="flex gap-3 px-0 py-2"
+              data-splitbee-event={`Click on ${experiment.title}`}
+              data-splitbee-event-contentType="Article"
+            >
+              <div className="flex flex-col gap-0.5">
+                <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy">
+                  {experiment.title}
+                </p>
+                <p className="text-base font-extralight text-silver-700">
+                  {experiment.description}
+                </p>
+                <p className="mt-2 text-xs font-normal text-silver-900">
+                  {experiment.publishedAt}
+                </p>
+              </div>
+            </Link>
+          </article>
         ))}
       </div>
-      <Footer />
     </Layout>
   );
 }
