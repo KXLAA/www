@@ -128,7 +128,7 @@ class Api {
       },
       {
         name: "Email",
-        href: process.env.NEXT_PUBLIC_EMAIL,
+        href: `mailto:${process.env.NEXT_PUBLIC_EMAIL}`,
       },
     ];
   }

@@ -1,5 +1,3 @@
-import { ArrowUpRight } from "lucide-react";
-
 import { Section } from "@/components/common/Section";
 import { Show } from "@/components/common/Show";
 import type { Project as ProjectType } from "@/contentlayer/generated";
@@ -26,7 +24,7 @@ export function Projects(props: PostsProps) {
           >
             <div className="flex flex-col gap-0.5">
               <div className="flex items-center gap-1">
-                <p className="text-lg font-medium text-silver-600">
+                <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy ">
                   {project.title}
                 </p>
               </div>

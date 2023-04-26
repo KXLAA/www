@@ -37,3 +37,15 @@ export function useFeature(feature: Feature) {
 
   return checkFeature(feature);
 }
+
+export function useFeatures(features: Feature[]) {
+  const checkFeature = useFeatureCheck();
+
+  return features.reduce(
+    (acc, feature) => ({
+      ...acc,
+      [feature]: checkFeature(feature),
+    }),
+    {} as Record<Feature, boolean>
+  );
+}
