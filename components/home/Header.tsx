@@ -52,13 +52,12 @@ function HeaderLink(props: HeaderLinkProps) {
   const isActive = useActiveLink(props.href);
 
   return (
-    <li>
+    <li className={cx(props.enabled ? "" : "hidden")}>
       <Link
         href={props.href}
         className={cx(
           "transition-colors text-base font-light text-silver-700 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy",
           isActive && "text-silver-300 font-normal",
-          props.enabled ? "" : "hidden",
           props.className
         )}
         data-splitbee-event={`Click on ${props.label}`}

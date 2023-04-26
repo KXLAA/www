@@ -14,7 +14,7 @@ export default (props: PostsPageProps) => {
     <Layout
       className="flex flex-col justify-center max-w-lg gap-6 px-4 py-4 text-base md:px-8 md:py-8 md:text-xl font-extralight"
       customMeta={{
-        title: `Kola | Articles`,
+        title: `Kola | Writing`,
         description: `Articles on web development, React  & any other interesting topics.`,
       }}
     >
@@ -44,6 +44,10 @@ export default (props: PostsPageProps) => {
           </article>
         ))}
       </div>
+
+      <span className="text-xs font-extralight text-silver-900">
+        Last updated: {props.posts[0].publishedAt}
+      </span>
     </Layout>
   );
 };
@@ -55,9 +59,3 @@ export const getStaticProps = async () => {
     },
   };
 };
-
-{
-  /* <span className="text-xs font-extralight text-silver-900">
-Last updated: {props.posts[0].publishedAt}
-</span> */
-}
