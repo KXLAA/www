@@ -31,11 +31,9 @@ export function Posts(props: PostsProps) {
                   {post.description}
                 </p>
 
-                <div className="flex items-center gap-1 font-extralight mt-0.5">
-                  <p className="text-xs font-normal text-silver-900">
-                    {post.publishedAt}
-                  </p>
-                </div>
+                <p className="mt-1 text-xs font-normal text-silver-900">
+                  {post.publishedAt}
+                </p>
               </div>
             </Link>
           </article>
