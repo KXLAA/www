@@ -28,8 +28,8 @@ export default (props: HomePageProps) => (
     <Experience {...props} />
     <Posts {...props} />
     <Projects {...props} />
-    <Contact {...props} />
     <Experiments {...props} />
+    <Contact {...props} />
   </Layout>
 );
 

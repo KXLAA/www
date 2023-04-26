@@ -17,58 +17,23 @@ export function Contact(props: PostsProps) {
   return (
     <Show when={isFeatureEnabled}>
       <Section heading="Contact">
-        <div className="grid grid-cols-2 gap-2">
-          {props.contacts.map((contact) =>
-            contact.name === "Email" ? (
-              <button
-                key={contact.name}
-                className="flex gap-3"
-                onClick={copyEmail}
-              >
-                <div className="flex flex-col gap-0.5">
-                  <div className="flex items-center gap-1">
-                    <p className="text-sm font-normal underline text-silver-600 hover:decoration-dotted">
-                      {contact.name}
-                    </p>
-                    {copied ? (
-                      <CheckCircle2
-                        className={cx("w-4 h-4 text-silver-600")}
-                        strokeWidth={1.22}
-                      />
-                    ) : (
-                      <Copy
-                        className={cx(
-                          "w-4 h-4 text-silver-600 transition-colors hover:text-silver-800"
-                        )}
-                        strokeWidth={1.22}
-                      />
-                    )}
-                  </div>
+        <div className="grid grid-cols-1 gap-2">
+          {props.contacts.map((contact) => (
+            <a
+              key={contact.name}
+              href={contact.href}
+              className="flex gap-3 text-silver-700"
+              target="_blank"
+              rel="noreferrer"
+              data-splitbee-event={`Click on ${contact.name}`}
+            >
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-1">
+                  <p className="text-base font-normal">{contact.name}</p>
                 </div>
-              </button>
-            ) : (
-              <a
-                key={contact.name}
-                href={contact.href}
-                className="flex gap-3"
-                target="_blank"
-                rel="noreferrer"
-                data-splitbee-event={`Click on ${contact.name}`}
-              >
-                <div className="flex flex-col gap-0.5">
-                  <div className="flex items-center gap-1">
-                    <p className="text-sm font-normal underline text-silver-600 hover:decoration-dotted">
-                      {contact.name}
-                    </p>
-                    <ArrowUpRight
-                      className={cx("w-4 h-4 text-silver-600")}
-                      strokeWidth={1.22}
-                    />
-                  </div>
-                </div>
-              </a>
-            )
-          )}
+              </div>
+            </a>
+          ))}
         </div>
       </Section>
     </Show>
