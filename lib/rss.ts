@@ -3,7 +3,7 @@ import fs from "fs";
 
 import { api } from "@/lib/api";
 
-export default function generateRSS() {
+export function generateRSS() {
   const baseUrl = "https://www.kxlaa.com";
   const date = new Date();
   const author = {

@@ -1,0 +1,62 @@
+{
+  "experience": {
+    "environments": {
+      "production": {
+        "enabled": false
+      },
+      "development": {
+        "enabled": false
+      }
+    }
+  },
+  "posts": {
+    "environments": {
+      "production": {
+        "enabled": true
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  },
+  "projects": {
+    "environments": {
+      "production": {
+        "enabled": true
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  },
+  "contact": {
+    "environments": {
+      "production": {
+        "enabled": true
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  },
+  "experiments": {
+    "environments": {
+      "production": {
+        "enabled": false
+      },
+      "development": {
+        "enabled": true
+      }
+    }
+  },
+  "wiki": {
+    "environments": {
+      "production": {
+        "enabled": false
+      },
+      "development": {
+        "enabled": false
+      }
+    }
+  }
+}
