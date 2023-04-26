@@ -140,7 +140,7 @@ class Api {
         this._experiments,
         this.getPublished,
         this.sort,
-        (posts) => this.formatDate(posts, "long"),
+        (experiment) => this.formatDate(experiment, "long"),
         (experiments) =>
           experiments.map((e) =>
             pick(e, ["title", "slug", "publishedAt", "mp4", "webm", "poster"])
