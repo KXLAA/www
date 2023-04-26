@@ -19,23 +19,19 @@ export function Projects(props: PostsProps) {
           <a
             key={project.url}
             href={project.url}
-            className="flex gap-3 px-0"
+            className="flex gap-3 px-0 pb-2"
             target="_blank"
             rel="noreferrer"
             data-splitbee-event={`Click on ${project.title}`}
           >
             <div className="flex flex-col gap-0.5">
               <div className="flex items-center gap-1">
-                <p className="text-base font-normal underline text-silver-600 hover:decoration-dotted">
+                <p className="text-lg font-medium text-silver-600">
                   {project.title}
                 </p>
-                <ArrowUpRight
-                  className="w-5 h-5 text-silver-600"
-                  strokeWidth={1.22}
-                />
               </div>
 
-              <p className="text-sm font-extralight text-silver-700">
+              <p className="text-base font-extralight text-silver-700">
                 {project.description}
               </p>
             </div>
