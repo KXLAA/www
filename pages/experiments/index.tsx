@@ -26,15 +26,11 @@ export default function Experiments(props: ExperimentsPageProps) {
 
       <div className="flex flex-col gap-1">
         {props.experiments.map((experiment) => (
-          <article
-            key={experiment.slug}
-            className="border-b border-cod-gray-400"
-          >
+          <article key={experiment.slug}>
             <Link
               href={`/experiments/${experiment.slug}`}
               className="flex gap-3 px-0 py-2"
               data-splitbee-event={`Click on ${experiment.title}`}
-              data-splitbee-event-contentType="Article"
             >
               <div className="flex flex-col sm:flex-row justify-between gap-0.5 w-full">
                 <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy">
