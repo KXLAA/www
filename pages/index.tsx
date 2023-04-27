@@ -1,7 +1,6 @@
 import { Layout } from "@/components/common/Layout";
 import { Contact } from "@/components/home/Contact";
 import { Experience } from "@/components/home/Experience";
-import { Experiments } from "@/components/home/Experiments";
 import { Header } from "@/components/home/Header";
 import { Posts } from "@/components/home/Posts";
 import { Projects } from "@/components/home/Projects";
@@ -28,7 +27,6 @@ export default (props: HomePageProps) => (
     <Experience {...props} />
     <Posts {...props} />
     <Projects {...props} />
-    <Experiments {...props} />
     <Contact {...props} />
   </Layout>
 );
