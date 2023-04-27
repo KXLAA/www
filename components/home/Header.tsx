@@ -15,7 +15,7 @@ export function Header(props: HeaderProps) {
     subheading = "Frontend Engineer, London UK.",
   } = props;
 
-  const features = useFeatures(["posts", "experiments", "wiki", "projects"]);
+  const features = useFeatures();
 
   return (
     <div className="flex flex-col gap-2">

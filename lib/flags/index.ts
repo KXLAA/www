@@ -1,3 +1,7 @@
+import React from "react";
+
+import { keysOf } from "@/lib/keys-of";
+
 import features from "./features.json";
 
 export type Feature = keyof typeof features;
@@ -15,7 +19,7 @@ export type FeatureConfig = {
 export type FeatureSet = Record<Feature, FeatureConfig>;
 
 export function useFeatureCheck() {
-  return (feature: Feature) => {
+  return React.useCallback((feature: Feature) => {
     const featureConfig = features[feature];
     if (!featureConfig) return false;
 
@@ -29,23 +33,26 @@ export function useFeatureCheck() {
       default:
         return false;
     }
-  };
+  }, []);
 }
 
 export function useFeature(feature: Feature) {
   const checkFeature = useFeatureCheck();
-
   return checkFeature(feature);
 }
 
-export function useFeatures(features: Feature[]) {
+export function useFeatures() {
   const checkFeature = useFeatureCheck();
 
-  return features.reduce(
-    (acc, feature) => ({
-      ...acc,
-      [feature]: checkFeature(feature),
-    }),
-    {} as Record<Feature, boolean>
+  return React.useMemo(
+    () =>
+      keysOf(features).reduce(
+        (acc, feature) => ({
+          ...acc,
+          [feature]: checkFeature(feature),
+        }),
+        {} as Record<Feature, boolean>
+      ),
+    [checkFeature]
   );
 }
