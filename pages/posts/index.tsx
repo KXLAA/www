@@ -27,7 +27,6 @@ export default (props: PostsPageProps) => {
               href={`/posts/${post.slug}`}
               className="flex gap-3 px-0 py-2"
               data-splitbee-event={`Click on ${post.title}`}
-              data-splitbee-event-contentType="Article"
             >
               <div className="flex flex-col gap-0.5">
                 <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy">
@@ -44,10 +43,6 @@ export default (props: PostsPageProps) => {
           </article>
         ))}
       </div>
-
-      <span className="text-xs font-semibold text-silver-900">
-        Last updated: {props.posts[0].publishedAt}
-      </span>
     </Layout>
   );
 };
