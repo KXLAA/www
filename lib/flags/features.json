@@ -42,7 +42,7 @@
   "experiments": {
     "environments": {
       "production": {
-        "enabled": false
+        "enabled": true
       },
       "development": {
         "enabled": true
