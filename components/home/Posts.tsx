@@ -21,7 +21,6 @@ export function Posts(props: PostsProps) {
               href={`/posts/${post.slug}`}
               className="flex gap-3 px-0"
               data-splitbee-event={`Click on ${post.title}`}
-              data-splitbee-event-contentType="Article"
             >
               <div className="flex flex-col gap-0.5">
                 <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy">

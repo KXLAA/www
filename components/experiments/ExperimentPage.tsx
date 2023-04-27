@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useLiveReload, useMDXComponent } from "next-contentlayer/hooks";
+import { useMDXComponent } from "next-contentlayer/hooks";
 
 import { ExperimentLayout } from "@/components/experiments/ExperimentLayout";
 import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
@@ -46,7 +46,6 @@ export function ExperimentPage(props: ExperimentPageProps) {
 function useExperimentPage(args: ExperimentPageProps) {
   const { experiment } = args;
   const Component = useMDXComponent(experiment.body?.code);
-  useLiveReload();
 
   const path = `/experiments/${experiment.slug}`;
   const url = `https://kxlaa.com${path}`;

@@ -19,7 +19,6 @@ export function ExperimentCard(props: ExperimentCardProps) {
         "border-cod-gray-300 hover:border-cod-gray-400 bg-cod-gray-500"
       )}
       data-splitbee-event={`Click on ${props.title}`}
-      data-splitbee-event-contentType="Experiment"
     >
       <div
         className={cx("flex p-1.5 pb-0", props.size === "sm" && "p-0.5 pb-0")}

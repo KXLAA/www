@@ -60,10 +60,6 @@ const Post = defineDocumentType(() => ({
     },
   },
   computedFields: {
-    // og: {
-    //   type: "string",
-    //   resolve: (doc) => `/posts/${getSlug(doc)}/og.png`,
-    // },
     image: {
       type: "string",
       resolve: (doc) => `/posts/${getSlug(doc)}/image.png`,

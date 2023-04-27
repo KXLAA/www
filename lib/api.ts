@@ -135,7 +135,12 @@ class Api {
 
   get experiments() {
     return {
-      published: pipe(this._experiments, this.sort, this.getPublished),
+      published: pipe(
+        this._experiments,
+        this.sort,
+        this.getPublished,
+        (experiment) => this.formatDate(experiment, "long")
+      ),
       minimal: pipe(
         this._experiments,
         this.getPublished,
@@ -143,7 +148,15 @@ class Api {
         (experiment) => this.formatDate(experiment, "long"),
         (experiments) =>
           experiments.map((e) =>
-            pick(e, ["title", "slug", "publishedAt", "mp4", "webm", "poster"])
+            pick(e, [
+              "title",
+              "slug",
+              "publishedAt",
+              "mp4",
+              "webm",
+              "poster",
+              "description",
+            ])
           )
       ),
     };
