@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "type-check": "tsc --noEmit --incremental --preserveWatchOutput --pretty",
-    "dev": "export NODE_ENV=dev && concurrently -n NEXT,TS -c magenta,cyan \"next dev\" \"yarn type-check --watch\"",
+    "dev": "concurrently -n NEXT,TS -c magenta,cyan \"next dev\" \"yarn type-check --watch\"",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",

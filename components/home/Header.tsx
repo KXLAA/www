@@ -20,8 +20,8 @@ export function Header(props: HeaderProps) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-3">
-        <div className="text-3xl">
-          <p className="font-semibold text-silver-600">{heading}</p>
+        <div>
+          <p className="text-3xl font-semibold text-silver-600">{heading}</p>
           <p className="text-base font-light text-silver-800">{subheading}</p>
         </div>
       </div>
