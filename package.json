@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^1.18.4",
-    "@contentlayer/core": "^0.3.0",
     "@dnd-kit/core": "^6.0.7",
     "@dnd-kit/modifiers": "^6.0.1",
     "@dnd-kit/sortable": "^7.0.2",
@@ -29,8 +28,9 @@
     "globby": "^13.1.3",
     "is-hotkey": "^0.2.0",
     "lucide-react": "^0.112.0",
+    "markdown-wasm": "^1.2.0",
     "mdx-prism": "^0.3.4",
-    "next": "latest",
+    "next": "13.2.0",
     "next-contentlayer": "^0.2.9",
     "next-seo": "^5.15.0",
     "react": "18.2.0",
