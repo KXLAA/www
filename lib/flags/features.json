@@ -55,7 +55,17 @@
         "enabled": false
       },
       "development": {
+        "enabled": true
+      }
+    }
+  },
+  "now": {
+    "environments": {
+      "production": {
         "enabled": false
+      },
+      "development": {
+        "enabled": true
       }
     }
   }
