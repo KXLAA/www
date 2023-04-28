@@ -15,7 +15,7 @@ export function Header(props: HeaderProps) {
     subheading = "Frontend Engineer, London UK.",
   } = props;
 
-  const features = useFeatures(["posts", "experiments", "wiki", "projects"]);
+  const features = useFeatures();
 
   return (
     <div className="flex flex-col gap-2">
@@ -26,15 +26,16 @@ export function Header(props: HeaderProps) {
         </div>
       </div>
       <nav className={cx("self-start")}>
-        <ul className="flex items-center justify-center gap-6">
+        <ul className="flex items-center justify-center w-full gap-6">
           <HeaderLink label="Index" href="/" enabled />
           <HeaderLink label="Writing" href="/posts" enabled={features.posts} />
-          <HeaderLink label="Wiki" href="/wiki" enabled={features.wiki} />
           <HeaderLink
             label="Experiments"
             href="/experiments"
             enabled={features.experiments}
           />
+          <HeaderLink label="Wiki" href="/wiki" enabled={features.wiki} />
+          <HeaderLink label="Now" href="/now" enabled={features.now} />
         </ul>
       </nav>
     </div>
