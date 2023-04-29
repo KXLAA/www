@@ -38,7 +38,7 @@ export function useFeatureCheck() {
 
 export function useFeature(feature: Feature) {
   const checkFeature = useFeatureCheck();
-  return checkFeature(feature);
+  return React.useMemo(() => checkFeature(feature), [checkFeature, feature]);
 }
 
 export function useFeatures() {
