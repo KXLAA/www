@@ -55,7 +55,12 @@ class Api {
   }
 
   private getPublished<T extends { slug: string }>(content: T[]) {
-    return content.filter((c) => !c.slug.startsWith("_"));
+    //ony filter out unpublished articles when in prod
+    if (process.env.NODE_ENV === "production") {
+      return content.filter((c) => !c.slug.startsWith("_"));
+    }
+
+    return content;
   }
 
   private formatDate<T extends { publishedAt: string }>(
