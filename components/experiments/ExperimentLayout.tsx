@@ -51,7 +51,7 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
         {props.children}
       </div>
 
-      <Show when={!!prev && !!next}>
+      <Show when={!!prev || !!next}>
         <div
           className={cx(
             "flex w-full gap-4 text-sm font-medium border-t border-dashed text-silver-900 border-shark-600 py-10 ",
