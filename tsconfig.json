@@ -18,7 +18,8 @@
     "paths": {
       "@/*": ["*"],
       "@/contentlayer/*": ["./.contentlayer/generated"],
-      "@/widgets/*": ["./components/posts/widgets/*"]
+      "@/widgets/*": ["./components/posts/widgets/*"],
+      "@/experiments/*": ["./components/experiments/widgets/*"]
     }
   },
   "include": [

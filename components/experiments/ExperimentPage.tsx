@@ -6,10 +6,7 @@ import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import type { SeoProps } from "@/lib/seo";
 
 const VercelEnvInputs = dynamic(
-  () =>
-    import(
-      "@/components/experiments/widgets/vercel-env-inputs/VercelEnvInputs"
-    ),
+  () => import("@/experiments/vercel-env-inputs/VercelEnvInputs"),
   {
     loading: () => (
       <div className="h-[201px] bg-cod-gray-600 border border-cod-gray-900 animate-pulse rounded-lg shadow-lg" />
@@ -18,10 +15,7 @@ const VercelEnvInputs = dynamic(
 );
 
 const MixCloudTrackList = dynamic(
-  () =>
-    import(
-      "@/components/experiments/widgets/mixcloud-tracklist/MixCloudTracklist"
-    )
+  () => import("@/experiments/mixcloud-tracklist/MixCloudTracklist")
 );
 
 const MDXComponents = {
