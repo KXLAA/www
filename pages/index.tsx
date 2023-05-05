@@ -17,7 +17,6 @@ type HomePageProps = {
   posts: Array<PostType>;
   experiments: Array<ExperimentsType>;
   projects: Array<ProjectType>;
-  contacts: Array<{ name: string; href: string }>;
   experience: Array<ExperienceType>;
 };
 
@@ -27,7 +26,7 @@ export default (props: HomePageProps) => (
     <Experience {...props} />
     <Posts {...props} />
     <Projects {...props} />
-    <Contact {...props} />
+    <Contact />
   </Layout>
 );
 
@@ -39,7 +38,6 @@ export const getStaticProps = async () => {
       posts: api.posts.minimal,
       experiments: api.experiments.minimal,
       projects: api.projects,
-      contacts: api.contacts,
       experience: api.experience,
     },
   };
