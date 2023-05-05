@@ -117,27 +117,6 @@ class Api {
     ];
   }
 
-  get contacts() {
-    return [
-      {
-        name: "Twitter",
-        href: "https://twitter.com/kxlaa_",
-      },
-      {
-        name: "GitHub",
-        href: "https://github.com/KXLAA",
-      },
-      {
-        name: "LinkedIn",
-        href: "https://www.linkedin.com/in/kxlaa/",
-      },
-      {
-        name: "Email",
-        href: `mailto:${process.env.NEXT_PUBLIC_EMAIL}`,
-      },
-    ];
-  }
-
   get experiments() {
     return {
       published: pipe(

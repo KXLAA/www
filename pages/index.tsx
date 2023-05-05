@@ -17,7 +17,6 @@ type HomePageProps = {
   posts: Array<PostType>;
   experiments: Array<ExperimentsType>;
   projects: Array<ProjectType>;
-  contacts: Array<{ name: string; href: string }>;
   experience: Array<ExperienceType>;
 };
 
@@ -27,7 +26,16 @@ export default (props: HomePageProps) => (
     <Experience {...props} />
     <Posts {...props} />
     <Projects {...props} />
-    <Contact {...props} />
+    <Contact />
+    <a
+      href="https://github.com/KXLAA/www"
+      target="_blank"
+      className="text-xs text-silver-800 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy"
+      rel="noreferrer"
+      data-splitbee-event="Click on view source"
+    >
+      view source
+    </a>
   </Layout>
 );
 
@@ -39,7 +47,6 @@ export const getStaticProps = async () => {
       posts: api.posts.minimal,
       experiments: api.experiments.minimal,
       projects: api.projects,
-      contacts: api.contacts,
       experience: api.experience,
     },
   };
