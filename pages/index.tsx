@@ -27,6 +27,15 @@ export default (props: HomePageProps) => (
     <Posts {...props} />
     <Projects {...props} />
     <Contact />
+    <a
+      href="https://github.com/KXLAA/www"
+      target="_blank"
+      className="text-xs text-silver-800 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy"
+      rel="noreferrer"
+      data-splitbee-event="Click on view source"
+    >
+      view source
+    </a>
   </Layout>
 );
 
