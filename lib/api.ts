@@ -3,11 +3,13 @@ import { pipe } from "fp-ts/function";
 
 import type {
   Experiment as ExperimentsType,
+  Note as NoteType,
   Post as PostType,
   Project as ProjectType,
 } from "@/contentlayer/generated";
 import {
   allExperiments as experiments,
+  allNotes as notes,
   allPosts as posts,
   allProjects as projects,
 } from "@/contentlayer/generated";
@@ -33,6 +35,7 @@ type Config = {
   posts: Array<PostType>;
   experiments: Array<ExperimentsType>;
   projects: Array<ProjectType>;
+  notes: Array<NoteType>;
 };
 
 type DateFormat = "long" | "short" | "year";
@@ -41,11 +44,13 @@ class Api {
   private readonly _experiments: Array<ExperimentsType>;
   private readonly _posts: Array<PostType>;
   private readonly _projects: Array<ProjectType>;
+  private readonly _notes: Array<NoteType>;
 
-  constructor({ experiments, posts, projects }: Config) {
+  constructor({ experiments, posts, projects, notes }: Config) {
     this._experiments = experiments;
     this._posts = posts;
     this._projects = projects;
+    this._notes = notes;
   }
 
   private sort<T extends { publishedAt: string }>(content: T[]) {
@@ -55,7 +60,7 @@ class Api {
   }
 
   private getPublished<T extends { slug: string }>(content: T[]) {
-    //ony filter out unpublished articles when in prod
+    //ony filter out unpublished content when in prod
     if (process.env.NODE_ENV === "production") {
       return content.filter((c) => !c.slug.startsWith("_"));
     }
@@ -78,6 +83,24 @@ class Api {
         }[format || "short"]
       ),
     }));
+  }
+
+  get notes() {
+    return {
+      published: pipe(this._notes, this.sort, this.getPublished, (notes) =>
+        this.formatDate(notes, "long")
+      ),
+      minimal: pipe(
+        this._notes,
+        this.getPublished,
+        this.sort,
+        (notes) => this.formatDate(notes, "long"),
+        (notes) =>
+          notes.map((n) =>
+            pick(n, ["title", "slug", "publishedAt", "description"])
+          )
+      ),
+    };
   }
 
   get posts() {
@@ -151,4 +174,4 @@ class Api {
   }
 }
 
-export const api = new Api({ experiments, posts, projects });
+export const api = new Api({ experiments, posts, projects, notes });
