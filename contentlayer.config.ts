@@ -36,7 +36,7 @@ function getHeadings(source: string) {
   );
 }
 
-async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
+async function getLastEditedDate(doc: DocumentGen) {
   const stats = await fs.stat(
     path.join(contentDirPath, doc._raw.sourceFilePath)
   );
@@ -44,6 +44,65 @@ async function getLastEditedDate(doc: DocumentGen): Promise<Date> {
 }
 
 const getSlug = (doc: any) => doc._raw.sourceFileName.replace(/\.mdx$/, "");
+
+const Note = defineDocumentType(() => ({
+  name: "Note",
+  filePathPattern: `notes/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: { type: "string", required: true },
+    source: { type: "string" },
+    publishedAt: { type: "string", required: true },
+    description: { type: "string", required: true },
+    og: { type: "string", required: true },
+    tags: {
+      type: "list",
+      of: { type: "string" },
+    },
+  },
+  computedFields: {
+    image: {
+      type: "string",
+      resolve: (doc) => `/notes/${getSlug(doc)}/image.png`,
+    },
+    lastUpdatedAt: {
+      type: "string",
+      resolve: (doc) => getLastEditedDate(doc),
+    },
+    readingTime: {
+      type: "json",
+      resolve: (doc) => readingTime(doc.body.raw),
+    },
+    headings: {
+      type: "nested",
+      of: defineNestedType(() => ({
+        name: "readingTime",
+        fields: {
+          title: {
+            type: "string",
+          },
+          text: {
+            type: "string",
+          },
+          minutes: {
+            type: "number",
+          },
+          time: {
+            type: "number",
+          },
+          words: {
+            type: "number",
+          },
+        },
+      })),
+      resolve: (doc) => getHeadings(doc.body.raw),
+    },
+    slug: {
+      type: "string",
+      resolve: (doc) => getSlug(doc),
+    },
+  },
+}));
 
 const Post = defineDocumentType(() => ({
   name: "Post",
@@ -154,30 +213,32 @@ const Project = defineDocumentType(() => ({
   },
 }));
 
-const rehypePrettyCodeOptions = {
-  // use a prepackaged theme, see all themes here:
-  // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-  theme: "github-dark-dimmed",
-  onVisitHighlightedLine(node: any) {
-    node.properties.className.push("line--highlighted");
-  },
-};
-
-const rehypeAutolinkHeadingsOptions = {
-  properties: {
-    className: ["anchor"],
-  },
-};
-
 export default makeSource({
   contentDirPath: contentDirPath,
-  documentTypes: [Post, Experiment, Project],
+  documentTypes: [Post, Experiment, Project, Note],
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
       rehypeSlug,
-      [rehypePrettyCode, rehypePrettyCodeOptions],
-      [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOptions],
+      [
+        rehypePrettyCode,
+        {
+          // use a prepackaged theme, see all themes here:
+          // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
+          theme: "github-dark-dimmed",
+          onVisitHighlightedLine(node: any) {
+            node.properties.className.push("line--highlighted");
+          },
+        },
+      ],
+      [
+        rehypeAutolinkHeadings,
+        {
+          properties: {
+            className: ["anchor"],
+          },
+        },
+      ],
     ],
   },
 });

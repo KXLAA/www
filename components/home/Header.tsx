@@ -29,13 +29,12 @@ export function Header(props: HeaderProps) {
         <ul className="flex items-center justify-center w-full gap-6">
           <HeaderLink label="Index" href="/" enabled />
           <HeaderLink label="Writing" href="/posts" enabled={features.posts} />
+          <HeaderLink label="Notes" href="/notes" enabled={features.notes} />
           <HeaderLink
             label="Experiments"
             href="/experiments"
             enabled={features.experiments}
           />
-          <HeaderLink label="Wiki" href="/wiki" enabled={features.wiki} />
-          <HeaderLink label="Now" href="/now" enabled={features.now} />
         </ul>
       </nav>
     </div>
