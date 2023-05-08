@@ -49,7 +49,7 @@
       }
     }
   },
-  "wiki": {
+  "notes": {
     "environments": {
       "production": {
         "enabled": false
