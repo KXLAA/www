@@ -4,12 +4,17 @@ import { Layout } from "@/components/common/Layout";
 import { Header } from "@/components/home/Header";
 import type { Note as NoteType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
+import { useFeatures } from "@/lib/flags";
 
 type NotesPageProps = {
   notes: NoteType[];
 };
 
 export default function Notes(props: NotesPageProps) {
+  const features = useFeatures();
+
+  if (!features.notes) return null;
+
   return (
     <Layout
       className="flex flex-col justify-center max-w-[540px] gap-6 px-4 py-4 text-base md:px-8 md:py-8 md:text-xl font-extralight"
