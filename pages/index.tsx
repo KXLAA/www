@@ -20,26 +20,28 @@ type HomePageProps = {
   experience: Array<ExperienceType>;
 };
 
-export default (props: HomePageProps) => (
-  <Layout className="flex flex-col justify-center max-w-lg gap-4 px-4 py-4 text-base md:px-8 md:py-8 md:gap-8 md:text-xl font-extralight">
-    <Header />
-    <Experience {...props} />
-    <Posts {...props} />
-    <Projects {...props} />
-    <Contact />
-    <a
-      href="https://github.com/KXLAA/www"
-      target="_blank"
-      className="text-xs text-silver-800 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy"
-      rel="noreferrer"
-      data-splitbee-event="Click on view source"
-    >
-      view source
-    </a>
-  </Layout>
-);
+export default function Home(props: HomePageProps) {
+  return (
+    <Layout className="flex flex-col justify-center max-w-lg gap-4 px-4 py-4 text-base md:px-8 md:py-8 md:gap-8 md:text-xl font-extralight">
+      <Header />
+      <Experience {...props} />
+      <Posts {...props} />
+      <Projects {...props} />
+      <Contact />
+      <a
+        href="https://github.com/KXLAA/www"
+        target="_blank"
+        className="text-xs text-silver-800 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy"
+        rel="noreferrer"
+        data-splitbee-event="Click on view source"
+      >
+        view source
+      </a>
+    </Layout>
+  );
+}
 
-export const getStaticProps = async () => {
+export async function getStaticProps() {
   generateRSS();
 
   return {
@@ -50,4 +52,4 @@ export const getStaticProps = async () => {
       experience: api.experience,
     },
   };
-};
+}

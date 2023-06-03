@@ -52,10 +52,8 @@ export default function Notes(props: NotesPageProps) {
   );
 }
 
-export const getStaticProps = async () => {
+export async function getStaticProps() {
   return {
-    props: {
-      notes: api.notes.minimal,
-    },
+    props: { notes: api.notes.minimal },
   };
-};
+}
