@@ -9,16 +9,19 @@ type PostsPageProps = {
   posts: Array<PostType>;
 };
 
-export default (props: PostsPageProps) => {
+export default function Posts(props: PostsPageProps) {
   return (
     <Layout
       className="flex flex-col justify-center max-w-lg gap-6 px-4 py-4 text-base md:px-8 md:py-8 md:text-xl font-extralight"
       customMeta={{
         title: `Kola | Writing`,
-        description: `Articles on web development, React  & any other interesting topics.`,
+        description: `Articles on web development & any other interesting topics.`,
       }}
     >
-      <Header heading="Writing." subheading="My thoughts on Web Development" />
+      <Header
+        heading="Writing."
+        subheading="My thoughts on web development & any other interesting topics."
+      />
 
       <div className="flex flex-col gap-1">
         {props.posts.map((post) => (
@@ -45,12 +48,10 @@ export default (props: PostsPageProps) => {
       </div>
     </Layout>
   );
-};
+}
 
-export const getStaticProps = async () => {
+export async function getStaticProps() {
   return {
-    props: {
-      posts: api.posts.minimal,
-    },
+    props: { posts: api.posts.minimal },
   };
-};
+}
