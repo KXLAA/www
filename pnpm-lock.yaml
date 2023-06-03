@@ -44,6 +44,7 @@ specifiers:
   prettier: ^2.7.1
   react: 18.2.0
   react-dom: 18.2.0
+  react-error-boundary: ^4.0.9
   react-hook-form: ^7.43.1
   react-icons: ^4.7.1
   react-responsive: ^9.0.2
@@ -92,6 +93,7 @@ dependencies:
   next-seo: 5.15.0_f4d7icgk4i3oippbo5yzyh5rhq
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-error-boundary: 4.0.9_react@18.2.0
   react-hook-form: 7.43.2_react@18.2.0
   react-icons: 4.7.1_react@18.2.0
   react-responsive: 9.0.2_react@18.2.0
@@ -5202,6 +5204,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-error-boundary/4.0.9_react@18.2.0:
+    resolution: {integrity: sha512-f6DcHVdTDZmc9ixmRmuLDZpkdghYR/HKZdUzMLHD58s4cR2C4R6y4ktYztCosM6pyeK4/C8IofwqxgID25W6kw==}
+    peerDependencies:
+      react: '>=16.13.1'
+    dependencies:
+      '@babel/runtime': 7.21.0
+      react: 18.2.0
     dev: false
 
   /react-hook-form/7.43.2_react@18.2.0:
