@@ -20,7 +20,7 @@ export default function Posts(props: PostsPageProps) {
     >
       <Header
         heading="Writing."
-        subheading="My thoughts on web development & career."
+        subheading="My thoughts on web development & any other interesting topics."
       />
 
       <div className="flex flex-col gap-1">
