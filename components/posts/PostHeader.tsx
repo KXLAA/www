@@ -64,7 +64,7 @@ export function PostHeader(props: PostHeaderProps) {
         <h1 className="m-0 text-2xl md:text-5xl md:text-[40px] font-bold max-w-[840px]">
           {props.title}
         </h1>
-        <div className="flex items-center justify-center gap-1 text-sm rounded-md font-extralight text-silver-700 underline-offset-1 w-fit">
+        <div className="flex items-center justify-center gap-1 text-sm font-semibold rounded-md text-gray-dark-11 underline-offset-1 w-fit">
           <span className="m-0">{props.publishedAt}</span>
           <span>/</span>
           <span>{props.readingTime.text} </span>
