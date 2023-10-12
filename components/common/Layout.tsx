@@ -16,7 +16,7 @@ export function Layout(props: LayoutProps) {
       {props.customMeta && <Seo {...props.customMeta} />}
       <div
         className={cx(
-          "flex min-h-screen w-full flex-col bg-cod-gray-700 text-silver"
+          "flex min-h-screen w-full flex-col bg-gray-dark-1 text-silver"
         )}
       >
         <main>

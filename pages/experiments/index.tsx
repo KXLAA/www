@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { Layout } from "@/components/common/Layout";
-import { Header } from "@/components/home/Header";
 import type { Experiment as ExperimentsType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 
@@ -12,37 +11,35 @@ type ExperimentsPageProps = {
 export default function Experiments(props: ExperimentsPageProps) {
   return (
     <Layout
-      className="flex flex-col justify-center max-w-lg gap-6 px-4 py-4 text-base md:px-8 md:py-8 md:text-xl font-extralight"
+      className="flex flex-col items-center w-full min-h-screen gap-8 p-10 bg-gray-dark-1 text-gray-dark-12"
       customMeta={{
         title: `Kola | Experiments`,
         description: `Recreating some of my favorite ui interactions & building new
             prototypes.`,
       }}
     >
-      <Header
-        heading="Experiments."
-        subheading="Recreating some of my favorite ui interactions"
-      />
-
-      <div className="flex flex-col gap-1">
-        {props.experiments.map((experiment) => (
-          <article key={experiment.slug}>
-            <Link
-              href={`/experiments/${experiment.slug}`}
-              className="flex gap-3 px-0 py-2"
-              data-splitbee-event={`Click on ${experiment.title}`}
-            >
-              <div className="flex flex-col sm:flex-row justify-between gap-0.5 w-full">
-                <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy">
-                  {experiment.title}
-                </p>
-                <p className="mt-2 text-xs font-normal text-silver-900">
-                  {experiment.publishedAt}
-                </p>
-              </div>
-            </Link>
-          </article>
-        ))}
+      <div className="flex flex-col gap-4">
+        <h2 className="text-3xl font-semibold">Experiments</h2>
+        <div className="flex flex-col gap-1">
+          {props.experiments.map((experiment) => (
+            <article key={experiment.slug}>
+              <Link
+                href={`/experiments/${experiment.slug}`}
+                className="flex gap-3 px-0 py-2 text-2xl"
+                data-splitbee-event={`Click on ${experiment.title}`}
+              >
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-2xl font-medium transition-colors text-gray-dark-11 hover:text-gray-dark-10">
+                    {experiment.title}
+                  </p>
+                  <div className="flex gap-1 text-sm font-medium text-gray-dark-10">
+                    {experiment.publishedAt}
+                  </div>
+                </div>
+              </Link>
+            </article>
+          ))}
+        </div>
       </div>
     </Layout>
   );
