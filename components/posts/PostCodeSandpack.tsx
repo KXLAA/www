@@ -48,9 +48,9 @@ export default function PostCodeSandpack(props: PostCodeSandpackProps) {
       >
         <SandpackLayout>
           <SandpackPreview {...props.previewProps} />
-          <span className="flex items-center justify-between w-full p-3 bg-shark-800 text-silver">
+          <span className="flex items-center justify-between w-full p-3 bg-shark-700 text-gray-dark-12">
             <button
-              className="w-full text-base font-black text-left uppercase transition-colors text-silver-800 hover:text-silver-600"
+              className="w-full text-base font-black text-left uppercase transition-colors text-gray-dark-11 hover:text-gray-dark-12"
               onClick={() => setOpen(!open)}
               title="Open Code Editor"
               aria-label="Open Code Editor"

@@ -34,9 +34,7 @@ export function PostSideBar(props: PostSideBarProps) {
                     ? "#EEEEEE"
                     : "#888888",
               }}
-              whileHover={{
-                color: "#EEEEEE",
-              }}
+              whileHover={{ color: "#EEEEEE" }}
               transition={{ duration: 0.5 }}
               className={cx(
                 item.level === 2 && "ml-0",

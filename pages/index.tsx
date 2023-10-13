@@ -15,7 +15,7 @@ type HomePageProps = {
 
 export default function Home(props: HomePageProps) {
   return (
-    <Layout className="flex flex-col items-center w-full min-h-screen gap-8 p-10 bg-gray-dark-1 text-gray-dark-12">
+    <Layout className="flex flex-col items-center w-full min-h-screen gap-8 p-10 text-gray-dark-12">
       <div className="flex flex-col items-start w-full max-w-xl gap-8">
         <div>
           <h1 className="text-6xl font-semibold">
