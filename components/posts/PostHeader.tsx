@@ -27,10 +27,7 @@ export function PostHeader(props: PostHeaderProps) {
             fixed
             floating
             items={[
-              {
-                label: "Home",
-                href: "/",
-              },
+              { label: "Home", href: "/" },
               {
                 label: props.title,
                 href: "/posts",

@@ -29,13 +29,13 @@ export function BreadCrumb(props: BreadCrumbProps) {
       transition={{ duration: 0.2 }}
       exit={{ opacity: 0 }}
       className={cx(
-        "relative flex items-center w-fit gap-1 md:gap-2 px-4 py-2 text-[9px] md:text-[11px] font-normal rounded-md   text-silver-600 transition-all",
+        "relative flex items-center w-fit gap-1 md:gap-2 px-4 py-2 text-[9px] md:text-[11px] font-medium rounded text-gray-dark-11 transition-all",
         fixed && "fixed top-7 z-10",
         filled && "bg-shark-800",
         floating && "mix-blend-lighten	backdrop-blur shadow-border-shiny  z-50",
         plain
           ? "border-none !bg-transparent p-0"
-          : "shadow-border-shiny bg-shark-800",
+          : "shadow-border-shiny bg-gray-dark-2",
         className
       )}
     >
@@ -43,7 +43,7 @@ export function BreadCrumb(props: BreadCrumbProps) {
         <React.Fragment key={index}>
           <Crumb {...item} />
           <Show when={index !== items.length - 1}>
-            <ChevronRight className="w-2 h-2 md:w-3 md:h-3 shrink-0 text-silver-600" />
+            <ChevronRight className="w-2 h-2 md:w-3 md:h-3 shrink-0 text-gray-dark-11" />
           </Show>
         </React.Fragment>
       ))}
@@ -54,13 +54,13 @@ export function BreadCrumb(props: BreadCrumbProps) {
 function Crumb(props: Item) {
   const { active, label, href } = props;
   if (active) {
-    return <span className="text-silver-200">{label}</span>;
+    return <span className="text-lg text-gray-dark-12">{label}</span>;
   }
 
   return (
     <Link
       href={href || ""}
-      className="transition-colors hover:text-silver-400 text-silver-700"
+      className="text-lg transition-colors hover:text-gray-dark-12 text-gray-dark-11"
     >
       {label}
     </Link>

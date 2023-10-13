@@ -15,7 +15,7 @@ type PostWidgetAreaProps = {
 export function PostWidgetArea(props: PostWidgetAreaProps) {
   const isMobile = useIsMobile();
   return (
-    <div className="relative flex flex-col justify-end w-full p-2 border rounded-xl bg-cod-gray-800 border-cod-gray-600">
+    <div className="relative flex flex-col justify-end w-full p-2 border rounded-xl bg-cod-gray-600 border-cod-gray-500">
       <div
         className={cx(
           "flex flex-col justify-end w-full h-60 md:p-10 p-6 rounded-xl live-area bg-shark-900",
