@@ -11,7 +11,7 @@ type PostsPageProps = {
 export default (props: PostsPageProps) => {
   return (
     <Layout
-      className="flex flex-col items-center w-full min-h-screen gap-8 p-10 bg-gray-dark-1 text-gray-dark-12"
+      className="flex flex-col items-center w-full min-h-screen gap-8 p-4 py-8 sm:p-10 text-gray-dark-12"
       customMeta={{
         title: `Kola | Writing`,
         description: `Articles on web development, React  & any other interesting topics.`,
