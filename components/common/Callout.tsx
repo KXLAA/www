@@ -34,7 +34,7 @@ export function Callout({ intent = "default", ...props }: CalloutProps) {
         intent === "info" &&
           "bg-indigo-dark-2 border-2 border-indigo-dark-4 !text-indigo-dark-11",
         intent === "default" &&
-          "bg-cod-gray-500 border-cod-gray-400 border-2 text-silver-600"
+          "bg-gray-dark-3 border-gray-dark-5 border text-gray-dark-12"
       )}
     >
       <div className="flex flex-col">
@@ -52,7 +52,7 @@ export function Callout({ intent = "default", ...props }: CalloutProps) {
               "rounded-full bg-indigo-dark-3 p-1 border-2 border-indigo-dark-4",
               intent === "danger" &&
                 "bg-red-dark-3  border-2 border-red-dark-4",
-              intent === "default" && "bg-shark-400 p-1 border-shark-300"
+              intent === "default" && "bg-gray-dark-3 border-gray-dark-5"
             )}
           >
             <ChevronDown
@@ -71,7 +71,6 @@ export function Callout({ intent = "default", ...props }: CalloutProps) {
           isVisible={disclosure.open}
         >
           <div className="flex flex-col gap-6 mt-4 text-lg">
-            {" "}
             {props.children}
           </div>
         </DisclosureContent>
@@ -86,7 +85,7 @@ export function Callout({ intent = "default", ...props }: CalloutProps) {
         intent === "info" &&
           "bg-indigo-dark-2 border-2 border-indigo-dark-4 !text-indigo-dark-11",
         intent === "default" &&
-          "bg-cod-gray-500 border-cod-gray-400 border-2 text-silver-600"
+          "bg-gray-dark-1 border-gray-dark-2 border text-gray-dark-12"
       )}
     >
       <div className="flex flex-col gap-2">
@@ -94,7 +93,16 @@ export function Callout({ intent = "default", ...props }: CalloutProps) {
           {icon}
           <p className="m-0">{props.heading}</p>
         </div>
-        <div className="flex flex-col gap-2 text-lg"> {props.children}</div>
+        <div
+          className={cx(
+            "flex flex-col gap-2 text-lg",
+            intent === "danger" && "text-red-dark-11",
+            intent === "info" && "text-indigo-dark-11",
+            intent === "default" && "text-gray-dark-11"
+          )}
+        >
+          {props.children}
+        </div>
       </div>
     </aside>
   );
