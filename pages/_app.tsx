@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Poppins } from "next/font/google";
 
+import ErrorBoundary from "@/components/common/ErrorBoundary";
 import { useAnalytics } from "@/lib/hooks/use-analytics";
 import { DefaultSeo } from "@/lib/seo";
 
@@ -17,7 +18,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   useAnalytics();
 
   return (
-    <>
+    <ErrorBoundary>
       <DefaultSeo />
       <style jsx global>{`
         html {
@@ -25,6 +26,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <Component {...pageProps} />
-    </>
+    </ErrorBoundary>
   );
 }
