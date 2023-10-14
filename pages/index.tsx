@@ -1,9 +1,11 @@
 import Link from "next/link";
 
+import { ConnectLink } from "@/components/common/ConnectLink";
 import { Layout } from "@/components/common/Layout";
 import type { Experiment, Post, Project } from "@/contentlayer/generated";
 import type { Experience as ExperienceType } from "@/lib/api";
 import { api } from "@/lib/api";
+import { useFeatures } from "@/lib/flags";
 import { generateRSS } from "@/lib/rss";
 
 type HomePageProps = {
@@ -14,8 +16,10 @@ type HomePageProps = {
 };
 
 export default function Home(props: HomePageProps) {
+  const features = useFeatures();
+
   return (
-    <Layout className="flex flex-col items-center w-full min-h-screen gap-8 p-10 text-gray-dark-12">
+    <Layout className="flex flex-col items-center w-full min-h-screen gap-8 p-4 py-8 sm:p-10 text-gray-dark-12">
       <div className="flex flex-col items-start w-full max-w-xl gap-8">
         <div>
           <h1 className="text-6xl font-semibold">
@@ -48,7 +52,7 @@ export default function Home(props: HomePageProps) {
               </article>
             ))}
           </div>
-          {props.posts.length >= 4 && (
+          {props.posts.length > 4 && (
             <Link
               href="/posts"
               className="self-start text-lg font-semibold transition-all text-orange-dark-10 hover:text-orange-dark-9"
@@ -99,58 +103,41 @@ export default function Home(props: HomePageProps) {
             on GitHub.
           </p>
 
-          <p className="text-xl font-medium text-gray-dark-11">
-            View some cool of{" "}
-            <Link
-              className="underline transition-all duration-200 hover:text-gray-dark-10 underline-offset-2"
-              href="/experiments"
-            >
-              my cool experiments
-            </Link>{" "}
-            or my long list of{" "}
-            <Link
-              className="underline transition-all duration-200 hover:text-gray-dark-10 underline-offset-2"
-              href="/experiments"
-            >
-              Today I Learned
-            </Link>{" "}
-            posts.
-          </p>
+          {features.experiments && (
+            <p className="text-xl font-medium text-gray-dark-11">
+              View some cool of{" "}
+              <Link
+                className="underline transition-all duration-200 hover:text-gray-dark-10 underline-offset-2"
+                href="/experiments"
+              >
+                my cool experiments
+              </Link>{" "}
+              or my long list of{" "}
+              <Link
+                className="underline transition-all duration-200 hover:text-gray-dark-10 underline-offset-2"
+                href="/experiments"
+              >
+                Today I Learned
+              </Link>{" "}
+              posts.
+            </p>
+          )}
 
-          <p className="text-xl font-medium text-gray-dark-10">
-            I collect vinyl Records. You can view my modest collection{" "}
-            <ConnectLink
-              name="here"
-              href="https://www.discogs.com/user/kxlaa/collection"
-            >
-              here
-            </ConnectLink>
-            .
-          </p>
+          {features.vinyl && (
+            <p className="text-xl font-medium text-gray-dark-10">
+              I collect vinyl Records. You can view my modest collection{" "}
+              <ConnectLink
+                name="here"
+                href="https://www.discogs.com/user/kxlaa/collection"
+              >
+                here
+              </ConnectLink>
+              .
+            </p>
+          )}
         </div>
       </div>
     </Layout>
-  );
-}
-
-type ConnectLinkProps = {
-  name: string;
-  href: string;
-  children: React.ReactNode;
-};
-
-function ConnectLink(props: ConnectLinkProps) {
-  return (
-    <a
-      key={props.name}
-      href={props.href}
-      className="underline transition-all duration-200 hover:text-gray-dark-11 underline-offset-2"
-      target="_blank"
-      rel="noreferrer"
-      data-splitbee-event={`Click on ${props.name}`}
-    >
-      {props.children}
-    </a>
   );
 }
 
