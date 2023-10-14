@@ -81,8 +81,7 @@ export default function Home(props: HomePageProps) {
 
         <div className="flex flex-col gap-4">
           <p className="text-xl font-medium text-gray-dark-12">
-            Hi, I'm Kola. I'm a frontend engineer based in London, UK. You can
-            react me at{" "}
+            You can react me at{" "}
             <ConnectLink name="Twitter" href="https://twitter.com/kxlaa_">
               @kxlaa_
             </ConnectLink>
@@ -100,7 +99,7 @@ export default function Home(props: HomePageProps) {
             on GitHub.
           </p>
 
-          {/* <p className="text-xl font-medium text-gray-dark-11">
+          <p className="text-xl font-medium text-gray-dark-11">
             View some cool of{" "}
             <Link
               className="underline transition-all duration-200 hover:text-gray-dark-10 underline-offset-2"
@@ -116,7 +115,18 @@ export default function Home(props: HomePageProps) {
               Today I Learned
             </Link>{" "}
             posts.
-          </p> */}
+          </p>
+
+          <p className="text-xl font-medium text-gray-dark-10">
+            I collect vinyl Records. You can view my modest collection{" "}
+            <ConnectLink
+              name="here"
+              href="https://www.discogs.com/user/kxlaa/collection"
+            >
+              here
+            </ConnectLink>
+            .
+          </p>
         </div>
       </div>
     </Layout>
