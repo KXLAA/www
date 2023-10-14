@@ -141,7 +141,7 @@ export default function Home(props: HomePageProps) {
   );
 }
 
-export const getStaticProps = async () => {
+export async function getStaticProps() {
   generateRSS();
 
   return {
@@ -152,4 +152,4 @@ export const getStaticProps = async () => {
       experience: api.experience,
     },
   };
-};
+}

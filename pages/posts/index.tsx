@@ -8,13 +8,13 @@ type PostsPageProps = {
   posts: Array<PostType>;
 };
 
-export default (props: PostsPageProps) => {
+export default function Posts(props: PostsPageProps) {
   return (
     <Layout
       className="flex flex-col items-center w-full min-h-screen gap-8 p-4 py-8 sm:p-10 text-gray-dark-12"
       customMeta={{
         title: `Kola | Writing`,
-        description: `Articles on web development, React  & any other interesting topics.`,
+        description: `Articles on web development & any other interesting topics.`,
       }}
     >
       <div className="flex flex-col gap-4">
@@ -54,12 +54,10 @@ export default (props: PostsPageProps) => {
       </div>
     </Layout>
   );
-};
+}
 
-export const getStaticProps = async () => {
+export async function getStaticProps() {
   return {
-    props: {
-      posts: api.posts.minimal,
-    },
+    props: { posts: api.posts.minimal },
   };
-};
+}
