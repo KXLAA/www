@@ -18,14 +18,12 @@ export function PostSideBar(props: PostSideBarProps) {
   const isTableOfContentEmpty = tableOfContent?.length === 0;
 
   return isTableOfContentEmpty ? null : (
-    <aside className="md:w-1/3  md:sticky md:top-7 self-start max-w-[300px] md:flex flex-col gap-4 items-start hidden">
+    <aside className="md:w-1/3 font-normal   md:sticky md:top-7 self-start max-w-[300px] md:flex flex-col gap-4 items-start hidden">
       <ul className="relative flex flex-col items-start gap-2">
-        <div className="text-lg font-normal text-left text-silver-50">
-          On this page
-        </div>
+        <div className="text-lg text-left text-gray-dark-12">On this page</div>
         {tableOfContent?.map((item) => (
           <li
-            className="transition font-extralight text-silver-700 hover:text-silver-50"
+            className="transition text-gray-dark-11 hover:text-gray-dark-12"
             key={item.link}
           >
             <motion.a
@@ -36,9 +34,7 @@ export function PostSideBar(props: PostSideBarProps) {
                     ? "#EEEEEE"
                     : "#888888",
               }}
-              whileHover={{
-                color: "#EEEEEE",
-              }}
+              whileHover={{ color: "#EEEEEE" }}
               transition={{ duration: 0.5 }}
               className={cx(
                 item.level === 2 && "ml-0",
@@ -78,11 +74,11 @@ function BackToTop({ isHidden }: { isHidden: boolean }) {
             opacity: 0,
             y: 20,
           }}
-          className="flex items-center justify-center gap-2 text-base transition-colors text-silver-700 hover:text-silver-50"
+          className="flex items-center justify-center gap-2 text-base transition-colors text-gray-dark-11 hover:text-gray-dark-12"
           onClick={scrollTop}
           whileTap={{ scale: 0.9 }}
         >
-          <div className="flex items-center justify-center p-1 rounded-lg shadow-border-shiny bg-shark-700">
+          <div className="flex items-center justify-center p-1 rounded-lg shadow-border-shiny bg-gray-dark-2">
             <ChevronUp className="w-4 h-4" />
           </div>
           <span>Back to top</span>

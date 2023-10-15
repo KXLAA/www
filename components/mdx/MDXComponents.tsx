@@ -45,7 +45,7 @@ function Pre(props: any) {
     <div className="relative" ref={hoverRef as any}>
       <pre
         ref={(node) => getCodeString(node)}
-        className="py-4 m-0 rounded-xl bg-cod-gray-500"
+        className="py-4 m-0 rounded-xl bg-gray-dark-1"
         {...props}
       />
 
@@ -57,14 +57,14 @@ function Pre(props: any) {
         }}
         {...props}
         className={cx(
-          "absolute inline-flex transition-opacity duration-200 opacity-0 top-5 right-5 hover:opacity-100 rounded-md hover:bg-shark-700 hover:transition-colors p-1.5 ",
+          "absolute inline-flex transition-opacity duration-200 opacity-0 top-5 right-5 hover:opacity-100 rounded-md hover:bg-gray-dark-5 hover:transition-colors p-1.5 ",
           isHovered ? "opacity-100" : "opacity-0"
         )}
       >
         {hasCopied ? (
-          <Check className="w-4 h-4 text-silver-600" />
+          <Check className="w-4 h-4 text-gray-dark-12" />
         ) : (
-          <Copy className="w-4 h-4 text-silver-600" />
+          <Copy className="w-4 h-4 text-gray-dark-12" />
         )}
       </button>
     </div>

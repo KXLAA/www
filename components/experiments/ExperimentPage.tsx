@@ -9,7 +9,7 @@ const VercelEnvInputs = dynamic(
   () => import("@/experiments/vercel-env-inputs/VercelEnvInputs"),
   {
     loading: () => (
-      <div className="h-[201px] bg-cod-gray-600 border border-cod-gray-900 animate-pulse rounded-lg shadow-lg" />
+      <div className="h-[201px] bg-gray-dark-1 border border-gray-dark-2 animate-pulse rounded-lg shadow-lg" />
     ),
   }
 );

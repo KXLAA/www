@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { Layout } from "@/components/common/Layout";
-import { Header } from "@/components/home/Header";
 import type { Post as PostType } from "@/contentlayer/generated";
 import { api } from "@/lib/api";
 
@@ -12,39 +11,46 @@ type PostsPageProps = {
 export default function Posts(props: PostsPageProps) {
   return (
     <Layout
-      className="flex flex-col justify-center max-w-lg gap-6 px-4 py-4 text-base md:px-8 md:py-8 md:text-xl font-extralight"
+      className="flex flex-col items-center w-full min-h-screen gap-8 p-4 py-8 sm:p-10 text-gray-dark-12"
       customMeta={{
         title: `Kola | Writing`,
         description: `Articles on web development & any other interesting topics.`,
       }}
     >
-      <Header
-        heading="Writing."
-        subheading="My thoughts on web development & any other interesting topics."
-      />
+      <div className="flex flex-col gap-4">
+        <h2 className="text-3xl font-semibold">All Writing</h2>
 
-      <div className="flex flex-col gap-1">
-        {props.posts.map((post) => (
-          <article key={post.slug}>
-            <Link
-              href={`/posts/${post.slug}`}
-              className="flex gap-3 px-0 py-2"
-              data-splitbee-event={`Click on ${post.title}`}
-            >
-              <div className="flex flex-col gap-0.5">
-                <p className="text-lg font-medium transition-colors text-silver-600 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy">
-                  {post.title}
-                </p>
-                <p className="text-base font-extralight text-silver-700">
-                  {post.description}
-                </p>
-                <p className="mt-2 text-xs font-normal text-silver-900">
-                  {post.publishedAt}
-                </p>
-              </div>
-            </Link>
-          </article>
-        ))}
+        <div className="flex flex-col gap-1">
+          {props.posts.map((post) => (
+            <article key={post.slug}>
+              <Link
+                href={`/posts/${post.slug}`}
+                className="flex gap-3 px-0 py-2 text-2xl"
+                data-splitbee-event={`Click on ${post.title}`}
+              >
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-2xl font-medium transition-colors text-gray-dark-11 hover:text-gray-dark-10">
+                    {post.title}
+                  </p>
+                  <p className="text-base font-light text-gray-dark-10">
+                    {post.description}
+                  </p>
+
+                  <div className="flex gap-1 text-sm font-medium text-gray-dark-10">
+                    {post.publishedAt}
+                  </div>
+                </div>
+              </Link>
+            </article>
+          ))}
+        </div>
+
+        <Link
+          href="/"
+          className="self-start text-lg font-semibold transition-all text-orange-dark-10 hover:text-orange-dark-9"
+        >
+          Back Home
+        </Link>
       </div>
     </Layout>
   );
