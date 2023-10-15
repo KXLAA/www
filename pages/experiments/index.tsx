@@ -11,7 +11,7 @@ type ExperimentsPageProps = {
 export default function Experiments(props: ExperimentsPageProps) {
   return (
     <Layout
-      className="flex flex-col items-center w-full min-h-screen gap-8 p-10 bg-gray-dark-1 text-gray-dark-12"
+      className="flex flex-col items-center w-full min-h-screen gap-8 p-4 py-8 sm:p-10 text-gray-dark-12"
       customMeta={{
         title: `Kola | Experiments`,
         description: `Recreating some of my favorite ui interactions & building new
@@ -32,6 +32,9 @@ export default function Experiments(props: ExperimentsPageProps) {
                   <p className="text-2xl font-medium transition-colors text-gray-dark-11 hover:text-gray-dark-10">
                     {experiment.title}
                   </p>
+                  <p className="text-base font-light text-gray-dark-10">
+                    {experiment.description}
+                  </p>
                   <div className="flex gap-1 text-sm font-medium text-gray-dark-10">
                     {experiment.publishedAt}
                   </div>
@@ -40,6 +43,13 @@ export default function Experiments(props: ExperimentsPageProps) {
             </article>
           ))}
         </div>
+
+        <Link
+          href="/"
+          className="self-start text-lg font-semibold transition-all text-orange-dark-10 hover:text-orange-dark-9"
+        >
+          Back Home
+        </Link>
       </div>
     </Layout>
   );

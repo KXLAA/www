@@ -22,24 +22,24 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
     >
       <Link
         href="/experiments"
-        className="flex items-center self-start gap-1 text-lg font-normal transition-all w-fit text-silver-700 hover:text-silver-900 hover:underline underline-offset-4 hover:decoration-wavy"
+        className="flex items-center self-start gap-1 text-lg font-semibold transition-all w-fit text-orange-dark-10 hover:text-orange-dark-11"
       >
         Back
       </Link>
 
       <div className="flex justify-between w-full">
         <div>
-          <h1 className="text-3xl font-semibold transition-colors text-silver-600">
+          <h1 className="text-3xl font-semibold transition-colors text-gray-dark-12">
             {props.title}
           </h1>
-          <p className="text-base font-light text-silver-800">
+          <p className="text-base font-light text-gray-dark-11">
             {props.publishedAt}
           </p>
         </div>
 
         <a
           href={props.github}
-          className="flex items-center self-end gap-1 text-sm font-light transition-all w-fit text-silver-700 hover:text-silver-900"
+          className="flex items-center self-end gap-1 text-sm font-light transition-all w-fit text-gray-dark-11 hover:text-gray-dark-12"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -47,14 +47,14 @@ export function ExperimentLayout(props: ExperimentLayoutProps) {
         </a>
       </div>
 
-      <div className="w-full p-4 border border-dashed rounded-lg md:p-8 border-shark-600 grid-bg bg-cod-gray-800">
+      <div className="w-full p-4 border border-dashed rounded-lg md:p-8 border-gray-dark-3 grid-bg bg-gray-dark-1">
         {props.children}
       </div>
 
       <Show when={!!prev || !!next}>
         <div
           className={cx(
-            "flex w-full gap-4 text-sm font-medium border-t border-dashed text-silver-900 border-shark-600 py-10 ",
+            "flex w-full gap-4 text-sm font-medium border-t border-dashed text-gray-dark-12 border-gray-dark-3 py-10 ",
             prev ? "justify-between " : "justify-end"
           )}
         >
@@ -81,8 +81,8 @@ function Navigation(props: {
       href={props.experiment!.slug}
       className={cx("flex flex-col gap-1 text-sm", props.className)}
     >
-      <span className="font-normal">{props.label}</span>
-      <span className="font-extralight text-silver-700">
+      <span className="font-semibold text-orange-dark-10">{props.label}</span>
+      <span className="font-extralight text-gray-dark-11">
         {props.experiment?.title}
       </span>
     </Link>
