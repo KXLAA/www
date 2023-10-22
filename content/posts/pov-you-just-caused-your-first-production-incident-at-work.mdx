@@ -1,0 +1,67 @@
+---
+title: "POV - You just caused your first production incident at work"
+publishedAt: "2023-10-23"
+description: "I caused a SEV 5 incident at my work. Here's what happened and what I learned from it."
+tags: ["career", "incident", "production", "work"]
+og: "https://ucarecdn.com/675e2473-593b-4673-a9f8-08357dcde7b4/povyoujustcausedyourfirstproductionincidentatwork.png"
+---
+
+I started a [new role at Starling Bank 6 months ago](https://www.linkedin.com/posts/kxlaa_it-has-been-6-months-since-i-started-as-a-activity-7115336611290066944-3qWc?utm_source=share&utm_medium=member_desktop). One of the major projects I have been working on is migrating the online bank code base from JavaScript to TypeScript. A significant part of this migration involves converting old vanilla Redux reducers, actions, and thunks written in vanilla Javascript to newer Redux Toolkit and Redux Toolkit slices, actions & hooks in Typescript.
+
+The migration has been progressing well, and I have been making good progress, thanks in part to the comprehensive tests in the online bank. We have both unit and end-to-end (E2E) tests for a large majority of the application.
+
+However, testing in frontend projects can be complicated, and certain functionalities can be particularly difficult to test, as I later found out. One of these challenging functionalities is file downloads, which was the root cause of the production incident.
+
+### The Incident
+
+On the [home page of the online bank](https://app.starlingbank.com/login), when you click on a transaction, a drawer opens up. In this drawer, you can add notes and upload attachments for that specific transaction. If you upload a PDF, the PDF placeholder component will render. Clicking this component will trigger a download, and the PDF will be downloaded to your device:
+
+<Image
+  src="/posts/pov-you-just-caused-your-first-production-incident-at-work/transaction-item-drawer.png"
+  width={1000}
+  height={720}
+  style={{
+    borderRadius: "10px",
+  }}
+/>
+
+Now, the download is processed by Platform (Starling Bank's backend services). Platform returns a PDF `Blob` upon a successful request, and on the frontend, we save this `Blob` as a PDF file on the users device.
+
+Relying on the fact that we had a lot of tests, I migrated this feature to RTK Query by simply replacing the actions and thunks that handled the download functionality with their equivalent RTK Query counterparts. The first mistake.
+
+The second mistake was not thoroughly testing the downloads manually. At Starling Bank, before an application build is promoted to production, engineers need to individually approve their changes if their commits are included in the build. I did test my changes - however, it wasn't immediately clear to me that clicking on the PDF placeholder component would initiate a download, so I overlooked the bug during the manual testing. Additionally, since all the tests in the CI were green, I mistakenly assumed that everything was good to go.
+
+How wrong i was.
+
+A few days after this change was deployed in production, we received a customer complaint stating that they were unable to download PDF attachments on the online bank. After discussing the issue, our tech lead decided to raise this bug as a SEV-5 incident.If you are new to incidents, incident management, and incident severity levels, [this article](https://www.atlassian.com/incident-management/kpis/severity-levels) provides a good overview.
+
+In Starling Bank, a SEV-5 incident is the lowest severity level. When an incident is raised, a Slack channel is opened and depending on the severity, social media communications and upper management may get involved.
+
+Now, imagine yourself in my position. This was my first time dealing with a formalised approach to incident management in a large company. Even though this incident was classified as a SEV-5, in my mind, it felt like a SEV-1 because it was directly caused by the code I introduced into the codebase. Many thoughts were racing through my mind at that time:
+
+- How does incident management work in Starling Bank?
+- How quickly do I need to deploy a fix to production?
+- What if the incident escalates?
+- What if the fix is not straightforward and we need to roll back the online bank?
+
+With all these questions swirling in my head, I decided it was best to find the root cause of the issue. After my investigation, it turns out that the request to get the PDF blob from Platform was successful. However, the returned `Blob` was not being stored by RTK query in the RTK query cache. This makes sense as RTK query stores the cache in memory and depending on the `Blob` size, storing a `Blob` in the RTK query cache [could crash the user's browser](https://github.com/reduxjs/redux-toolkit/issues/1522).
+
+Now remember, I mentioned that we had a lot of tests? Yes, we did have tests for this functionality - but the tests only verified that the request to get the PDF from Platform was successful (i.e we got a 200 response from the server). It did not test whether the file was actually downloaded to the user's device.
+
+The fix was quite simple. We just needed to manually download the files ourselves in the `transformResponse` option in RTK query. This function is called before the response is added to the RTK query cache, allowing us to access the `Blob` before it is discarded by RTK query. It took me approximately 30 minutes to investigate and implement this fix, and those were really intense 30 minutes. The fix was deployed to production on the same day, resulting in a satisfied customer.
+
+### My Learnings
+
+I learned a lot from this incident. First, I realised that tests, while useful, can occasionally produce false positives. The most effective way to test is by using the app as an actual user and trying to intentionally break the application.
+
+Secondly, when migrating code that does not cause any visual or functional changes, it is important to thoroughly review the part of the app that you will be migrating. This will give you a better understanding of how it is supposed to work from a user's perspective. Sometimes, simply reading the code can lead to tunnel vision and make it difficult to grasp the full functionality of the feature being migrated. By manually testing it as a user would, you can gain more insight and avoid making unintended changes.
+
+Thirdly, if your company has a formalised process for handling incidents, try to read up on how that process works. You do not want to be learning about how incident response works in the middle of an incident. At Starling Bank, we have a channel with all the incidents that occur on any given day. If your company has something similar, it would be really insightful to go through some past incidents, especially significant ones like a SEV 1, 2, or 3, and read the channel's messages to see how they are handled. This will give you an idea of how to approach them. It's better to be prepared and know what to expect.
+
+Finally, when you are responsible for causing an incident that gets fixed, make sure to take a mental note or create an action plan to prevent similar incidents from happening again. In my case, I am currently working on improving how we test downloads in the online bank.
+
+I hope you can learn from my experience with incident management. It was a unique experience for me, as I had mostly worked in small startups where we had no formalised incident management. I really like the process in Starling Bank, although I was initially overwhelmed by the task of getting a fix out. I received a lot of support.
+
+Stay tuned for when I write about how I caused another incident, this time a SEV 3 incident. Coming soon.
+
+Cheers.
