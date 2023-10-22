@@ -32,7 +32,8 @@ export function BreadCrumb(props: BreadCrumbProps) {
         "relative flex items-center w-fit gap-1 md:gap-2 px-4 py-2  font-medium rounded text-gray-dark-11 transition-all text-sm sm:text-lg",
         fixed && "fixed top-7 z-10",
         filled && "bg-gray-dark-2",
-        floating && "mix-blend-lighten	backdrop-blur shadow-border-shiny  z-50",
+        floating &&
+          "mix-blend-lighten	backdrop-blur shadow-border-shiny z-50 m-2",
         plain
           ? "border-none !bg-transparent p-0"
           : "shadow-border-shiny bg-gray-dark-2",
@@ -54,7 +55,7 @@ export function BreadCrumb(props: BreadCrumbProps) {
 function Crumb(props: Item) {
   const { active, label, href } = props;
   if (active) {
-    return <span className=" text-gray-dark-12">{label}</span>;
+    return <span className=" text-gray-dark-12 line-clamp-1">{label}</span>;
   }
 
   return (
