@@ -1,0 +1,128 @@
+import * as fs from "node:fs/promises";
+import path from "node:path";
+import type { DocumentGen } from "contentlayer/core";
+import {
+  defineDocumentType,
+  defineNestedType,
+  makeSource,
+} from "contentlayer/source-files";
+import readingTime from "reading-time";
+
+export const CONTENT_DIR_PATH = "content";
+
+function getHeadings(source: string) {
+  //get all heading levels from markdown source, including #, ##, ###, etc.
+  const headings = source.match(/#+\s(.*?)\n/g);
+
+  //return array of objects with heading names and ids
+  return (
+    headings?.map((h, i) => {
+      const content = h.match(/#+\s(.*?)\n/)?.[1];
+      const type = headings?.[i].match(/#+/)?.[0];
+      const slug = content?.replace(/ /g, "-").toLowerCase();
+      const link = "#" + slug;
+      return {
+        id: slug || "",
+        content: content || "",
+        link: link || "",
+        level: type?.length || 0,
+      };
+    }) || []
+  );
+}
+
+async function getLastEditedDate(doc: DocumentGen) {
+  const stats = await fs.stat(
+    path.join(CONTENT_DIR_PATH, doc._raw.sourceFilePath)
+  );
+  return stats.mtime;
+}
+
+const getSlug = (doc: DocumentGen): string =>
+  doc._raw.sourceFileName.replace(/\.mdx$/, "");
+
+const Article = defineDocumentType(() => ({
+  name: "Article",
+  filePathPattern: `articles/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: { type: "string", required: true },
+    publishedAt: { type: "string", required: true },
+    description: { type: "string", required: true },
+    og: { type: "string", required: true },
+    tags: {
+      type: "list",
+      of: { type: "string" },
+    },
+  },
+  computedFields: {
+    image: {
+      type: "string",
+      resolve: (doc) => `/articles/${getSlug(doc)}/image.png`,
+    },
+    lastUpdatedAt: {
+      type: "string",
+      resolve: (doc) => getLastEditedDate(doc),
+    },
+    readingTime: {
+      type: "json",
+      resolve: (doc) => readingTime(doc.body.raw),
+    },
+    headings: {
+      type: "nested",
+      of: defineNestedType(() => ({
+        name: "readingTime",
+        fields: {
+          title: {
+            type: "string",
+          },
+          text: {
+            type: "string",
+          },
+          minutes: {
+            type: "number",
+          },
+          time: {
+            type: "number",
+          },
+          words: {
+            type: "number",
+          },
+        },
+      })),
+      resolve: (doc) => getHeadings(doc.body.raw),
+    },
+    slug: {
+      type: "string",
+      resolve: (doc) => getSlug(doc),
+    },
+  },
+}));
+
+const Project = defineDocumentType(() => ({
+  name: "Project",
+  filePathPattern: `projects/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: { type: "string", required: true },
+    description: { type: "string", required: true },
+    time: { type: "string", required: true },
+    url: { type: "string", required: false },
+  },
+  computedFields: {
+    slug: {
+      type: "string",
+      resolve: (doc) => getSlug(doc),
+    },
+    image: {
+      type: "string",
+      resolve: (doc) => `/projects/${getSlug(doc)}/image.png`,
+    },
+  },
+}));
+
+export default makeSource({
+  contentDirPath: CONTENT_DIR_PATH,
+  documentTypes: [Project, Article],
+  mdx: {},
+});

@@ -1,0 +1,72 @@
+---
+title: "NSFW Javascript - The Comma Operator"
+publishedAt: "2023-03-15"
+description: "Exploring the weird comma operator in Javascript."
+tags: ["Javascript", "Patterns"]
+og: "https://ucarecdn.com/6e66dd12-e3ca-49c8-8df2-f298898e2d76/thecommaoperatorog.png"
+---
+
+While reading [JavaScript: The New Toys](https://www.amazon.co.uk/JavaScript-Toys-T-J-Crowder/dp/1119367956), a fantastic book on the new features introduced in JavaScript with ES6, I came across an operator that was new to me: the **comma** operator.
+
+Take a look at the following code snippet:
+
+```js
+const hello = () => (console.log("does this work ?"), "returned value");
+```
+
+Have you ever encountered this kind of code in the wild? Is that function seemingly returning two values? (albeit the first value is not really a value it is `void`).
+
+If you have used a language such as Go, it is common for a function to return two values. For example, the following is valid in Go:
+
+```go
+func hello() (string, error) {
+    return "hello", nil
+}
+```
+
+In this case, the function returns both a string and an error. However, in JavaScript, a function can only return one value or one thing.
+
+If we want to return multiple values, we can use an array or an object:
+
+```js
+// array
+const hello = () => [() => console.log("hello"), "world"];
+
+// object
+const hello = () => ({ hello: "world" });
+```
+
+So, how is this possible?
+
+```js
+const hello = () => (console.log("does this work ?"), "returned value");
+```
+
+This is the **comma** operator in action. If you look at any minified JavaScript code, you'll see that this operator always appears.It's a handy way to save space and write concise code.
+
+According to MDN - "_the comma `(,)` operator evaluates each of its operands from left to right and returns the value of the last operand_".
+
+Essentially, in the code above, `console.log` would print `does this work?` and the function would return the string `returned value`. The `console.log` on the right is evaluated or called and thrown away and the string on the right is evaluated and returned as a value.
+
+It's a bit strange, isn't it?
+
+Interestingly the code below will throw an error:
+
+```js
+//Error - Left side of the comma operator is unused and has no side effects.
+const hello = () => (2 + 6, "returned value");
+```
+
+When `2 + 6` is evaluated in this code, it has no side effects, unlike `console.log`. JavaScript expects us to use the resulting value, `8`, for something like returning it. However, in this case, we don't, which causes an error.
+
+This is in contrast to the `console.log` in our previous snippet. When `console.log` is evaluated, the side effect is the printing of something to the console, rather than the returning of a value itself.
+
+There is a discussion on Stack Overflow about the use cases of the comma operator. One example of its use is in for loops, and another is to write functional code in JavaScript. You can read up on the discussion [here](https://stackoverflow.com/questions/9579546/when-is-the-comma-operator-useful).
+
+However, I believe that using the comma operator in a function, as shown above, deviates from idiomatic JavaScript code. It can reduce the readability and reliability of the code, so using it in your project's codebase, particularly if you are working on a team, might not be a good idea. It may not be a safe choice for work.
+
+If you want a detailed article on this operator and all its intricacies, you can check out [this article](https://javascriptweblog.wordpress.com/2011/04/04/the-javascript-comma-operator/) and the [MDN page](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator) on it.
+
+Hopefully, this will become a series where I share weird JavaScript syntax that I discover.
+
+Thank you for reading.
