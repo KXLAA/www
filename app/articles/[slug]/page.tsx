@@ -1,4 +1,6 @@
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { notFound } from "next/navigation";
 import { getMDXComponent } from "next-contentlayer/hooks";
 
 import { components } from "@/components/mdx";
@@ -44,6 +46,49 @@ const SortableMultiDndSandPack = dynamic(
     )
 );
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata | undefined> {
+  const article = allArticles.find((a) => a.slug === params.slug);
+  if (!article) {
+    return;
+  }
+
+  const path = `/articles/${article.slug}`;
+  const url = `https://kxlaa.com${path}`;
+  const title = `${article.title}`;
+
+  return {
+    title: title,
+    description: article.description,
+    openGraph: {
+      title,
+      description: article.description,
+      url,
+      type: "article",
+      publishedTime: article.publishedAt,
+      authors: ["https://kxlaa.com"],
+      tags: article.tags,
+      images: [
+        {
+          url: article.og,
+          width: 1200,
+          height: 600,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: article.description,
+      images: [article.og],
+    },
+  };
+}
+
 type Props = {
   params: {
     slug: string;
@@ -55,7 +100,12 @@ export async function generateStaticParams() {
 }
 
 export default function ArticlePage({ params }: Props) {
-  const article = allArticles.find((a) => a.slug === params.slug) as Article;
+  const article = allArticles.find((a) => a.slug === params.slug);
+
+  if (!article) {
+    notFound();
+  }
+
   const Content = getMDXComponent(article.body.code);
 
   return (

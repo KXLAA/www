@@ -3,6 +3,11 @@ import Link from "next/link";
 import { BreadCrumb } from "@/components/bread-crumb";
 import { allArticles } from "@/contentlayer/generated";
 
+export const metadata = {
+  title: `Writing`,
+  description: `Articles on web development & any other interesting topics.`,
+};
+
 export default function Articles() {
   return (
     <main className="flex min-h-screen flex-col items-start m-4 md:m-24 gap-10 md:max-w-2xl">
