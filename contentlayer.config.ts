@@ -1,14 +1,20 @@
 import * as fs from "node:fs/promises";
 import path from "node:path";
+
 import type { DocumentGen } from "contentlayer/core";
 import {
   defineDocumentType,
   defineNestedType,
   makeSource,
 } from "contentlayer/source-files";
+import { format } from "date-fns";
 import readingTime from "reading-time";
 
 export const CONTENT_DIR_PATH = "content";
+
+function formatDate(date: string, formatStr: string) {
+  return format(new Date(date), formatStr);
+}
 
 function getHeadings(source: string) {
   //get all heading levels from markdown source, including #, ##, ###, etc.
@@ -38,8 +44,9 @@ async function getLastEditedDate(doc: DocumentGen) {
   return stats.mtime;
 }
 
-const getSlug = (doc: DocumentGen): string =>
-  doc._raw.sourceFileName.replace(/\.mdx$/, "");
+function getSlug(doc: DocumentGen) {
+  return doc._raw.sourceFileName.replace(/\.mdx$/, "");
+}
 
 const Article = defineDocumentType(() => ({
   name: "Article",
@@ -56,6 +63,10 @@ const Article = defineDocumentType(() => ({
     },
   },
   computedFields: {
+    publishedAt: {
+      type: "string",
+      resolve: (doc) => formatDate(doc.publishedAt, "MMMM d, yyyy"),
+    },
     image: {
       type: "string",
       resolve: (doc) => `/articles/${getSlug(doc)}/image.png`,
@@ -69,27 +80,7 @@ const Article = defineDocumentType(() => ({
       resolve: (doc) => readingTime(doc.body.raw),
     },
     headings: {
-      type: "nested",
-      of: defineNestedType(() => ({
-        name: "readingTime",
-        fields: {
-          title: {
-            type: "string",
-          },
-          text: {
-            type: "string",
-          },
-          minutes: {
-            type: "number",
-          },
-          time: {
-            type: "number",
-          },
-          words: {
-            type: "number",
-          },
-        },
-      })),
+      type: "json",
       resolve: (doc) => getHeadings(doc.body.raw),
     },
     slug: {

@@ -1,7 +1,8 @@
 "use client";
 
-import { cx } from "@/lib/cx";
 import React from "react";
+
+import { cx } from "@/lib/cx";
 
 type ArticleHeading = {
   id: string;

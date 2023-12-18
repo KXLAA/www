@@ -1,3 +1,4 @@
+import { compareDesc } from "date-fns";
 import Link from "next/link";
 
 import { BreadCrumb } from "@/components/bread-crumb";
@@ -19,22 +20,26 @@ export default function Articles() {
       />
 
       <Section title="All Articles">
-        {allArticles.map((a) => (
-          <Link
-            href={`/articles/${a.slug}`}
-            className="flex flex-col gap-1 hover:bg-gray-2 p-2 hover:border-gray-6  transition-colors"
-            key={a.slug}
-          >
-            <p className="text-2xl font-medium text-gray-11">{a.title}</p>
+        {allArticles
+          .sort((a, b) =>
+            compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
+          )
+          .map((a) => (
+            <Link
+              href={`/articles/${a.slug}`}
+              className="flex flex-col gap-1 hover:bg-gray-2 p-2 hover:border-gray-6  transition-colors"
+              key={a.slug}
+            >
+              <p className="text-2xl font-medium text-gray-11">{a.title}</p>
 
-            <div className="flex gap-1 text-lg text-gray-10 text-light">
-              {a.description}
-            </div>
-            <div className="flex text-sm text-gray-9 font-light pt-2 border-t border-gray-6">
-              November 30, 2023
-            </div>
-          </Link>
-        ))}
+              <div className="flex gap-1 text-lg text-gray-10 text-light">
+                {a.description}
+              </div>
+              <div className="flex text-sm text-gray-9 font-medium pt-2 border-t border-gray-6">
+                {a.publishedAt}
+              </div>
+            </Link>
+          ))}
       </Section>
     </main>
   );

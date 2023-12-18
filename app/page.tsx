@@ -1,3 +1,4 @@
+import { compareDesc } from "date-fns";
 import { PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -20,30 +21,38 @@ export default function Home() {
         title="Articles"
         action={
           allArticles.length > 4 && (
-            <Link href="/articles">
+            <Link
+              href="/articles"
+              className="hover:text-gray-10 text-gray-8 transition-colors"
+            >
               <PlusCircleIcon
-                className="md:w-8 md:h-8 w-7 h-7 text-gray-8"
-                strokeWidth={1.22}
+                className="md:w-8 md:h-8 w-7 h-7"
+                strokeWidth={1}
               />
             </Link>
           )
         }
       >
-        {allArticles.slice(0, 4).map((a) => (
-          <Link
-            href={`/articles/${a.slug}`}
-            className="flex flex-col gap-1 hover:bg-gray-2 p-2 hover:border-gray-6  transition-colors"
-            key={a.slug}
-          >
-            <p className="text-xl md:text-2xl font-medium text-gray-11">
-              {a.title}
-            </p>
+        {allArticles
+          .sort((a, b) =>
+            compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
+          )
+          .slice(0, 4)
+          .map((a) => (
+            <Link
+              href={`/articles/${a.slug}`}
+              className="flex flex-col gap-1 hover:bg-gray-2 p-2 hover:border-gray-6  transition-colors"
+              key={a.slug}
+            >
+              <p className="text-xl md:text-2xl font-medium text-gray-11">
+                {a.title}
+              </p>
 
-            <div className="flex gap-1 md:text-lg text-base text-gray-10 text-light">
-              {a.description}
-            </div>
-          </Link>
-        ))}
+              <div className="flex gap-1 md:text-lg text-base text-gray-10 text-light">
+                {a.description}
+              </div>
+            </Link>
+          ))}
       </Section>
       <Section title="Projects">
         {allProjects.map((a) => (
