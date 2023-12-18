@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
@@ -46,7 +47,10 @@ interface Props {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" className="dark">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
