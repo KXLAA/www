@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/gray-alpha.css";
+@import "@radix-ui/colors/gray-dark.css";
+@import "@radix-ui/colors/gray-dark-alpha.css";
+@import "@radix-ui/colors/blue.css";
+@import "@radix-ui/colors/blue-alpha.css";
+@import "@radix-ui/colors/blue-dark.css";
+@import "@radix-ui/colors/blue-dark-alpha.css";
+@import "@radix-ui/colors/green.css";
+@import "@radix-ui/colors/green-alpha.css";
+@import "@radix-ui/colors/green-dark.css";
+@import "@radix-ui/colors/green-dark-alpha.css";
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/red-alpha.css";
+@import "@radix-ui/colors/red-dark.css";
+@import "@radix-ui/colors/red-dark-alpha.css";
+@import "@radix-ui/colors/violet.css";
+@import "@radix-ui/colors/violet-alpha.css";
+@import "@radix-ui/colors/violet-dark.css";
+@import "@radix-ui/colors/violet-dark-alpha.css";
+@import "@radix-ui/colors/indigo.css";
+@import "@radix-ui/colors/indigo-alpha.css";
+@import "@radix-ui/colors/indigo-dark.css";
+@import "@radix-ui/colors/indigo-dark-alpha.css";
+@import "@radix-ui/colors/yellow.css";
+@import "@radix-ui/colors/yellow-alpha.css";
+@import "@radix-ui/colors/yellow-dark.css";
+@import "@radix-ui/colors/yellow-dark-alpha.css";
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/orange-alpha.css";
+@import "@radix-ui/colors/orange-dark.css";
+@import "@radix-ui/colors/orange-dark-alpha.css";
+
+:root {
+  --sh-sign: #8996a3;
+  --sh-string: #007f7a;
+  --sh-comment: #a19595;
+  --sh-jsxliterals: #6266d1;
+  --sh-class: #4c97f8;
+  --sh-identifier: white;
+  --sh-keyword: #f4b953;
+  --sh-string: #74da81;
+}
+
+body {
+  @apply bg-gray-1 text-gray-12 scroll-smooth;
+}
+
+.anchor:hover {
+  @apply visible;
+}
+
+.prose .anchor {
+  @apply absolute invisible no-underline;
+  margin-left: -1em;
+  padding-right: 0.5em;
+  width: 80%;
+  cursor: pointer;
+}
+
+.prose {
+  @apply !text-gray-11 !font-light !text-xl;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply !text-gray-12 !font-bold scroll-m-8;
+}
+
+.prose h1 {
+  @apply text-4xl;
+}
+
+.prose h2 {
+  @apply text-3xl;
+}
+
+.prose h3 {
+  @apply text-2xl;
+}
+
+.prose strong {
+  @apply font-semibold text-gray-12;
+}
+
+.prose a {
+  @apply !text-gray-12 hover:text-orange-10 hover:decoration-orange-10  transition-all underline decoration-gray-12 underline-offset-4 !font-normal;
+}
+
+.prose .anchor:after {
+  @apply text-gray-11 font-semibold text-2xl;
+  content: "#";
+}
+
+.prose *:hover > .anchor {
+  @apply visible;
+}
+
+.prose ol > li::marker {
+  font-weight: 400;
+  @apply !text-gray-11;
+}
+
+.prose ul > li::marker {
+  font-weight: 400;
+  @apply !text-gray-11;
+}
+
+code {
+  @apply !font-normal;
+}
+
+code::before,
+code::after {
+  content: "" !important;
+}
+
+code:not(pre code) {
+  @apply px-1 py-0.5 bg-gray-3 border border-gray-6 !text-gray-12;
+}
+
+.prose aside p {
+  @apply m-0 !important;
+}
+
+.prose aside a {
+  @apply text-inherit !important;
+}
+
+.prose img {
+  /* Don't apply styles to next/image */
+  @apply m-0;
+}
+
+.prose aside ul {
+  @apply m-0;
+}
+
+.prose aside li {
+  @apply mt-0;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(to right, #1f1f22 1px, transparent 1px),
+    linear-gradient(to bottom, #1f1f22 1px, transparent 1px);
+  background-size: 24px 24px;
+}

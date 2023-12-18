@@ -7,13 +7,14 @@ import {
   defineNestedType,
   makeSource,
 } from "contentlayer/source-files";
+import { format } from "date-fns";
 import readingTime from "reading-time";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypePrettyCode from "rehype-pretty-code";
-import rehypeSlug from "rehype-slug";
-import remarkGfm from "remark-gfm";
 
-export const contentDirPath = "content";
+export const CONTENT_DIR_PATH = "content";
+
+function formatDate(date: string, formatStr: string) {
+  return format(new Date(date), formatStr);
+}
 
 function getHeadings(source: string) {
   //get all heading levels from markdown source, including #, ##, ###, etc.
@@ -38,75 +39,18 @@ function getHeadings(source: string) {
 
 async function getLastEditedDate(doc: DocumentGen) {
   const stats = await fs.stat(
-    path.join(contentDirPath, doc._raw.sourceFilePath)
+    path.join(CONTENT_DIR_PATH, doc._raw.sourceFilePath)
   );
   return stats.mtime;
 }
 
-const getSlug = (doc: any) => doc._raw.sourceFileName.replace(/\.mdx$/, "");
+function getSlug(doc: DocumentGen) {
+  return doc._raw.sourceFileName.replace(/\.mdx$/, "");
+}
 
-const Note = defineDocumentType(() => ({
-  name: "Note",
-  filePathPattern: `notes/*.mdx`,
-  contentType: "mdx",
-  fields: {
-    title: { type: "string", required: true },
-    source: { type: "string" },
-    publishedAt: { type: "string", required: true },
-    description: { type: "string", required: true },
-    og: { type: "string", required: true },
-    tags: {
-      type: "list",
-      of: { type: "string" },
-    },
-  },
-  computedFields: {
-    image: {
-      type: "string",
-      resolve: (doc) => `/notes/${getSlug(doc)}/image.png`,
-    },
-    lastUpdatedAt: {
-      type: "string",
-      resolve: (doc) => getLastEditedDate(doc),
-    },
-    readingTime: {
-      type: "json",
-      resolve: (doc) => readingTime(doc.body.raw),
-    },
-    headings: {
-      type: "nested",
-      of: defineNestedType(() => ({
-        name: "readingTime",
-        fields: {
-          title: {
-            type: "string",
-          },
-          text: {
-            type: "string",
-          },
-          minutes: {
-            type: "number",
-          },
-          time: {
-            type: "number",
-          },
-          words: {
-            type: "number",
-          },
-        },
-      })),
-      resolve: (doc) => getHeadings(doc.body.raw),
-    },
-    slug: {
-      type: "string",
-      resolve: (doc) => getSlug(doc),
-    },
-  },
-}));
-
-const Post = defineDocumentType(() => ({
-  name: "Post",
-  filePathPattern: `posts/*.mdx`,
+const Article = defineDocumentType(() => ({
+  name: "Article",
+  filePathPattern: `articles/*.mdx`,
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
@@ -119,9 +63,13 @@ const Post = defineDocumentType(() => ({
     },
   },
   computedFields: {
+    publishedAt: {
+      type: "string",
+      resolve: (doc) => formatDate(doc.publishedAt, "MMMM d, yyyy"),
+    },
     image: {
       type: "string",
-      resolve: (doc) => `/posts/${getSlug(doc)}/image.png`,
+      resolve: (doc) => `/articles/${getSlug(doc)}/image.png`,
     },
     lastUpdatedAt: {
       type: "string",
@@ -132,58 +80,9 @@ const Post = defineDocumentType(() => ({
       resolve: (doc) => readingTime(doc.body.raw),
     },
     headings: {
-      type: "nested",
-      of: defineNestedType(() => ({
-        name: "readingTime",
-        fields: {
-          title: {
-            type: "string",
-          },
-          text: {
-            type: "string",
-          },
-          minutes: {
-            type: "number",
-          },
-          time: {
-            type: "number",
-          },
-          words: {
-            type: "number",
-          },
-        },
-      })),
+      type: "json",
       resolve: (doc) => getHeadings(doc.body.raw),
     },
-    slug: {
-      type: "string",
-      resolve: (doc) => getSlug(doc),
-    },
-  },
-}));
-
-const Experiment = defineDocumentType(() => ({
-  name: "Experiment",
-  filePathPattern: `experiments/*.mdx`,
-  contentType: "mdx",
-  fields: {
-    title: { type: "string", required: true },
-    number: { type: "string", required: true },
-    publishedAt: { type: "string", required: true },
-    description: { type: "string" },
-    og: { type: "string", required: true },
-    mp4: { type: "string", required: true },
-    webm: { type: "string", required: true },
-    poster: { type: "string", required: true },
-    articleLink: { type: "string" },
-    codesandbox: {
-      type: "string",
-    },
-    github: {
-      type: "string",
-    },
-  },
-  computedFields: {
     slug: {
       type: "string",
       resolve: (doc) => getSlug(doc),
@@ -214,31 +113,7 @@ const Project = defineDocumentType(() => ({
 }));
 
 export default makeSource({
-  contentDirPath: contentDirPath,
-  documentTypes: [Post, Experiment, Project, Note],
-  mdx: {
-    remarkPlugins: [remarkGfm],
-    rehypePlugins: [
-      rehypeSlug,
-      [
-        rehypePrettyCode,
-        {
-          // use a prepackaged theme, see all themes here:
-          // https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-themes
-          theme: "github-dark-dimmed",
-          onVisitHighlightedLine(node: any) {
-            node.properties.className.push("line--highlighted");
-          },
-        },
-      ],
-      [
-        rehypeAutolinkHeadings,
-        {
-          properties: {
-            className: ["anchor"],
-          },
-        },
-      ],
-    ],
-  },
+  contentDirPath: CONTENT_DIR_PATH,
+  documentTypes: [Project, Article],
+  mdx: {},
 });
