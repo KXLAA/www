@@ -15,6 +15,13 @@ export default function Home() {
         <p className="md:text-4xl text-lg  font-thin text-gray-11">
           Frontend Engineer, London UK.
         </p>
+
+        <p className="md:text-lg text-sm font-thin  bg-violet-3 border border-violet-6 text-violet-11 p.0.5 px-2 w-fit mt-2">
+          Currently, Software Engineer at{" "}
+          <ConnectLink name="Twitter" href="https://www.starlingbank.com/">
+            Starling Bank
+          </ConnectLink>{" "}
+        </p>
       </div>
 
       <Section
