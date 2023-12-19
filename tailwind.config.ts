@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
-const colors = require("tailwindcss/colors");
 
-const config = {
+const config: Config = {
   darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -18,7 +17,6 @@ const config = {
     },
     extend: {
       colors: {
-        ...colors,
         gray: generateScale("gray"),
         blue: generateScale("blue"),
         green: generateScale("green"),

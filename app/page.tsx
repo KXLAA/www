@@ -20,7 +20,7 @@ export default function Home() {
           Currently, Software Engineer at{" "}
           <ConnectLink name="Twitter" href="https://www.starlingbank.com/">
             Starling Bank
-          </ConnectLink>{" "}
+          </ConnectLink>
         </p>
       </div>
 
@@ -32,10 +32,7 @@ export default function Home() {
               href="/articles"
               className="hover:text-gray-10 text-gray-8 transition-colors"
             >
-              <PlusCircleIcon
-                className="md:w-8 md:h-8 w-7 h-7"
-                strokeWidth={1}
-              />
+              VIEW ALL
             </Link>
           )
         }
