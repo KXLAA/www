@@ -12,12 +12,12 @@ export function Code({ children, ...props }: CodeProps) {
   const getCodeString = (codeElement: HTMLElement | null) => {
     if (codeElement) {
       const parent = codeElement.parentElement;
+
       if (
         parent?.tagName === "PRE" &&
         codeElement.className.includes("language-")
       ) {
-        const codeHTML = highlight(children);
-        codeElement.innerHTML = codeHTML;
+        codeElement.innerHTML = highlight(children);
       }
     }
   };
