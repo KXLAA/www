@@ -1,5 +1,4 @@
 import { compareDesc } from "date-fns";
-import { PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
 
 import { allArticles, allProjects } from "@/contentlayer/generated";
@@ -30,57 +29,65 @@ export default function Home() {
           allArticles.length > 4 && (
             <Link
               href="/articles"
-              className="hover:text-gray-10 text-gray-8 transition-colors"
+              className="hover:text-gray-10 text-gray-8 transition-colors text-sm font-bold"
             >
               VIEW ALL
             </Link>
           )
         }
       >
-        {allArticles
-          .sort((a, b) =>
-            compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
-          )
-          .slice(0, 4)
-          .map((a) => (
-            <Link
-              href={`/articles/${a.slug}`}
-              className="flex flex-col gap-1 hover:bg-gray-2 p-2 hover:border-gray-6  transition-colors"
-              key={a.slug}
-            >
-              <p className="text-xl md:text-2xl font-medium text-gray-11">
-                {a.title}
-              </p>
+        <div className="border-y border-gray-6 w-full ">
+          {allArticles
+            .sort((a, b) =>
+              compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
+            )
+            .slice(0, 4)
+            .map((a) => (
+              <div
+                key={a._id}
+                className="border-b border-gray-6 last:border-b-0 flex flex-col"
+              >
+                <Link
+                  href={`/articles/${a.slug}`}
+                  className="flex flex-col gap-1 hover:bg-gray-2 p-4 hover:border-gray-6  transition-colors border-b border-gray-6 last:border-b-0"
+                  key={a.slug}
+                >
+                  <p className="text-xl md:text-2xl font-medium text-gray-11">
+                    {a.title}
+                  </p>
 
-              <div className="flex gap-1 md:text-lg text-base text-gray-10 text-light">
-                {a.description}
+                  <div className="flex gap-1 md:text-lg text-base text-gray-10 text-light">
+                    {a.description}
+                  </div>
+
+                  <p className="flex text-sm text-gray-9 font-medium mt-1">
+                    {a.publishedAt}
+                  </p>
+                </Link>
               </div>
-            </Link>
-          ))}
+            ))}
+        </div>
       </Section>
       <Section title="Projects">
         {allProjects.map((a) => (
-          <div
-            className="flex flex-col gap-1 hover:bg-gray-2 p-2 hover:border-gray-6  transition-colors"
+          <a
+            className="hover:bg-gray-2 p-4 hover:border-gray-6 transition-colors border-b first:border-t border-gray-6"
             key={a.url}
+            href={a.url}
+            target="_blank"
+            rel="noreferrer"
           >
-            <a
-              href={a.url}
-              data-splitbee-event={`Click on ${a.title}`}
-              target="_blank"
-              rel="noreferrer"
-              className="text-xl md:text-2xl font-medium text-gray-11"
-            >
+            <div className="text-xl md:text-2xl font-medium text-gray-11">
               {a.title}
-            </a>
+            </div>
 
             <div className="flex gap-1 md:text-lg text-base text-gray-10 text-light">
               {a.description}
             </div>
-          </div>
+          </a>
         ))}
       </Section>
-      <div className="text-lg md:text-xl border md:p-6 p-3 border-gray-6 text-gray-11">
+      <div className="text-lg md:text-xl border p-4 border-gray-6 text-gray-11">
         <p>
           You can react me at{" "}
           <ConnectLink name="Twitter" href="https://twitter.com/kxlaa_">
@@ -112,15 +119,13 @@ type SectionProps = {
 
 function Section(props: SectionProps) {
   return (
-    <div className="flex flex-col gap-4 border-gray-6  border w-full">
-      <div className="p-3 md:px-8 border-b border-gray-6 bg-gray-2 flex justify-between items-center">
+    <div className="flex flex-col border-gray-6  border w-full border-b-0">
+      <div className="p-3 md:px-8  bg-gray-2 flex justify-between items-center">
         <h2 className="text-2xl md:text-4xl font-semibold">{props.title}</h2>
         {props.action && <div>{props.action}</div>}
       </div>
 
-      <div className="flex flex-col gap-6 md:p-6 md:pt-4 p-2 pt-0">
-        {props.children}
-      </div>
+      <div className="flex flex-col">{props.children}</div>
     </div>
   );
 }
