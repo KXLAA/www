@@ -111,6 +111,8 @@ export default function Home() {
       <a
         href="https://github.com/KXLAA/www"
         className="font-mono text-xs text-gray-10 transition-colors hover:text-gray-11"
+        target="_blank"
+        rel="noreferrer"
       >
         View Source
       </a>
