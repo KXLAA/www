@@ -1,0 +1,29 @@
+---
+title: "Why did you code it this way?"
+publishedAt: "2023-12-29"
+description: 'How do you respond when someone asks, "Why did you code it this way?"'
+tags: ["Advice", "Collaboration", "Code Review", "JavaScript"]
+og: "https://ucarecdn.com/4a86ba66-0d56-4056-af32-b07fad9eb30a/whydidyoucodeitthisway.png"
+---
+
+_Why did you code it this way?_
+
+This question often arises during code review, and it's one that I recently struggled to answer. When I see this comment on a pull request, my initial thought is usually, "Oh no, I must have made a mistake or my code is rubbish."
+
+This may come off as an overreaction - the whole purpose of code review is for questions like these to be asked and discussed - but in the back of my mind, I prematurely conclude that if a particular piece of code is not clear on its own and from the pull request description, then that piece of code inherently needs additional improvement.
+
+However, this is a wrong conclusion. There are many reasons why someone could ask, "Why did you code it this way?" The person may not have seen the pattern you used before or may not be familiar with the language feature or library you used in the code.
+
+But do software engineers always need to have a clear reason for why we took a particular approach?
+
+When I am in the flow state and writing code, I may subconsciously incorporate patterns that I have come across in a blog or from a book I have read. I may write code in a manner that aligns with conventions from a previous codebase I have worked on. Some of these conventions may be purely stylistic with no tangible benefits, yet I still adhere to them. If asked why, explaining these choices could be difficult.
+
+An easy explanation is to say that the code is more readable. But what does "readable" even mean when it comes to code? Readability is highly specific to the codebase and team you are working with. What is readable to one person may be incomprehensible to another.
+
+I currently work with React and TypeScript. In React, it is possible to have multiple components per file. Personally, I prefer having everything a component needs in a single file, even if it makes the file larger. I find it perfectly readable. In a previous job, this was the norm. However, in another job, we stuck to one component per file. Readability is usually context-based.
+
+This is just one example, but it illustrates the challenge of providing a clear explanation for an approach. However, despite this challenge, I believe there is value in providing a response or considering a reason, regardless of its perceived weakness. It's important to remember that when it comes to code, there is no one correct way to implement a feature or write a function.
+
+Instead of becoming defensive or assuming that a request for clarification indicates a mistake (as I did), I believe it is better to approach such questions with an open mind. Answering the question can lead to constructive discussions, and explaining the reasoning behind coding decisions can lead to shared knowledge and a better understanding among team members.
+
+Don’t shy away from answering - _Why did you code it this way?_

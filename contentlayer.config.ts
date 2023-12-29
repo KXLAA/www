@@ -2,11 +2,7 @@ import * as fs from "node:fs/promises";
 import path from "node:path";
 
 import type { DocumentGen } from "contentlayer/core";
-import {
-  defineDocumentType,
-  defineNestedType,
-  makeSource,
-} from "contentlayer/source-files";
+import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import { format } from "date-fns";
 import readingTime from "reading-time";
 
