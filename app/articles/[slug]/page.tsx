@@ -7,6 +7,7 @@ import { components } from "@/components/mdx";
 import { getPublishedArticles } from "@/lib/contentlayer";
 
 import { ArticleHeader } from "./header";
+import { ArticleSeries } from "./series";
 import { ArticleSidebar } from "./sidebar";
 
 const DroppableDnd = dynamic(
@@ -116,6 +117,9 @@ export default function ArticlePage({ params }: Props) {
 
       <article className="mt-4 w-full min-w-0 max-w-6xl px-1 md:px-6 text-xl font-extralight text-gray-11 flex flex-col gap-2">
         <ArticleHeader article={article} />
+
+        {article.series ? <ArticleSeries article={article} /> : null}
+
         <div className="w-full prose">
           <Content
             components={{

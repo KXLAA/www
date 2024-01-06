@@ -24,6 +24,7 @@ function generateSeries(series?: Series, slug = "") {
 
   return {
     title: series.title,
+    order: series.order,
     articles: allArticles
       .filter((a) => a.series?.title === series.title)
       .sort(
@@ -32,6 +33,7 @@ function generateSeries(series?: Series, slug = "") {
       )
       .map((a) => {
         return {
+          order: a.series?.order,
           title: a.title,
           slug: a.slug,
           status: a.status,
