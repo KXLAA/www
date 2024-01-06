@@ -15,7 +15,7 @@ export const Article = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
-    status: { type: "enum", options: ["draft", "published"] },
+    status: { type: "enum", options: ["draft", "published"], required: true },
     series: { type: "nested", of: Series },
     publishedAt: { type: "string", required: true },
     description: { type: "string", required: true },

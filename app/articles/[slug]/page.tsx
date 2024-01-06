@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getMDXComponent } from "next-contentlayer/hooks";
 
 import { components } from "@/components/mdx";
-import { allArticles, Article } from "@/contentlayer/generated";
+import { getPublishedArticles } from "@/lib/contentlayer";
 
 import { ArticleHeader } from "./header";
 import { ArticleSidebar } from "./sidebar";
@@ -45,6 +45,8 @@ const SortableMultiDndSandPack = dynamic(
       "@/components/articles/drag-and-drop-post/sortable-multi-dnd-code-playground"
     )
 );
+
+const allArticles = getPublishedArticles();
 
 export async function generateMetadata({
   params,
