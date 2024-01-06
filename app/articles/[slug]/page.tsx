@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import { getMDXComponent } from "next-contentlayer/hooks";
@@ -49,11 +48,11 @@ const SortableMultiDndSandPack = dynamic(
 
 const allArticles = getPublishedArticles();
 
-export async function generateMetadata({
-  params,
-}: {
+type GenerateMetadataProps = {
   params: { slug: string };
-}): Promise<Metadata | undefined> {
+};
+
+export async function generateMetadata({ params }: GenerateMetadataProps) {
   const article = allArticles.find((a) => a.slug === params.slug);
   if (!article) {
     return;

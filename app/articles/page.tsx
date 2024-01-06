@@ -28,8 +28,6 @@ export default function Articles() {
             key={a.slug}
           >
             <p className="text-2xl font-medium text-gray-11">{a.title}</p>
-            {a.series && <span>Series</span>}
-
             <div className="flex gap-1 text-lg text-gray-10 text-light">
               {a.description}
             </div>
