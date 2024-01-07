@@ -2,9 +2,10 @@ import { DiamondIcon } from "lucide-react";
 
 import { BreadCrumb } from "@/components/bread-crumb";
 import { Article } from "@/contentlayer/generated";
+import { PartialArticle } from "@/lib/contentlayer";
 
 type Props = {
-  article: Article;
+  article: PartialArticle;
 };
 
 export function ArticleHeader({ article }: Props) {

@@ -1,8 +1,11 @@
 import { compareDesc } from "date-fns";
 import Link from "next/link";
 
-import { allArticles, allProjects } from "@/contentlayer/generated";
+import { allProjects } from "@/contentlayer/generated";
+import { getPublishedArticles } from "@/lib/contentlayer";
 import { cx } from "@/lib/cx";
+
+const allArticles = getPublishedArticles();
 
 export default function Home() {
   return (
@@ -37,35 +40,30 @@ export default function Home() {
         }
       >
         <div className="border-y border-gray-6 w-full ">
-          {allArticles
-            .sort((a, b) =>
-              compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
-            )
-            .slice(0, 4)
-            .map((a) => (
-              <div
-                key={a._id}
-                className="border-b border-gray-6 last:border-b-0 flex flex-col"
+          {allArticles.slice(0, 4).map((a) => (
+            <div
+              key={a.slug}
+              className="border-b border-gray-6 last:border-b-0 flex flex-col"
+            >
+              <Link
+                href={`/articles/${a.slug}`}
+                className="flex flex-col gap-1 hover:bg-gray-2 p-4 hover:border-gray-6  transition-colors border-b border-gray-6 last:border-b-0"
+                key={a.slug}
               >
-                <Link
-                  href={`/articles/${a.slug}`}
-                  className="flex flex-col gap-1 hover:bg-gray-2 p-4 hover:border-gray-6  transition-colors border-b border-gray-6 last:border-b-0"
-                  key={a.slug}
-                >
-                  <p className="text-xl md:text-2xl font-medium text-gray-11">
-                    {a.title}
-                  </p>
+                <p className="text-xl md:text-2xl font-medium text-gray-11">
+                  {a.title}
+                </p>
 
-                  <div className="flex gap-1 md:text-lg text-base text-gray-10 text-light">
-                    {a.description}
-                  </div>
+                <div className="flex gap-1 md:text-lg text-base text-gray-10 text-light">
+                  {a.description}
+                </div>
 
-                  <p className="flex text-sm text-gray-9 font-medium mt-1">
-                    {a.publishedAt}
-                  </p>
-                </Link>
-              </div>
-            ))}
+                <p className="flex text-sm text-gray-9 font-medium mt-1">
+                  {a.publishedAt}
+                </p>
+              </Link>
+            </div>
+          ))}
         </div>
       </Section>
       <Section title="Projects">
