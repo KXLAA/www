@@ -31,10 +31,6 @@ export const Article = defineDocumentType(() => ({
       type: "string",
       resolve: (doc) => formatDate(doc.publishedAt, "MMMM d, yyyy"),
     },
-    image: {
-      type: "string",
-      resolve: (doc) => `/articles/${getSlug(doc)}/image.png`,
-    },
     lastUpdatedAt: {
       type: "string",
       resolve: (doc) => getLastEditedDate(doc),
