@@ -23,6 +23,7 @@ const config = {
         yellow: generateScale("yellow"),
         indigo: generateScale("indigo"),
         orange: generateScale("orange"),
+        amber: generateScale("orange"),
       },
     },
   },

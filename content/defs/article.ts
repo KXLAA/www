@@ -3,7 +3,7 @@ import path from "node:path";
 
 import type { DocumentGen } from "contentlayer/core";
 import { defineDocumentType } from "contentlayer/source-files";
-import { format } from "date-fns";
+import { differenceInDays, format, formatDistanceToNowStrict } from "date-fns";
 import readingTime from "reading-time";
 
 import { CONTENT_DIR_PATH, getSlug } from "./_shared";
@@ -29,7 +29,11 @@ export const Article = defineDocumentType(() => ({
   computedFields: {
     publishedAt: {
       type: "string",
-      resolve: (doc) => formatDate(doc.publishedAt, "MMMM d, yyyy"),
+      resolve: (doc) => format(new Date(doc.publishedAt), "MMMM d, yyyy"),
+    },
+    dates: {
+      type: "json",
+      resolve: (doc) => isOldArticle(doc.publishedAt),
     },
     lastUpdatedAt: {
       type: "string",
@@ -49,10 +53,6 @@ export const Article = defineDocumentType(() => ({
     },
   },
 }));
-
-function formatDate(date: string, formatStr: string) {
-  return format(new Date(date), formatStr);
-}
 
 function getHeadings(source: string) {
   //get all heading levels from markdown source, including #, ##, ###, etc.
@@ -80,4 +80,17 @@ async function getLastEditedDate(doc: DocumentGen) {
     path.join(CONTENT_DIR_PATH, doc._raw.sourceFilePath)
   );
   return stats.mtime;
+}
+
+function isOldArticle(publishDate: string) {
+  const today = new Date();
+  const publish = new Date(publishDate);
+
+  const diffDays = differenceInDays(today, publish);
+  const relativeDate = formatDistanceToNowStrict(publish);
+
+  return {
+    isOld: diffDays > 30,
+    relativeDate: relativeDate,
+  };
 }
