@@ -1,4 +1,5 @@
 import { compareDesc } from "date-fns";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { allProjects } from "@/contentlayer/generated";
@@ -26,19 +27,7 @@ export default function Home() {
         </p>
       </div>
 
-      <Section
-        title="Articles"
-        action={
-          allArticles.length > 4 && (
-            <Link
-              href="/articles"
-              className="hover:text-gray-10 text-gray-8 transition-colors text-sm font-bold"
-            >
-              VIEW ALL
-            </Link>
-          )
-        }
-      >
+      <Section title="Articles">
         <div className="border-y border-gray-6 w-full ">
           {allArticles.slice(0, 4).map((a) => (
             <div
@@ -64,6 +53,13 @@ export default function Home() {
               </Link>
             </div>
           ))}
+          <Link
+            className="border-b justify-between border-gray-6 last:border-b-0 flex items-start hover:text-gray-12 hover:bg-gray-2 transition-colors text-gray-10 text-lg p-2 px-4 font-semibold group"
+            href="/articles"
+          >
+            <div>view all</div>
+            <ChevronRightIcon className="transform group-hover:translate-x-2 transition-transform" />
+          </Link>
         </div>
       </Section>
       <Section title="Projects">
