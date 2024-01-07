@@ -33,6 +33,10 @@
 @import "@radix-ui/colors/orange-alpha.css";
 @import "@radix-ui/colors/orange-dark.css";
 @import "@radix-ui/colors/orange-dark-alpha.css";
+@import "@radix-ui/colors/amber.css";
+@import "@radix-ui/colors/amber-alpha.css";
+@import "@radix-ui/colors/amber-dark.css";
+@import "@radix-ui/colors/amber-dark-alpha.css";
 
 :root {
   --sh-sign: #8996a3;

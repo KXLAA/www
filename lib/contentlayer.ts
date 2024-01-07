@@ -8,6 +8,7 @@ export function getPartialArticles(article: Article) {
     og: article.og,
     slug: article.slug,
     publishedAt: article.publishedAt,
+    dates: article.dates,
     description: article.description,
     body: {
       code: article.body.code,
