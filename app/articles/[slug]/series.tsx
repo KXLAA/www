@@ -4,6 +4,7 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { tv } from "tailwind-variants";
 
 import { PartialArticle } from "@/lib/contentlayer";
 import { cx } from "@/lib/cx";
@@ -60,7 +61,7 @@ export function ArticleSeries({ article }: Props) {
 }
 
 type SeriesArticleProps = {
-  order: number | undefined;
+  order?: number;
   title: string;
   slug: string;
   status: "draft" | "published" | "progress";
@@ -69,47 +70,53 @@ type SeriesArticleProps = {
 };
 
 function SeriesArticle(props: SeriesArticleProps) {
-  const { slug, isCurrent, order, title, status } = props;
+  const { slug, isCurrent, order, title, status, isInteractive } = props;
+  const styles = seriesArticle();
 
   if (props.isInteractive) {
     return (
       <Link
         href={`/articles/${slug}`}
-        className={cx(
-          "flex items-center gap-2 p-2 hover:bg-gray-2 border-b border-gray-6 transition-all last:border-b-0",
-          isCurrent ? "text-gray-12" : ""
-        )}
+        className={styles.wrapper({ isCurrent, isInteractive })}
       >
-        <div
-          className={cx(
-            "text-base bg-gray-2  flex items-center justify-center w-7 h-7 border border-gray-6 text-gray-10 rounded-full font-black",
-            isCurrent ? "text-gray-12 border-gray-10" : ""
-          )}
-        >
-          {order}
-        </div>
-        <p className="text-base font-semibold">{title}</p>
+        <div className={styles.orderNumber({ isCurrent })}>{order}</div>
+        <p className={styles.title({ isCurrent })}>{title}</p>
       </Link>
     );
   }
 
   return (
-    <div
-      className={cx(
-        "text-gray-8 flex items-center gap-2 p-2  border-b border-gray-6 last:border-b-0"
-      )}
-    >
-      <div
-        className={cx(
-          "text-base bg-gray-2  flex items-center justify-center w-7 h-7 border border-gray-6 text-gray-10 rounded-full font-black"
-        )}
-      >
-        {order}
-      </div>
-      <p className="text-base font-semibold">
+    <div className={styles.wrapper()}>
+      <div className={styles.orderNumber({})}>{order}</div>
+      <p className={styles.title()}>
         {status === "draft" ? "Planned: " : ""}
         {title}
       </p>
     </div>
   );
 }
+
+const seriesArticle = tv({
+  slots: {
+    wrapper:
+      "flex items-center gap-2 p-2  border-b border-gray-6 last:border-b-0",
+    orderNumber:
+      "text-base bg-gray-2 shrink-0 flex items-center justify-center w-7 h-7 border border-gray-6 text-gray-10 rounded-full font-black",
+    title: "font-semibold text-base text-gray-9",
+  },
+  variants: {
+    isCurrent: {
+      true: {
+        orderNumber: ["text-gray-12 border-gray-10"],
+        title: ["text-gray-12"],
+      },
+      false: [],
+    },
+    isInteractive: {
+      true: {
+        wrapper: ["hover:bg-gray-2 transition-all"],
+      },
+      false: ["text-gray-8"],
+    },
+  },
+});
