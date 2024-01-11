@@ -1,18 +1,15 @@
-import { defineDocumentType } from "contentlayer/source-files";
+import {
+  defineDocumentType,
+  defineNestedType,
+} from "contentlayer/source-files";
 import { format } from "date-fns";
 import readingTime from "reading-time";
 
-import {
-  getHeadings,
-  getLastEditedDate,
-  getSlug,
-  isOldArticle,
-} from "./_shared";
-import { Series } from "./series";
+import { getHeadings, getSlug } from "./_shared";
 
-export const Article = defineDocumentType(() => ({
-  name: "Article",
-  filePathPattern: `articles/*.mdx`,
+export const Note = defineDocumentType(() => ({
+  name: "Note",
+  filePathPattern: `notes/*.mdx`,
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
@@ -21,24 +18,15 @@ export const Article = defineDocumentType(() => ({
       options: ["draft", "published"],
       required: true,
     },
-    series: { type: "nested", of: Series },
+    course: { type: "nested", of: Course },
     publishedAt: { type: "string", required: true },
     description: { type: "string", required: true },
     og: { type: "string", required: true },
-    tags: { type: "list", of: { type: "string" } },
   },
   computedFields: {
     publishedAt: {
       type: "string",
       resolve: (doc) => format(new Date(doc.publishedAt), "MMMM d, yyyy"),
-    },
-    dates: {
-      type: "json",
-      resolve: (doc) => isOldArticle(doc.publishedAt),
-    },
-    lastUpdatedAt: {
-      type: "string",
-      resolve: (doc) => getLastEditedDate(doc),
     },
     readingTime: {
       type: "json",
@@ -52,5 +40,13 @@ export const Article = defineDocumentType(() => ({
       type: "string",
       resolve: (doc) => getSlug(doc),
     },
+  },
+}));
+
+const Course = defineNestedType(() => ({
+  name: "Course",
+  fields: {
+    title: { type: "string", required: true },
+    order: { type: "number", required: true },
   },
 }));
