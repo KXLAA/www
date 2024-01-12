@@ -38,7 +38,7 @@ export function ArticleSeries({ article }: Props) {
         <div className="bg-gray-3 border-gray-6 border rounded-full flex items-center justify-center">
           <ChevronDownIcon
             className={cx(
-              "w-8 h-8 text-gray-6 group-data-[state=closed]:rotate-0 transition-all group-data-[state=open]:rotate-180 group-hover:text-gray-8"
+              "w-8 h-8 text-gray-6 group-data-[state=closed]:rotate-0 transition-all group-data-[state=open]:rotate-180 group-hover:text-gray-8 group-data-[state=open]:text-gray-12"
             )}
             strokeWidth={1}
           />
@@ -92,9 +92,9 @@ function SeriesArticle(props: SeriesArticleProps) {
 const seriesArticle = tv({
   slots: {
     wrapper:
-      "flex items-center gap-2 p-2  border-b border-gray-6 last:border-b-0 hover:bg-gray-2 transition-all text-gray-10 hover:text-gray-11",
+      "flex items-center gap-2 p-2.5  border-b border-gray-6 last:border-b-0 hover:bg-gray-2 transition-all text-gray-10 hover:text-gray-11",
     orderNumber:
-      "text-base bg-gray-2 shrink-0 flex items-center justify-center w-7 h-7 border border-gray-6 rounded-full font-black",
+      "text-base bg-gray-2 shrink-0 flex items-center justify-center w-6 h-6 border border-gray-6 rounded-full font-black",
     title: "font-semibold text-base",
   },
   variants: {

@@ -22,7 +22,7 @@ export function ArticleSidebar({ headings = [] }: Props) {
   return headings?.length === 0 ? (
     <div className="max-w-xs w-full invisible" aria-hidden={true} />
   ) : (
-    <aside className="max-w-xs w-full font-normal  self-start gap-1 items-start  md:sticky md:top-7 flex flex-col">
+    <aside className="max-w-xs w-full font-normal  self-start gap-1 items-start  md:sticky md:top-7 md:flex flex-col hidden">
       <div className="w-full  border border-gray-6">
         <div className="p-3  bg-gray-2 border-b border-gray-6">
           <p className="text-xl font-medium">On this page</p>
