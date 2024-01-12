@@ -27,7 +27,7 @@ export default function Home() {
         </p>
       </div>
 
-      <Section title="Articles">
+      <Section title="Writing">
         <div className="border-y border-gray-6 w-full ">
           {allArticles.slice(0, 4).map((a) => (
             <div
@@ -81,6 +81,7 @@ export default function Home() {
           </a>
         ))}
       </Section>
+
       <div className="text-lg md:text-xl border p-4 border-gray-6 text-gray-11">
         <p>
           You can react me at{" "}

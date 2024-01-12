@@ -1,11 +1,45 @@
 ---
 title: "Jumping into the scary world of AWS"
 publishedAt: "2024-01-12"
-description: 'How do you respond when someone asks, "Why did you code it this way?"'
-tags: ["Advice", "Collaboration", "Code Review", "JavaScript"]
+description: "It's a new year & its time to face my fears and learn AWS once and for all."
+tags: ["AWS", "Cloud", "Cloud Resume Challenge"]
 og: "https://ucarecdn.com/ef3a88c3-277a-4bdd-bd7b-26095f5adf73/jumpingintothescaryworldofaws.png"
-status: "draft"
+status: "published"
 series:
   order: 1
-  title: "Learning AWS with the cloud resume challenge"
+  title: "Learning AWS with the Cloud Resume Challenge"
 ---
+
+One of my goals for the new year is to gain hands-on experience with cloud technologies and the infrastructure side of software engineering. This includes stuff like logging, CI/CD pipelines, and automated deployments.
+
+Currently, at my workplace, we heavily rely on AWS for managing our front-end deployments (and out backend too obviously) and sometimes during meetings, I get kind of lost when any infrastructure topic comes up. We use a lot of Terraform and Bash scripts, and right now, when I look at `.tf` or `.sh` files, it feels like I'm looking at hieroglyphics.
+
+It's time to change that.
+
+## The Game plan
+
+When I want to learn something new or gain a more comprehensive understanding of a topic, the first step I usually take is to make a list of everything I currently know about it. This list usually includes stuff that I may have come across randomly, but never had the chance to explore in depth.
+
+I have used some AWS services before. The images on [nartefacts](https://www.nartefacts.com/) (my side project) are stored in an S3 bucket. Also the whole [create a colour palette functionality](https://www.nartefacts.com/create) uses S3 buckets to store images and the colour palate files generated from those images. In a previous role, I had some interactions with lambda functions — I know some stuff but my knowledge is very surface level. If you ask me to for example set up an s3 bucket from scratch i couldn't do it.
+
+Here is a dump of every AWS service I have heard of or interacted with in some way at work or on a side project:
+
+- AWS S3 - Storage Bucket
+- AWS Lambda - Serverless functions
+- AWS EC2 - Cloud compute (Servers, basically)
+- Dynamo DB - NoSQL database
+- AWS SNS - Used to send emails and notifications
+- RDS - PostgreSQL in the cloud
+- CloudFront - A Content Delivery Network (Really don’t know how they work - but i know that they cache static files in servers around the world close to your users)
+
+After a quick search online on how to learn more about these services, i came across the Cloud Resume Challenge and it looked like a good starting point for me to get my hands dirty with AWS.
+
+The [Cloud Resume Challenge](https://cloudresumechallenge.dev/) is a free online challenge to build a resume using HTML, CSS, and Javascript, and deploy it on the cloud using a technology like AWS. The challenge itself is free, but I purchased the accompanying ebook for around $23. I plan to use the ebook as a supplement to the free online guide.
+
+My goal is to go through the challenge (including all the extensions & relevant mods), and document my journey and learnings in a series of interactive articles.
+
+Hopefully, at the end of the challenge, I will have a better mental model about how AWS and its various core services work and i can look confidently at a `.tf` or `.sh` or a `.yml` config file and not feel like pulling my hair out.
+
+In the next part of this series, I will be trying to open an new AWS account "the right way". As it turns out, opening an AWS account is not as straightforward as it sounds.
+
+Till next time.

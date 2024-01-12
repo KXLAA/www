@@ -16,11 +16,11 @@ export default function Articles() {
       <BreadCrumb
         items={[
           { label: "Home", href: "/" },
-          { label: "All Articles", href: "/articles", active: true },
+          { label: "Writing", href: "/articles", active: true },
         ]}
       />
 
-      <Section title="All Articles">
+      <Section title="Writing">
         {articles.map((a) => (
           <Link
             href={`/articles/${a.slug}`}
