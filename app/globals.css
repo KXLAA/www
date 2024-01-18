@@ -118,7 +118,7 @@ body {
 }
 
 code {
-  @apply !font-normal;
+  @apply !font-normal !text-gray-11;
 }
 
 code::before,
