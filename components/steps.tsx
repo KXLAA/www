@@ -39,7 +39,13 @@ export function Steps(props: StepsProps) {
           className="flex gap-1 items-center text-lg text-gray-11 hover:text-gray-12 font-medium w-full"
           onClick={toggleOpenAll}
         >
-          <ChevronDownCircleIcon strokeWidth={1.33} className="w-5 h-5" />
+          <ChevronDownCircleIcon
+            strokeWidth={1.33}
+            className={cx(
+              "w-5 h-5 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300",
+              isShowingAll ? "rotate-180" : "rotate-0"
+            )}
+          />
           <span>{isShowingAll ? "Hide" : "Show"} all</span>
         </button>
       </div>
@@ -60,13 +66,18 @@ export function Steps(props: StepsProps) {
           >
             <Accordion.Header className="m-0 p-3 border-b border-transparent group-data-[state=open]:border-gray-6">
               <Accordion.Trigger className="flex justify-between w-full">
-                <span
-                  className={cx(
-                    "text-lg text-gray-11 group-hover:text-gray-12 font-semibold"
-                  )}
-                >
-                  {step.heading}
-                </span>
+                <div className="flex gap-2 items-center">
+                  <span className="border border-gray-8 rounded-full aspect-square text-base bg-gray-3  w-7 h-7 flex items-center justify-center font-bold text-gray-11">
+                    <span>{step.no}</span>
+                  </span>
+                  <span
+                    className={cx(
+                      "text-lg text-gray-11 group-hover:text-gray-12 font-semibold"
+                    )}
+                  >
+                    {step.heading}
+                  </span>
+                </div>
 
                 <ChevronDownCircleIcon
                   strokeWidth={1.22}
@@ -76,7 +87,7 @@ export function Steps(props: StepsProps) {
               </Accordion.Trigger>
             </Accordion.Header>
 
-            <Accordion.Content className={cx("p-3")} {...props}>
+            <Accordion.Content className={cx("p-3 bg-gray-1")} {...props}>
               {step.content}
             </Accordion.Content>
           </Accordion.Item>
