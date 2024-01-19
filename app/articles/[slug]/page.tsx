@@ -46,6 +46,19 @@ const SortableMultiDndSandPack = dynamic(
     )
 );
 
+const CodeTabsDemo = dynamic(
+  () =>
+    import(
+      "@/components/articles/how-to-create-an-aws-account-the-right-way/code-tabs-demo"
+    )
+);
+
+const Steps = dynamic(() => import("@/components/steps"));
+
+const StepsItem = dynamic(() => import("@/components/steps-item") as any);
+
+const CodeBlock = dynamic(() => import("@/components/code-block"));
+
 const allArticles = getPublishedArticles();
 
 type GenerateMetadataProps = {
@@ -131,6 +144,10 @@ export default function ArticlePage({ params }: Props) {
               SortableDndSandPack,
               SortableMultiDnd,
               SortableMultiDndSandPack,
+              CodeTabsDemo,
+              CodeBlock,
+              Steps,
+              StepsItem,
             }}
           />
         </div>
