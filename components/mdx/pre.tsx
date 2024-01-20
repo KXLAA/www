@@ -26,7 +26,7 @@ export function Pre(props: any) {
     <div className="relative group">
       <pre
         ref={(node) => getCodeString(node)}
-        className="p-6 bg-gray-2 border-gray-6 border text-lg overflow-scroll !rounded-none !font-normal"
+        className="p-3 bg-gray-2 border-gray-6 border text-lg overflow-scroll !rounded-none !font-normal"
         {...props}
       />
 
@@ -38,7 +38,7 @@ export function Pre(props: any) {
         }}
         {...props}
         className={cx(
-          "absolute inline-flex transition-opacity duration-150 rounded-none top-5 right-5 hover:opacity-100  hover:bg-gray-5 hover:transition-colors p-1.5 opacity-0 group-hover:opacity-100",
+          "absolute inline-flex transition-opacity duration-150 rounded-none top-3 right-3 hover:opacity-100  hover:bg-gray-5 hover:transition-colors p-1.5 opacity-0 group-hover:opacity-100",
           "[&_svg]:w-5 [&_svg]:h-5 [&_svg]:text-gray-11 border border-transparent hover:border-gray-6"
         )}
       >
