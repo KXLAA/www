@@ -95,7 +95,7 @@ body {
 }
 
 .prose a {
-  @apply !text-gray-12 hover:text-orange-10 hover:decoration-orange-10  transition-all underline decoration-gray-12 underline-offset-4 !font-normal;
+  @apply !text-gray-12  hover:decoration-gray-12  transition-all underline decoration-gray-11 underline-offset-4 !font-normal;
 }
 
 .prose .anchor:after {

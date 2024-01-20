@@ -14,7 +14,7 @@ This is the second article in my series "Learning AWS with the Cloud Resume Chal
 
 ## Creating an AWS account
 
-What is the best way to create a new AWS account and a personal development environment? From the info in the Cloud Resume Challenge Guide book, there are two options: the **original way** or the **professional way**.
+What is the best way to create a new AWS account ? From the info in the [Cloud Resume Challenge Guide book](https://cloudresumechallenge.dev/book/), there are two options: the **original way** or the **professional way**.
 
 The original way follows the steps in the [AWS documentation on account management](https://docs.aws.amazon.com/accounts/latest/reference/welcome-first-time-user.html):
 
@@ -26,7 +26,7 @@ The professional way is more complicated. It requires using an AWS service calle
 
 I already had an AWS account that I set up in the original way. This time I decided to try something different and set up my accounts using AWS Organisations.
 
-The Cloud Resume handbook recommends using an open-source Command Line Interface (CLI) called `org-formation` to create and manage AWS organisations.
+The Cloud Resume Challenge Guide book recommends using an open-source Command Line Interface (CLI) called [`org-formation`](https://github.com/org-formation/org-formation-cli) to create and manage AWS organisations.
 
 I followed a [helpful guide](https://bahr.dev/2022/02/07/org-formation/) on how to use `org-formation` by Bahr. His guide is excellent, but it was written in 2020. Since then, the AWS console has changed slightly, so I had to make extra adjustments at certain steps.
 
@@ -49,13 +49,13 @@ But, In general, these are the steps I took to set up my AWS account with `org-f
   </StepsItem>
 
     <StepsItem no={3} heading="Set up CI with CodeCommit and CodePipeline">
-    The next step is to set up AWS Organisations using the org-formation CLI. We can do this by running:
+    The next step is to set up AWS Organisations using the `org-formation CLI`. We can do this by running:
 
     ```bash
     org-formation init-organization --region eu-west-2
     ```
 
-    This command creates a CodeCommit git repository, and a CodePipeline for continuous integration. In the CodeCommit repository, org-formation has generated some CloudFormation templates.
+    This command creates a [CodeCommit](https://aws.amazon.com/codecommit/) git repository, and a [CodePipeline](https://aws.amazon.com/codepipeline/) for continuous integration. In the CodeCommit repository, `org-formation` has generated some [CloudFormation templates](https://aws.amazon.com/cloudformation/).
 
     These templates represent the code-based setup of all my organisations, referred to as Infrastructure as Code (IaC). CloudFormation is an AWS service designed for Infrastructure as Code.
 
@@ -69,7 +69,7 @@ But, In general, these are the steps I took to set up my AWS account with `org-f
 
      To do this we need to first clone the CodeCommit git repository locally. We cant clone the CodeCommit repo without the right credentials, to get these credentials:
      - First, [create a new IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) with the managed policy called [AWSCodeCommitPowerUser](https://docs.aws.amazon.com/codecommit/latest/userguide/security-iam-awsmanpol.html).
-     - Next, go to the Security Credentials tab of the IAM user you created. Scroll down until you find the section titled "HTTPS Git credentials for AWS CodeCommit". Generate the credentials and download them as a CSV.
+     - Next, go to the Security Credentials tab of the IAM user you created. Scroll down until you find the section titled **HTTPS Git credentials for AWS CodeCommit**. Generate the credentials and download them as a CSV.
 
      Now that we have the credentials, we can clone the CodeCommit repository. To find the git URL we need, search for the CodeCommit service using the search bar.
 
