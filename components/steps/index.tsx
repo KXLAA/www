@@ -14,14 +14,10 @@ function Root(props: Props) {
   const { isShowingAll, open, toggleOpenAll } = useSteps();
 
   return (
-    <Accordion.Root
-      className="border border-gray-6 overflow-hidden"
-      type="multiple"
-      value={open}
-    >
-      <div className="p-2 border-b border-gray-6">
+    <div className="flex flex-col">
+      <div className="px-4 py-1 border-x border-t border-gray-6 w-fit">
         <button
-          className="flex gap-1 items-center text-lg text-gray-11 hover:text-gray-12 font-medium w-full"
+          className="flex gap-2 items-center text-lg text-gray-11 hover:text-gray-12 font-medium w-full"
           onClick={toggleOpenAll}
         >
           <ChevronDownCircleIcon
@@ -34,9 +30,14 @@ function Root(props: Props) {
           <span>{isShowingAll ? "Hide" : "Show"} all</span>
         </button>
       </div>
-
-      {props.children}
-    </Accordion.Root>
+      <Accordion.Root
+        className="border border-gray-6 overflow-hidden"
+        type="multiple"
+        value={open}
+      >
+        {props.children}
+      </Accordion.Root>
+    </div>
   );
 }
 
