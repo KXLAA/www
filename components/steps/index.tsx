@@ -6,28 +6,13 @@ import React from "react";
 
 import { cx } from "@/lib/cx";
 
-type StepContextType = {
-  open: string[];
-  setOpen: (open: string[]) => void;
-  toggleOpenAll: () => void;
-  toggleOpen: (id: number) => void;
-  isShowingAll: boolean;
-};
+import { StepContext, useSteps } from "./_state";
 
-const StepContext = React.createContext<StepContextType>({} as StepContextType);
+type Props = React.ComponentProps<typeof Accordion.Root> & {};
 
-export function useSteps() {
-  const context = React.useContext(StepContext);
-
-  if (!context) {
-    throw new Error("useSteps must be used within a StepsProvider");
-  }
-
-  return context;
-}
-
-function Root(props: React.ComponentProps<typeof Accordion.Root>) {
+function Root(props: Props) {
   const { isShowingAll, open, toggleOpenAll } = useSteps();
+
   return (
     <Accordion.Root
       className="border border-gray-6 overflow-hidden"
@@ -55,9 +40,7 @@ function Root(props: React.ComponentProps<typeof Accordion.Root>) {
   );
 }
 
-export default function Steps(
-  props: React.ComponentProps<typeof Accordion.Root>
-) {
+export default function Steps(props: Props) {
   const stepCount = React.Children.count(props.children);
   const [open, setOpen] = React.useState<string[]>([]);
   const steps = Array.from({ length: stepCount }, (_, i) => i + 1);

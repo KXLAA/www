@@ -47,9 +47,7 @@ const SortableMultiDndSandPack = dynamic(
 );
 
 const Steps = dynamic(() => import("@/components/steps"));
-
-const StepsItem = dynamic(() => import("@/components/steps-item") as any);
-
+const StepsItem = dynamic(() => import("@/components/steps/item"));
 const CodeBlock = dynamic(() => import("@/components/code-block"));
 
 const allArticles = getPublishedArticles();

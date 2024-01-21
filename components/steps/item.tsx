@@ -5,14 +5,14 @@ import { ChevronDownCircleIcon } from "lucide-react";
 
 import { cx } from "@/lib/cx";
 
-import { useSteps } from "./steps";
+import { useSteps } from "./_state";
 
-export default function Item(
-  props: React.ComponentProps<typeof Accordion.Item> & {
-    no: number;
-    heading: string;
-  }
-) {
+interface Props extends React.ComponentProps<typeof Accordion.Item> {
+  no: number;
+  heading: string;
+}
+
+export default function Item(props: Props) {
   const { toggleOpen } = useSteps();
 
   return (
