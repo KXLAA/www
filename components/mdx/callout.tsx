@@ -12,6 +12,7 @@ export type CalloutProps = {
   intent: CalloutIntent;
   children: React.ReactNode;
   heading?: string;
+  className?: string;
 };
 
 function Icon({ intent }: { intent: CalloutIntent }) {
@@ -24,14 +25,21 @@ function Icon({ intent }: { intent: CalloutIntent }) {
   }
 }
 
-export function Callout({ intent = "default", ...props }: CalloutProps) {
+export function Callout({
+  intent = "default",
+  className,
+  ...props
+}: CalloutProps) {
   return (
-    <aside className={aside({ intent })}>
+    <aside className={aside({ intent, className })}>
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-xl font-bold">
-          <Icon intent={intent} />
-          <p className="m-0">{props.heading}</p>
-        </div>
+        {props.heading && (
+          <div className="flex items-center gap-2 text-xl font-bold">
+            <Icon intent={intent} />
+            <p className="m-0">{props.heading}</p>
+          </div>
+        )}
+
         <div
           className={cx(
             "flex flex-col gap-2 text-lg",

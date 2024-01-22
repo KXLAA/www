@@ -46,6 +46,10 @@ const SortableMultiDndSandPack = dynamic(
     )
 );
 
+const Steps = dynamic(() => import("@/components/steps"));
+const StepsItem = dynamic(() => import("@/components/steps/item"));
+const CodeBlock = dynamic(() => import("@/components/code-block"));
+
 const allArticles = getPublishedArticles();
 
 type GenerateMetadataProps = {
@@ -131,6 +135,9 @@ export default function ArticlePage({ params }: Props) {
               SortableDndSandPack,
               SortableMultiDnd,
               SortableMultiDndSandPack,
+              CodeBlock,
+              Steps,
+              StepsItem,
             }}
           />
         </div>

@@ -54,18 +54,3 @@ export function CodeTabs({ tabs }: CodeTabsProps) {
     </Tabs.Root>
   );
 }
-
-const languages = [
-  {
-    lang: "ts",
-    icon: <></>,
-  },
-  {
-    lang: "tf",
-    icon: <></>,
-  },
-  {
-    lang: "tf",
-    icon: <></>,
-  },
-];

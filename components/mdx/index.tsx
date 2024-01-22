@@ -62,7 +62,7 @@ function CustomLink(props: any) {
     <a
       target="_blank"
       rel="noopener noreferrer"
-      className="underline font-normal"
+      className="underline decoration-dashed text-gray-12"
       {...props}
     />
   );
