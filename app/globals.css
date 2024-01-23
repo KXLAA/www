@@ -151,7 +151,7 @@ code:not(pre code) {
   @apply mt-0;
 }
 
-.grid {
+.grid-bg {
   position: absolute;
   inset: 0;
   height: 100%;

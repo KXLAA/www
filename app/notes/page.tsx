@@ -1,23 +1,23 @@
-import { Articles } from "@/components/articles/articles";
 import { BreadCrumb } from "@/components/bread-crumb";
 import { MainLayout } from "@/components/layout";
+import { Notes } from "@/components/notes/notes";
 
 export const metadata = {
-  title: `Writing`,
-  description: `Articles on web development & any other interesting topics.`,
+  title: `Notes`,
+  description: `Notes on web development & any other interesting topics.`,
 };
 
-export default function ArticlesPage() {
+export default function NotesPage() {
   return (
     <MainLayout>
       <BreadCrumb
         items={[
           { label: "Home", href: "/" },
-          { label: "Writing", href: "/articles", active: true },
+          { label: "Notes", href: "/notes", active: true },
         ]}
       />
 
-      <Articles />
+      <Notes />
     </MainLayout>
   );
 }
