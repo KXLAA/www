@@ -3,9 +3,8 @@ import {
   defineNestedType,
 } from "contentlayer/source-files";
 import { format } from "date-fns";
-import readingTime from "reading-time";
 
-import { getHeadings, getSlug } from "./_shared";
+import { getHeadings, getLastEditedDate, getSlug } from "./_shared";
 
 export const Note = defineDocumentType(() => ({
   name: "Note",
@@ -22,15 +21,16 @@ export const Note = defineDocumentType(() => ({
     publishedAt: { type: "string", required: true },
     description: { type: "string", required: true },
     og: { type: "string", required: true },
+    tags: { type: "list", of: { type: "string" } },
   },
   computedFields: {
     publishedAt: {
       type: "string",
       resolve: (doc) => format(new Date(doc.publishedAt), "MMMM d, yyyy"),
     },
-    readingTime: {
-      type: "json",
-      resolve: (doc) => readingTime(doc.body.raw),
+    updatedAt: {
+      type: "string",
+      resolve: (doc) => getLastEditedDate(doc),
     },
     headings: {
       type: "json",

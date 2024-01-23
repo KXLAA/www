@@ -1,12 +1,12 @@
-import { compareDesc } from "date-fns";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { allProjects } from "@/contentlayer/generated";
-import { getPublishedArticles } from "@/lib/contentlayer";
+import { getPublishedArticles, getPublishedNotes } from "@/lib/contentlayer";
 import { cx } from "@/lib/cx";
 
 const allArticles = getPublishedArticles();
+const allNotes = getPublishedNotes();
 
 export default function Home() {
   return (
@@ -26,6 +26,8 @@ export default function Home() {
           </ConnectLink>
         </p>
       </div>
+
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full"></div> */}
 
       <Section title="Writing">
         <div className="border-y border-gray-6 w-full ">
@@ -62,6 +64,51 @@ export default function Home() {
           </Link>
         </div>
       </Section>
+
+      <Section title="Notes">
+        <div className="border-y border-gray-6 w-full ">
+          {allNotes.slice(0, 4).map((a) => (
+            <div
+              key={a.slug}
+              className="border-b border-gray-6 last:border-b-0 flex flex-col"
+            >
+              <Link
+                href={`/articles/${a.slug}`}
+                className="flex flex-col gap-1 hover:bg-gray-2 p-4 hover:border-gray-6  transition-colors border-b border-gray-6 last:border-b-0"
+                key={a.slug}
+              >
+                <p className="text-xl md:text-2xl font-medium text-gray-11">
+                  {a.title}
+                </p>
+
+                <div className="w-full justify-between flex">
+                  <p className="flex text-sm text-gray-9 font-medium mt-1">
+                    {a.publishedAt}
+                  </p>
+                  <div className="flex gap-2">
+                    {a?.tags?.map((tag) => (
+                      <span
+                        className="text-sm border px-2 border-gray-6 text-gray-10 font-medium"
+                        key={tag}
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
+          <Link
+            className="border-b justify-between border-gray-6 last:border-b-0 flex items-start hover:text-gray-12 hover:bg-gray-2 transition-colors text-gray-10 text-lg p-2 px-4 font-semibold group"
+            href="/articles"
+          >
+            <div>view all</div>
+            <ChevronRightIcon className="transform group-hover:translate-x-2 transition-transform" />
+          </Link>
+        </div>
+      </Section>
+
       <Section title="Projects">
         {allProjects.map((a) => (
           <a
@@ -124,8 +171,8 @@ type SectionProps = {
 function Section(props: SectionProps) {
   return (
     <div className="flex flex-col border-gray-6  border w-full border-b-0">
-      <div className="p-3 md:px-8  bg-gray-2 flex justify-between items-center">
-        <h2 className="text-2xl md:text-4xl font-semibold">{props.title}</h2>
+      <div className="p-4  bg-gray-2 flex justify-between items-center">
+        <h2 className="text-2xl md:text-4xl font-bold">{props.title}</h2>
         {props.action && <div>{props.action}</div>}
       </div>
 
