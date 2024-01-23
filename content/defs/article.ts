@@ -26,7 +26,7 @@ export const Article = defineDocumentType(() => ({
     description: { type: "string", required: true },
     og: { type: "string", required: true },
     tags: { type: "list", of: { type: "string" } },
-    type: {
+    articleType: {
       type: "enum",
       options: ["article", "note"],
       required: true,

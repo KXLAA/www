@@ -10,6 +10,7 @@ import {
 
 export function getPartialArticles(article: Article) {
   return {
+    articleType: article.articleType,
     title: article.title,
     og: article.og,
     slug: article.slug,
