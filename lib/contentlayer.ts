@@ -1,4 +1,3 @@
-import { pick } from "contentlayer/client";
 import { compareDesc } from "date-fns";
 
 import {
@@ -8,10 +7,6 @@ import {
   Note,
   Series,
 } from "@/contentlayer/generated";
-
-function getPartial<T extends object, K extends keyof T>(doc: T, keys: K[]) {
-  return pick(doc, keys);
-}
 
 export function getPartialArticles(article: Article) {
   return {
@@ -55,17 +50,21 @@ function generateSeries(series?: Series, slug = "") {
   };
 }
 
-export function getPublishedArticles() {
-  const articles =
+function getPublished<T extends { status: string; publishedAt: string }>(
+  docsList: T[]
+) {
+  const docs =
     process.env.NODE_ENV === "development"
-      ? allArticles
-      : allArticles.filter((a) => a.status === "published");
+      ? docsList
+      : docsList.filter((a) => a.status === "published");
 
-  return articles
-    .sort((a, b) =>
-      compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
-    )
-    .map(getPartialArticles);
+  return docs.sort((a, b) =>
+    compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
+  );
+}
+
+export function getPublishedArticles() {
+  return getPublished(allArticles).map(getPartialArticles);
 }
 
 function getPartialNotes(note: Note) {
@@ -85,16 +84,7 @@ function getPartialNotes(note: Note) {
 }
 
 export function getPublishedNotes() {
-  const notes =
-    process.env.NODE_ENV === "development"
-      ? allNotes
-      : allNotes.filter((a) => a.status === "published");
-
-  return notes
-    .sort((a, b) =>
-      compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
-    )
-    .map(getPartialNotes);
+  return getPublished(allNotes).map(getPartialNotes);
 }
 
 export type PartialArticle = ReturnType<typeof getPartialArticles>;
