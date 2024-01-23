@@ -1,7 +1,6 @@
 import { Articles } from "@/components/articles/articles";
 import { BreadCrumb } from "@/components/bread-crumb";
 import { MainLayout } from "@/components/layout";
-import { getPublishedArticles } from "@/lib/contentlayer";
 
 export const metadata = {
   title: `Writing`,

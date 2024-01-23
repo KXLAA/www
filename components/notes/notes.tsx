@@ -11,7 +11,7 @@ type NotesProps = {
 };
 
 export function Notes(props: NotesProps) {
-  const notes = props.showAllLink ? allNotes.slice(0, 4) : allNotes;
+  const notes = props.showAllLink ? allNotes.slice(0, 3) : allNotes;
 
   if (notes.length === 0) {
     return null;

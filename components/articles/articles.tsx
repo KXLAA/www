@@ -11,7 +11,7 @@ type ArticlesProps = {
 };
 
 export function Articles(props: ArticlesProps) {
-  const articles = props.showAllLink ? allArticles.slice(0, 4) : allArticles;
+  const articles = props.showAllLink ? allArticles.slice(0, 3) : allArticles;
 
   return (
     <div className="flex flex-col gap-2">
