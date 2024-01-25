@@ -23,7 +23,7 @@ export function BlurImage(props: ImageProps) {
       )}
       placeholder="blur"
       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAAXNSR0IArs4c6QAAADJJREFUGFcBJwDY/wHS/+3/3QDHAO4A+wABxv/d/9TzwQDxAgcAAaX/u//Tt8gA9P0OAMiwFiDLe9QcAAAAAElFTkSuQmCC"
-      onLoadingComplete={async () => {
+      onLoad={async () => {
         setLoading(false);
       }}
     />

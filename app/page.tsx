@@ -48,7 +48,7 @@ export default function Home() {
             })}
           </ul>
           <Link href="/articles" className="text-xl md:text-2xl text-gray-11">
-            View more
+            View all
           </Link>
         </div>
 
@@ -75,7 +75,7 @@ export default function Home() {
             </ul>
 
             <Link href="/notes" className="text-xl md:text-2xl text-gray-11">
-              View more
+              View all
             </Link>
           </div>
         )}
