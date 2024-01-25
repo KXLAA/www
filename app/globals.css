@@ -66,7 +66,7 @@ body {
 }
 
 .prose {
-  @apply !text-gray-11 !font-light !text-xl;
+  @apply !text-gray-11 !font-normal !text-xl;
 }
 
 .prose h1,
@@ -149,14 +149,4 @@ code:not(pre code) {
 
 .prose aside li {
   @apply mt-0;
-}
-
-.grid-bg {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  width: 100%;
-  background-image: linear-gradient(to right, #1f1f22 1px, transparent 1px),
-    linear-gradient(to bottom, #1f1f22 1px, transparent 1px);
-  background-size: 24px 24px;
 }

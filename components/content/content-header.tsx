@@ -6,9 +6,10 @@ import { cx } from "@/lib/cx";
 
 type Props = {
   article: PartialArticle;
+  type: "articles" | "notes";
 };
 
-export function ContentHeader({ article }: Props) {
+export function ContentHeader({ article, type }: Props) {
   return (
     <header className="flex flex-col gap-4">
       <span
@@ -25,7 +26,7 @@ export function ContentHeader({ article }: Props) {
           { label: "Home", href: "/" },
           {
             label: article.title,
-            href: `/articles/${article.slug}`,
+            href: `/${type}/${article.slug}`,
             active: true,
           },
         ]}
