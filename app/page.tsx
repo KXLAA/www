@@ -37,7 +37,7 @@ export default function Home() {
             interest me. Here is a list of my recent blog posts:
           </p>
           <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
-            {allArticles.slice(0, 4).map((article) => {
+            {allArticles.slice(0, 3).map((article) => {
               return (
                 <li key={article.slug}>
                   <Link href={`/articles/${article.slug}`}>
@@ -59,8 +59,8 @@ export default function Home() {
               here are some of my recent notes:
             </p>
 
-            <ul className="list-disc space-y-4 ml-7 marker:text-gray-10">
-              {allNotes.slice(0, 4).map((note) => {
+            <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
+              {allNotes.slice(0, 3).map((note) => {
                 return (
                   <li key={note.slug} className="cursor-pointer">
                     <Link
