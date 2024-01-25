@@ -18,18 +18,18 @@ export default function Home() {
         />
         <div className="w-full flex flex-col gap-1 md:gap-3">
           <p>
-            Hi, {`I'm`} Kola . {`I'm`} a Software engineer based in London, UK.
+            Hi! {`I'm`} Kola. {`I'm`} a software engineer based in London, UK.
           </p>
         </div>
 
-        <div>
-          I currently work at{" "}
+        <p>
+          Currently, I am employed at{" "}
           <Anchor name="Starling Bank" href="https://www.starlingbank.com/">
             Starling Bank
           </Anchor>{" "}
-          where i am building the Online Bank & internal tools to help engineers
-          build and ship features better & faster.
-        </div>
+          , where I work on the Online Bank & on internal tools to assist
+          engineers build and ship features more efficiently and quickly.
+        </p>
 
         <div className="flex flex-col gap-8">
           <p>
