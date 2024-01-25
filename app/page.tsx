@@ -1,7 +1,7 @@
 import { Anchor, Link } from "@/components/anchor";
 import { MainLayout } from "@/components/layout";
 import { getPublishedArticles, getPublishedNotes } from "@/lib/contentlayer";
-import Image from "next/image";
+import { BlurImage } from "@/components/blur-image";
 
 const allArticles = getPublishedArticles();
 const allNotes = getPublishedNotes();
@@ -10,11 +10,11 @@ export default function Home() {
   return (
     <MainLayout>
       <div className="flex flex-col gap-12">
-        <Image
+        <BlurImage
           src="/common/kola-memoji-wink.png"
           alt="Kola's profile picture"
-          width="100"
-          height="100"
+          width={100}
+          height={100}
         />
         <div className="w-full flex flex-col gap-1 md:gap-3">
           <p>

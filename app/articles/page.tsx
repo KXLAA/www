@@ -1,7 +1,7 @@
 import { Link } from "@/components/anchor";
 import { MainLayout } from "@/components/layout";
 import { getPublishedArticles } from "@/lib/contentlayer";
-import Image from "next/image";
+import { BlurImage } from "@/components/blur-image";
 import NextLink from "next/link";
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default function ArticlesPage() {
   return (
     <MainLayout>
       <NextLink href="/">
-        <Image
+        <BlurImage
           src="/common/kola-memoji-cursing.png"
           alt="Kola's profile picture"
           width="100"

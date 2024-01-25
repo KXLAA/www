@@ -1,8 +1,8 @@
 import { MainLayout } from "@/components/layout";
 import { getPublishedNotes } from "@/lib/contentlayer";
 import { Link } from "@/components/anchor";
-import Image from "next/image";
 import NextLink from "next/link";
+import { BlurImage } from "@/components/blur-image";
 
 export const metadata = {
   title: `Notes`,
@@ -15,7 +15,7 @@ export default function NotesPage() {
   return (
     <MainLayout>
       <NextLink href="/">
-        <Image
+        <BlurImage
           src="/common/kola-memoji-gasp.png"
           alt="Kola's profile picture"
           width="100"
