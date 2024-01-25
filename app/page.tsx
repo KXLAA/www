@@ -17,7 +17,9 @@ export default function Home() {
           height="100"
         />
         <div className="w-full flex flex-col gap-1 md:gap-3">
-          <p>Hi, I'm Kola . I'm a Software engineer based in London, UK.</p>
+          <p>
+            Hi, {`I'm`} Kola . {`I'm`} a Software engineer based in London, UK.
+          </p>
         </div>
 
         <div>
