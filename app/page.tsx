@@ -1,78 +1,106 @@
-import { Anchor } from "@/components/anchor";
-import { Articles } from "@/components/articles/articles";
-import { MainLayout, PageSection } from "@/components/layout";
-import { Notes } from "@/components/notes/notes";
-import { allProjects } from "@/contentlayer/generated";
+import { Anchor, Link } from "@/components/anchor";
+import { MainLayout } from "@/components/layout";
+import { getPublishedArticles, getPublishedNotes } from "@/lib/contentlayer";
+import { BlurImage } from "@/components/blur-image";
+
+const allArticles = getPublishedArticles();
+const allNotes = getPublishedNotes();
 
 export default function Home() {
   return (
     <MainLayout>
-      <div className="w-full flex flex-col gap-1 md:gap-3">
-        <h1 className="text-4xl md:text-6xl font-semibold text-gray-12">
-          Kolade Afode
-        </h1>
-        <p className="md:text-4xl text-lg  font-thin text-gray-11">
-          Frontend Engineer, London UK.
-        </p>
+      <div className="flex flex-col gap-12">
+        <BlurImage
+          src="/common/kola-memoji-wink.png"
+          alt="Kola's profile picture"
+          width={100}
+          height={100}
+        />
+        <div className="w-full flex flex-col gap-1 md:gap-3">
+          <p>
+            Hi! {`I'm`} Kola. {`I'm`} a software engineer based in London, UK.
+          </p>
+        </div>
 
-        <p className="md:text-lg text-sm font-thin  bg-violet-3 border border-violet-6 text-violet-11 p.0.5 px-2 w-fit mt-2">
-          Currently, Software Engineer at{" "}
-          <Anchor name="Twitter" href="https://www.starlingbank.com/">
-            Starling Bank
-          </Anchor>
-        </p>
-      </div>
-
-      <Articles showAllLink />
-
-      <Notes showAllLink />
-
-      <PageSection title="Projects">
-        {allProjects.map((a) => (
-          <a
-            className="hover:bg-gray-2 p-4 hover:border-gray-6 transition-colors border-b first:border-t border-gray-6"
-            key={a.url}
-            href={a.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className="text-xl md:text-2xl font-medium text-gray-11">
-              {a.title}
-            </div>
-
-            <div className="flex gap-1 md:text-lg text-base text-gray-10 text-light">
-              {a.description}
-            </div>
-          </a>
-        ))}
-      </PageSection>
-
-      <div className="text-lg md:text-xl border p-4 border-gray-6 text-gray-11">
         <p>
-          You can react me at{" "}
-          <Anchor name="Twitter" href="https://twitter.com/kxlaa_">
-            @kxlaa_
-          </Anchor>
-          or{" "}
-          <Anchor name="Email" href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}`}>
-            Email
-          </Anchor>
-          . You can view my code{" "}
-          <Anchor name="GitHub" href="https://github.com/KXLAA">
-            @kxlaa
+          Currently, I am employed at{" "}
+          <Anchor name="Starling Bank" href="https://www.starlingbank.com/">
+            Starling Bank
           </Anchor>{" "}
-          on GitHub.
+          , where I work on the Online Bank & on internal tools to assist
+          engineers build and ship features more efficiently and quickly.
         </p>
-      </div>
 
-      <a
-        href="https://github.com/KXLAA/www"
-        className="font-mono text-xs text-gray-10 transition-colors hover:text-gray-11"
-        target="_blank"
-        rel="noreferrer"
-      >
-        View Source
-      </a>
+        <div className="flex flex-col gap-8">
+          <p>
+            I write about technology, web development and other things that
+            interest me. Here is a list of my recent blog posts:
+          </p>
+          <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
+            {allArticles.slice(0, 4).map((article) => {
+              return (
+                <li key={article.slug}>
+                  <Link href={`/articles/${article.slug}`}>
+                    {article.title}{" "}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+          <Link href="/articles" className="text-xl md:text-2xl text-gray-11">
+            View more
+          </Link>
+        </div>
+
+        {allNotes.length > 0 && (
+          <div className="flex flex-col gap-8">
+            <p>
+              I write interactive notes of concepts I learn and things I find,
+              here are some of my recent notes:
+            </p>
+
+            <ul className="list-disc space-y-4 ml-7 marker:text-gray-10">
+              {allNotes.slice(0, 4).map((note) => {
+                return (
+                  <li key={note.slug} className="cursor-pointer">
+                    <Link
+                      href={`/notes/${note.slug}`}
+                      className="underline decoration-dashed underline-offset-4 decoration-green-9 "
+                    >
+                      {note.title}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <Link href="/notes" className="text-xl md:text-2xl text-gray-11">
+              View more
+            </Link>
+          </div>
+        )}
+
+        <div className="text-gray-11">
+          <p>
+            You can react me at{" "}
+            <Anchor name="Twitter" href="https://twitter.com/kxlaa_">
+              @kxlaa_
+            </Anchor>
+            or{" "}
+            <Anchor
+              name="Email"
+              href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}`}
+            >
+              Email
+            </Anchor>
+            . You can view my code{" "}
+            <Anchor name="GitHub" href="https://github.com/KXLAA">
+              @kxlaa
+            </Anchor>{" "}
+            on GitHub.
+          </p>
+        </div>
+      </div>
     </MainLayout>
   );
 }

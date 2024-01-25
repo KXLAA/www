@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 import { Callout } from "./callout";
 import { Code } from "./code";
 import { Pre } from "./pre";
+import { Anchor, Link } from "../anchor";
 
 function NextImage(props: any) {
   return <Image alt={props.alt} {...props} />;
@@ -55,17 +55,10 @@ function CustomLink(props: any) {
   }
 
   if (href.startsWith("#")) {
-    return <a {...props} />;
+    return <Anchor {...props} />;
   }
 
-  return (
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline decoration-dashed text-gray-12"
-      {...props}
-    />
-  );
+  return <Anchor target="_blank" rel="noopener noreferrer" {...props} />;
 }
 
 export const components = {
