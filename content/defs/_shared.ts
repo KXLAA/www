@@ -35,7 +35,8 @@ export async function getLastEditedDate(doc: DocumentGen) {
   const stats = await fs.stat(
     path.join(CONTENT_DIR_PATH, doc._raw.sourceFilePath)
   );
-  return stats.mtime;
+
+  return format(new Date(stats.mtime), "MMMM d, yyyy");
 }
 
 export function isOldArticle(publishDate: string) {
