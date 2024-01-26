@@ -12,7 +12,7 @@ export default function Title({ children }: Props) {
   const { open, setOpen } = useToggleHeading();
 
   return (
-    <div className="flex justify-between [&>*]:m-0 items-center">
+    <div className="flex justify-between [&>*]:m-0 items-start gap-6">
       {children}
 
       <Collapsible.Trigger className="hover:bg-gray-2 transition-colors duration-150 ease-in-out">
