@@ -18,7 +18,7 @@ export function NoteHeader({ note }: Props) {
           },
         ]}
       />
-      <h1 className="text-4xl font-bold">{note.title}</h1>
+      <h1 className="text-4xl font-bold text-gray-12">{note.title}</h1>
 
       <div className="flex items-center justify-center gap-3 text-gray-dark-11 underline-offset-1 w-fit font-medium text-lg">
         <span className="m-0">Last edited on {note.lastUpdatedAt}</span>

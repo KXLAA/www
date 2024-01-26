@@ -43,19 +43,18 @@ Call expressions apply functions to arguments. A function is a mapping from some
 Rather than using operators we can use functions to create compound expressions. For example  `add(10, 2)` does the same thing as `10 + 2` , but with different form.
 
 Compared to using operators like we did above, using a function has some benefits:
+A function may take an arbitrary number of arguments:
 
-- A function may take an arbitrary number of arguments:
+```python
+>>> max(1,4,56)
 
-  ```python
-  >>> max(1,4,56)
+56
+```
 
-  56
-  ```
+Functions are more clear since the function name (the operator) always precedes the operands (the arguments) and the arguments are always wrapped in parentheses. This is especially true when you nest functions - where the arguments of a given function are the results of other functions:
 
-- Functions are more clear since the function name (the operator) always precedes the operands (the arguments) and the arguments are always wrapped in parentheses. This is especially true when you nest functions - where the arguments of a given function are the results of other functions:
+```python
+>>> max(min(1, -2), min(pow(3, 5), -4))
 
-  ```python
-  >>> max(min(1, -2), min(pow(3, 5), -4))
-
-  -2
-  ```
+-2
+```
