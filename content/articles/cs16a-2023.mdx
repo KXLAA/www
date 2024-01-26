@@ -28,6 +28,7 @@ These are my notes & solutions to the homeworks and labs for the course [CS61A 2
     A number is an example of a primitive expression:
 
     ```python
+    >>> 42
     42
     ```
 
@@ -39,29 +40,98 @@ These are my notes & solutions to the homeworks and labs for the course [CS61A 2
     0.9921875
     ```
 
+    They are called expressions because they **return a usable output value**. The output of typing `42` into the python console is `42` .
+
     ### Call Expressions
 
     Call expressions apply functions to arguments. A function is a mapping from some input arguments to an output value.
 
     Rather than using operators we can use functions to create compound expressions. For example `add(10, 2)` does the same thing as `10 + 2`, but with different form.
 
-    Compared to using operators like we did above, using a function has some benefits:
+    Compared to using operators like we did above, using a function has some benefits.
 
     A function may take an arbitrary number of arguments:
 
     ```python
-    >>> max(1,4,56)
+    >>> max(1, 4, 56)
 
     56
     ```
 
-    Functions are more clear since the function name (the operator) always precedes the operands (the arguments) and the arguments are always wrapped in parentheses. This is especially true when you nest functions - where the arguments of a given function are the results of other functions:
+    Functions are more clear since the function name (the operator) always precedes the operands (the arguments) and the arguments are always wrapped in parentheses.
+
+    This is especially true when you nest functions - where the arguments of a given function are the results of other functions:
 
     ```python
     >>> max(min(1, -2), min(pow(3, 5), -4))
 
     -2
     ```
+
+    Why are these important benefits ? - functions compared to using expressions are more re-useable.
+
+    Instead of typing out a complex compound expression with all the operations it needs everything you need - you can just extract it to a function and call the function wherever you need.
+
+    <u>__How are call expressions evaluated applied or called ?__</u>
+    ```python
+    >>> max(7.5, 9.5)
+    9.5
+    ```
+    - **max** is the operator, the name
+    - `7.5` & `9.5` are operands - operands are the arguments to the function, they can also be functions themselves. These are the inputs to the function.
+    - The arguments if they are functions are evaluated before the operator is applied
+
+    ### Names & the Environment
+
+    A name is the simplest means of **abstraction**. We can give functions and expressions names.
+
+    With expressions these names are called variables and we create them using the **assignment statement**, which contains a name to the left of  **`=`** (the assignment operator) and a value to the right:
+    ```python
+    >>> radius = 10
+    >>> radius
+    10
+    >>> 2 * radius
+    20
+
+    area, circumfrence  = pi * radius, 2 * pi * radius
+    ```
+
+    Assignment is a very simple for of **abstraction** as it allows us to refer to the results of compound operations. The **Environment** is responsible for keeping track of names, values, and bindings. It acts as the memory that remembers the names we assign to things in our program.
+
+
+    <u>__How are assignment expressions evaluated ?__</u>
+    - It evaluates all the expressions to the right of `=` from left to right
+    - After evaluation the expressions - it binds all the names to the left of `=` to the resulting values in the current frame.
+
+    ```python
+    a = 1
+    b = 2
+
+    b, a = a + b, b
+    ```
+
+    ### Pure vs Non-Pure Functions
+    **Pure functions** are functions that simply takes an input (their arguments) and returns a result (The Output). These functions **have no side effects when they are applied** - this means that the only thing they do is return the same output when called with the same arguments.
+
+    ```python
+    >>> max(2, 20)
+    20
+    ```
+
+    Pure functions are easier to test as its simply inputs & outputs,  can be composed more reliably into compound expressions and are essential when writing concurrent programs where multiple functions may be evaluated simultaneously.
+
+    Pure functions are easier to test as its simply inputs & outputs,  can be composed more reliably into compound expressions and are essential when writing concurrent programs where multiple functions may be evaluated simultaneously.
+
+    ```python
+    >>> print(print(1), print(2))
+
+    1
+    2
+    None None
+    ```
+    The return value of print is `None` , while `1` & `2` are the side effects that print produced.
+
+
     </ToggleHeadingContent>
 
 </ToggleHeading>
