@@ -31,11 +31,16 @@ export function NoteSidebar({ headings = [] }: Props) {
         </div>
 
         <ul className="relative flex flex-col items-start gap-2 p-3 text-lg">
-          {headings?.map((item) => (
+          {headings.map((item) => (
             <li
               className={cx(
                 "transition text-gray-11 hover:text-gray-12",
-                item.id === activeId ? `text-gray-12 font-semibold` : ``
+                item.id === activeId ? `text-gray-12 font-semibold` : ``,
+                item.level === 2 ? `pl-2` : ``,
+                item.level === 3 ? `pl-4` : ``,
+                item.level === 4 ? `pl-6` : ``,
+                item.level === 5 ? `pl-8` : ``,
+                item.level === 6 ? `pl-10` : ``
               )}
               key={item.link}
             >

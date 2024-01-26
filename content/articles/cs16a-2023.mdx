@@ -7,3 +7,55 @@ articleType: "note"
 og: "https://ucarecdn.com/ef3a88c3-277a-4bdd-bd7b-26095f5adf73/jumpingintothescaryworldofaws.png"
 status: "draft"
 ---
+
+These are my notes & solutions to the homeworks and labs for the course [CS61A 2023](https://inst.eecs.berkeley.edu/~cs61a/fa23/) - The Structure & Interpretation of Computer Programs.
+
+## Week 1 - Functions
+
+In programming we deal with two kind of elements - functions & data. Functions are the rules we use to manipulate data. A powerful programming language provides three key ways to do this
+
+- **primitive expressions -** The **data types** which are the basic building blocks that language provides
+- a means of **combination -** where **primitive expressions** can be combined into **compound expressions**
+- a means of **abstraction -**where **compound expressions** can be **named** and manipulated as units
+
+### Primitive expressions in Python
+
+A number is an example of a primitive expression:
+
+```python
+>>> 42
+42
+
+```
+
+We can combine numbers together with operators to form a compound expression which is evaluated:
+
+```python
+>>> 1/2 + 1/4 + 1/8 + 1/16 + 1/32 + 1/64 + 1/128
+
+0.9921875
+```
+
+### Call Expressions
+
+Call expressions apply functions to arguments. A function is a mapping from some input arguments to an output value.
+
+Rather than using operators we can use functions to create compound expressions. For example  `add(10, 2)` does the same thing as `10 + 2` , but with different form.
+
+Compared to using operators like we did above, using a function has some benefits:
+
+- A function may take an arbitrary number of arguments:
+
+  ```python
+  >>> max(1,4,56)
+
+  56
+  ```
+
+- Functions are more clear since the function name (the operator) always precedes the operands (the arguments) and the arguments are always wrapped in parentheses. This is especially true when you nest functions - where the arguments of a given function are the results of other functions:
+
+  ```python
+  >>> max(min(1, -2), min(pow(3, 5), -4))
+
+  -2
+  ```
