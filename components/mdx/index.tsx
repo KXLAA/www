@@ -24,6 +24,7 @@ function slugify(str: string) {
 function createHeading(level: number) {
   const Heading = ({ children }: { children: string }) => {
     let slug = slugify(children);
+
     return React.createElement(
       `h${level}`,
       { id: slug },

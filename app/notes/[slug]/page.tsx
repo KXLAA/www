@@ -1,6 +1,14 @@
 import { getPublishedNotes } from "@/lib/contentlayer";
 import { getMDXComponent } from "next-contentlayer/hooks";
 import { notFound } from "next/navigation";
+import { NoteHeader } from "./header";
+import { NoteSidebar } from "./sidebar";
+import { components } from "@/components/mdx";
+import dynamic from "next/dynamic";
+
+const Steps = dynamic(() => import("@/components/steps"));
+const StepsItem = dynamic(() => import("@/components/steps/item"));
+const CodeBlock = dynamic(() => import("@/components/code-block"));
 
 const notes = getPublishedNotes();
 
@@ -70,6 +78,23 @@ export default function NotePage({ params }: Props) {
   return (
     <div className="relative mx-auto max-w-screen-xl px-4 py-10 md:flex md:flex-row md:py-10">
       <div className="w-1/3 invisible" />
+
+      <article className="mt-4 w-full min-w-0 max-w-6xl px-1 md:px-6 text-xl font-extralight text-gray-11 flex flex-col gap-2">
+        <NoteHeader note={note} />
+
+        <div className="w-full prose">
+          <Content
+            components={{
+              ...components,
+              CodeBlock,
+              Steps,
+              StepsItem,
+            }}
+          />
+        </div>
+      </article>
+
+      <NoteSidebar headings={note.headings} />
     </div>
   );
 }

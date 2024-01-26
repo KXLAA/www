@@ -30,7 +30,7 @@ export function ArticleHeader({ article }: Props) {
           },
         ]}
       />
-      <h1 className="text-4xl font-bold">{article.title}</h1>
+      <h1 className="text-4xl font-bold text-gray-12">{article.title}</h1>
 
       <div className="flex items-center justify-center gap-3 text-gray-dark-11 underline-offset-1 w-fit font-medium text-lg">
         <span className="m-0">{article.publishedAt}</span>

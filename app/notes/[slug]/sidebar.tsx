@@ -6,7 +6,7 @@ import { cx } from "@/lib/cx";
 import { useActiveHeading } from "@/lib/active-headings";
 import { useHideOnScroll } from "@/lib/scroll";
 
-type ArticleHeading = {
+type NoteHeading = {
   id: string;
   content: string;
   link: string;
@@ -14,10 +14,10 @@ type ArticleHeading = {
 };
 
 type Props = {
-  headings?: Array<ArticleHeading>;
+  headings?: Array<NoteHeading>;
 };
 
-export function ArticleSidebar({ headings = [] }: Props) {
+export function NoteSidebar({ headings = [] }: Props) {
   const activeId = useActiveHeading(headings);
   const isHidden = useHideOnScroll(300);
 

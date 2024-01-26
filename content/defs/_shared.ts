@@ -10,6 +10,17 @@ export function getSlug(doc: DocumentGen) {
 
 export const CONTENT_DIR_PATH = "content";
 
+function slugify(str: string) {
+  return str
+    .toString()
+    .toLowerCase()
+    .trim() // Remove whitespace from both ends of a string
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/&/g, "-and-") // Replace & with 'and'
+    .replace(/[^\w\-]+/g, "") // Remove all non-word characters except for -
+    .replace(/\-\-+/g, "-"); // Replace multiple - with single -
+}
+
 export function getHeadings(source: string) {
   //get all heading levels from markdown source, including #, ##, ###, etc.
   const headings = source.match(/#+\s(.*?)\n/g);
@@ -17,9 +28,10 @@ export function getHeadings(source: string) {
   //return array of objects with heading names and ids
   return (
     headings?.map((h, i) => {
-      const content = h.match(/#+\s(.*?)\n/)?.[1];
+      const content = h.match(/#+\s(.*?)\n/)?.[1] || "";
       const type = headings?.[i].match(/#+/)?.[0];
-      const slug = content?.replace(/ /g, "-").toLowerCase();
+
+      const slug = slugify(content);
       const link = "#" + slug;
       return {
         id: slug || "",
@@ -35,7 +47,8 @@ export async function getLastEditedDate(doc: DocumentGen) {
   const stats = await fs.stat(
     path.join(CONTENT_DIR_PATH, doc._raw.sourceFilePath)
   );
-  return stats.mtime;
+
+  return format(new Date(stats.mtime), "MMMM d, yyyy");
 }
 
 export function isOldArticle(publishDate: string) {
