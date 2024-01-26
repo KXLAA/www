@@ -9,6 +9,13 @@ import dynamic from "next/dynamic";
 const Steps = dynamic(() => import("@/components/steps"));
 const StepsItem = dynamic(() => import("@/components/steps/item"));
 const CodeBlock = dynamic(() => import("@/components/code-block"));
+const ToggleHeading = dynamic(() => import("@/components/toggle-heading"));
+const ToggleHeadingTitle = dynamic(
+  () => import("@/components/toggle-heading/title")
+);
+const ToggleHeadingContent = dynamic(
+  () => import("@/components/toggle-heading/content")
+);
 
 const notes = getPublishedNotes();
 
@@ -89,6 +96,9 @@ export default function NotePage({ params }: Props) {
               CodeBlock,
               Steps,
               StepsItem,
+              ToggleHeading,
+              ToggleHeadingTitle,
+              ToggleHeadingContent,
             }}
           />
         </div>
