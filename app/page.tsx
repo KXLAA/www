@@ -55,8 +55,8 @@ export default function Home() {
         {allNotes.length > 0 && (
           <div className="flex flex-col gap-8">
             <p>
-              I write interactive notes of concepts I learn and things I find,
-              here are some of my recent notes:
+              I write notes on the courses I take, the concepts I learn, and the
+              books I read. Here are some of my recently updated notes:
             </p>
 
             <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
@@ -80,9 +80,9 @@ export default function Home() {
           </div>
         )}
 
-        <div className="text-gray-11">
+        <div>
           <p>
-            You can react me at{" "}
+            You can reach me at{" "}
             <Anchor name="Twitter" href="https://twitter.com/kxlaa_">
               @kxlaa_
             </Anchor>
