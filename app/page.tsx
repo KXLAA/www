@@ -80,9 +80,9 @@ export default function Home() {
           </div>
         )}
 
-        <div className="text-gray-11">
+        <div>
           <p>
-            You can react me at{" "}
+            You can reach me at{" "}
             <Anchor name="Twitter" href="https://twitter.com/kxlaa_">
               @kxlaa_
             </Anchor>
