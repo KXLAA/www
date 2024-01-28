@@ -11,3 +11,58 @@ series:
   order: 3
   title: "Learning AWS with the Cloud Resume Challenge"
 ---
+
+This is the third article in my series "Learning AWS with the Cloud Resume Challenge." You can check out the previous post in this series [here](http://localhost:3000/articles/trying-to-create-an-aws-account-the-right-way).
+
+In this instalment, I will go through how I deployed the front end of the cloud resume on AWS, the services i used and the challenges I encountered along the way.
+
+If you just want to see the code, it is open sourced on GitHub [here](https://github.com/).
+
+## Building the Front End
+
+To complete the frontend aspect of the cloud resume challenge, we need to build a resume using HTML and style it with CSS. Later on, we will also write some <s>JavaScript</s> Typescript to add a visitor counter.
+
+It has been a while since I built a website with plain HTML and CSS, so I was excited to dive back in.
+
+I created a basic HTML, CSS, and TypeScript project using [Vite](https://vitejs.dev/).I chose Vite because I plan to use TypeScript for the visitor counter feature.
+
+Since the browser does not understand TypeScript, we need to convert our TypeScript code to JavaScript through a build step.
+
+Even if you decide to use plain JavaScript, I recommend still using Vite. It simulates real-world projects where the Continuous Integration (CI) process typically needs to build an application before deployment.I will discuss this further in the CI & CD section.
+
+I spent a few minutes with the design for the resume, and this is what I came up with:
+
+<GIF
+  src="/articles/building-and-deploying-the-frontend-of-the-cloud-resume/cloud-resume-vid.mp4"
+  title="cloud-resume-vid.mp4"
+/>
+
+A simple one pager website.
+
+A side note: CSS now has native support for selector nesting. I knew of this feature, but never used it before. It's really cool!
+
+## Deploying the resume to AWS S3 using the Console
+
+The next step is to deploy the resume on AWS. There are several AWS services involved at this step:
+
+- **AWS S3**: This service will be used to store the HTML, CSS, and JavaScript files for the resume. While AWS S3 supports static website hosting, it does not support serving assets via [HTTPS](https://www.cloudflare.com/learning/ssl/what-is-https/).
+
+- **AWS CloudFront**: This is a [Content Delivery Network](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/) (CDN) that can be used to serve assets in S3 over HTTPS.
+
+- **Amazon Certificate Manager (ACM)**: ACM will be used to manage [SSL certificates](https://www.cloudflare.com/learning/ssl/what-is-an-ssl-certificate/) to support HTTPS.
+
+- **AWS Route 53**: This service is used to manage domain names and redirects.
+
+Essentially, we will host our assets on AWS using S3, serve them over HTTPS using CloudFront with ACM, and connect everything to a custom domain using Route 53.
+
+There are many guides online on how to do this step. The [official guide on AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html) is a good starting point.
+
+For a more comprehensive guide, I recommend the guide on [Cloud is free](https://cloudisfree.com/#/projects/project-1/README). This guide is somewhat better than the official guide as it covers setting up custom domains with Route 53 and linking those domains to the S3 bucket.
+
+If you have just set up a fresh AWS account, you may run into issues when trying to purchase a domain name via Route 53.
+
+If this happens, you simply need to contact support, and they will remove the restrictions on your account that limit domain name purchases. It may take about two days for the issue to be resolved.
+
+I followed the guides and got my cloud resume up online. You can check it out [here](https://kolaaws.com/). It was a really exhilarating feeling.
+
+## Starting from scratch with Terraform

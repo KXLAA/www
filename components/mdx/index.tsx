@@ -62,6 +62,26 @@ function CustomLink(props: any) {
   return <Anchor target="_blank" rel="noopener noreferrer" {...props} />;
 }
 
+type GIFProps = React.DetailedHTMLProps<
+  React.VideoHTMLAttributes<HTMLVideoElement>,
+  HTMLVideoElement
+> & {
+  title?: string;
+};
+
+function GIF({ title, ...props }: GIFProps) {
+  return (
+    <div className="border border-gray-6 ">
+      <div className="border-b border-gray-6 p-2 font-mono text-base bg-gray-2">
+        {title}
+      </div>
+      <div className="p-1">
+        <video autoPlay loop muted playsInline {...props} className="m-0" />
+      </div>
+    </div>
+  );
+}
+
 export const components = {
   h1: createHeading(1),
   h2: createHeading(2),
@@ -74,4 +94,5 @@ export const components = {
   pre: Pre,
   Callout,
   Image: NextImage,
+  GIF,
 } as any;
