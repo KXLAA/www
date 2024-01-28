@@ -14,21 +14,17 @@ series:
 
 This is the third article in my series "Learning AWS with the Cloud Resume Challenge." You can check out the previous post in this series [here](http://localhost:3000/articles/trying-to-create-an-aws-account-the-right-way).
 
-In this instalment, I will go through how I deployed the front end of the cloud resume on AWS, the services i used and the challenges I encountered along the way.
+In this instalment, I will explain how I built and deployed the front end of the Cloud Resume on AWS. I will talk about the different AWS services I used and the challenges I encountered along the way.
 
 If you just want to see the code, it is open sourced on GitHub [here](https://github.com/KXLAA/cloud-resume).
 
 ## Building the Front End
 
-To complete the frontend aspect of the cloud resume challenge, we need to build a resume using HTML and style it with CSS. Later on, we will also write some <s>JavaScript</s> Typescript to add a visitor counter.
+The Cloud Resume Challenge requires creating a resume using HTML and styling it with CSS. Later on, we will also write some <s>JavaScript</s> Typescript to add a visitor counter.It has been a while since I built a website with plain HTML and CSS, so I was excited to dive back in.
 
-It has been a while since I built a website with plain HTML and CSS, so I was excited to dive back in.
+I created a basic HTML, CSS, and TypeScript project using [Vite](https://vitejs.dev/).I chose Vite because I plan to use TypeScript for the visitor counter feature. As the browser does not understand TypeScript, we need to convert our TypeScript code to JavaScript through a build step.
 
-I created a basic HTML, CSS, and TypeScript project using [Vite](https://vitejs.dev/).I chose Vite because I plan to use TypeScript for the visitor counter feature.
-
-Since the browser does not understand TypeScript, we need to convert our TypeScript code to JavaScript through a build step.
-
-Even if you decide to use plain JavaScript, I recommend still using Vite. It simulates real-world projects where the Continuous Integration (CI) process typically needs to build an application before deployment.I will discuss this further in the CI & CD section.
+Even if you decide to use plain JavaScript, I recommend still using Vite. It simulates real-world projects where the Continuous Integration (CI) process typically needs to build an application before deployment.
 
 I spent a few minutes with the design for the resume, and this is what I came up with:
 
@@ -53,33 +49,29 @@ The next step is to deploy the resume on AWS. There are several AWS services inv
 
 - **AWS Route 53**: This service is used to manage domain names and redirects.
 
-Essentially, we will host our assets on AWS using S3, serve them over HTTPS using CloudFront with ACM, and connect everything to a custom domain using Route 53.
+Essentially, I will host the assets on AWS using S3, serve them over HTTPS using CloudFront with an ACM SSL certificate, and connect everything to a custom domain using Route 53.
 
-There are many guides online on how to do this step. The [official guide on AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html) is a good starting point.
+There are many online guides available on how to complete this step. I began with the official guide on [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html) and supplemented it with a more comprehensive guide from [Cloud is free](https://cloudisfree.com/#/projects/project-1/README). This guide is slightly superior to the official guide because it includes instructions for setting up custom domains with Route 53 and linking those domains to the S3 bucket.
 
-For a more comprehensive guide, I recommend the guide on [Cloud is free](https://cloudisfree.com/#/projects/project-1/README). This guide is somewhat better than the official guide as it covers setting up custom domains with Route 53 and linking those domains to the S3 bucket.
+I ran into some issues while attempting to purchase domains with Route 53. To resolve these issues, I had to contact support, which took approximately two days before I could successfully purchase the domain names.
 
-If you have just set up a fresh AWS account, you may run into issues when trying to purchase a domain name via Route 53.
-
-If this happens, you simply need to contact support, and they will remove the restrictions on your account that limit domain name purchases. It may take about two days for the issue to be resolved.
-
-I followed the guides and got my cloud resume up online. You can check it out [here](https://kolaaws.com/). It was a really exhilarating feeling.
+After following the guides, I have successfully uploaded my cloud resume online. You can check it out [here](https://kolaaws.com/).
 
 ## Starting from scratch with Terraform
 
-[Terraform](https://www.google.com/search?q=Terraform&sourceid=chrome&ie=UTF-8) is an Infrastructure as Code tool that allows us to define cloud resources declaratively. In a previous post in this series, I discussed Infrastructure as Code and its benefits.
+[Terraform](https://www.terraform.io/) is an Infrastructure as Code (IAC) tool that allows us to define cloud resources declaratively.
 
-To get some hands on practice on IAC,I decided to convert all the cloud resources I provisioned manually in the last step to IAC. This task is also part of the cloud resume challenge, but it comes a bit later in the challenge. I chose to do it here to get early practice.
+To get some hands on practice on IAC, I decided to convert all the cloud resources I provisioned manually in the last step to IAC. This task is also part of the cloud resume challenge, but it comes a bit later in the challenge. I chose to do it here to get early practice.
 
 To get started with Terraform, I went straight to the website and completed the [Official getting started guide](https://developer.hashicorp.com/terraform/tutorials/aws-get-started). Once I became comfortable with the syntax, I read the first three parts of [A Comprehensive Guide to Terraform series](https://blog.gruntwork.io/a-comprehensive-guide-to-terraform-b3d32832baca) by Yevgeniy Brikman.
 
 This guide is exceptionally well-written and although it took some time to read and digest the information, it was definitely worth it. It provided practical, hands-on instructions for using Terraform to provision AWS resources.
 
-After reviewing those resources, I revisited the steps I had previously taken to manually provision the resources. I then tried to convert each step into Terraform code. This involved a considerable amount of Googling and referencing the Terraform documentation, but I learnt a lot in the process.
+After reviewing those resources, I revisited the steps I had previously taken to manually provision the resources. I then tried to convert each step into Terraform code. This involved a considerable amount of googling and referencing the Terraform documentation, but I learnt a lot in the process.
 
 You can view all the code for this in this [GitHub repository](https://github.com/KXLAA/cloud-resume/tree/main/infrastructure). Each resource lives in its own folder, with some comments to make it self-explanatory.
 
-## Automating the deployment with GitHub Actions
+## Automating deployments with GitHub Actions
 
 In the [`infrastructure/stage/website/main-s3.tf`](https://github.com/KXLAA/cloud-resume/blob/main/infrastructure/stage/website/main-s3.tf#L117-L125) file we have a `aws_s3_object` defined:
 
@@ -95,7 +87,7 @@ In the [`infrastructure/stage/website/main-s3.tf`](https://github.com/KXLAA/clou
   }
 ```
 
-This essentially links to the local build directory and uploads all my assets to the S3 bucket every time I run terraform apply in my terminal. I decided to automate this using Github Actions.
+This essentially links to the local build directory and uploads all my assets to the S3 bucket every time I run `terraform apply` in the terminal. I decided to automate this using Github Actions.
 
 Essentially, what I want is for any infrastructure changes to be automatically applied every time there is a merge to the main branch. This will ensure that our deployed site is updated.
 
@@ -116,9 +108,9 @@ This workflow includes several automated steps that are executed for every pull 
 
 - Run `terraform fmt -check`, `terraform validate`, and `terraform plan` for each pull request. The GitHub API is used to add a comment to the pull request, including the output of `terraform plan`.
 
-- When pushing to the main branch, we execute `terraform apply` to apply any changes to the resources. Additionally, we clear the CloudFront cache to prevent outdated data.
+- When pushing to the main branch, the action runs terraform apply to apply any changes to the resources. Additionally, the action clears the CloudFront cache to prevent outdated data.
 
-One annoying thing that left with my current setup is AWS credentials rotation. Since we are using SSO, the AWS credentials have a short lifespan and expire approximately every 24 hours. Currently, I manually replace the credentials when they expire. But, I could definitely automate this process.
+One annoying thing that left with my current setup is AWS credentials rotation. Since we are using SSO, the AWS credentials have a short lifespan and expire approximately every 24 hours. Currently, I manually replace the credentials when they expire. But, I could definitely automate this process. I will save that for later.
 
 ## Concluding Thoughts
 
