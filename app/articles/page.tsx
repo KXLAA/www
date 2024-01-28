@@ -1,6 +1,6 @@
 import { Link } from "@/components/anchor";
 import { MainLayout } from "@/components/layout";
-import { getPublishedArticles } from "@/lib/contentlayer";
+import { getPublishedArticles } from "@/lib/contentlayer/content";
 import { BlurImage } from "@/components/blur-image";
 import NextLink from "next/link";
 

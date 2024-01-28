@@ -1,6 +1,9 @@
 import { Anchor, Link } from "@/components/anchor";
 import { MainLayout } from "@/components/layout";
-import { getPublishedArticles, getPublishedNotes } from "@/lib/contentlayer";
+import {
+  getPublishedArticles,
+  getPublishedNotes,
+} from "@/lib/contentlayer/content";
 import { BlurImage } from "@/components/blur-image";
 
 const allArticles = getPublishedArticles();
@@ -79,6 +82,32 @@ export default function Home() {
             </Link>
           </div>
         )}
+
+        {/* <div className="flex flex-col gap-8">
+          <p>
+            I love remaking cool UI interactions & elements I come across on the
+            web. Here are some of my most recent experiments:
+          </p>
+
+          <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
+            {allNotes.slice(0, 3).map((note) => {
+              return (
+                <li key={note.slug} className="cursor-pointer">
+                  <Link
+                    href={`/notes/${note.slug}`}
+                    className="underline decoration-dashed underline-offset-4 decoration-green-9 "
+                  >
+                    {note.title}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          <Link href="/notes" className="text-xl md:text-2xl text-gray-11">
+            View all
+          </Link>
+        </div> */}
 
         <div>
           <p>

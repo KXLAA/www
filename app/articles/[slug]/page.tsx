@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getMDXComponent } from "next-contentlayer/hooks";
 
 import { components } from "@/components/mdx";
-import { getPublishedArticles } from "@/lib/contentlayer";
+import { getPublishedArticles } from "@/lib/contentlayer/content";
 
 import { ArticleHeader } from "./header";
 import { ArticleSeries } from "./series";

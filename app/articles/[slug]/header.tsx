@@ -1,7 +1,7 @@
 import { DiamondIcon } from "lucide-react";
 
 import { BreadCrumb } from "@/components/bread-crumb";
-import { PartialArticle } from "@/lib/contentlayer";
+import { PartialArticle } from "@/lib/contentlayer/content";
 import { cx } from "@/lib/cx";
 
 type Props = {

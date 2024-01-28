@@ -1,5 +1,5 @@
 import { MainLayout } from "@/components/layout";
-import { getPublishedNotes } from "@/lib/contentlayer";
+import { getPublishedNotes } from "@/lib/contentlayer/content";
 import { Link } from "@/components/anchor";
 import NextLink from "next/link";
 import { BlurImage } from "@/components/blur-image";
