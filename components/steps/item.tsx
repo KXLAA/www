@@ -22,7 +22,7 @@ export default function Item(props: Props) {
     >
       <Accordion.Header className="m-0 p-3 border-b border-transparent group-data-[state=open]:border-gray-6 bg-gray-2">
         <Accordion.Trigger
-          className="flex justify-between w-full"
+          className="flex justify-between w-full text-left "
           onClick={() => toggleOpen(props.no)}
         >
           <div className="flex gap-2 items-center">
