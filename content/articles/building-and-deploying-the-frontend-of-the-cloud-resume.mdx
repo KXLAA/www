@@ -16,7 +16,7 @@ This is the third article in my series "Learning AWS with the Cloud Resume Chall
 
 In this instalment, I will go through how I deployed the front end of the cloud resume on AWS, the services i used and the challenges I encountered along the way.
 
-If you just want to see the code, it is open sourced on GitHub [here](https://github.com/).
+If you just want to see the code, it is open sourced on GitHub [here](https://github.com/KXLAA/cloud-resume).
 
 ## Building the Front End
 
@@ -66,3 +66,66 @@ If this happens, you simply need to contact support, and they will remove the re
 I followed the guides and got my cloud resume up online. You can check it out [here](https://kolaaws.com/). It was a really exhilarating feeling.
 
 ## Starting from scratch with Terraform
+
+[Terraform](https://www.google.com/search?q=Terraform&sourceid=chrome&ie=UTF-8) is an Infrastructure as Code tool that allows us to define cloud resources declaratively. In a previous post in this series, I discussed Infrastructure as Code and its benefits.
+
+To get some hands on practice on IAC,I decided to convert all the cloud resources I provisioned manually in the last step to IAC. This task is also part of the cloud resume challenge, but it comes a bit later in the challenge. I chose to do it here to get early practice.
+
+To get started with Terraform, I went straight to the website and completed the [Official getting started guide](https://developer.hashicorp.com/terraform/tutorials/aws-get-started). Once I became comfortable with the syntax, I read the first three parts of [A Comprehensive Guide to Terraform series](https://blog.gruntwork.io/a-comprehensive-guide-to-terraform-b3d32832baca) by Yevgeniy Brikman.
+
+This guide is exceptionally well-written and although it took some time to read and digest the information, it was definitely worth it. It provided practical, hands-on instructions for using Terraform to provision AWS resources.
+
+After reviewing those resources, I revisited the steps I had previously taken to manually provision the resources. I then tried to convert each step into Terraform code. This involved a considerable amount of Googling and referencing the Terraform documentation, but I learnt a lot in the process.
+
+You can view all the code for this in this [GitHub repository](https://github.com/KXLAA/cloud-resume/tree/main/infrastructure). Each resource lives in its own folder, with some comments to make it self-explanatory.
+
+## Automating the deployment with GitHub Actions
+
+In the [`infrastructure/stage/website/main-s3.tf`](https://github.com/KXLAA/cloud-resume/blob/main/infrastructure/stage/website/main-s3.tf#L117-L125) file we have a `aws_s3_object` defined:
+
+```hcl
+  resource "aws_s3_object" "main_s3_bucket_files" {
+    //copy all files and folders in the dist folder in the root of the project
+    for_each     = fileset(local.build_dir, "**/*")
+    bucket       = aws_s3_bucket.main_s3_bucket.id
+    source       = "${local.build_dir}/${each.value}"
+    key          = each.value
+    source_hash  = filemd5("${local.build_dir}/${each.value}")
+    content_type = lookup(local.content_types, regex("\\.[^.]+$", each.value), null)
+  }
+```
+
+This essentially links to the local build directory and uploads all my assets to the S3 bucket every time I run terraform apply in my terminal. I decided to automate this using Github Actions.
+
+Essentially, what I want is for any infrastructure changes to be automatically applied every time there is a merge to the main branch. This will ensure that our deployed site is updated.
+
+You can find the GitHub Action workflow that achieves [here](https://github.com/KXLAA/cloud-resume/blob/main/.github/workflows/ci.yml). These actions make use of the following secrets:
+
+<Image
+  src="/articles/building-and-deploying-the-frontend-of-the-cloud-resume/repo-secretes.png"
+  alt="github-secrets.png"
+  width={1000}
+  height={720}
+/>
+
+This workflow includes several automated steps that are executed for every pull request:
+
+- Build the static site.
+
+- Set up Terraform and the AWS CLI.
+
+- Run `terraform fmt -check`, `terraform validate`, and `terraform plan` for each pull request. The GitHub API is used to add a comment to the pull request, including the output of `terraform plan`.
+
+- When pushing to the main branch, we execute `terraform apply` to apply any changes to the resources. Additionally, we clear the CloudFront cache to prevent outdated data.
+
+One annoying thing that left with my current setup is AWS credentials rotation. Since we are using SSO, the AWS credentials have a short lifespan and expire approximately every 24 hours. Currently, I manually replace the credentials when they expire. But, I could definitely automate this process.
+
+## Concluding Thoughts
+
+I thoroughly enjoyed this part of the challenge, and it came at the right time too. At work, I had to provision some Terraform resources for an internal tool I was working on.
+
+Completing this part of the challenge served as a good primer and made the task at work less daunting. Production Terraform code can be a bit more complex due to the need to support different environments and tenants, resulting in a lot folders.
+
+In the next part of the series, we will focus on the backend development. I will build a visitor counter and a serverless API to store the number of visitors. This will involve working with AWS Lambda, DynamoDB, and API Gateway.
+
+Thank you for reading, and I'll catch you in the next article.
