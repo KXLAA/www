@@ -92,7 +92,7 @@ function SeriesArticle(props: SeriesArticleProps) {
 const seriesArticle = tv({
   slots: {
     wrapper:
-      "flex items-center gap-2 p-2.5  border-b border-gray-6 last:border-b-0 hover:bg-gray-2 transition-all text-gray-10 hover:text-gray-11",
+      "text-left flex items-center gap-2 p-2.5  border-b border-gray-6 last:border-b-0 hover:bg-gray-2 transition-all text-gray-10 hover:text-gray-11",
     orderNumber:
       "text-base bg-gray-2 shrink-0 flex items-center justify-center w-6 h-6 border border-gray-6 rounded-full font-black",
     title: "font-semibold text-base",
@@ -101,7 +101,7 @@ const seriesArticle = tv({
     isCurrent: {
       true: {
         wrapper: "bg-gray-1 hover:bg-gray-1",
-        title: "text-gray-12 underline underline-offset-2",
+        title: "text-gray-12 underline underline-offset-2 decoration-green-10",
         orderNumber: "text-gray-12 border-gray-8",
       },
     },
