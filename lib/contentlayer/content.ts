@@ -97,3 +97,10 @@ export function getPublishedUIs() {
 
 export type PartialArticle = ReturnType<typeof getPartialArticles>;
 export type PartialSeries = ReturnType<typeof generateSeries>;
+export type PartialUI = ReturnType<typeof getPartialUIs>;
+
+export const content = {
+  ui: getPublishedUIs(),
+  articles: getPublishedArticles(),
+  notes: getPublishedNotes(),
+};

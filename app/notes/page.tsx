@@ -16,7 +16,7 @@ export default function NotesPage() {
     <MainLayout>
       <NextLink href="/">
         <BlurImage
-          src="/common/kola-memoji-gasp.png"
+          src="/common/kola-memoji-nervous.png"
           alt="Kola's profile picture"
           width="100"
           height="100"
