@@ -1,6 +1,12 @@
 import { compareDesc } from "date-fns";
 
-import { allArticles, Article, Series } from "@/contentlayer/generated";
+import {
+  allArticles,
+  Article,
+  Series,
+  allUIs,
+  UI,
+} from "@/contentlayer/generated";
 
 export function getPartialArticles(article: Article) {
   return {
@@ -17,8 +23,22 @@ export function getPartialArticles(article: Article) {
     headings: article.headings,
     series: generateSeries(article.series, article.slug),
     readingTime: article.readingTime,
-    tags: article.tags,
+    tags: article.tags || [],
     lastUpdatedAt: article.lastUpdatedAt,
+  };
+}
+
+export function getPartialUIs(ui: UI) {
+  return {
+    title: ui.title,
+    og: ui.og,
+    slug: ui.slug,
+    publishedAt: ui.publishedAt,
+    description: ui.description,
+    body: {
+      code: ui.body.code,
+    },
+    tags: ui.tags || [],
   };
 }
 
@@ -69,6 +89,10 @@ export function getPublishedNotes() {
   return getPublished(allArticles)
     .map(getPartialArticles)
     .filter((a) => a.articleType === "note");
+}
+
+export function getPublishedUIs() {
+  return getPublished(allUIs).map(getPartialUIs);
 }
 
 export type PartialArticle = ReturnType<typeof getPartialArticles>;

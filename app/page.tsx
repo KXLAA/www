@@ -3,11 +3,13 @@ import { MainLayout } from "@/components/layout";
 import {
   getPublishedArticles,
   getPublishedNotes,
+  getPublishedUIs,
 } from "@/lib/contentlayer/content";
 import { BlurImage } from "@/components/blur-image";
 
 const allArticles = getPublishedArticles();
 const allNotes = getPublishedNotes();
+const allUIs = getPublishedUIs();
 
 export default function Home() {
   return (
@@ -66,12 +68,7 @@ export default function Home() {
               {allNotes.slice(0, 3).map((note) => {
                 return (
                   <li key={note.slug} className="cursor-pointer">
-                    <Link
-                      href={`/notes/${note.slug}`}
-                      className="underline decoration-dashed underline-offset-4 decoration-green-9 "
-                    >
-                      {note.title}
-                    </Link>
+                    <Link href={`/notes/${note.slug}`}>{note.title}</Link>
                   </li>
                 );
               })}
@@ -83,31 +80,28 @@ export default function Home() {
           </div>
         )}
 
-        {/* <div className="flex flex-col gap-8">
-          <p>
-            I love remaking cool UI interactions & elements I come across on the
-            web. Here are some of my most recent experiments:
-          </p>
+        {allUIs.length > 0 && (
+          <div className="flex flex-col gap-8">
+            <p>
+              I love remaking cool UI interactions & elements I come across on
+              the web. Here are some of my most recent experiments:
+            </p>
 
-          <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
-            {allNotes.slice(0, 3).map((note) => {
-              return (
-                <li key={note.slug} className="cursor-pointer">
-                  <Link
-                    href={`/notes/${note.slug}`}
-                    className="underline decoration-dashed underline-offset-4 decoration-green-9 "
-                  >
-                    {note.title}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+            <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
+              {allUIs.slice(0, 3).map((ui) => {
+                return (
+                  <li key={ui.slug} className="cursor-pointer">
+                    <Link href={`/notes/${ui.slug}`}>{ui.title}</Link>
+                  </li>
+                );
+              })}
+            </ul>
 
-          <Link href="/notes" className="text-xl md:text-2xl text-gray-11">
-            View all
-          </Link>
-        </div> */}
+            <Link href="/ui" className="text-xl md:text-2xl text-gray-11">
+              View all
+            </Link>
+          </div>
+        )}
 
         <div>
           <p>
