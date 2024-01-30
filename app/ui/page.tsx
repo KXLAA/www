@@ -37,7 +37,7 @@ export default function UIPage() {
               {ui.publishedAt}
             </span>
 
-            <Link href={`/notes/${ui.slug}`}>{ui.title} </Link>
+            <Link href={`/ui/${ui.slug}`}>{ui.title} </Link>
 
             <div className="flex gap-2">
               {ui?.tags?.map((tag) => (

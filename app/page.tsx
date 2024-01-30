@@ -83,7 +83,7 @@ export default function Home() {
               {ui.slice(0, 3).map((item) => {
                 return (
                   <li key={item.slug} className="cursor-pointer">
-                    <Link href={`/notes/${item.slug}`}>{item.title}</Link>
+                    <Link href={`/ui/${item.slug}`}>{item.title}</Link>
                   </li>
                 );
               })}
