@@ -1,6 +1,6 @@
 import { Link } from "@/components/anchor";
 import { MainLayout } from "@/components/layout";
-import { getPublishedArticles } from "@/lib/contentlayer";
+import { getPublishedArticles } from "@/lib/contentlayer/content";
 import { BlurImage } from "@/components/blur-image";
 import NextLink from "next/link";
 
@@ -18,8 +18,8 @@ export default function ArticlesPage() {
         <BlurImage
           src="/common/kola-memoji-cursing.png"
           alt="Kola's profile picture"
-          width="100"
-          height="100"
+          width={150}
+          height={150}
         />
       </NextLink>
 

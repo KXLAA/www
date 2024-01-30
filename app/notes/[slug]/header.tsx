@@ -1,5 +1,5 @@
 import { BreadCrumb } from "@/components/bread-crumb";
-import { PartialArticle } from "@/lib/contentlayer";
+import { PartialArticle } from "@/lib/contentlayer/content";
 
 type Props = {
   note: PartialArticle;

@@ -6,7 +6,7 @@ import Link from "next/link";
 import React from "react";
 import { tv } from "tailwind-variants";
 
-import { PartialArticle } from "@/lib/contentlayer";
+import { PartialArticle } from "@/lib/contentlayer/content";
 import { cx } from "@/lib/cx";
 
 type Props = {

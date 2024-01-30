@@ -1,11 +1,12 @@
 import { makeSource } from "contentlayer/source-files";
 
-import { CONTENT_DIR_PATH } from "./content/defs/_shared";
-import { Article } from "./content/defs/article";
-import { Project } from "./content/defs/project";
+import { CONTENT_DIR_PATH } from "./lib/contentlayer/definitions/_shared";
+import { Article } from "./lib/contentlayer/definitions/article";
+import { Project } from "./lib/contentlayer/definitions/project";
+import { UI } from "./lib/contentlayer/definitions/ui";
 
 export default makeSource({
   contentDirPath: CONTENT_DIR_PATH,
-  documentTypes: [Project, Article],
+  documentTypes: [Project, Article, UI],
   mdx: {},
 });

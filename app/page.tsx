@@ -1,10 +1,9 @@
 import { Anchor, Link } from "@/components/anchor";
 import { MainLayout } from "@/components/layout";
-import { getPublishedArticles, getPublishedNotes } from "@/lib/contentlayer";
+import { content } from "@/lib/contentlayer/content";
 import { BlurImage } from "@/components/blur-image";
 
-const allArticles = getPublishedArticles();
-const allNotes = getPublishedNotes();
+const { ui, notes, articles } = content;
 
 export default function Home() {
   return (
@@ -13,22 +12,21 @@ export default function Home() {
         <BlurImage
           src="/common/kola-memoji-wink.png"
           alt="Kola's profile picture"
-          width={100}
-          height={100}
+          width={150}
+          height={150}
         />
         <div className="w-full flex flex-col gap-1 md:gap-3">
-          <p>
-            Hi! {`I'm`} Kola. {`I'm`} a software engineer based in London, UK.
-          </p>
+          <p>Hi! {`I'm`} Kola, a software engineer based in London, UK.</p>
         </div>
 
         <p>
-          Currently, I am employed at{" "}
+          I am currently employed at{" "}
           <Anchor name="Starling Bank" href="https://www.starlingbank.com/">
             Starling Bank
           </Anchor>{" "}
-          , where I work on the Online Bank & on internal tools to assist
-          engineers build and ship features more efficiently and quickly.
+          , where I work on the Online Bank & on internal tools that assist
+          engineers in building and shipping features more efficiently and
+          quickly.
         </p>
 
         <div className="flex flex-col gap-8">
@@ -37,7 +35,7 @@ export default function Home() {
             interest me. Here is a list of my recent blog posts:
           </p>
           <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
-            {allArticles.slice(0, 3).map((article) => {
+            {articles.slice(0, 3).map((article) => {
               return (
                 <li key={article.slug}>
                   <Link href={`/articles/${article.slug}`}>
@@ -52,29 +50,45 @@ export default function Home() {
           </Link>
         </div>
 
-        {allNotes.length > 0 && (
+        <div className="flex flex-col gap-8">
+          <p>
+            I write notes on the courses I take, the concepts I learn, and the
+            books I read. Here are some of my recently updated notes:
+          </p>
+
+          <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
+            {notes.slice(0, 3).map((note) => {
+              return (
+                <li key={note.slug} className="cursor-pointer">
+                  <Link href={`/notes/${note.slug}`}>{note.title}</Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          <Link href="/notes" className="text-xl md:text-2xl text-gray-11">
+            View all
+          </Link>
+        </div>
+
+        {ui.length > 0 && (
           <div className="flex flex-col gap-8">
             <p>
-              I write notes on the courses I take, the concepts I learn, and the
-              books I read. Here are some of my recently updated notes:
+              I love remaking cool UI interactions & elements I come across on
+              the web. Here are some of my most recent experiments:
             </p>
 
             <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
-              {allNotes.slice(0, 3).map((note) => {
+              {ui.slice(0, 3).map((item) => {
                 return (
-                  <li key={note.slug} className="cursor-pointer">
-                    <Link
-                      href={`/notes/${note.slug}`}
-                      className="underline decoration-dashed underline-offset-4 decoration-green-9 "
-                    >
-                      {note.title}
-                    </Link>
+                  <li key={item.slug} className="cursor-pointer">
+                    <Link href={`/ui/${item.slug}`}>{item.title}</Link>
                   </li>
                 );
               })}
             </ul>
 
-            <Link href="/notes" className="text-xl md:text-2xl text-gray-11">
+            <Link href="/ui" className="text-xl md:text-2xl text-gray-11">
               View all
             </Link>
           </div>

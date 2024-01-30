@@ -1,4 +1,4 @@
-import { getPublishedNotes } from "@/lib/contentlayer";
+import { getPublishedNotes } from "@/lib/contentlayer/content";
 import { getMDXComponent } from "next-contentlayer/hooks";
 import { notFound } from "next/navigation";
 import { NoteHeader } from "./header";
