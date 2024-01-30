@@ -16,8 +16,8 @@ export default function NotFoundPage() {
         <BlurImage
           src="/common/kola-memoji-scared.png"
           alt="Kola's profile picture"
-          width="150"
-          height="150"
+          width={150}
+          height={150}
         />
       </NextLink>
 

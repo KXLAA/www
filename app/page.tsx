@@ -12,22 +12,21 @@ export default function Home() {
         <BlurImage
           src="/common/kola-memoji-wink.png"
           alt="Kola's profile picture"
-          width={100}
-          height={100}
+          width={150}
+          height={150}
         />
         <div className="w-full flex flex-col gap-1 md:gap-3">
-          <p>
-            Hi! {`I'm`} Kola. {`I'm`} a software engineer based in London, UK.
-          </p>
+          <p>Hi! {`I'm`} Kola, a software engineer based in London, UK.</p>
         </div>
 
         <p>
-          Currently, I am employed at{" "}
+          I am currently employed at{" "}
           <Anchor name="Starling Bank" href="https://www.starlingbank.com/">
             Starling Bank
           </Anchor>{" "}
-          , where I work on the Online Bank & on internal tools to assist
-          engineers build and ship features more efficiently and quickly.
+          , where I work on the Online Bank & on internal tools that assist
+          engineers in building and shipping features more efficiently and
+          quickly.
         </p>
 
         <div className="flex flex-col gap-8">

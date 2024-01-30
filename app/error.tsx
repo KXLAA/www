@@ -22,8 +22,8 @@ export default function Error({ error, reset }: Props) {
         <BlurImage
           src="/common/kola-memoji-peeking.png"
           alt="Kola's profile picture"
-          width="150"
-          height="150"
+          width={150}
+          height={150}
         />
       </NextLink>
 

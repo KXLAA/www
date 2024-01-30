@@ -18,8 +18,8 @@ export default function NotesPage() {
         <BlurImage
           src="/common/kola-memoji-nervous.png"
           alt="Kola's profile picture"
-          width="100"
-          height="100"
+          width={150}
+          height={150}
         />
       </NextLink>
 
