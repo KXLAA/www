@@ -7,14 +7,17 @@ export default function ArcBrowserSplitMode() {
 
           <div className="flex gap-2">
             {[1, 2, 3, 4].map((i) => (
-              <div className="bg-gray-3 aspect-square w-full rounded shadow"></div>
+              <div
+                key={i}
+                className="bg-gray-3 aspect-square w-full rounded shadow"
+              ></div>
             ))}
           </div>
         </div>
 
         <div className="flex flex-col gap-2">
           {[1, 2, 3, 4].map((i) => (
-            <div className="bg-gray-3 h-8 w-full rounded"></div>
+            <div key={i} className="bg-gray-3 h-8 w-full rounded"></div>
           ))}
         </div>
       </div>
