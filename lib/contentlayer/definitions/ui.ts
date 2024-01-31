@@ -1,6 +1,6 @@
 import { defineDocumentType } from "contentlayer/source-files";
 import { format } from "date-fns";
-import { getSlug } from "./_shared";
+import { getLastEditedDate, getSlug } from "./_shared";
 
 export const UI = defineDocumentType(() => ({
   name: "UI",
@@ -22,6 +22,10 @@ export const UI = defineDocumentType(() => ({
     publishedAt: {
       type: "string",
       resolve: (doc) => format(new Date(doc.publishedAt), "MMMM d, yyyy"),
+    },
+    lastUpdatedAt: {
+      type: "string",
+      resolve: (doc) => getLastEditedDate(doc),
     },
     slug: {
       type: "string",

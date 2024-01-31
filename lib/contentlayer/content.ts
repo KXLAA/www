@@ -66,7 +66,7 @@ function generateSeries(series?: Series, slug = "") {
   };
 }
 
-function getPublished<T extends { status: string; publishedAt: string }>(
+function getPublished<T extends { status: string; lastUpdatedAt: string }>(
   docsList: T[]
 ) {
   const docs =
@@ -75,7 +75,7 @@ function getPublished<T extends { status: string; publishedAt: string }>(
       : docsList.filter((a) => a.status === "published");
 
   return docs.sort((a, b) =>
-    compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
+    compareDesc(new Date(a.lastUpdatedAt), new Date(b.lastUpdatedAt))
   );
 }
 
