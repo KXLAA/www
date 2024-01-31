@@ -66,7 +66,7 @@ function generateSeries(series?: Series, slug = "") {
   };
 }
 
-function getPublished<T extends { status: string; lastUpdatedAt: string }>(
+function getPublished<T extends { status: string; publishedAt: string }>(
   docsList: T[]
 ) {
   const docs =
@@ -74,20 +74,24 @@ function getPublished<T extends { status: string; lastUpdatedAt: string }>(
       ? docsList
       : docsList.filter((a) => a.status === "published");
 
-  return docs.sort((a, b) =>
-    compareDesc(new Date(a.lastUpdatedAt), new Date(b.lastUpdatedAt))
-  );
+  return docs;
 }
 
 export function getPublishedArticles() {
   return getPublished(allArticles)
     .map(getPartialArticles)
+    .sort((a, b) =>
+      compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
+    )
     .filter((a) => a.articleType === "article");
 }
 
 export function getPublishedNotes() {
   return getPublished(allArticles)
     .map(getPartialArticles)
+    .sort((a, b) =>
+      compareDesc(new Date(a.lastUpdatedAt), new Date(b.lastUpdatedAt))
+    )
     .filter((a) => a.articleType === "note");
 }
 
