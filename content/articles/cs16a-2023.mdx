@@ -11,127 +11,428 @@ status: "published"
 These are my notes & solutions to the homeworks and labs for the course [CS61A 2023](https://inst.eecs.berkeley.edu/~cs61a/fa23/) - The Structure & Interpretation of Computer Programs.
 
 <ToggleHeading>
-<ToggleHeadingTitle>
-## Week 1 - Functions
-</ToggleHeadingTitle>
+    <ToggleHeadingTitle>
+        ## Week 1 - Functions
+    </ToggleHeadingTitle>
 
-<ToggleHeadingContent>
+    <ToggleHeadingContent>
+        In programming we deal with two kind of elements - functions & data. Functions are the rules we use to manipulate data. A powerful programming language provides three key ways to do this:
 
-    In programming we deal with two kind of elements - functions & data. Functions are the rules we use to manipulate data. A powerful programming language provides three key ways to do this:
+        - **primitive expressions** - The **data types** which are the basic building blocks that language provides
+        - a means of **combination** - where **primitive expressions** can be combined into **compound expressions**
+        - a means of **abstraction** -where **compound expressions** can be **named** and manipulated as units
 
-    - **primitive expressions** - The **data types** which are the basic building blocks that language provides
-    - a means of **combination** - where **primitive expressions** can be combined into **compound expressions**
-    - a means of **abstraction** -where **compound expressions** can be **named** and manipulated as units
+        ### Primitive expressions in Python
 
-    ### Primitive expressions in Python
+        A number is an example of a primitive expression:
 
-    A number is an example of a primitive expression:
+        ```python
+        42
+        42
+        ```
 
-    ```python
-    >>> 42
-    42
-    ```
+        We can combine numbers together with **operators** to form a **compound expression** which is evaluated:
 
-    We can combine numbers together with **operators** to form a **compound expression** which is evaluated:
+        ```python
+        1/2 + 1/4 + 1/8 + 1/16 + 1/32 + 1/64 + 1/128
 
-    ```python
-    >>> 1/2 + 1/4 + 1/8 + 1/16 + 1/32 + 1/64 + 1/128
+        0.9921875
+        ```
 
-    0.9921875
-    ```
+        They are called expressions because they **return a usable output value**. The output of typing `42` into the python console is `42` .
 
-    They are called expressions because they **return a usable output value**. The output of typing `42` into the python console is `42` .
+        ### Call Expressions
 
-    ### Call Expressions
+        Call expressions apply functions to arguments. A function is a mapping from some input arguments to an output value.
 
-    Call expressions apply functions to arguments. A function is a mapping from some input arguments to an output value.
+        Rather than using operators we can use functions to create compound expressions. For example `add(10, 2)` does the same thing as `10 + 2`, but with different form.
 
-    Rather than using operators we can use functions to create compound expressions. For example `add(10, 2)` does the same thing as `10 + 2`, but with different form.
+        Compared to using operators like we did above, using a function has some benefits.
 
-    Compared to using operators like we did above, using a function has some benefits.
+        A function may take an arbitrary number of arguments:
 
-    A function may take an arbitrary number of arguments:
+        ```python
+        max(1, 4, 56)
 
-    ```python
-    >>> max(1, 4, 56)
+        56
+        ```
 
-    56
-    ```
+        Functions are more clear since the function name (the operator) always precedes the operands (the arguments) and the arguments are always wrapped in parentheses.
 
-    Functions are more clear since the function name (the operator) always precedes the operands (the arguments) and the arguments are always wrapped in parentheses.
+        This is especially true when you nest functions - where the arguments of a given function are the results of other functions:
 
-    This is especially true when you nest functions - where the arguments of a given function are the results of other functions:
+        ```python
+        max(min(1, -2), min(pow(3, 5), -4))
 
-    ```python
-    >>> max(min(1, -2), min(pow(3, 5), -4))
+        -2
+        ```
 
-    -2
-    ```
+        Why are these important benefits ? - functions compared to using expressions are more re-useable.
 
-    Why are these important benefits ? - functions compared to using expressions are more re-useable.
+        Instead of typing out a complex compound expression with all the operations it needs - you can just extract it to a function and call the function wherever you need.
 
-    Instead of typing out a complex compound expression with all the operations it needs everything you need - you can just extract it to a function and call the function wherever you need.
+        <u>__How are call expressions evaluated applied or called ?__</u>
+        ```python
+        max(7.5, 9.5)
+        9.5
+        ```
+        - **max** is the operator, the name
+        - `7.5` & `9.5` are operands - operands are the arguments to the function, they can also be functions themselves. These are the inputs to the function.
+        - The arguments if they are functions are evaluated before the operator is applied
 
-    <u>__How are call expressions evaluated applied or called ?__</u>
-    ```python
-    >>> max(7.5, 9.5)
-    9.5
-    ```
-    - **max** is the operator, the name
-    - `7.5` & `9.5` are operands - operands are the arguments to the function, they can also be functions themselves. These are the inputs to the function.
-    - The arguments if they are functions are evaluated before the operator is applied
+        ### Names & the Environment
 
-    ### Names & the Environment
+        A name is the simplest means of **abstraction**. We can give functions and expressions names.
 
-    A name is the simplest means of **abstraction**. We can give functions and expressions names.
+        With expressions these names are called variables and we create them using the **assignment statement**, which contains a name to the left of  **`=`** (the assignment operator) and a value to the right:
+        ```python
+        radius = 10
+        radius
+        10
+        >>> 2 * radius
+        20
 
-    With expressions these names are called variables and we create them using the **assignment statement**, which contains a name to the left of  **`=`** (the assignment operator) and a value to the right:
-    ```python
-    >>> radius = 10
-    >>> radius
-    10
-    >>> 2 * radius
-    20
+        area, circumfrence  = pi * radius, 2 * pi * radius
+        ```
 
-    area, circumfrence  = pi * radius, 2 * pi * radius
-    ```
-
-    Assignment is a very simple for of **abstraction** as it allows us to refer to the results of compound operations. The **Environment** is responsible for keeping track of names, values, and bindings. It acts as the memory that remembers the names we assign to things in our program.
-
-
-    <u>__How are assignment expressions evaluated ?__</u>
-    - It evaluates all the expressions to the right of `=` from left to right
-    - After evaluation the expressions - it binds all the names to the left of `=` to the resulting values in the current frame.
-
-    ```python
-    a = 1
-    b = 2
-
-    b, a = a + b, b
-    ```
-
-    ### Pure vs Non-Pure Functions
-    **Pure functions** are functions that simply takes an input (their arguments) and returns a result (The Output). These functions **have no side effects when they are applied** - this means that the only thing they do is return the same output when called with the same arguments.
-
-    ```python
-    >>> max(2, 20)
-    20
-    ```
-
-    Pure functions are easier to test as its simply inputs & outputs,  can be composed more reliably into compound expressions and are essential when writing concurrent programs where multiple functions may be evaluated simultaneously.
-
-    Pure functions are easier to test as its simply inputs & outputs,  can be composed more reliably into compound expressions and are essential when writing concurrent programs where multiple functions may be evaluated simultaneously.
-
-    ```python
-    >>> print(print(1), print(2))
-
-    1
-    2
-    None None
-    ```
-    The return value of print is `None` , while `1` & `2` are the side effects that print produced.
+        Assignment is a very simple for of **abstraction** as it allows us to refer to the results of compound operations. The **Environment** is responsible for keeping track of names, values, and bindings. It acts as the memory that remembers the names we assign to things in our program.
 
 
+        <u>__How are assignment expressions evaluated ?__</u>
+        - It evaluates all the expressions to the right of `=` from left to right
+        - After evaluation the expressions - it binds all the names to the left of `=` to the resulting values in the current frame.
+
+        ```python
+        a = 1
+        b = 2
+
+        b, a = a + b, b
+        ```
+
+        ### Pure vs Non-Pure Functions
+        **Pure functions** are functions that simply takes an input (their arguments) and returns a result (The Output). These functions **have no side effects when they are applied** - this means that the only thing they do is return the same output when called with the same arguments.
+
+        ```python
+        max(2, 20)
+        20
+        ```
+
+        Pure functions are easier to test as its simply inputs & outputs,  can be composed more reliably into compound expressions and are essential when writing concurrent programs where multiple functions may be evaluated simultaneously.
+
+        Pure functions are easier to test as its simply inputs & outputs,  can be composed more reliably into compound expressions and are essential when writing concurrent programs where multiple functions may be evaluated simultaneously.
+
+        ```python
+        print(print(1), print(2))
+
+        1
+        2
+        None None
+        ```
+        The return value of print is `None` , while `1` & `2` are the side effects that print produced.
+
+        ### Defining New Functions
+        We can bind names to functions via user-defined function definitions. User-defined functions are functions not built into the interpreter  like `max` or imported like `add`. A function definition in python looks like this:
+
+        ```python
+        def square(x):
+            return mul(x, x)
+        ```
+        - `def` is a reserved word that tells the interpreter that we are defining a function
+        - `square` is the name of the function
+        - `x` is a formal parameter or parameter
+
+        The return statement of the function is evaluated when it is called - not when it is defined right away. No matter how many times the function is called - the return statement will be re-evaluated.
+
+        Defining functions (bounding names to functions) allow us to use compound operations as building blocks in other functions, we could use square within another function:
+        ```python
+        def sum_squares(x, y):
+            return add(square(x), square(y))
+
+        sum_squares(3, 4)
+        25
+        ```
+
+        ### Function Definitions & Environments
+        How do user-defined functions change our understanding of environments ?
+
+        - What happens when a parameter has the same name as a built in function ?
+        - Can two functions share names without confusion?
+
+        To answer these questions - it helps to think of Environments as a sequence of frames depicted as boxes — each box contains all the name and value pairs.
+
+        We can think of an environemnt like a two column table where the first column contains the names and the second column contains the corresponding values which are bound to the names:
+
+        For example take these lines of code:
+
+        ```python
+        from math import pi
+
+        tau = 2 * pi
+        ```
+        The corresponding frame will look something like this:
+
+        <table>
+        <tr>
+        <th>Names</th>
+        <th>Values</th>
+        </tr>
+        <tr>
+        <td>pi</td>
+        <td>3.141592653589793</td>
+        </tr>
+        <tr>
+        <td>tau</td>
+        <td>6.283185307179586</td>
+        </tr>
+        </table>
+
+        There is one global frame - this holds all the assignments & import statements of the current environment.
+
+        However when a user defined function is called - a second local frame is created in the environment which is only accessible to that function - each instance of a function call has its own independent local frame. In this local frame:
+
+        - The functions arguments are bound to the functions parameters — think of it as giving the  the parameter variable a value
+        - The function body is executed
+
+        So when a function is called - we have two frames:
+        - The global frame where the function definition and other assignments are;
+        - The Functions local frame, that contains parameter bindings — Each instance of a function application has its own local frame independent from other functions
+
+        Depending on how many functions we call - we can have just as many frames - especially if we have nested functions.
+
+
+        Fundamentally — Names are bound to values, which are distributed across many independent local frames, along with a single global frame that contains shared names. A new local frame is introduced every time a function is called, even if the same function is called twice.
+
+        All these steps ensures that names resolve to the correct values at the correct time during program execution. This is what allows these functions to have the same behaviour:
+
+        ```python
+        def square(x):
+            return mul(x, x)
+
+        def square(y):
+            return mul(y, y)
+        ```
+
+        As the scope of a local name is limited to the body of the user-defined function that defines it - the binding for x or y in different local frames are unrelated.
+
+
+        ### Functions as abstractions
+        Fundamentally functions are abstractions - Function definitions should be able to suppress details - we do not need to know exactly how a function is implemented to use it. This is Functional Abstraction.
+
+        In functional abstraction we consider three things
+
+        - The **domain** of a function - which is the set of arguments it can take
+        - The **range** of the function - which is the set of values it can return
+        - The **intent** of the function - which is the relationship between inputs & outputs and any side effects it might generate.
+    </ToggleHeadingContent>
+
+</ToggleHeading>
+
+<ToggleHeading>
+    <ToggleHeadingTitle>
+        ## Week 2 - Control, Higher-order functions & environments
+    </ToggleHeadingTitle>
+
+    <ToggleHeadingContent>
+        Control statements give us the ability to make comparisons and preform different tasks based on the results of those comparisons.
+
+        A control statement is a statement and unlike expressions evaluating a statement does not produce a value.
+
+        Some other examples of statements in python are the `def` & `return` statements. Each statement describes a change to the state of the interpreter and executing that statement applies that change. The job of the python interpreter is to execute programs, composed of statements - **Statements govern the relationship among different expressions in a program and what happens to their results**.
+
+        Statements are executed in order (i.e top - bottom) - however multi-line statements may redirect control flow - as such later statements may never be reached.
+
+        ### Conditional statements - Selecting which statements to execute
+
+        We can implement our own version of the inbuilt `abs` function using conditional statements:
+
+        ```python
+        def absolutee_value(x):
+            """Compute abs(x)."""
+            if x > 0:
+                return x
+            elif x === 0:
+                return 0
+            else:
+                return -x
+
+        result = absolutee_value(-2)
+        ```
+
+        When the conditional statements are executed - each clause (the lines that end in semicolons `:`) is considered in order.
+
+        These clauses are called conditional expressions - they evaluate to a either a truthy value (`True`, a non-zero integer, etc.) or a falsy value (`False`, `0`, `None`, `""`, `[]`, etc.).
+
+        If the result of that evaluation is a true value, the suite (which is everything after the semicolons) is executed. All other subsequent clauses in the conditional statement are then skipped.
+
+        `else` can be seen as a catchall - this line will only be reached & its suite executed when all other `if` & `elif` expressions evaluate to false values.
+
+       <div className='mb-4'> **Boolean Operators**</div>
+        Python includes a couple of boolean operators - and, not, or used to combine and manipulate boolean values:
+
+        ```python
+        not None
+        True
+
+        not True
+        False
+
+        -1 and 0 and 1
+        0
+        ```
+
+        ### Iteration - Expressing repetition
+        We can use iterative control structures to execute a statement many times. One of such structures is a `while` statement:
+
+        ```python
+        def fib(n):
+            """Compute the nth Fibonacci number, for n >=2"""
+            pred, curr = 0, 1
+
+            k = 2
+
+            while k < n:
+                pred, curr = curr, pred + curr
+                k = k + 1
+
+            return curr
+
+        result = fib(8)
+        ```
+
+        When a while clause is executed its header expression (while `<expression>`:) is evaluated - if it is a true value the entire suite is executed and we return back to the header expression for evaluation.
+
+        In order top prevent this process from going on indefinitely (infinite loop), the suite should always change some binding in each pass.
+
+
+        ## Higher Order Functions
+        Higher order function are functions that manipulate other functions - they either **accept functions as arguments** or **return functions as values**.
+
+        ### Functions as arguments
+        The functions below, although they do different things, share a common underlying pattern:
+
+        ```python
+        def sum_naturals(n):
+            total, k = 0, 1
+            while k <= n:
+                total, k = total + k, k + 1
+            return total
+
+        def sum_cubes(n):
+            total, k = 0, 1
+                while k <= n:
+                    total, k = total + k*k*k, k + 1
+                return total
+        ```
+
+        The only difference is the name and the function of `k` used to compute the term to be added - we can **express the underlying pattern more generally** as a summation of terms:
+
+        ```python
+        def sumation(n, term):
+            total, k = 0, 1
+                while k <= n:
+                total, k = total + term(k), k + 1
+            return total
+
+        def cube(x):
+            return x*x*x
+
+        def sum_cubes(n):
+            return sumation(n, cube)
+
+        result = sum_cubes(3)
+        ```
+
+        `summation` is an example of a higher order function - it takes in a function `term` as one of its parameters and uses that function within its body to carray out calculations.
+
+         This is an example of abstraction - The `summation` function expresses the concept of summation itself rater than only functions that compute particular sums like  `sum_naturals` or `sum_cubes`.
+
+         How does this idea of higher-order function affect our environment model for evaluation for functions ? - it applies gracefully without change.
+
+         When a  function is called with some arguments, the functions parameters are bound to the values of those arguments (which may be functions) in a new local frame.
+
+         ### Nested Functions
+
+        We can also nest functions, we can do this to reduce the cluttering the global frame with small functions or avoiding function signature constraints:
+        ```python
+            def improve(update, close, guess =1):
+                while not close(guess):
+                    guess = update(guess)
+                return guess
+
+
+            def average(x, y):
+                return (x + y)/2
+
+            def sqrt_update(x, a):
+                    return average(x, a/x)
+
+            def sqrt(a):
+                def sqrt_update(x):
+                    return average(x, a/x)
+                def sqrt_close(x):
+                    return approx_eq(x * x, a)
+
+                return improve(sqrt_update, sqrt_close)
+        ```
+
+        Like local assignment, local `def` statements only affect the current local frame -  These functions are only in scope while `sqrt` is being evaluated.
+
+        These nested functions are also **lexically scoped** - They have access the variables & bindings inside the function (or scope) they are defined (not called).  In the example above `sqrt_update` & `sqrt_close` will both have access to any variables & bindings made in the `sqrt` function.
+
+        The `sqrt` function in this example is the parent - with the **parents environment** - when a local function (`sqrt_update`) is called - **its local frame extends its parents environment**. Local functions are functions defined and used within another parent function.
+
+        Local functions like the `sqrt_update` function carries with it some data: the value for **a** referenced in the environment (the `sqrt` functions environment) in which it was defined.
+
+        Because they "enclose" information in this way, locally defined functions are often called *closures*.
+
+        ### Functions as returned values
+
+        Locally defined functions maintain their parent environment when they are returned, we can see this in action by considering an example of composing functions:
+
+        ```python
+        def compose1(f, g):
+            def h(x):
+                return f(g(x))
+        return h
+
+        def square(x):
+            return x * x
+
+        def successor(x):
+            return x + 1
+
+        square_successor = compose1(square, successor)
+        result = square_successor(12)
+        ```
+
+        ### Currying
+
+        We can use higher-order functions to convert a function that takes multiple arguments into a chain of functions that each take a single argument:
+
+        ```python
+        def curried_pow(x):
+            def h(y):
+            return pow(x, y)
+        return h
+
+        curried_pow(2)(3)
+        ```
+
+        This is called **currying** - This is useful when we require a function that takes only a single argument like the `map` function that applies a single-argument function to a sequence of values:
+        ```python
+        def curried_pow(x):
+            def h(y):
+                return pow(x, y)
+            return h
+
+        def map_to_range(start, end, f):
+            while start < end:
+                print(f(start))
+                start = start + 1
+
+        map_to_range(0, 10, curried_pow(2))
+        ```
+        Currying here allows us to use the same two functions to compute powers of other numbers without writing a specific function for each number whose powers we wish to compute.
     </ToggleHeadingContent>
 
 </ToggleHeading>
