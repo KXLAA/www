@@ -28,7 +28,7 @@ export default function NotesPage() {
         return (
           <div key={note.slug} className="flex flex-col gap-2">
             <span className="text-gray-10 text-lg md:text-xl font-semibold">
-              {note.publishedAt}
+              {note.lastUpdatedAt}
             </span>
 
             <Link href={`/notes/${note.slug}`}>{note.title} </Link>
