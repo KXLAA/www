@@ -1,0 +1,290 @@
+---
+title: "Yes , I would use Redux in 2024"
+publishedAt: "2024-3-8"
+description: "Redux is still a vaild choice for react state management"
+tags: ["redux", "react", "state management"]
+articleType: "article"
+og: "https://ucarecdn.com/2cf34f69-bcf8-4344-9bd2-4d38de6597f8/yesiwouldusereduxin2024.png"
+status: "published"
+---
+
+Nowadays, it seems like Redux has become a meme about the complexity of modern web development. Although I can somewhat relate to these memes, I don't believe that Redux, in its current form, is as complex as folks make it out to be.
+
+I spent a few months at work modernising a legacy Redux codebase (circa 2015) using Redux Tool Kit (RTK) and RTK query. So far, the switch to modern Redux has greatly significantly streamlined the development of new features that rely on global client or server state, thanks to the useful tools provided by modern Redux.
+
+In this post, I'd like to discuss some of the features of modern Redux that can simplify the management of complex client-side or server-side state. Hopefully, this will convince you to consider Redux as a viable option for your project.
+
+## The Good
+
+### Client & Server State management in one
+
+If you have experience with earlier versions of Redux, you might have found it complex and a bit tedious. It required understanding several concepts (like immutability, reducers, action creators, action type constants, selectors, and thunks) and setting up a ton of boilerplate code.
+
+Consider this example taken directly from the Redux documentation:
+
+```js
+const ADD_TODO = "ADD_TODO";
+const TODO_TOGGLED = "TODO_TOGGLED";
+
+export const addTodo = (text) => ({
+  type: ADD_TODO,
+  payload: { text, id: nanoid() },
+});
+
+export const todoToggled = (id) => ({
+  type: TODO_TOGGLED,
+  payload: { id },
+});
+
+export const todosReducer = (state = [], action) => {
+  switch (action.type) {
+    case ADD_TODO:
+      return state.concat({
+        id: action.payload.id,
+        text: action.payload.text,
+        completed: false,
+      });
+    case TODO_TOGGLED:
+      return state.map((todo) => {
+        if (todo.id !== action.payload.id) return todo;
+
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
+      });
+    default:
+      return state;
+  }
+};
+```
+
+And we had to do this for every piece of state we had in our application.
+
+This situation was exacerbated because Redux, with its inherent flexibility as a global store for application state, could be used to store both client and server-side state. These two states have very different considerations and requirements.
+
+Despite Redux offering flexible APIs to accommodate both scenarios, developers were left to build their own solutions using the existing API. As such, each project that used Redux was set up differently.
+
+This has all changed with the introduction of the `@reduxjs/toolkit` package. RTK maintains the flexibility of the core Redux module, while managing all the boilerplate and plumbing typically required to work with the Redux store:
+
+```js
+import { createSlice } from "@reduxjs/toolkit";
+
+const todosSlice = createSlice({
+  name: "todos",
+  initialState: [],
+  reducers: {
+    todoAdded(state, action) {
+      state.push({
+        id: action.payload.id,
+        text: action.payload.text,
+        completed: false,
+      });
+    },
+    todoToggled(state, action) {
+      const todo = state.find((todo) => todo.id === action.payload);
+      todo.completed = !todo.completed;
+    },
+  },
+});
+
+export const { todoAdded, todoToggled } = todosSlice.actions;
+export default todosSlice.reducer;
+```
+
+With RTK, we now have a streamlined method for declaring a store, creating state slices, and creating actions to update the sate. I know some folks are not fans of the whole reducer and action pattern, I personally appreciate it due to its predictability in updating state.
+
+What about the server-side state?
+
+RTK also provides a set of APIs in the `@reduxjs/toolkit/query` package - RTK query, which handles server-side state and data caching:
+
+```ts
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type { Todo } from "./types";
+
+// Define a service using a base URL and expected endpoints
+export const todoApi = createApi({
+  reducerPath: "todoApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "https://todoapi.com/api/" }),
+  endpoints: (builder) => ({
+    getTodos: builder.query<Todo[], void>({
+      query: () => "todos",
+    }),
+  }),
+});
+```
+
+RTK query uses a concept called cache tags to handle server-side data caching. These tags can be added to mutation and query endpoints to establish a link between them.
+
+When a particular mutation is triggered, it invalidates the cached data of the associated query endpoint, which leads to a data re-fetch:
+
+```ts
+const todoApi = createApi({
+  reducerPath: "todoApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "https://todoapi.com/api/" }),
+  endpoints: (builder) => ({
+    getTodos: builder.query<Todo[], void>({
+      query: () => "todos",
+      providesTags: ["Todo"],
+    }),
+    addTodo: builder.mutation<Todo, number>({
+      query: (body) => ({
+        url: "post",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Todo"],
+    }),
+  }),
+});
+```
+
+In the example above, when we call the mutate function returned from the `useAddTodoMutation` hook, the cache data tagged with `Todo` is invalidated. This automatically triggers the `getTodos` to refetch data. This is really cool. RTK query also allows for [very specific](https://redux-toolkit.js.org/rtk-query/usage/automated-refetching#invalidating-cache-data) cache invalidations if needed.
+
+Both RTK and RTK query use the same global Redux store to persist your state in memory. This is really nice as we can interact with data in the Redux store directly from RTK query endpoints & vice versa.
+
+For instance, to update client-side state based on the state of an endpoint in RTK query, we can use [matchers](https://redux-toolkit.js.org/api/matching-utilities):
+
+```ts
+const todoApi = createApi({...})
+
+const todoSlice = createSlice({
+  name: "todo",
+  initialState: {},
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addMatcher(todoApi.endpoints.getTodos.matchFulfilled,(state, action) => {
+        // Update client side redux state here
+      }
+    );
+  },
+});
+```
+
+In the above example, we can execute an action to update the Redux state when our `getTodos` RTK query endpoint is successful. We use the `matchFulfilled` matcher, which is available on all our RTK query endpoints.
+
+The benefits of this flexibility - using a single package to manage both client and server-side state - should be clear. It leads to fewer APIs and a simpler structure.
+
+### RTK query Endpoints Structure
+
+While it may be a matter of personal preference, I appreciate that RTK query forces you to define all the endpoints for a specific API slice in advance. This includes generating query parameters from arguments and transforming responses for caching:
+
+```ts
+//todoApi.ts
+const todoApi = createApi({
+  reducerPath: "todoApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "https://todoapi.com/api/" }),
+  endpoints: (builder) => ({
+    getTodos: builder.query<Todo[], void>({...}),
+    addTodo: builder.mutation<Todo, number>({...}),
+    deleteTodo: builder.mutation<number, void>({...}),
+    updateTodo: builder.mutation<Todo, Partial<Todo>>({...}),
+  }),
+});
+
+export const {
+  useGetTodosQuery,
+  useAddTodoMutation,
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+} = todoApi;
+```
+
+RTK query generates React hooks from these definitions, which we can then use in our components. Defining all the endpoints in advance provides two key advantages:
+
+- It's easy to identify which endpoints are currently in use within an application, simply by looking at the relevant API file.
+
+- The relationships between queries and mutations that invalidate them are clearly visible, as all endpoints are grouped together. This is especially useful with code generation.
+
+What happens if your app has multiple endpoints? These endpoints, originating from various back-end services, handle different domains within your application. Surely, it would be inconvenient to include all these endpoints in a single file, right?
+
+The maintainers of RTK query have considered this issue. We can inject endpoints into our initial service definition:
+
+```tsx
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+// initialize an empty api service that we'll inject endpoints into later as needed
+export const emptySplitApi = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: "/" }),
+  endpoints: () => ({}),
+});
+
+//Inject additional endpoints as you wish
+
+//anotherApi.ts
+import { emptySplitApi } from "./emptySplitApi";
+
+const extendedApi = emptySplitApi.injectEndpoints({
+  endpoints: (build) => ({
+    example: build.query({
+      query: () => "test",
+    }),
+  }),
+  overrideExisting: false,
+});
+
+export const { useExampleQuery } = extendedApi;
+```
+
+This approach can reduce our initial bundle sizes and enhance the structure of the codebase. For instance, we could organise endpoints by domain and store them in the same folder as the feature or component that uses them:
+
+```bash
+.
+└── app/
+    ├── _shared/
+    │   └── baseRTKQueryAPI.ts
+    ├── auth/
+    │   └── authAPI.ts
+    ├── accounts/
+    │   └── accountsAPI.ts
+    └── boards/
+        └── boardsAPI.ts
+```
+
+### Code generation
+
+Code generation is the primary reason I find modern Redux compelling. RTK query officially supports [generating RTK query hooks](https://redux-toolkit.js.org/rtk-query/usage/code-generation) from [OpenAPI specifications](https://swagger.io/specification/). If you use tags in your OpenAPI specs, the code generator will automatically create logical cache tags for your queries and mutations.
+
+In my current job, we generate OpenAPI specifications for services used on the frontend from the Java source code of these services. Java engineers use special annotations to tag their endpoints. These generated specifications are then uploaded to a central artifactory.
+
+In our frontend repositories, a daily cron job executes a Node.js script. This script downloads all the specifications from the artifactory and checks for the most recent version of the OpenAPI specifications.
+
+If there are any updates to the OpenAPI specs, the script generates new RTK query services in TypeScript. These are then added to a pull request for review and approval.
+
+Frontend engineers can use these hooks to build features that encompass both mutations and queries, without the need to worry about query invalidation when mutations happen.
+
+Everything works seamlessly. For more precise control over your cache tags, you can override a specific endpoint using 'inject endpoint'.
+
+## The Not so Good
+
+Like any technology choice, there are trade-offs. Specifically, I have two main issues with Redux and RTK query.
+
+Firstly, there is no official support for infinite or paginated queries. You can implement these yourself, but they are quite hacky. There is a [GitHub discussion](https://github.com/reduxjs/redux-toolkit/discussions/3174) here about future approaches for infinite queries.
+
+Secondly, I think the polling API could be a bit more ergonomic. I wish there was a callback where we could decide when to stop polling a specific endpoint. Using the current API [relies a lot on a combination of local state and useEffect](https://stackoverflow.com/questions/75963129/use-rtk-query-to-poll-api-until-expected-data-is-received-with-a-custom-basequer), which makes the code a bit messy. My dream API would be similar to how polling works in Tanstack query:
+
+```ts
+const { data } = useQuery("dataKey", fetchData, {
+  refetchInterval: (data) => (!data || data.progress < 100 ? 5000 : undefined),
+});
+```
+
+Here, the `refetchInterval` argument accepts a callback which has access to the latest fetched data. We can perform our condition checks within this callback. There's no need for additional local state or useEffect as with RTK query.
+
+The [documentation](https://redux-toolkit.js.org/rtk-query/usage/polling) on polling could also be significantly improved. Currently, there is no official guide on how to support polled queries that need to end after a condition is met.
+
+## Concluding thoughts
+
+There is much more I could discuss about RTK & RTK query, but these are my primary reasons for enjoying working with Redux over the past few months.
+
+There are still some features in RTK query that I haven't tried yet, like the [streaming cache updates](https://redux-toolkit.js.org/rtk-query/usage/streaming-updates) feature. I'm excited to explore these when I have a use case.
+
+The choice of a state management and data fetching solution largely depends on your application's context.
+
+For example, if you're updating an older Redux project, it might be more beneficial to continue using Redux and RTK instead of selecting new libraries to manage both client and server-side states.
+
+If your application has a lot endpoints documented in OpenAPI specs, RTK could be a good fit due to its really nice code generation capabilities.
+
+If you use RTK query, I'm interested in hearing your thoughts on it and how you use it in your projects.
+
+Till next time.
