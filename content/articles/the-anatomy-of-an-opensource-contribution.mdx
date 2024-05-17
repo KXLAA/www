@@ -1,0 +1,182 @@
+---
+title: "The Anatomy of an Open Source Contribution"
+publishedAt: "2024-5-20"
+description: "Discussing my recent open source cntirbution to the RXDB library"
+tags: ["rxdb", "react", "graphql", "opensource"]
+articleType: "article"
+og: "https://ucarecdn.com/2cf34f69-bcf8-4344-9bd2-4d38de6597f8/yesiwouldusereduxin2024.png"
+status: "draft"
+---
+
+I recently landed a PR in [RxDB](https://github.com/pubkey/rxdb), a fairly large open-source repo. I would like to discuss the issue that my PR addressed, how I came across it, and the entire contribution process.
+
+RxDB, if you're unfamiliar, is an offline, local-first, client-side database. It works by persisting data locally on the client side using a number of storage options and replicating the data to the server in the background. RxDB offers several options to facilitate this replication, one of which is GraphQL - the option I used in my app.
+
+## The Problem
+
+To understand the issue I encountered while working with RxDB, I'll need to give a brief overview of GraphQL.
+
+GraphQL is a query language that allows us to specify in granular detail the exact data we need from our server. It all starts with a schema which describes our data and the operations we intend to perform on it:
+
+```graphql
+type User {
+  id: ID!
+  isActive: Boolean!
+  username: String
+}
+
+type Todo {
+  id: ID
+  title: String!
+  description: String
+  completed: Boolean
+  user: User!
+}
+
+input CreateTodoInput {
+  title: String!
+  description: String
+}
+
+type Query {
+  allTodos: [Todo]
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!): Todo
+}
+```
+
+Based on this schema, a client can use a GraphQL query to request data or trigger a mutation. On the server, these queries are validated and executed by resolvers. For example, a query to retrieve `allTodos` would look as like:
+
+```graphql
+query AllTodos {
+  allTodos {
+    id
+    title
+    description
+    completed
+    user {
+      id
+      isActive
+      username
+    }
+  }
+}
+```
+
+And the resulting JSON data would look like:
+
+```json
+{
+  "data": {
+    "allTodos": [
+      {
+        "id": "1",
+        "title": "Buy groceries",
+        "description": "Milk, eggs, bread",
+        "completed": false,
+        "user": {
+          "id": "1",
+          "isActive": true,
+          "username": "johndoe"
+        }
+      }
+    ]
+  }
+}
+```
+
+The key point to remember is that GraphQL queries can support deeply nested structures, as seen in the above example where user is nested within todos.
+
+The server's resolver is responsible for 'resolving' a field and all its child properties based on the GraphQL query. Importantly, when a field is nested in a query, we need to specify the individual properties in which we're interested.
+
+So a query like this to get all the sub-fields in the user field will throw a `GraphQLError` error:
+
+```graphql
+query AllTodos {
+  allTodos {
+    id
+    title
+    description
+    completed
+    user
+  }
+}
+```
+
+We will be coming back to this later.
+
+Replication in RxDB operates through a push, pull, and streaming mechanism. You can read more about how that works [here](https://rxdb.info/replication.html). To replicate our changes with GraphQL, we need to create push and pull queries. We then pass these queries to the `replicateGraphQL` function provided by RxDB.
+
+RxDB provides a number utility functions, such as `pullQueryBuilderFromRxSchema`, which automatically generates the necessary GraphQL queries from the RxDB database schema. This schema adheres to the [JSON Schema](http://json-schema.org/) standard:
+
+```javascript
+const RXSchema = {
+  version: 0,
+  primaryKey: "passportId",
+  type: "object",
+  properties: {
+    passportId: {
+      type: "string",
+      maxLength: 100,
+    },
+    firstName: {
+      type: "string",
+    },
+    lastName: {
+      type: "string",
+    },
+    age: {
+      type: "integer",
+      minimum: 0,
+      maximum: 150,
+    },
+    updatedAt: {
+      type: "string",
+    },
+    address: {
+      type: "object",
+      properties: {
+        street: {
+          type: "string",
+        },
+        city: {
+          type: "string",
+        },
+        zip: {
+          type: "string",
+        },
+      },
+    },
+  },
+};
+
+const pullQuery = pullQueryBuilderFromRxSchema(RXSchema);
+```
+
+After logging the return of the `pullQueryBuilderFromRxSchema` function, this is what I got in the query field:
+
+```graphql
+query PullHuman($checkpoint: HumanInputCheckpoint, $limit: Int!) {
+  pullHuman(checkpoint: $checkpoint, limit: $limit) {
+    documents {
+      passportId
+      firstName
+      lastName
+      age
+      updatedAt
+      address
+      _deleted
+    }
+    checkpoint {
+      passportId
+      updatedAt
+    }
+  }
+}
+```
+
+If you notice, the generated schema does not match our `RXschema` - specifically, the `pullHuman` query does not include the subfields for the address, hence the error.
+
+GraphQL requires that you construct your queries in a way that only returns concrete data. Each field must ultimately resolve to one or more fields.
