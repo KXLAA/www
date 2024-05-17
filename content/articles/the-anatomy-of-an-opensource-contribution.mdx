@@ -180,3 +180,108 @@ query PullHuman($checkpoint: HumanInputCheckpoint, $limit: Int!) {
 If you notice, the generated schema does not match our `RXschema` - specifically, the `pullHuman` query does not include the subfields for the address, hence the error.
 
 GraphQL requires that you construct your queries in a way that only returns concrete data. Each field must ultimately resolve to one or more fields.
+
+Searching the RxDB repo, we can identify the issue in the [source](https://github.com/pubkey/rxdb/blob/4516a6873b5e01dcae35cf4ace97837c927b64a6/src/plugins/replication-graphql/query-builder-from-rx-schema.ts) of the `pullQueryBuilderFromRxSchema`:
+
+```graphql
+export function pullQueryBuilderFromRxSchema(
+    collectionName: string,
+    input: GraphQLSchemaFromRxSchemaInputSingleCollection,
+): RxGraphQLReplicationPullQueryBuilder<any> {
+		...
+    const outputFields = Object.keys(schema.properties).filter(k => !(input.ignoreOutputKeys as string[]).includes(k));
+    // outputFields.push(input.deletedField);
+
+    const checkpointInputName = ucCollectionName + 'Input' + prefixes.checkpoint;
+
+    const builder: RxGraphQLReplicationPullQueryBuilder<any> = (checkpoint: any, limit: number) => {
+        const query = 'query ' + operationName + '($checkpoint: ' + checkpointInputName + ', $limit: Int!) {\n' +
+            SPACING + SPACING + queryName + '(checkpoint: $checkpoint, limit: $limit) {\n' +
+            SPACING + SPACING + SPACING + 'documents {\n' +
+            SPACING + SPACING + SPACING + SPACING + outputFields.join('\n' + SPACING + SPACING + SPACING + SPACING) + '\n' +
+            SPACING + SPACING + SPACING + '}\n' +
+            SPACING + SPACING + SPACING + 'checkpoint {\n' +
+            SPACING + SPACING + SPACING + SPACING + input.checkpointFields.join('\n' + SPACING + SPACING + SPACING + SPACING) + '\n' +
+            SPACING + SPACING + SPACING + '}\n' +
+            SPACING + SPACING + '}\n' +
+            '}';
+        return {
+            query,
+            operationName,
+            variables: {
+                checkpoint,
+                limit
+            }
+        };
+    };
+
+    return builder;
+}
+
+```
+
+The issue lies with `outputFields`, which only considers the top-level keys of schema.properties. This explains why I was encountering a problem.
+
+## Making the contribution
+
+The issue seemed relatively straightforward to fix. It didn't involve the core database code and was isolated enough for me to understand without knowing the larger codebase.
+
+This is not typically the case for open source projects, where you usually need to spend some time understanding the codebase to make a contribution.
+
+Following the [instructions](https://rxdb.info/contribution.html), I opened an [issue](https://github.com/pubkey/rxdb/issues/5969) and submitted a failing test PR to illustrate the problem [here](https://github.com/pubkey/rxdb/pull/5968). After receiving feedback from the contributor, I opened a [PR](https://github.com/pubkey/rxdb/pull/5976) which was merged a few days later.
+
+The solution involved using recursion to recursively process the output fields based on the schema. Here's the core function I added:
+
+```tsx
+type GenerateGQLOutputFieldsOptions = {
+  schema: RxJsonSchema<any> | TopLevelProperty;
+  spaceCount?: number;
+  depth?: number;
+  ignoreOutputKeys?: string[];
+};
+
+function generateGQLOutputFields(options: GenerateGQLOutputFieldsOptions) {
+  const { schema, spaceCount = 4, depth = 0, ignoreOutputKeys = [] } = options;
+
+  const outputFields: string[] = [];
+  const properties = schema.properties;
+  const NESTED_SPACING = SPACING.repeat(depth);
+  const LINE_SPACING = SPACING.repeat(spaceCount);
+
+  for (const key in properties) {
+    //only skipping top level keys that are in ignoreOutputKeys list
+    if (ignoreOutputKeys.includes(key)) {
+      continue;
+    }
+
+    const value = properties[key];
+    if (value.type === "object") {
+      outputFields.push(
+        LINE_SPACING + NESTED_SPACING + key + " {",
+        generateGQLOutputFields({
+          schema: value,
+          spaceCount,
+          depth: depth + 1,
+        }),
+        LINE_SPACING + NESTED_SPACING + "}"
+      );
+    } else {
+      outputFields.push(LINE_SPACING + NESTED_SPACING + key);
+    }
+  }
+
+  return outputFields.join("\n");
+}
+```
+
+I rarely use recursion in my day job, so it was nice to see a clear use case here.
+
+## Learnings
+
+This PR marks my most significant contribution to a relatively large open-source project, and I'm pleased with the outcome.
+
+Mitchell's blog post on **[Contributing to Complex Projects](https://mitchellh.com/writing/contributing-to-complex-projects#step-3-learn-the-hot-path-internals)** served as a helpful guide. I believe the key to my effective contribution was that I was interfacing as an RxDb user, addressing an issue that I encountered. This placed me in an optimal position to resolve the problem effectively.
+
+I hope you enjoyed this walkthrough of the contribution. I'm interested in hearing your thoughts and feedback.
+
+Until next time.
