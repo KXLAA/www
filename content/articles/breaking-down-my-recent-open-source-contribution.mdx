@@ -1,0 +1,285 @@
+---
+title: "Breaking down my recent Open Source Contribution"
+publishedAt: "2024-5-28"
+description: "Discussing my recent open source cntirbution to the RXDB library"
+tags: ["rxdb", "react", "graphql", "opensource"]
+articleType: "article"
+og: "https://ucarecdn.com/fac05641-0ca1-4d21-9c75-f4e7e719d9d2/breakingdownmyrecentopensourcecontribution.png"
+status: "published"
+---
+
+I recently landed a PR in [RxDB](https://github.com/pubkey/rxdb), a fairly large open-source repo. I would like to discuss the issue that my PR addressed, how I came across it, and the entire contribution process.
+
+RxDB, if you're unfamiliar, is a local-first, client-side database. It works by persisting data locally on the client side using a number of storage options and replicating the data to the server in the background. RxDB offers several options to facilitate this replication, one of which is GraphQL - the option I used in my app.
+
+## The Problem
+
+To understand the issue I encountered while working with RxDB, I'll need to give a brief overview of GraphQL. GraphQL is a query language that allows us to specify in granular detail the exact data we need from our server. It all starts with a schema which describes the shape of the data and the operations we intend to perform on it:
+
+```graphql
+type User {
+  id: ID!
+  isActive: Boolean!
+  username: String
+}
+
+type Todo {
+  id: ID
+  title: String!
+  description: String
+  completed: Boolean
+  user: User!
+}
+
+input CreateTodoInput {
+  title: String!
+  description: String
+}
+
+type Query {
+  allTodos: [Todo]
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!): Todo
+}
+```
+
+Based on this schema, a client can use a GraphQL query to request data or trigger a mutation. On the server, these queries are validated and executed by resolvers. For example, a query to retrieve `allTodos` would look like:
+
+```graphql
+query AllTodos {
+  allTodos {
+    id
+    title
+    description
+    completed
+    user {
+      id
+      isActive
+      username
+    }
+  }
+}
+```
+
+And the resulting JSON data would look like:
+
+```json
+{
+  "data": {
+    "allTodos": [
+      {
+        "id": "1",
+        "title": "Buy groceries",
+        "description": "Milk, eggs, bread",
+        "completed": false,
+        "user": {
+          "id": "1",
+          "isActive": true,
+          "username": "johndoe"
+        }
+      }
+    ]
+  }
+}
+```
+
+The key thing to note here is that GraphQL queries can support deeply nested structures, as seen in the above example where `user` is nested within `todos`. The server's resolver is responsible for resolving a field and all its child properties based on the GraphQL query.
+
+Importantly, when a field is nested in a query, we need to specify the individual properties in which we're interested. So a query to get all the sub-fields in the `user` field will throw a `GraphQLError` error:
+
+```graphql
+query AllTodos {
+  allTodos {
+    id
+    title
+    description
+    completed
+    user
+  }
+}
+```
+
+We will be coming back to this later.
+
+Replication in RxDB operates through a push, pull, and streaming mechanism. You can read more about how that works [here](https://rxdb.info/replication.html). To replicate our changes with GraphQL, we need to create push and pull queries. We then pass these queries to the `replicateGraphQL` function provided by RxDB.
+
+RxDB provides a number utility functions, such as `pullQueryBuilderFromRxSchema`, which automatically generates the necessary GraphQL queries from the RxDB database schema:
+
+```javascript
+const RXSchema = {
+  version: 0,
+  primaryKey: "passportId",
+  type: "object",
+  properties: {
+    passportId: {
+      type: "string",
+      maxLength: 100,
+    },
+    firstName: {
+      type: "string",
+    },
+    lastName: {
+      type: "string",
+    },
+    age: {
+      type: "integer",
+      minimum: 0,
+      maximum: 150,
+    },
+    updatedAt: {
+      type: "string",
+    },
+    address: {
+      type: "object",
+      properties: {
+        street: {
+          type: "string",
+        },
+        city: {
+          type: "string",
+        },
+        zip: {
+          type: "string",
+        },
+      },
+    },
+  },
+};
+
+const pullQuery = pullQueryBuilderFromRxSchema(RXSchema);
+```
+
+When i tried to use the `pullQueryBuilderFromRxSchema` function, I ran into an error:
+
+```javascript
+GraphQLError: Field \"address\" of type \"HumanModel\" must have a selection of subfields.
+```
+
+After logging the return of the `pullQueryBuilderFromRxSchema` function, this is what I got in the query field:
+
+```graphql
+query PullHuman($checkpoint: HumanInputCheckpoint, $limit: Int!) {
+  pullHuman(checkpoint: $checkpoint, limit: $limit) {
+    documents {
+      passportId
+      firstName
+      lastName
+      age
+      updatedAt
+      address
+      _deleted
+    }
+    checkpoint {
+      passportId
+      updatedAt
+    }
+  }
+}
+```
+
+If you notice, the generated schema does not match our `RXschema` - specifically, the `pullHuman` query does not include the subfields for the address, hence the error. GraphQL requires that you construct your queries in a way that only returns concrete data. Each field must ultimately resolve to one or more fields.
+
+Searching the RxDB repo (at the time), we can identify the issue in the [source](https://github.com/pubkey/rxdb/blob/4516a6873b5e01dcae35cf4ace97837c927b64a6/src/plugins/replication-graphql/query-builder-from-rx-schema.ts) of the `pullQueryBuilderFromRxSchema`:
+
+```graphql
+export function pullQueryBuilderFromRxSchema(
+    collectionName: string,
+    input: GraphQLSchemaFromRxSchemaInputSingleCollection,
+): RxGraphQLReplicationPullQueryBuilder<any> {
+		...
+    const outputFields = Object.keys(schema.properties).filter(k => !(input.ignoreOutputKeys as string[]).includes(k));
+    // outputFields.push(input.deletedField);
+
+    const checkpointInputName = ucCollectionName + 'Input' + prefixes.checkpoint;
+
+    const builder: RxGraphQLReplicationPullQueryBuilder<any> = (checkpoint: any, limit: number) => {
+        const query = 'query ' + operationName + '($checkpoint: ' + checkpointInputName + ', $limit: Int!) {\n' +
+            SPACING + SPACING + queryName + '(checkpoint: $checkpoint, limit: $limit) {\n' +
+            SPACING + SPACING + SPACING + 'documents {\n' +
+            SPACING + SPACING + SPACING + SPACING + outputFields.join('\n' + SPACING + SPACING + SPACING + SPACING) + '\n' +
+            SPACING + SPACING + SPACING + '}\n' +
+            SPACING + SPACING + SPACING + 'checkpoint {\n' +
+            SPACING + SPACING + SPACING + SPACING + input.checkpointFields.join('\n' + SPACING + SPACING + SPACING + SPACING) + '\n' +
+            SPACING + SPACING + SPACING + '}\n' +
+            SPACING + SPACING + '}\n' +
+            '}';
+        return {
+            query,
+            operationName,
+            variables: {
+                checkpoint,
+                limit
+            }
+        };
+    };
+
+    return builder;
+}
+
+```
+
+The issue lies with the `outputFields` variable, which only considers the top-level keys of `schema.properties`. This explains why I was encountering a problem.
+
+## Making the contribution
+
+The issue seemed relatively straightforward to fix. It didn't involve the core database code and was isolated enough for me to understand without knowing the larger codebase.
+
+Following the [instructions](https://rxdb.info/contribution.html), I opened an [issue](https://github.com/pubkey/rxdb/issues/5969) and submitted a failing test PR to illustrate the problem [here](https://github.com/pubkey/rxdb/pull/5968). After receiving feedback from the contributor, I opened a [PR](https://github.com/pubkey/rxdb/pull/5976) which was merged a few days later.
+
+The solution involved using recursion to recursively process the output fields based on the schema. Here's the core function I added o do that:
+
+```tsx
+type GenerateGQLOutputFieldsOptions = {
+  schema: RxJsonSchema<any> | TopLevelProperty;
+  spaceCount?: number;
+  depth?: number;
+  ignoreOutputKeys?: string[];
+};
+
+function generateGQLOutputFields(options: GenerateGQLOutputFieldsOptions) {
+  const { schema, spaceCount = 4, depth = 0, ignoreOutputKeys = [] } = options;
+
+  const outputFields: string[] = [];
+  const properties = schema.properties;
+  const NESTED_SPACING = SPACING.repeat(depth);
+  const LINE_SPACING = SPACING.repeat(spaceCount);
+
+  for (const key in properties) {
+    //only skipping top level keys that are in ignoreOutputKeys list
+    if (ignoreOutputKeys.includes(key)) {
+      continue;
+    }
+
+    const value = properties[key];
+    if (value.type === "object") {
+      outputFields.push(
+        LINE_SPACING + NESTED_SPACING + key + " {",
+        generateGQLOutputFields({
+          schema: value,
+          spaceCount,
+          depth: depth + 1,
+        }),
+        LINE_SPACING + NESTED_SPACING + "}"
+      );
+    } else {
+      outputFields.push(LINE_SPACING + NESTED_SPACING + key);
+    }
+  }
+
+  return outputFields.join("\n");
+}
+```
+
+I rarely use recursion in my day job, so it was nice to see a clear use case here.
+
+## Learnings
+
+This PR is my biggest contribution to a major open-source project, and I'm quite pleased with the results. Mitchell's blog post on **[Contributing to Complex Projects](https://mitchellh.com/writing/contributing-to-complex-projects#step-3-learn-the-hot-path-internals)** served as a helpful guide in this entire process.
+
+My key takeaway is that it's easier to contribute to open-source when you are solving an issue you encountered while using the library. Since I understood the bug I fixed, I was in the best position to implement a fix. However, this may not always be the case.
+
+I hope you enjoyed this walkthrough of the contribution. I'm interested in hearing your thoughts and feedback.
+
+Until next time.

@@ -90,6 +90,10 @@ body {
   @apply text-2xl;
 }
 
+.prose p {
+  @apply !leading-relaxed;
+}
+
 .prose strong {
   @apply font-semibold text-gray-12;
 }
