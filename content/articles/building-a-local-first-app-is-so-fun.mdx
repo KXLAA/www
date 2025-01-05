@@ -23,7 +23,7 @@ Building Cratebase without having to think about the network has been a joy. Whe
 
 All these issues disappear when your data is stored locally—a huge amount of complexity simply vanishes.
 
-In my current setup, I use MobX to manage state. When the app lunches , I have a large Promise.all call that fetches all the data I need from the local SQLite database:
+In my current setup, I use [MobX](https://mobx.js.org/README.html) to manage state. When the app lunches, I have a large Promise.all call that fetches all the data I need from the local SQLite database:
 
 ```tsx
   private async load() {
@@ -54,8 +54,8 @@ After this first load, MobX takes over and handles all state changes synchronous
 
 Not having to deal with the network has made working on Cratebase both fun and straightforward. Also, since Cratebase is a desktop app, I don't have to worry about the complex & convoluted challenges I'd face with a web app—things like React Server Components, hydration, and bundle sizes.
 
-I can focus entirely on the core features of the app and ship faster. That's why I'm excited about new services like Zero, Electric SQL & LiveStore, which bring all the benefits of local-first apps to web apps—really exciting times ahead.
+I can focus entirely on the core features of the app and ship faster. That's why I'm excited about new services like [Zero](https://zero.rocicorp.dev/), [Electric SQL](https://electric-sql.com/) & [LiveStore](https://github.com/livestorejs), which bring all the benefits of local-first apps to web apps—really exciting times ahead.
 
-If you're a DJ or have lots of downloaded music on your macOS device, check out Cratebase.I'll be writing much more about what I learned while building the app and working with Electron in general.
+If you're a DJ, check out Cratebase. I'll be writing much more about what I learned while building the app and working with Electron in general.
 
 Until next time.
