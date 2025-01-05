@@ -1,0 +1,61 @@
+---
+title: "Building a Local-first App is so fun"
+publishedAt: "2025-1-06"
+description: "Brain dump on my recent experience building a local first app for macOS"
+tags: ["mobx", "react", "local first", "sqlite"]
+articleType: "article"
+og: "https://ucarecdn.com/f74b1aeb-0f64-422f-bd22-99ffced26c9f/buildingalocalfirstappissofun.png"
+status: "published"
+---
+
+Over the last 6 months I have been working on a macOS app called [Cratebase](https://www.cratebase.app/). In short, the app provides tools to help DJs and music collectors better manage their music libraries.
+
+The app is built with Electron & React, and—most importantly—it's fully local. Cratebase runs directly on the user's computer, reading and writing files on their disk. The app handles local music files and stores all supporting data in an SQLite database on the user's machine.
+
+While I maintain a server for software updates and supplementary features that require external services, the core functionality of the app runs entirely on data and logic stored on the user's device.
+
+Building Cratebase without having to think about the network has been a joy. When developing networked apps, one of the key complexities is managing network state:
+
+- How to manage loading and error states
+- How to handle caching and stale server data
+- How to synchronize server data with client memory
+- How to deal with network latency and request speeds
+
+All these issues disappear when your data is stored locally—a huge amount of complexity simply vanishes.
+
+In my current setup, I use MobX to manage state. When the app lunches , I have a large Promise.all call that fetches all the data I need from the local SQLite database:
+
+```tsx
+  private async load() {
+    await Promise.all([
+      this.tracks.load(),
+      this.filters.load(),
+      this.settings.load(),
+      this.playlists.load(),
+      this.tags.load(),
+      this.tagGroups.load(),
+      this.cuePoints.load(),
+      this.performanceData.load(),
+      this.sync.load(),
+    ]);
+  }
+
+```
+
+This initial promise naturally takes some time to resolve, depending on the size of data in the SQLite database, so there's a loading screen: 
+
+<video controls muted src="/articles/local-first-app/loader-demo.mp4" className="m-0 rounded" />
+
+
+This example loads a database with over 3,500 tracks. On my M1 Max MacBook Pro it takes about 2 seconds to fetch all the data.
+
+After this first load, MobX takes over and handles all state changes synchronously. This means there are virtually no delays when users perform actions like updates, deletions, or creations—no waiting for server requests to complete.
+
+
+Not having to deal with the network has made working on Cratebase both fun and straightforward. Also, since Cratebase is a desktop app, I don't have to worry about the complex & convoluted challenges I'd face with a web app—things like React Server Components, hydration, and bundle sizes.
+
+I can focus entirely on the core features of the app and ship faster. That's why I'm excited about new services like Zero, Electric SQL & LiveStore, which bring all the benefits of local-first apps to web apps—really exciting times ahead.
+
+If you're a DJ or have lots of downloaded music on your macOS device, check out Cratebase.I'll be writing much more about what I learned while building the app and working with Electron in general.
+
+Until next time.
