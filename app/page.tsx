@@ -1,9 +1,9 @@
 import { Anchor, Link } from "@/components/anchor";
+import { BlurImage } from "@/components/blur-image";
 import { MainLayout } from "@/components/layout";
 import { content } from "@/lib/contentlayer/content";
-import { BlurImage } from "@/components/blur-image";
 
-const { ui, notes, articles } = content;
+const { articles } = content;
 
 export default function Home() {
   return (
@@ -29,13 +29,21 @@ export default function Home() {
           quickly.
         </p>
 
+        <p>
+          On the side, I am building{" "}
+          <Anchor name="Cratebase" href="https://www.cratebase.app/">
+            Cratebase
+          </Anchor>
+          , the OS for DJ music libraries.
+        </p>
+
         <div className="flex flex-col gap-8">
           <p>
-            I write about technology, web development and other things that
+            I write about technology, web development, and other things that
             interest me. Here is a list of my recent blog posts:
           </p>
           <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
-            {articles.slice(0, 3).map((article) => {
+            {articles.slice(0, 6).map((article) => {
               return (
                 <li key={article.slug}>
                   <Link href={`/articles/${article.slug}`}>
@@ -50,49 +58,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="flex flex-col gap-8">
-          <p>
-            I write notes on the courses I take, the concepts I learn, and the
-            books I read. Here are some of my recently updated notes:
-          </p>
 
-          <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
-            {notes.slice(0, 3).map((note) => {
-              return (
-                <li key={note.slug} className="cursor-pointer">
-                  <Link href={`/notes/${note.slug}`}>{note.title}</Link>
-                </li>
-              );
-            })}
-          </ul>
-
-          <Link href="/notes" className="text-xl md:text-2xl text-gray-11">
-            View all
-          </Link>
-        </div>
-
-        {ui.length > 0 && (
-          <div className="flex flex-col gap-8">
-            <p>
-              I love remaking cool UI interactions & elements I come across on
-              the web. Here are some of my most recent experiments:
-            </p>
-
-            <ul className="list-disc space-y-4 ml-7 marker:text-gray-10 leading-normal">
-              {ui.slice(0, 3).map((item) => {
-                return (
-                  <li key={item.slug} className="cursor-pointer">
-                    <Link href={`/ui/${item.slug}`}>{item.title}</Link>
-                  </li>
-                );
-              })}
-            </ul>
-
-            <Link href="/ui" className="text-xl md:text-2xl text-gray-11">
-              View all
-            </Link>
-          </div>
-        )}
 
         <div>
           <p>

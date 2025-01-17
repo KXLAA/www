@@ -1,5 +1,6 @@
-import { cx } from "@/lib/cx";
 import NexLink from "next/link";
+
+import { cx } from "@/lib/cx";
 
 type AnchorProps = React.ComponentProps<"a"> & {
   name?: string;
