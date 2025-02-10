@@ -1,0 +1,61 @@
+---
+title: "A Frontend Engineer Tries Java"
+publishedAt: "2025-2-14"
+description: "New year, new Programming Language"
+tags: ["java", "programming"]
+articleType: "article"
+og: "https://ucarecdn.com/fac05641-0ca1-4d21-9c75-f4e7e719d9d2/breakingdownmyrecentopensourcecontribution.png"
+status: "draft"
+---
+
+At work, we started a reading group studying[ "Core Java for the Impatient" by Cay S. Horstmann](https://horstmann.com/javaimpatient/). This book is my first proper introduction to the Java programming language,  we are about 4 chapters deep and I have some thoughts and impressions about Java that I'd like to share.
+
+## Things i like
+
+### IDE's & Tooling
+The recommended way to write Java is with IntelliJ IDEs—this was a new one for me. I have only used VSCode and a bit of Zed, but writing code with IntelliJ felt really nice. It has a number of features and polish that left a really good first impression on me. I really like the snippet `sout` that automatically writes `System.out.println` — very handy. I am still getting through all the features, but I really like what I have encountered so far.
+
+
+### Switch expressions
+Java supports switch expressions. This is really nice since I can assign a variable based on a condition with a switch expressions. This isn't possible with JavaScript since switches are statements. To achieve the same effect as in Java, I would have to wrap the switch statement in a function.
+
+
+### Constructor & Method Overloading
+I know this is a benefit of having a proper type system, but I really like function overloading in Java. It's simple—just define a method with the same name but different arguments, and that's it. When you use the method, the right function is automatically applied based on the arguments you pass in. 
+
+This is more ergonomic than TypeScript, where you first have to define all possible signatures. Then in the implementation function you need to handle all the argument checks and branching logic yourself. This makes sense since Java's overloading happens at compile time—JavaScript doesn't have runtime types, so there's no way for the compiler to distinguish function arguments like Java does. 
+
+### Records
+Before reading this book, I mainly knew Java for being verbose and requiring lots of boilerplate code. While I somewhat understand this sentiment, I think records are a really cool concept that helps reduce this verbosity. My mental model of records right now is just a lightweight class for data that can be serialized—though I know they can be more powerful, I basically see records as being similar to plain JavaScript objects.
+
+## Things i do no like
+
+### Type before value
+I am not a fan of how Java requires type declarations before variable names.
+
+```java 
+String name = "Kola"
+```
+
+I  completely agree with [Ben Hoyt's argument for putting variable names before types](https://benhoyt.com/writings/name-before-type/). The name-first approach is more readable and intuitive to me, making Java's convention a bit challenging to get used to.
+
+### Limited Type inference
+
+Coming from TypeScript, I found the type inference of Java a bit lacking. Why can't the return type of a function be inferred? Why do I need to add the type of a variable when I already initialized it with a value? Can't the type of the variable be inferred from the value? 
+
+Maybe I'm missing something and I will learn more about type inference as I progress with the book.
+
+### Nested classes
+
+It's quite interesting that you can nest classes. I don't know if this is a good or bad thing yet, but my gut reaction is that it's not good. Let's see if I change my mind soon.
+
+
+These are my first impressions—so far I'm having a more positive than negative experience learning the language. 
+
+Looking at the Java codebase at work though, I can tell that it's not the language that's the hard part of Java, but everything surrounding it like build systems, dependency injection, and frameworks.
+
+ Most of these things seem to like decorators a lot, sometimes 4 decorators deep—I don't know how I feel about that.
+
+I think when I'm done with the book I'll write a follow-up article.
+
+Happy coding!
