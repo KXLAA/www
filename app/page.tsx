@@ -34,7 +34,7 @@ export default function Home() {
           <Anchor name="Cratebase" href="https://www.cratebase.app/">
             Cratebase
           </Anchor>
-          , the OS for DJ music libraries.
+          , the OS for music libraries.
         </p>
 
         <div className="flex flex-col gap-8">
