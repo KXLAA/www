@@ -1,0 +1,48 @@
+---
+title: "The right level of abstraction"
+publishedAt: "2025-3-10"
+description: "Musings about a conversion about abstractions i had with my manager"
+tags: ["openapi", "software engineering", "code generation"]
+articleType: "article"
+og: "https://ucarecdn.com/2cf34f69-bcf8-4344-9bd2-4d38de6597f8/yesiwouldusereduxin2024.png"
+status: "draft"
+---
+
+
+During my most recent one-on-one meetings with my manager at work, we discussed OpenAPI and code generation. If you're not familiar, [OpenAPI](https://www.openapis.org/) is a formal specification for describing HTTP APIs—it can be written in JSON or YAML. 
+
+At work, we generate HTTP clients for most of our frontend applications, including mobile apps, from OpenAPI specifications that are automatically generated from our backend Java services.
+
+On one of the web clients, we use [tanstack query](https://tanstack.com/query/latest) with the generated HTTP clients to manage the server-side state. This involves importing the client for the particular service you are working with and using `useQuery` or `useMutation` to make the requests:
+
+```tsx
+import services from "@/generated/services"
+import { useQuery} from '@tanstack/react-query'
+
+ // Queries
+const query = useQuery({ queryKey: ['statements'], queryFn: services.getUsersStatements })
+```
+
+I've always had issues with this approach as it wasn't as user-friendly as it could be. My ideal solution would generate tanstack query hooks directly from the services. This makes perfect sense — whenever I use these services, I create custom hooks to encapsulate the service logic anyway. Rather than importing `useQuery` and the service as separate pieces, we could simply import and use a single, ready-made hook:
+
+```tsx
+import { useGetUserStatementsQuery } from "@/generated/services"
+
+ // Queries
+const query = useGetUserStatementsQuery()
+```
+
+My manager acknowledged the value of this approach but explained that having a separate HTTP client felt the right level of abstraction. The client is simply a Javascript class with methods that make HTTP calls — methods we can use anywhere without tanstack query or even React. 
+
+Generating custom hooks with built-in HTTP calls would restrict the client to React and tanstack query only. If we needed to change our server-state management approach later, we would run into problems. 
+
+This approach would embed tanstack query at the wrong abstraction level, which would make future migrations more difficult. This conversation was very insightful, and I largely agree with this perspective.
+
+
+tRPC, an RPC library for TypeScript that uses tanstack query under the hood, has recently embraced this approach through a significant change. In previous versions, tRPC wrapped its generated client in custom versions of `useQuery` and `useMutation`. The [new version](https://trpc.io/blog/introducing-tanstack-react-query-client) now provides a function that returns an object matching the `QueryOptions` and `MutationOptions` interfaces native to tanstack query.
+
+The reasons they give for this change align with the discussions my manager and I had about abstractions and finding the right level.
+
+I have been playing around with [Hey API](https://heyapi.dev/) for tanstack query code generation, and it embraces a similar philosophy. Instead of generating custom tanstack query hooks, it simply generates a function that returns query options matching what `useQuery` or `useMutation` expects from tanstack query. 
+
+While this approach is a bit more verbose than custom hooks, I think it's the right level of abstraction for generated clients.

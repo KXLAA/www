@@ -1,10 +1,10 @@
 import Image from "next/image";
 import React from "react";
 
+import { Anchor, Link } from "../anchor";
 import { Callout } from "./callout";
 import { Code } from "./code";
 import { Pre } from "./pre";
-import { Anchor, Link } from "../anchor";
 
 function NextImage(props: any) {
   return <Image alt={props.alt} {...props} />;
