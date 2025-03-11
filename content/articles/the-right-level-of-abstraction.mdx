@@ -23,7 +23,7 @@ import { useQuery} from '@tanstack/react-query'
 const query = useQuery({ queryKey: ['statements'], queryFn: services.getUsersStatements })
 ```
 
-I've always had issues with this approach as it wasn't as user-friendly as it could be. My ideal solution would generate tanstack query hooks directly from the services. This makes perfect sense — whenever I use these services, I create custom hooks to encapsulate the service logic anyway. Rather than importing `useQuery` and the service as separate pieces, we could simply import and use a single, ready-made hook:
+I've always had issues with this approach as it wasn't as ergonomic as it could be. My ideal solution would generate tanstack query hooks directly from the services. This makes perfect sense — whenever I use these services, I create custom hooks to encapsulate the service logic anyway. Rather than importing `useQuery` and the service as separate pieces, we could simply import and use a single, ready-made hook:
 
 ```tsx
 import { useGetUserStatementsQuery } from "@/generated/services"
@@ -39,10 +39,10 @@ Generating custom hooks with built-in HTTP calls would restrict the client to Re
 This approach would embed tanstack query at the wrong abstraction level, which would make future migrations more difficult. This conversation was very insightful, and I largely agree with this perspective.
 
 
-tRPC, an RPC library for TypeScript that uses tanstack query under the hood, has recently embraced this approach through a significant change. In previous versions, tRPC wrapped its generated client in custom versions of `useQuery` and `useMutation`. The [new version](https://trpc.io/blog/introducing-tanstack-react-query-client) now provides a function that returns an object matching the `QueryOptions` and `MutationOptions` interfaces native to tanstack query.
+tRPC, an RPC library for TypeScript that uses tanstack query under the hood, has recently embraced this approach with its most recent version. In previous versions, tRPC wrapped its generated client in custom versions of `useQuery` and `useMutation`. The [new version](https://trpc.io/blog/introducing-tanstack-react-query-client) now provides a function that returns an object matching the `QueryOptions` and `MutationOptions` interfaces native to tanstack query.
 
 The reasons they give for this change align with the discussions my manager and I had about abstractions and finding the right level.
 
-I have been playing around with [Hey API](https://heyapi.dev/) for tanstack query code generation, and it embraces a similar philosophy. Instead of generating custom tanstack query hooks, it simply generates a function that returns query options matching what `useQuery` or `useMutation` expects from tanstack query. 
+I have been playing around with [Hey API](https://heyapi.dev/) for tanstack query code generation, and it embraces a similar philosophy. Instead of generating custom tanstack query hooks, it  generates functions that return the `QueryOptions` and `MutationOptions` objects that consumers can use with `useQuery` or `useMutation`.
 
 While this approach is a bit more verbose than custom hooks, I think it's the right level of abstraction for generated clients.
