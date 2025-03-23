@@ -1,0 +1,51 @@
+---
+title: "Writing ID3 Tags to audio files"
+publishedAt: "2025-3-24"
+description: "Adding the ability to write song metadata to file"
+tags: ["Electron", "React", "Side Projects"]
+articleType: "article"
+og: "https://ucarecdn.com/ef3a88c3-277a-4bdd-bd7b-26095f5adf73/jumpingintothescaryworldofaws.png"
+status: "published"
+series:
+  order: 2
+  title: "Cratebase Dev Log"
+---
+
+
+Welcome to the second instalment of the Cratebase Dev-log - if you missed the last one, you can check it out [here](https://www.kxlaa.com/articles/cratebase-devlog-trying-out-content-driven-development). This entry covers everything I worked on from March 17 - March 23, 2025.
+
+## What i worked on this week
+
+This week I primarily worked on a feature that allows users to write a song's updated metadata directly to its audio file. 
+
+When you add a song to your Cratebase library, we read the metadata embedded in the audio file. This metadata contains information like the song's title, artist, year, and genre and is typically stored in the [ID3 format](https://id3.org/). We read this metadata and store it along with other information about the song in an SQLite database. In the app, we have a side panel that allows users to update this metadata:
+
+<video controls muted src="/articles/cratebase-devlog-trying-out-content-driven-development/track-metadata.mp4" className="m-0 rounded" />
+
+
+When a user updates the metadata via the side panel, we don't actually save the updates to the file—we just store it in the SQLite database. The main reason for this is that persisting updates to the database is a bit quicker than writing the updates to the audio file. As you can see in the demo above, we automatically update the metadata when input fields lose focus. 
+
+Writing updates directly to the file this frequently would harm the user experience—plus there's always potential for files to become corrupted. With the new feature, there is now an option in the right-click menu to write updated song metadata to the file:
+
+<video controls muted src="/articles/cratebase-devlog-writing-id3-tags-to-file/write-metadata.mp4" className="m-0 rounded" />
+
+
+Working with the ID3 format can get really complicated since there are two major versions with very different implementations. However, I'm using a library called [Node tag lib sharp](https://github.com/benrr101/node-taglib-sharp) which provides a nice abstraction over the song metadata — with it, I can easily write the metadata to the song file.
+
+The feature does not currently support writing updated song artwork to the file—that is something on my backlog. 
+
+I also added a related feature that allows users to reload metadata from a file. This essentially resets all metadata stored in the SQLite database to match only what's present in the source file — useful if a user wants to start fresh with a track's metadata.
+
+If you read last week's update, I mentioned that I was also going to work on the "Find Metadata" feature. Well, I didn't get to it and decided to put that feature in my backlog. It's going to take a bit of time since it needs a server-side component, which adds complexity. I still think it's a nice potential feature though.
+
+## What I'm working on this week
+
+This week I'm working on finishing the artist section of the app. I threw it together initially, and there's a bit of polishing that still needs to be done. In particular:
+
+1. There are some performance issues for artists with lots of albums—I need to virtualize the list. This is looking very tricky because of how the albums are laid out and the presence of navigational keyboard shortcuts. Virtualization and navigational keyboard shortcuts never work well together.
+
+2. There are some artist-specific menu items I need to work on like rename artist, play artist songs & play artist songs next.
+
+3. I want a way for users to edit metadata of a song while they're on the artist page. Currently, I don't render the side panel on that page—I'm thinking to either render the side panel there or have a modal open up with metadata information similar to the Music app on macOS.
+
+That's all for my update this week. Hope you enjoyed reading, and if you have any ideas, don't hesitate to hit me up.
