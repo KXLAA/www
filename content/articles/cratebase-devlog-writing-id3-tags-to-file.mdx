@@ -1,5 +1,5 @@
 ---
-title: "Writing ID3 Tags to audio files"
+title: "Writing ID3 tags to audio files in Cratebase"
 publishedAt: "2025-3-24"
 description: "Adding the ability to write song metadata to file"
 tags: ["Electron", "React", "Side Projects"]
@@ -18,12 +18,16 @@ Welcome to the second instalment of the Cratebase Dev-log - if you missed the la
 
 This week I primarily worked on a feature that allows users to write a song's updated metadata directly to its audio file. 
 
-When you add a song to your Cratebase library, we read the metadata embedded in the audio file. This metadata contains information like the song's title, artist, year, and genre and is typically stored in the [ID3 format](https://id3.org/). We read this metadata and store it along with other information about the song in an SQLite database. In the app, we have a side panel that allows users to update this metadata:
+When you add a song to your Cratebase library, we read the metadata embedded in the audio file. This metadata contains information like the song's title, artist, year, and genre and is typically stored in the [ID3 format](https://id3.org/). 
+
+We read this metadata and store it along with other information about the song in an SQLite database. In the app, we have a side panel that allows users to update this metadata:
 
 <video controls muted src="/articles/cratebase-devlog-trying-out-content-driven-development/track-metadata.mp4" className="m-0 rounded" />
 
 
-When a user updates the metadata via the side panel, we don't actually save the updates to the file—we just store it in the SQLite database. The main reason for this is that persisting updates to the database is a bit quicker than writing the updates to the audio file. As you can see in the demo above, we automatically update the metadata when input fields lose focus. 
+When a user updates the metadata via the side panel, we don't actually save the updates to the file—we just store it in the SQLite database. 
+
+The main reason for this is that persisting updates to the database is a bit quicker than writing the updates to the audio file. As you can see in the demo above, we automatically update the metadata when input fields lose focus. 
 
 Writing updates directly to the file this frequently would harm the user experience—plus there's always potential for files to become corrupted. With the new feature, there is now an option in the right-click menu to write updated song metadata to the file:
 
@@ -34,9 +38,11 @@ Working with the ID3 format can get really complicated since there are two major
 
 The feature does not currently support writing updated song artwork to the file—that is something on my backlog. 
 
-I also added a related feature that allows users to reload metadata from a file. This essentially resets all metadata stored in the SQLite database to match only what's present in the source file — useful if a user wants to start fresh with a track's metadata.
+I also added a related feature that allows users to reload metadata from a file. This essentially resets all metadata stored in the SQLite database to match only what's present in the source file — useful if a user wants to start fresh with a songs's metadata.
 
-If you read last week's update, I mentioned that I was also going to work on the "Find Metadata" feature. Well, I didn't get to it and decided to put that feature in my backlog. It's going to take a bit of time since it needs a server-side component, which adds complexity. I still think it's a nice potential feature though.
+If you read last week's update, I mentioned that I was also going to work on the "Find Metadata" feature - Well, I didn't get to it and decided to put that feature in my backlog. 
+
+It's going to take a bit of time since it needs a server-side component, which adds complexity. I still think it's a nice potential feature though.
 
 ## What I'm working on this week
 
