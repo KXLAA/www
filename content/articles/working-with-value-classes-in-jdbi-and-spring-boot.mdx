@@ -1,0 +1,219 @@
+---
+title: "Working with Value Classes in JDBI and Spring Boot"
+publishedAt: "2025-04-12"
+description: "How to map value classes to your database schema with JDBI"
+tags: ["Java", "Spring Boot", "BackEnd"]
+articleType: "article"
+og: "https://ucarecdn.com/367c0ae2-68ac-4c14-9b19-973c66e81773/draganddropinreactwithdndkit.png"
+status: "published"
+---
+
+If you just want to see the completed code demo for this, check out the repository [here]("https://ucarecdn.com/367c0ae2-68ac-4c14-9b19-973c66e81773/draganddropinreactwithdndkit.png").
+
+
+I've been playing around with Java and Spring Boot recently and ran into some serialization issues with JDBI when I tried to add value classes for UUIDs.
+
+A quick explanation of value classes: A value class wraps a primitive value or simple object (like a `UUID`, `String`, `int`, etc.). The key characteristic of a value class is that it is defined by its value, not its identity—two identical value classes are equal. 
+
+The primary benefits are type safety and clearer intent. For example, consider a library application where you need a method to add a book:
+
+```java
+void addBookToLibrary(UUID libraryId, UUID bookId);
+```
+
+Using the raw UUID type here means we could accidentally pass the wrong one:
+
+```java
+var bookId = UUID.randomUUID();
+var libraryId = UUID.randomUUID();
+
+addBookToLibrary(bookId, libraryId); // 😱 compiles, but it's wrong
+```
+
+This method with a value class would look like this:
+
+```java
+void addBookToLibrary(LibraryId libraryId, BookId bookId);
+```
+
+With `BookId` and `LibraryId`, the compiler **guarantees** correctness — you physically can’t mix them up.
+
+[JDBI](https://jdbi.org) is a lightweight wrapper around the Java Database Connectivity (JDBC) API that simplifies database operations. 
+
+One of JDBI's main features is mapping Java objects to SQL query arguments (through argument factories) and result sets (through column mappers). However, this feature only works with a set of [supported](https://jdbi.org/#_supported_argument_types) types. JDBI will throw an error if your Java class contains any unsupported fields.
+
+For JDBI to work with a value class, we need to create two custom components: a `ColumnMapperFactory` that maps database columns to the value class, and an `ArgumentFactory` that maps arguments to the value class.
+
+My base UUID value class looks like this:
+
+```java
+public abstract class BaseUUID {  
+    private final UUID value;  
+  
+    protected BaseUUID(UUID value) {  
+        this.value = Objects.requireNonNull(value, "UUID cannot be null");  
+    }  
+  
+    @JsonCreator  //For jackson deserialization
+    protected BaseUUID(String id) {  
+        this(UUID.fromString(id));  
+    }  
+  
+    protected BaseUUID() {  
+        this(UUID.randomUUID());  
+    }  
+  
+    @JsonValue  //For jackson JSON serialization
+    public String toString() {  
+        return value.toString();  
+    }  
+
+	public UUID getValue() {  
+	    return this.value;  
+	}
+  
+    @Override  
+    public boolean equals(Object o) {  
+        if (this == o) return true;  
+        if (o == null || getClass() != o.getClass()) return false;  
+        BaseUUID baseId = (BaseUUID) o;  
+        return Objects.equals(value, baseId.value);  
+    }  
+  
+    @Override  
+    public int hashCode() {  
+        return Objects.hash(value);  
+    }  
+}
+```
+
+This abstract class wraps the `UUID` class. To create a new UUID type, simply extend this class and implement the required constructors. For example:
+
+```java
+public class LibraryId extends BaseUUID {  
+    public LibraryId() { super(); }  
+    public LibraryId(UUID id) { super(id); }  
+    public LibraryId(String id) { super(id); }  
+  
+    public static LibraryId of(String id) { return new LibraryId(id); }  
+    public static LibraryId of(UUID id) { return new LibraryId(id); }  
+}
+```
+
+To map database values to this value class in JDBI, we need to implement the `ColumnMapperFactory` interface:
+
+```java
+public class BaseUUIDColumnMapperFactory implements ColumnMapperFactory {  
+    @Override  
+    public Optional<ColumnMapper<?>> build(Type type, ConfigRegistry config) { 
+        //checks that the requested type is a Class  
+        if (!(type instanceof Class<?> clazz)) {  
+            return Optional.empty();  
+        }  
+  
+        //Checks that the class extends our BaseUUID abstract class  
+        if (!BaseUUID.class.isAssignableFrom(clazz)) {  
+            return Optional.empty();  
+        }  
+  
+        //Map the column  
+        return Optional.of((rs, columnNumber, ctx) -> {  
+            try {  
+               var uuid = readColumnAsNativeUUID(rs, columnNumber);  
+  
+                if (uuid == null) {  
+                    return null;  
+                }  
+  
+                return createBaseUUIDObject(clazz, uuid);  
+            } catch (Exception e) {  
+                throw new SQLException("Could not map column " + columnNumber + " to " + clazz.getSimpleName() + ": " + e.getMessage(), e);  
+            }  
+        });  
+    }  
+  
+    private static Object createBaseUUIDObject(Class<?> clazz, UUID uuid) throws  
+            InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {  
+        try {  
+            // First try the UUID constructor  
+            Constructor<?> constructor = clazz.getDeclaredConstructor(UUID.class);  
+            constructor.setAccessible(true);  
+            return constructor.newInstance(uuid);  
+        } catch (NoSuchMethodException e) {  
+            // Fall back to String constructor if UUID constructor isn't available  
+            Constructor<?> constructor = clazz.getDeclaredConstructor(String.class);  
+            constructor.setAccessible(true);  
+            return constructor.newInstance(uuid.toString());  
+        }  
+    }  
+  
+  
+    private UUID readColumnAsNativeUUID(ResultSet rs, int columnNumber) throws SQLException {  
+        // First attempt to read as a native UUID object  
+        UUID uuid = null;  
+        try {  
+            // Try to get as a native UUID  
+            uuid = rs.getObject(columnNumber, UUID.class);  
+        } catch (SQLException | UnsupportedOperationException e) {  
+            // If that fails, try with a string  
+            String idValue = rs.getString(columnNumber);  
+            if (idValue != null) {  
+                try {  
+                    uuid = UUID.fromString(idValue);  
+                } catch (IllegalArgumentException ex) {  
+                    throw new SQLException("Invalid UUID format: " + idValue, ex);  
+                }  
+            }  
+        }  
+        return uuid;  
+    }  
+  
+}
+```
+
+There is a bit going on here, but conceptually, we are doing three things:
+1. **Type checking**: First, we verify that the passed type is a class extending our `BaseUUID` abstract class. If not, we return `Optional.empty()` to satisfy the `ColumnMapperFactory` interface.
+
+2. **Extracting the raw UUID value**: We attempt to extract the column value as a native `UUID` class using `rs.getObject(columnNumber, UUID.class)`. If that fails, we fall back to reading the UUID as a string and convert it using `UUID.fromString(idValue)`.
+
+3. **Wrapping the raw UUID value**: Finally, we wrap the raw UUID in our value class. Using Java reflection, we obtain the constructor from the passed class and create a new instance by passing in the raw UUID value, which we then return.
+
+To bind our value class to SQL query arguments in JDBI, we need to extend the `AbstractArgumentFactory` abstract class:
+
+```java
+//https://jdbi.org/releases/3.31.0/#_argumentfactory  
+public class BaseUUIDArgumentFactory extends AbstractArgumentFactory<BaseUUID> {  
+    public BaseUUIDArgumentFactory() {  
+        super(Types.OTHER);  
+    }  
+  
+    @Override  
+    protected Argument build(BaseUUID value, ConfigRegistry config) {  
+        return (position, statement, ctx) -> {  
+            statement.setObject(position, value.getValue());  
+        };  
+    }  
+}
+```
+
+The constructor calls the parent class's constructor with the JDBC [SQL type constant](https://docs.oracle.com/en/java/javase/11/docs/api/java.sql/java/sql/Types.html) that will be used for binding UUIDs. We use `OTHER` to indicate that this type is a Java Object.
+
+In the build method, we simply set the argument's value to the raw UUID value that's wrapped by our value class, using the `getValue` getter from the `BaseUUID` abstract class.
+
+To wire all of this together, we need to register both the `BaseUUIDArgumentFactory` and `BaseUUIDColumnMapperFactory` with JDBI:
+
+```java
+@Bean  
+public Jdbi jdbi(DataSource ds) {  
+    var cf = new SpringConnectionFactory(ds);  
+    var jdbi = Jdbi.create(cf);  
+    jdbi.installPlugin(new SqlObjectPlugin());  
+  
+    jdbi.registerArgument(new BaseUUIDArgumentFactory());  
+    jdbi.registerColumnMapper(new BaseUUIDColumnMapperFactory());  
+    return jdbi;  
+}
+```
+
+You can check out the repo for a full demo of how this all works together [here]().
+
