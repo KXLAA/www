@@ -8,12 +8,12 @@ og: "https://ucarecdn.com/b1fad4b1-c60d-44e2-8f31-6870941991e5/workingwithvaluec
 status: "published"
 ---
 
-If you just want to see the completed code demo for this, check out the repository [here]("https://github.com/KXLAA/jdbi-value-classes-demo").
+If you just want to see the completed demo for this, check out the repository [here]("https://github.com/KXLAA/jdbi-value-classes-demo").
 
 
 I've been playing around with Java and Spring Boot recently and ran into some serialization issues with JDBI when I tried to add value classes for UUIDs.
 
-A quick explanation of value classes: A value class wraps a primitive value or simple object (like a `UUID`, `String`, `int`, etc.). The key characteristic of a value class is that it is defined by its value, not its identity—two identical value classes are equal. 
+A quick primer on value classes: A value class wraps a primitive value or simple object (like a `UUID`, `String`, `int`, etc.). The key characteristic of a value class is that it is defined by its value, not its identity—two identical value classes are equal. 
 
 The primary benefits are type safety and clearer intent. For example, consider a library application where you need a method to add a book:
 
@@ -30,7 +30,7 @@ var libraryId = UUID.randomUUID();
 addBookToLibrary(bookId, libraryId); // 😱 compiles, but it's wrong
 ```
 
-This method with a value class would look like this:
+This method with a value class would look like:
 
 ```java
 void addBookToLibrary(LibraryId libraryId, BookId bookId);
@@ -42,7 +42,7 @@ With `BookId` and `LibraryId`, the compiler **guarantees** correctness — you p
 
 One of JDBI's main features is mapping Java objects to SQL query arguments (through argument factories) and result sets (through column mappers). However, this feature only works with a set of [supported](https://jdbi.org/#_supported_argument_types) types. JDBI will throw an error if your Java class contains any unsupported fields.
 
-For JDBI to work with a value class, we need to create two custom components: a `ColumnMapperFactory` that maps database columns to the value class, and an `ArgumentFactory` that maps arguments to the value class.
+For JDBI to work with a value class, we need to create two classes: a `ColumnMapperFactory` that maps database columns to the value class, and an `ArgumentFactory` that maps arguments to the value class.
 
 My base UUID value class looks like this:
 
@@ -54,7 +54,7 @@ public abstract class BaseUUID {
         this.value = Objects.requireNonNull(value, "UUID cannot be null");  
     }  
   
-    @JsonCreator  //For jackson deserialization
+    @JsonCreator  //For jackson JSON deserialization
     protected BaseUUID(String id) {  
         this(UUID.fromString(id));  
     }  
@@ -87,7 +87,7 @@ public abstract class BaseUUID {
 }
 ```
 
-This abstract class wraps the `UUID` class. To create a new UUID type, simply extend this class and implement the required constructors. For example:
+This abstract class wraps the `UUID` class. To create a new UUID type, we simply extend this class and implement the required constructors. For example:
 
 ```java
 public class LibraryId extends BaseUUID {  
