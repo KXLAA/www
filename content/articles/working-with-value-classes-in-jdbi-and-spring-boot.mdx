@@ -1,6 +1,6 @@
 ---
 title: "Working with Value Classes in JDBI and Spring Boot"
-publishedAt: "2025-04-12"
+publishedAt: "2025-04-14"
 description: "How to map value classes to your database schema with JDBI"
 tags: ["Java", "Spring Boot", "BackEnd"]
 articleType: "article"
@@ -8,7 +8,7 @@ og: "https://ucarecdn.com/367c0ae2-68ac-4c14-9b19-973c66e81773/draganddropinreac
 status: "published"
 ---
 
-If you just want to see the completed code demo for this, check out the repository [here]("https://ucarecdn.com/367c0ae2-68ac-4c14-9b19-973c66e81773/draganddropinreactwithdndkit.png").
+If you just want to see the completed code demo for this, check out the repository [here]("https://github.com/KXLAA/jdbi-value-classes-demo").
 
 
 I've been playing around with Java and Spring Boot recently and ran into some serialization issues with JDBI when I tried to add value classes for UUIDs.
@@ -119,20 +119,20 @@ public class BaseUUIDColumnMapperFactory implements ColumnMapperFactory {
         //Map the column  
         return Optional.of((rs, columnNumber, ctx) -> {  
             try {  
-               var uuid = readColumnAsNativeUUID(rs, columnNumber);  
+               var uuid = extractRawUUIDFromColumn(rs, columnNumber);  
   
                 if (uuid == null) {  
                     return null;  
                 }  
   
-                return createBaseUUIDObject(clazz, uuid);  
+                return wrapNativeUUID(clazz, uuid);  
             } catch (Exception e) {  
                 throw new SQLException("Could not map column " + columnNumber + " to " + clazz.getSimpleName() + ": " + e.getMessage(), e);  
             }  
         });  
     }  
   
-    private static Object createBaseUUIDObject(Class<?> clazz, UUID uuid) throws  
+    private static Object wrapNativeUUID(Class<?> clazz, UUID uuid) throws  
             InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {  
         try {  
             // First try the UUID constructor  
@@ -148,7 +148,7 @@ public class BaseUUIDColumnMapperFactory implements ColumnMapperFactory {
     }  
   
   
-    private UUID readColumnAsNativeUUID(ResultSet rs, int columnNumber) throws SQLException {  
+    private UUID extractRawUUIDFromColumn(ResultSet rs, int columnNumber) throws SQLException {  
         // First attempt to read as a native UUID object  
         UUID uuid = null;  
         try {  
@@ -215,5 +215,5 @@ public Jdbi jdbi(DataSource ds) {
 }
 ```
 
-You can check out the repo for a full demo of how this all works together [here]().
+You can check out the repo for a full demo of how this all works together [here](https://github.com/KXLAA/jdbi-value-classes-demo).
 
