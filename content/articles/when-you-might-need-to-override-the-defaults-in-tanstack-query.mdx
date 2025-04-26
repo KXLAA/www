@@ -4,13 +4,13 @@ publishedAt: "2025-4-27"
 description: "When to Override TanStack Query's Default Settings"
 tags: ["react", "frontend", "library"]
 articleType: "article"
-og: "https://ucarecdn.com/bf6c10bd-966d-495b-85f5-53c2438cb496/therightlevelofabtraction.png"
+og: "https://ucarecdn.com/bbcc6584-ca45-4c50-a65a-c63c6f1339e1/whenyoumightneedtooverridethedefaultsintanstackquery.png"
 status: "published"
 ---
 
 TanStack Query comes with some aggressive defaults (you can see an overview of all the defaults [here](https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults)). Most times these defaults work perfectly and you never need to worry about overriding them—that's the beauty of the library. 
 
-However, sometimes you may want to consider overriding them. This is a non-comprehensive list of times when you might want to override TanStack Query's defaults.
+However, there are times when you might want to override these defaults. Let's talk about them.
 
 ## Query Retries
 
@@ -18,7 +18,7 @@ By default, queries initiated by `useQuery` or `useInifiniteQuery` retry failed 
 
 You can disable retries by passing `false` or `0` to the `retry` option of a specific query or globally in the `QueryClient`.
 
-Why is this a good idea? Leaving the default retry option on for tests can add significant time to your unit or integration tests, which slows down the feedback loop—especially for larger applications. Most of these tests simply check that we are handling errors and showing error states for HTTP errors correctly. There's no value in waiting for three retries before asserting these error states.
+Why is this a good idea? Leaving the default retry option on for tests can add significant time to your unit or integration tests, which slows down the feedback loop—especially for larger applications. These tests usually verify that we handle HTTP errors correctly and display appropriate error states. Waiting for three retries before checking these error states adds no value.
 
 The retry option also accepts a callback function that receives the `failureCount` and `error` of a query. This callback allows you to selectively retry queries based on the error status code returned from the server.
 
