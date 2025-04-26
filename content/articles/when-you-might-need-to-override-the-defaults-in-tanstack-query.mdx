@@ -1,0 +1,62 @@
+---
+title: "When You Might Need to Override the Defaults in TanStack Query"
+publishedAt: "2025-4-27"
+description: "When to Override TanStack Query's Default Settings"
+tags: ["react", "frontend", "library"]
+articleType: "article"
+og: "https://ucarecdn.com/bf6c10bd-966d-495b-85f5-53c2438cb496/therightlevelofabtraction.png"
+status: "published"
+---
+
+TanStack Query comes with some aggressive defaults (you can see an overview of all the defaults [here](https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults)). Most times these defaults work perfectly and you never need to worry about overriding them—that's the beauty of the library. 
+
+However, sometimes you may want to consider overriding them. This is a non-comprehensive list of times when you might want to override TanStack Query's defaults.
+
+## Query Retries
+
+By default, queries initiated by `useQuery` or `useInifiniteQuery` retry failed requests 3 times, with an exponential backoff applied for each subsequent retry. A common override is turning off retries for unit or integration tests—this works assuming you have a separate query client for your production and test environments.
+
+You can disable retries by passing `false` or `0` to the `retry` option of a specific query or globally in the `QueryClient`.
+
+Why is this a good idea? Leaving the default retry option on for tests can add significant time to your unit or integration tests, which slows down the feedback loop—especially for larger applications. Most of these tests simply check that we are handling errors and showing error states for HTTP errors correctly. There's no value in waiting for three retries before asserting these error states.
+
+The retry option also accepts a callback function that receives the `failureCount` and `error` of a query. This callback allows you to selectively retry queries based on the error status code returned from the server.
+
+A common way I have seen this callback used is to disable retries for:
+- `404 Not Found` - Retrying these errors is often redundant since the resource likely doesn't exist.
+- `403 Forbidden` & `401 Unauthorized` - Retrying these authentication errors is unnecessary—instead, it's better to handle them with a logout function in the [global error handlers](https://tkdodo.eu/blog/react-query-error-handling#the-global-callbacks)
+
+You can see examples of all these approaches in open source repos [here](https://grep.app/search?q=retry:+\(failureCount\)).
+
+I have also worked in codebases where retries are only enabled for network errors—you can see an example of this in an open source project [here](https://github.com/ohcnetwork/care_fe/blob/develop/src/App.tsx).
+
+The general pattern is to identify specific errors or error codes you want to retry and override the default with a more fine-grained approach.
+
+## Query Caching
+
+By default, Query instances created via `useQuery` or `useInfiniteQuery` consider cached data as stale. This means queries are refetched automatically quite aggressively. 
+
+Sometimes you may not want this behavior. For example, when integrating with an external service outside your control that has very aggressive rate limits—one example from work is the HMRC API.
+
+Another example is when the data you fetch rarely or never changes after the initial request—there's no need to waste requests on static data. I've encountered this when fetching OAuth scopes or a list of app integrations, which typically remain stable for long periods.
+
+There are several options to configure the cache lifetime of a query. For the most strict option—when you don't want any refetching or reloading after the initial request succeeds—you can use this:
+
+```ts
+const { isPending, error, data } = useQuery({
+    queryKey: ['repoData'],
+    queryFn: api.getIntegrations,
+    //Ensures that the data is never considered stale
+    staleTime: Number.POSITIVE_INFINITY,
+    //Ensures that the data is never removed form the cache
+    gcTime: Number.POSITIVE_INFINITY, 
+    //Prevent refetch on widnow focus
+    refetchOnWindowFocus: false,
+  })
+```
+
+Your mileage may vary, and there are other interesting options you can configure like `refetchOnMount` and `refetchInterval`. These parameters let you fine-tune how often refetches occur.
+
+Here's a [long list](https://grep.app/search?q=staleTime:) of different open source projects and how they use these config options—you can learn quite a bit by studying their implementations.
+
+These are some of the defaults I have seen overridden and tweaked in the production apps I've worked on so far. I'd love to hear about other defaults you've customised as well.
