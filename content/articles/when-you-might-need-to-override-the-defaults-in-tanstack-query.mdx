@@ -14,7 +14,7 @@ However, there are times when you might want to override these defaults. Let's t
 
 ## Query Retries
 
-By default, queries initiated by `useQuery` or `useInifiniteQuery` retry failed requests 3 times, with an exponential backoff applied for each subsequent retry. A common override is turning off retries for unit or integration tests—this works assuming you have a separate query client for your production and test environments.
+By default, queries initiated by `useQuery` or `useInfiniteQuery` retry failed requests 3 times, with an exponential backoff applied for each subsequent retry. A common override is turning off retries for unit or integration tests—this works assuming you have a separate query client for your production and test environments.
 
 You can disable retries by passing `false` or `0` to the `retry` option of a specific query or globally in the `QueryClient`.
 
