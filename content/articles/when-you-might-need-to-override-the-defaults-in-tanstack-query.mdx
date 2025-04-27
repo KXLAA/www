@@ -26,7 +26,7 @@ A common way I have seen this callback used is to disable retries for:
 - `404 Not Found` - Retrying these errors is often redundant since the resource likely doesn't exist.
 - `403 Forbidden` & `401 Unauthorized` - Retrying these authentication errors is unnecessary—instead, it's better to handle them with a logout function in the [global error handlers](https://tkdodo.eu/blog/react-query-error-handling#the-global-callbacks)
 
-You can see examples of all these approaches in open source repos [here](https://grep.app/search?q=retry:+\(failureCount\)).
+You can see examples of all these approaches in open source repos [here](https://grep.app/search?q=retry%3A+%28fa).
 
 I have also worked in codebases where retries are only enabled for network errors—you can see an example of this in an open source project [here](https://github.com/ohcnetwork/care_fe/blob/develop/src/App.tsx).
 
