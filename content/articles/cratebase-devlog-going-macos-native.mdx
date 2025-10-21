@@ -1,0 +1,61 @@
+---
+title: "Going Native"
+publishedAt: "2025-10-20"
+description: "Trying Out Content Driven Development"
+tags: ["Electron", "React", "Side Projects", "Swift", "Swift UI", "AppKit"]
+articleType: "article"
+og: "https://ucarecdn.com/71a21b6f-746f-4df0-917a-8e190bc0c7a0/cratebasedevlogtryingoutcontentdrivendevelopment.png"
+status: "draft"
+series:
+  order: 3
+  title: "Cratebase Dev Log"
+---
+
+
+A lot has happened since the last update to this devlog. I publicly demoed Cratebase at a meetup, redesigned the entire UI, and opened a public waitlist. The biggest update though is that, I have decided to abandon Electron and go macOS native.
+
+Over the past few months, I've been rewriting Cratebase in Swift, SwiftUI, and a little AppKit. I've made good progress so far — here's a quick demo:
+
+The UI looks a bit different, but it follows the same principles as the Electron version. I thought I'd share why I decided to move away from Electron, and what the journey has been like working with Swift and the Apple ecosystem so far.
+
+## Why I Initially Chose Electron (and Why I’m Moving Away From It)
+
+
+I originally picked Electron because it allowed me to use my existing front-end skills to ship something quickly. At the time, I wasn't interested in learning a new programming language or ecosystem. Still, I wanted Cratebase to feel like a native macOS app, so I spent quite a bit of time & effort recreating native macOS components in React, trying to make sure the app didn't look too far off from a native macOS app. 
+
+Blog posts like this one on on [making Electron apps feel native on Mac](https://dev.to/vadimdemedes/making-electron-apps-feel-native-on-mac-52e8) were really helpful early on. I also spent a considerable amount of time playing around with macOS components, taking screenshots, and analyzing their interactions. 
+
+But even after all that effort, the components still didn't feel quite right. The lesson here is if you commit to a non-native technology like Electron, it's rarely worth trying to replicate native components, it's better to lean into your own custom design instead.
+
+Then Apple announced Liquid Glass for macOS Tahoe, at this point it felt like a losing battle trying to constantly re-implement native macOS components in React. Where would I even start with something like a Liquid Glass slider? I'm sure it's possible, but at some point, it just stops feeling worth the effort.
+
+
+### The State Management Struggle
+
+The second reason was the amount of code required just to handle state. At its core, Cratebase simply reads from an SQLite database, everything revolves around that. But with web technologies, I couldn't just rely on SQLite as my main state source. I had to duplicate that state on the client. I used MobX to manage this state, but every new feature meant repeating the same pattern:
+
+- Create a main-process service to talk to SQLite (the “backend”)
+- Build a bridge between that service and the renderer process
+- Then, in the front end, create a MobX store to fetch, observe, and sync data between both sides
+
+You can imagine how much boilerplate that adds up to. If I could simply react to changes in SQLite directly, probably 60% of my code would disappear. Eventually, I got tired of this endless back-and-forth between front-end and back-end state.
+
+### Users Prefer Native Applications
+
+
+Finally, user feedback made things clear. When I opened the Cratebase waitlist, I included a free-text box asking what people wanted from a music player. The majority specifically mentioned they wanted a native macOS app. This lined up with the strong anti Electron vibe i kept coming across within macOS communities in Discord & Reddit.
+
+ven though Electron let me get the app in front of users faster, I couldn't shake the feeling that I was leaving a lot on the table in terms of how good the experience could be if I went native.
+
+## Hello Swift
+
+It's been a little over a month since I started the rewrite, and I've learned a lot about Swift, SwiftUI, and the overall Apple ecosystem. I'm planning to write a full post about my experience, but I do really like the Swift programming language.
+
+This is the fourth programming language I've properly worked with (after Go, Java, and TypeScript), and I think Swift has already taken the #2 spot, right after TypeScript. It is not perfect & there are definitely some quirks, especially around concurrency in Swift 6, but overall, it's been such a pleasant language to work with.
+
+The biggest shift for me has been not having to think in terms of “frontend” and “backend” anymore. With SwiftUI, it all just blends together. I'm using GRDB to talk to my SQLite database, and it automatically updates the UI when the database changes. It's quite nice, this is exactly how I always wanted things to work in Electron.
+
+I also find that state management in SwiftUI feels much more intuitive than in React. Its observable system reminds me of MobX . When I first saw code in SwiftUI that directly mutated state, I was a bit scared. Coming from React, where everything must go through setters, that felt wrong. But soon I realized — in SwiftUI, everything just works. The reactivity feels natural, not forced.
+
+At the pace I'm going, I should hit feature parity with the Electron version by the end of November, and then start proper user testing. If you want to try it out when it's ready, you can join the waitlist here.
+
