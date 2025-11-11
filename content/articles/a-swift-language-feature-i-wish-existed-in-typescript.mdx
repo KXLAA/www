@@ -89,7 +89,7 @@ With that I can access these  properties on any `Int`:
 10.isOdd  // false
 ```
 
-A similar feature to `extensions` does exist in Typescript, for example we can add static methods to classes:
+A similar feature to extensions does exist in Typescript, for example we can add static methods to classes:
 
 ```typescript
 HttpResponse.jsonStatus = function(status: number) {};
@@ -104,5 +104,5 @@ declare module 'msw' {
 
 But as you can see its a bit more verbose, since we need a way to tell Typescript about the new method through module augmentation (plus we can't do overloads nicely).
 
-I do wish we had a typesafe version of `extensions` in TypeScript. 
+I do wish we had a typesafe version of extensions in TypeScript. 
 
