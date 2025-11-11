@@ -57,7 +57,7 @@ This would have made the migration less painful.
 And yes, we could write a helper function or even subclass `HttpResponse` to achieve similar behavior. However, it would nice if we could extend the `HttpResponse` class directly without jumping through all these hoops.
 
 
-Swift has a really nice feature called `extensions` that solves this problem in a very elegant way. In Swift I could extend the HttpResponse class like so:
+Swift has a really nice feature called [extensions](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/extensions/) that solves this problem in a very elegant way. In Swift I could extend the HttpResponse class like so:
 
 ```swift
 extension HttpResponse {
@@ -67,7 +67,7 @@ extension HttpResponse {
 
 This overload is now available throughout the codebase. Im sure you can imagine how powerful this can get, it essentially allows us to add functionality to existing classes without modifying their original source code.
 
-In the [Cratebase](https://www.cratebase.app/) codebase for example i use a ton of Swift extensions to do stuff like extending built in Swift types like `Int`, for example i have:
+In the [Cratebase](https://www.cratebase.app/) codebase for example I use a ton of Swift extensions to do stuff like extending built in Swift types like `Int`, for example I have:
 
 ```swift
 extension Int {
