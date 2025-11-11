@@ -1,0 +1,108 @@
+---
+title: "A Swift Language Feature I wish existed in Typescript"
+publishedAt: "2025-11-14"
+description: "Extension in Swift are cool, here is why"
+tags: ["typescript", "swift", "msw", "testing"]
+articleType: "article"
+og: "https://ucarecdn.com/f74b1aeb-0f64-422f-bd22-99ffced26c9f/buildingalocalfirstappissofun.png"
+status: "published"
+---
+
+At work, I had to migrate our HTTP mocking library [Mock Service Worker](https://mswjs.io/) (MSW) from v1.x  to v2.x. 
+
+This upgrade was a major version with a significant change in how the API worked & although there was a [codemod](https://app.codemod.com/registry/@mswjs/v2) to help with the migration, I still had to manually update a ton of files.  
+
+In the old API, to mock a request with a status code & body you create a rest handler:
+
+```ts
+rest.get('/resource', (req, res, ctx) => {
+  return res(ctx.json({message: 'Hello world'}), ctx.status(200))
+})
+```
+
+The new API changes the signature of the handler. Now to return a response, MSW provides a static `.json` method on a new `HttpResponse` class which abstracts over the native `Response` class:
+
+```ts
+http.get('/resource', () => {
+  return HttpResponse.json({message: 'Hello world'}, { status: 201 })
+})
+```
+
+This is all fine and dandy, but in the codebase there were a lot of handlers that looked something like this: 
+```ts
+rest.post('/resource', (req, res, ctx) => {
+  return res(ctx.status(200))
+})
+```
+
+This is usually used to mock responses to `POST` requests where you don't care about the response body. To replicate this kind of behavior in the new API we have to do something like this:
+
+```ts
+http.post('/resource', () => {
+  return HttpResponse.json(null, { status: 201 })
+})
+```
+
+It would be nice if we could create an overloaded `.json` static method that accepts a status code:
+
+```ts
+http.post('/resource', () => {
+  return HttpResponse.json(201)
+})
+```
+
+This would have made the migration less painful. 
+
+
+And yes, we could write a helper function or even subclass `HttpResponse` to achieve similar behavior. However, it would nice if we could extend the `HttpResponse` class directly without jumping through all these hoops.
+
+
+Swift has a really nice feature called `extensions` that solves this problem in a very elegant way. In Swift I could extend the HttpResponse class like so:
+
+```swift
+extension HttpResponse {
+    static func json(status: Int) -> HttpResponse {}
+}
+```
+
+This overload is now available throughout the codebase. Im sure you can imagine how powerful this can get, it essentially allows us to add functionality to existing classes without modifying their original source code.
+
+In the [Cratebase](https://www.cratebase.app/) codebase for example i use a ton of Swift extensions to do stuff like extending built in Swift types like `Int`, for example i have:
+
+```swift
+extension Int {
+    var isEven: Bool {
+        return self % 2 == 0
+    }
+    
+    var isOdd: Bool {
+        return self % 2 != 0
+    }
+}
+```
+
+With that I can access these  properties on any `Int`:
+```swift
+5.isEven  // false
+5.isOdd   // true
+10.isEven // true
+10.isOdd  // false
+```
+
+A similar feature to `extensions` does exist in Typescript, for example we can add static methods to classes:
+
+```typescript
+HttpResponse.jsonStatus = function(status: number) {};
+
+// Tell TypeScript about the new static method
+declare module 'msw' {
+  interface HttpResponse {
+    jsonStatus(): void;
+  }
+}
+```
+
+But as you can see its a bit more verbose, since we need a way to tell Typescript about the new method through module augmentation (plus we can't do overloads nicely).
+
+I do wish we had a typesafe version of `extensions` in TypeScript. 
+
